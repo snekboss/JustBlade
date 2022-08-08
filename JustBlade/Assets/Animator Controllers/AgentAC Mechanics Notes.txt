@@ -1,0 +1,87 @@
+=> These are some notes regarding how the AgentAC is structured.
+=> The whole point of this document is the "The transition details" part further down.
+=> However, to keep things somewhat readable, I also wrote down some Miscellaneous notes.
+
+
+
+****************************** Miscellaneous notes ******************************
+=> Base Layer is where the movement animations play. When the agent is not attacking, Base Layer controls the whole body.
+However, if the agent starts attacking, then Base Layer will lose control of some of the bones in the skeleton.
+Those bones will be controlled by the AttackAndBlockLayer (or whatever else), but Base Layer will still control the rest
+of the bones (most likely pelvis bone and its children).
+=> AttackAndBlockLayer is where the attack and defend (aka: block) animations play out.
+=> In this game, "def" has higher precedence than "atk", which explains the reason why the transition conditions
+of "atk" and "def" states were set up the way they are.
+=> "No exit time means" you don't have to wait for the animation to finish (before you transition to the next one).
+=> combatDir is used to choose the desired combat direction for your attacks (atk) and blocks (def).
+The following convention will be used for all directions:
+	- combatDir=0 means up
+	- combatDir=1 means right
+	- combatDir=2 means down
+	- combatDir=3 means left
+
+
+
+****************************** The transition details ******************************
+---------- Source: idle ----------
+=> From idle to atk_hold:
+	- No exit time.
+	- Fixed transition, with a duration of 0.2 seconds.
+
+=> From idle to def_hold:
+	- No exit time.
+	- Fixed transition, with a duration of 0.2 seconds.
+
+
+
+---------- Source: atk ----------
+=> From atk_hold to atk_release:
+	- No exit time.
+	- No transition duration (ie, normalized duration of 0%).
+
+=> From atk_hold to def_hold:
+	- No exit time.
+	- Fixed transition, with a duration of 0.2 seconds.
+
+=> From atk_release to atk_bounce:
+	- No exit time.
+	- Fixed transition, with a duration of 0.1 seconds.
+
+=> From atk_release to idle:
+	- Has exit time, with normalized time equal to 1.
+	- Fixed transition, with a duration of 0.2 seconds.
+
+=> From atk_bounce to idle:
+	- Has exit time, with normalized time equal to 1.
+	- Fixed transition, with a duration of 0.4 seconds.
+
+
+
+---------- Source: def ----------
+=> From def_hold to idle:
+	- No exit time.
+	- Fixed transition, with a duration of 0.2 seconds.
+
+=> From def_hold to (different) def_hold:
+	- No exit time.
+	- Fixed transition, with a duration of 0.2 seconds.
+
+=> From def_hold to def_blocked:
+	- No exit time.
+	- No transition duration (ie, normalized duration of 0%).
+
+=> From def_hold to atk_hold:
+	- No exit time.
+	- Fixed transition, with a duration of 0.2 seconds.
+
+=> From def_blocked to idle:
+	- Has exit time, with normalized time equal to 1.
+	- Fixed transition, with a duration of 0.2 seconds.
+
+=> From def_blocked to def_hold:
+	- Has exit time, with normalized time equal to 1.
+	- Fixed transition, with a duration of 0.2 seconds.
+
+
+
+
