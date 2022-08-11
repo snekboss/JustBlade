@@ -12,7 +12,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 1
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 837469819810639972}
@@ -51,11 +51,36 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: -6077386193115167104, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
-  m_Tag: 
+  m_Tag: atk_down_release
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1101 &-9083390402590008898
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: isGrounded
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -7583784816790971418}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.1
+  m_TransitionOffset: 0
+  m_ExitTime: 0.765625
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1101 &-9083153503161136096
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -68,7 +93,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 2
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3318460263004750542}
@@ -96,7 +121,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2680858722969416037}
@@ -146,10 +171,10 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 3
   - m_ConditionMode: 1
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7058448894540439977}
@@ -177,7 +202,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 2
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3318460263004750542}
@@ -193,6 +218,55 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1101 &-8875853037700031169
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions: []
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: 2350337388485542876}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.1
+  m_TransitionOffset: 0
+  m_ExitTime: 1
+  m_HasExitTime: 1
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
+--- !u!1102 &-8777350226848062800
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: falling
+  m_Speed: 4
+  m_CycleOffset: 0
+  m_Transitions:
+  - {fileID: -9083390402590008898}
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 959575026824534138, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
+  m_Tag: falling
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1101 &-8705288413109928641
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -205,7 +279,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2680858722969416037}
@@ -252,7 +326,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -9109786078026172382}
@@ -280,7 +354,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 2
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3318460263004750542}
@@ -308,10 +382,10 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 2
   - m_ConditionMode: 1
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6051943736551270471}
@@ -361,10 +435,10 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7080895602105644971}
@@ -392,7 +466,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2680858722969416037}
@@ -420,7 +494,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 3
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7614119080354578866}
@@ -458,7 +532,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: -2418155706613974495, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
-  m_Tag: 
+  m_Tag: atk_up_bounce
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -475,10 +549,10 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 2
   - m_ConditionMode: 1
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6051943736551270471}
@@ -524,7 +598,34 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 8680733439504441688, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
-  m_Tag: 
+  m_Tag: def_left_hold
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
+--- !u!1102 &-7583784816790971418
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: landing
+  m_Speed: 4
+  m_CycleOffset: 0
+  m_Transitions:
+  - {fileID: -8875853037700031169}
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: 1420770986316445164, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
+  m_Tag: landing
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -555,7 +656,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: -1815844488903637739, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
-  m_Tag: 
+  m_Tag: def_up_blocked
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -572,7 +673,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 2
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3318460263004750542}
@@ -584,6 +685,28 @@ AnimatorStateTransition:
   m_TransitionOffset: 0
   m_ExitTime: 0
   m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
+--- !u!1101 &-7547378075887772767
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions: []
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -8777350226848062800}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.1
+  m_TransitionOffset: 0
+  m_ExitTime: 1
+  m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
@@ -600,10 +723,10 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 2
   - m_ConditionMode: 1
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6051943736551270471}
@@ -631,7 +754,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 1
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 837469819810639972}
@@ -684,7 +807,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 1
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 837469819810639972}
@@ -726,11 +849,36 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 365473758316546720, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
-  m_Tag: 
+  m_Tag: def_left_blocked
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
   m_TimeParameter: 
+--- !u!1101 &-6787229702940876335
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 2
+    m_ConditionEvent: isGrounded
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -8777350226848062800}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.1
+  m_TransitionOffset: 0
+  m_ExitTime: 0.7512195
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
 --- !u!1101 &-6593730135446326110
 AnimatorStateTransition:
   m_ObjectHideFlags: 1
@@ -743,10 +891,10 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 3
   - m_ConditionMode: 1
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7058448894540439977}
@@ -774,7 +922,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 3
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7614119080354578866}
@@ -812,7 +960,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 3273536486443565751, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
-  m_Tag: 
+  m_Tag: atk_down_bounce
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -826,10 +974,10 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7080895602105644971}
@@ -907,10 +1055,10 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 2
   - m_ConditionMode: 1
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6051943736551270471}
@@ -938,10 +1086,10 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 369190106682681856}
@@ -969,10 +1117,10 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 3
   - m_ConditionMode: 1
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7058448894540439977}
@@ -1000,7 +1148,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 1
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 837469819810639972}
@@ -1028,7 +1176,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 1
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 837469819810639972}
@@ -1039,6 +1187,34 @@ AnimatorStateTransition:
   m_TransitionDuration: 0.2
   m_TransitionOffset: 0
   m_ExitTime: 0
+  m_HasExitTime: 0
+  m_HasFixedDuration: 1
+  m_InterruptionSource: 0
+  m_OrderedInterruption: 1
+  m_CanTransitionToSelf: 1
+--- !u!1101 &-4138174385647797057
+AnimatorStateTransition:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: 
+  m_Conditions:
+  - m_ConditionMode: 1
+    m_ConditionEvent: jump
+    m_EventTreshold: 0
+  - m_ConditionMode: 1
+    m_ConditionEvent: isGrounded
+    m_EventTreshold: 0
+  m_DstStateMachine: {fileID: 0}
+  m_DstState: {fileID: -1219985837410165245}
+  m_Solo: 0
+  m_Mute: 0
+  m_IsExit: 0
+  serializedVersion: 3
+  m_TransitionDuration: 0.1
+  m_TransitionOffset: 0
+  m_ExitTime: 0.7512195
   m_HasExitTime: 0
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -1207,7 +1383,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 3
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7614119080354578866}
@@ -1235,7 +1411,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 1
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 837469819810639972}
@@ -1263,7 +1439,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 3
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7614119080354578866}
@@ -1309,7 +1485,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 9132194080452217401, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
-  m_Tag: 
+  m_Tag: def_down_hold
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -1326,10 +1502,10 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 1
   - m_ConditionMode: 1
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 993401827809886449}
@@ -1400,7 +1576,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: -4971655461639786001, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
-  m_Tag: 
+  m_Tag: def_up_hold
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -1498,10 +1674,10 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 3
   - m_ConditionMode: 1
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7058448894540439977}
@@ -1529,10 +1705,10 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 1
   - m_ConditionMode: 1
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 993401827809886449}
@@ -1585,7 +1761,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2680858722969416037}
@@ -1610,7 +1786,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 9038838537442256229}
@@ -1638,10 +1814,10 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 369190106682681856}
@@ -1666,7 +1842,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1514357589933582541}
@@ -1682,6 +1858,33 @@ AnimatorStateTransition:
   m_InterruptionSource: 0
   m_OrderedInterruption: 1
   m_CanTransitionToSelf: 1
+--- !u!1102 &-1219985837410165245
+AnimatorState:
+  serializedVersion: 6
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: jump
+  m_Speed: 4
+  m_CycleOffset: 0
+  m_Transitions:
+  - {fileID: -7547378075887772767}
+  m_StateMachineBehaviours: []
+  m_Position: {x: 50, y: 50, z: 0}
+  m_IKOnFeet: 0
+  m_WriteDefaultValues: 1
+  m_Mirror: 0
+  m_SpeedParameterActive: 0
+  m_MirrorParameterActive: 0
+  m_CycleOffsetParameterActive: 0
+  m_TimeParameterActive: 0
+  m_Motion: {fileID: -2993534804863918692, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
+  m_Tag: jump
+  m_SpeedParameter: 
+  m_MirrorParameter: 
+  m_CycleOffsetParameter: 
+  m_TimeParameter: 
 --- !u!1107 &-1072878232764692781
 AnimatorStateMachine:
   serializedVersion: 6
@@ -1696,7 +1899,7 @@ AnimatorStateMachine:
     m_Position: {x: 300, y: -40, z: 0}
   - serializedVersion: 1
     m_State: {fileID: 8151780807184537633}
-    m_Position: {x: 600, y: -40, z: 0}
+    m_Position: {x: 600, y: -30, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -1744,7 +1947,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 3
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7614119080354578866}
@@ -1772,7 +1975,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 3
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7614119080354578866}
@@ -1800,7 +2003,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 2
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3318460263004750542}
@@ -1830,43 +2033,55 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: moveY
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: combatDir
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: btnAtk
+    m_Controller: {fileID: 0}
+  - m_Name: isAtk
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
-  - m_Name: btnDef
+    m_Controller: {fileID: 0}
+  - m_Name: isDef
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: atkBounced
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
   - m_Name: defBlocked
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 9100000}
+    m_Controller: {fileID: 0}
+  - m_Name: jump
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
+  - m_Name: isGrounded
+    m_Type: 4
+    m_DefaultFloat: 0
+    m_DefaultInt: 0
+    m_DefaultBool: 0
+    m_Controller: {fileID: 0}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -1904,7 +2119,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 2
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3318460263004750542}
@@ -1946,7 +2161,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 5608636311392076661, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
-  m_Tag: 
+  m_Tag: atk_up_hold
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -1963,7 +2178,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2680858722969416037}
@@ -2019,7 +2234,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2680858722969416037}
@@ -2044,7 +2259,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7080895602105644971}
@@ -2090,7 +2305,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 6851999085314653860, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
-  m_Tag: 
+  m_Tag: def_right_hold
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -2107,10 +2322,10 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 2
   - m_ConditionMode: 1
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 6051943736551270471}
@@ -2152,7 +2367,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: -3099973059094478500, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
-  m_Tag: 
+  m_Tag: atk_right_hold
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -2179,7 +2394,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: -1505695399581163455, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
-  m_Tag: 
+  m_Tag: atk_right_bounce
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -2196,7 +2411,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 1
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 837469819810639972}
@@ -2224,7 +2439,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2680858722969416037}
@@ -2252,7 +2467,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 1
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 837469819810639972}
@@ -2291,7 +2506,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: -6781200015888545936, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
-  m_Tag: 
+  m_Tag: atk_left_release
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -2308,10 +2523,10 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 1
   - m_ConditionMode: 1
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 993401827809886449}
@@ -2367,7 +2582,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 2
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3318460263004750542}
@@ -2421,10 +2636,12 @@ AnimatorState:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: DefaultMovement
+  m_Name: movement
   m_Speed: 1
   m_CycleOffset: 0
-  m_Transitions: []
+  m_Transitions:
+  - {fileID: -4138174385647797057}
+  - {fileID: -6787229702940876335}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0
@@ -2435,7 +2652,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: -4097730802260231150}
-  m_Tag: 
+  m_Tag: movement
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -2477,7 +2694,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 2
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3318460263004750542}
@@ -2527,7 +2744,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 8571361407396985219}
@@ -2555,7 +2772,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2680858722969416037}
@@ -2672,7 +2889,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 8815284889588692826, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
-  m_Tag: 
+  m_Tag: def_down_blocked
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -2689,7 +2906,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 2
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3318460263004750542}
@@ -2736,10 +2953,10 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7080895602105644971}
@@ -2767,10 +2984,10 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 1
   - m_ConditionMode: 1
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 993401827809886449}
@@ -2823,7 +3040,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2680858722969416037}
@@ -2848,7 +3065,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7080895602105644971}
@@ -2876,7 +3093,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 3
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7614119080354578866}
@@ -2904,10 +3121,10 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 369190106682681856}
@@ -2935,7 +3152,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 1
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 837469819810639972}
@@ -2963,7 +3180,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 1
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 837469819810639972}
@@ -3005,7 +3222,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: -3118405810742627638, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
-  m_Tag: 
+  m_Tag: atk_down_hold
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -3022,7 +3239,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 3
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7614119080354578866}
@@ -3078,7 +3295,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 3
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7614119080354578866}
@@ -3106,7 +3323,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 1
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 837469819810639972}
@@ -3159,10 +3376,10 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 1
   - m_ConditionMode: 1
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 993401827809886449}
@@ -3212,7 +3429,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 3
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7614119080354578866}
@@ -3240,7 +3457,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2680858722969416037}
@@ -3282,7 +3499,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 8113229839483516962, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
-  m_Tag: 
+  m_Tag: atk_left_hold
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -3316,7 +3533,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: -82164300458220133, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
-  m_Tag: 
+  m_Tag: idle
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -3333,7 +3550,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2680858722969416037}
@@ -3361,7 +3578,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 1
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 837469819810639972}
@@ -3417,7 +3634,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7080895602105644971}
@@ -3442,7 +3659,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7080895602105644971}
@@ -3470,7 +3687,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 3
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7614119080354578866}
@@ -3498,7 +3715,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -2680858722969416037}
@@ -3523,10 +3740,10 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 2
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7080895602105644971}
@@ -3554,10 +3771,10 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 369190106682681856}
@@ -3599,7 +3816,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: -8672644607061732368, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
-  m_Tag: 
+  m_Tag: def_right_blocked
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -3616,10 +3833,10 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 369190106682681856}
@@ -3647,7 +3864,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 2
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3318460263004750542}
@@ -3675,10 +3892,10 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 3
   - m_ConditionMode: 1
-    m_ConditionEvent: btnAtk
+    m_ConditionEvent: isAtk
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7058448894540439977}
@@ -3706,7 +3923,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 2
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3318460263004750542}
@@ -3734,7 +3951,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 2
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -3318460263004750542}
@@ -3773,7 +3990,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: 6733043551494154758, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
-  m_Tag: 
+  m_Tag: atk_up_release
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -3790,7 +4007,7 @@ AnimatorStateTransition:
     m_ConditionEvent: combatDir
     m_EventTreshold: 3
   - m_ConditionMode: 1
-    m_ConditionEvent: btnDef
+    m_ConditionEvent: isDef
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7614119080354578866}
@@ -3818,6 +4035,15 @@ AnimatorStateMachine:
   - serializedVersion: 1
     m_State: {fileID: 2350337388485542876}
     m_Position: {x: 500, y: 60, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -1219985837410165245}
+    m_Position: {x: 700, y: -40, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -8777350226848062800}
+    m_Position: {x: 500, y: -140, z: 0}
+  - serializedVersion: 1
+    m_State: {fileID: -7583784816790971418}
+    m_Position: {x: 300, y: -40, z: 0}
   m_ChildStateMachines: []
   m_AnyStateTransitions: []
   m_EntryTransitions: []
@@ -3850,7 +4076,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: -7123387626330411717, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
-  m_Tag: 
+  m_Tag: atk_left_bounce
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
@@ -3878,7 +4104,7 @@ AnimatorState:
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
   m_Motion: {fileID: -6066599197695607497, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
-  m_Tag: 
+  m_Tag: atk_right_release
   m_SpeedParameter: 
   m_MirrorParameter: 
   m_CycleOffsetParameter: 
