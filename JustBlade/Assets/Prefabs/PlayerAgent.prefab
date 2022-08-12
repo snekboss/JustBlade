@@ -968,6 +968,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   eqMgr: {fileID: 0}
   animMgr: {fileID: 0}
+  lookAngleX: 0
   headBone: {fileID: 7297044010335099565}
   rootBone: {fileID: 1382400116066858198}
   cam: {fileID: 963194227}
@@ -979,6 +980,8 @@ MonoBehaviour:
   playerMovementCollider: {fileID: 0}
   playerMovementRigidbody: {fileID: 0}
   movementSpeed: 3
+  jumpCooldownTimer: 0
+  jumpCooldownTimerMax: 1
   groundDistance: 0.3
   isGrounded: 0
   lastCombatDir: 0
@@ -1017,8 +1020,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7023280a05db37942b51cf63bc922f41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spineBone: {fileID: 0}
-  pelvisBone: {fileID: 0}
+  ownerAgent: {fileID: 8209919147568450872}
+  spineBone: {fileID: 8178811115471198695}
+  pelvisBone: {fileID: 966297118327077086}
+  spineShouldBeRotated: 1
 --- !u!1 &3372166521353268467
 GameObject:
   m_ObjectHideFlags: 0

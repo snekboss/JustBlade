@@ -42,7 +42,6 @@ public class PlayerAgent : Agent
     float mouseY;
     public static float playerCameraRotationSpeed = 45.0f;
     float playerAgentYaw; // yawing the player agent (left right about Y axis)
-    float eyesPitch; // pitchAngle of the eyeTransform
     const float EyesPitchThreshold = 89.0f;
 
     [SerializeField] CombatDirection lastCombatDir;
@@ -166,9 +165,9 @@ public class PlayerAgent : Agent
     void HandleEyeRotation()
     {
         playerAgentYaw += playerCameraRotationSpeed * mouseX * Time.deltaTime;
-        eyesPitch -= playerCameraRotationSpeed * mouseY * Time.deltaTime; // Subtracting, because negative angle about X axis means "up".
+        lookAngleX -= playerCameraRotationSpeed * mouseY * Time.deltaTime; // Subtracting, because negative angle about X axis means "up".
 
-        eyesPitch = Mathf.Clamp(eyesPitch, -EyesPitchThreshold, EyesPitchThreshold);
+        lookAngleX = Mathf.Clamp(lookAngleX, -EyesPitchThreshold, EyesPitchThreshold);
 
         // First, reset all rotations.
         transform.rotation = Quaternion.identity;
@@ -176,7 +175,7 @@ public class PlayerAgent : Agent
 
         // Then, rotate with the new angles.
         transform.Rotate(Vector3.up, playerAgentYaw);
-        cameraPivotTransform.Rotate(Vector3.right, eyesPitch);
+        cameraPivotTransform.Rotate(Vector3.right, lookAngleX);
     }
 
     void HandleCombatInputs()
@@ -254,11 +253,6 @@ public class PlayerAgent : Agent
         HandleCombatDirection();
 
         animMgr.UpdateAnimations(moveX, moveY, isGrounded, isAtk, isDef);
-    }
-
-    void LateUpdate()
-    {
-        animMgr.LateUpdateAnimations();
     }
 
     void FixedUpdate()
