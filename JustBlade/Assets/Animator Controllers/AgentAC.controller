@@ -87,7 +87,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: def_down_blocked_to_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -115,7 +115,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_right_hold_to_def_up_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -143,7 +143,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_right_bounce_to_idle
   m_Conditions: []
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7080895602105644971}
@@ -165,7 +165,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: def_down_hold_to_atk_left_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -301,7 +301,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_left_bounce_to_idle
   m_Conditions: []
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7080895602105644971}
@@ -323,7 +323,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_down_hold_to_release
   m_Conditions:
   - m_ConditionMode: 2
     m_ConditionEvent: isAtk
@@ -348,7 +348,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_down_hold_to_def_down_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -376,7 +376,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: idle_to_atk_down_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -407,7 +407,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: def_right_hold_to_blocked
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: defBlocked
@@ -460,7 +460,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_up_hold_to_def_up_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -543,7 +543,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: def_left_hold_to_atk_down_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -667,7 +667,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_right_hold_to_def_down_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -717,7 +717,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: def_down_hold_to_atk_down_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -885,7 +885,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: def_left_hold_to_atk_left_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -1024,7 +1024,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_up_release_to_idle
   m_Conditions:
   - m_ConditionMode: 2
     m_ConditionEvent: atkBounced
@@ -1049,7 +1049,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: def_up_hold_to_atk_down_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -1080,7 +1080,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: def_up_hold_to_atk_up_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -1111,7 +1111,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: def_up_hold_to_atk_left_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -1170,7 +1170,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_down_hold_to_def_right_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -1377,7 +1377,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: def_left_blocked_to_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -1405,7 +1405,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_right_hold_to_def_right_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -1496,7 +1496,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: idle_to_atk_right_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -1527,7 +1527,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_left_release_to_bounce
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: atkBounced
@@ -1615,7 +1615,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_left_release_to_idle
   m_Conditions:
   - m_ConditionMode: 2
     m_ConditionEvent: atkBounced
@@ -1668,7 +1668,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: idle_to_atk_left_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -1699,7 +1699,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: def_down_hold_to_atk_right_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -1730,7 +1730,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: def_up_hold_to_blocked
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: defBlocked
@@ -1783,7 +1783,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_right_hold_to_release
   m_Conditions:
   - m_ConditionMode: 2
     m_ConditionEvent: isAtk
@@ -1808,7 +1808,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: def_right_hold_to_atk_up_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -1839,7 +1839,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_left_hold_to_release
   m_Conditions:
   - m_ConditionMode: 2
     m_ConditionEvent: isAtk
@@ -1916,7 +1916,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: def_left_hold_to_blocked
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: defBlocked
@@ -1941,7 +1941,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_right_hold_to_def_left_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -1997,7 +1997,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_left_hold_to_def_down_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -2033,55 +2033,55 @@ AnimatorController:
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: moveY
     m_Type: 1
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: combatDir
     m_Type: 3
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isAtk
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isDef
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: atkBounced
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: defBlocked
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: jump
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   - m_Name: isGrounded
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
     m_DefaultBool: 0
-    m_Controller: {fileID: 0}
+    m_Controller: {fileID: 9100000}
   m_AnimatorLayers:
   - serializedVersion: 5
     m_Name: Base Layer
@@ -2103,7 +2103,7 @@ AnimatorController:
     m_Behaviours: []
     m_BlendingMode: 0
     m_SyncedLayerIndex: -1
-    m_DefaultWeight: 0
+    m_DefaultWeight: 1
     m_IKPass: 0
     m_SyncedLayerAffectsTiming: 0
     m_Controller: {fileID: 9100000}
@@ -2113,7 +2113,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_up_hold_to_def_down_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -2316,7 +2316,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: def_right_hold_to_atk_down_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -2433,7 +2433,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_left_hold_to_def_up_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -2517,7 +2517,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: def_left_hold_to_atk_right_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -2716,7 +2716,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_right_release_to_idle
   m_Conditions:
   - m_ConditionMode: 2
     m_ConditionEvent: atkBounced
@@ -2741,7 +2741,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_up_hold_to_release
   m_Conditions:
   - m_ConditionMode: 2
     m_ConditionEvent: isAtk
@@ -2766,7 +2766,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: def_up_blocked_to_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -2794,7 +2794,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_down_release_to_bounce
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: atkBounced
@@ -2819,7 +2819,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_up_release_to_bounce
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: atkBounced
@@ -2844,7 +2844,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: def_down_hold_to_blocked
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: defBlocked
@@ -2928,7 +2928,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_up_bounce_to_idle
   m_Conditions: []
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7080895602105644971}
@@ -2978,7 +2978,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: def_up_hold_to_atk_right_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -3009,7 +3009,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_right_release_to_bounce
   m_Conditions:
   - m_ConditionMode: 1
     m_ConditionEvent: atkBounced
@@ -3087,7 +3087,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_left_hold_to_def_left_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -3115,7 +3115,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: def_down_hold_to_atk_up_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -3146,7 +3146,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_left_hold_to_def_right_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -3174,7 +3174,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: def_right_blocked_to_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -3317,7 +3317,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_up_hold_to_def_right_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -3345,7 +3345,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_down_release_to_idle
   m_Conditions:
   - m_ConditionMode: 2
     m_ConditionEvent: atkBounced
@@ -3370,7 +3370,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: def_right_hold_to_atk_right_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -3401,7 +3401,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_down_bounce_to_release
   m_Conditions: []
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7080895602105644971}
@@ -3451,7 +3451,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_down_hold_to_def_up_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -3681,7 +3681,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_up_hold_to_def_left_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -3765,7 +3765,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: idle_to_atk_up_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -3827,7 +3827,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: def_left_hold_to_atk_up_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -3886,7 +3886,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: def_right_hold_to_atk_left_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir
@@ -4001,7 +4001,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: 
+  m_Name: atk_down_hold_to_def_left_hold
   m_Conditions:
   - m_ConditionMode: 6
     m_ConditionEvent: combatDir

@@ -227,6 +227,18 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 963194227, guid: 7bb4698197bfc0c4d96a458e73365778, type: 3}
+      propertyPath: field of view
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 963194227, guid: 7bb4698197bfc0c4d96a458e73365778, type: 3}
+      propertyPath: far clip plane
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 963194227, guid: 7bb4698197bfc0c4d96a458e73365778, type: 3}
+      propertyPath: near clip plane
+      value: 0.1
+      objectReference: {fileID: 0}
     - target: {fileID: 2681063993493225354, guid: 7bb4698197bfc0c4d96a458e73365778, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -271,45 +283,12 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 3303926268302588129, guid: 7bb4698197bfc0c4d96a458e73365778, type: 3}
-      propertyPath: spineBone
-      value: 
-      objectReference: {fileID: 66760551}
-    - target: {fileID: 3303926268302588129, guid: 7bb4698197bfc0c4d96a458e73365778, type: 3}
-      propertyPath: ownerAgent
-      value: 
-      objectReference: {fileID: 66760552}
-    - target: {fileID: 3303926268302588129, guid: 7bb4698197bfc0c4d96a458e73365778, type: 3}
-      propertyPath: pelvisBone
-      value: 
-      objectReference: {fileID: 66760550}
     - target: {fileID: 3350359074657051952, guid: 7bb4698197bfc0c4d96a458e73365778, type: 3}
       propertyPath: m_Name
       value: PlayerAgent
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7bb4698197bfc0c4d96a458e73365778, type: 3}
---- !u!4 &66760550 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 966297118327077086, guid: 7bb4698197bfc0c4d96a458e73365778, type: 3}
-  m_PrefabInstance: {fileID: 66760549}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &66760551 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8178811115471198695, guid: 7bb4698197bfc0c4d96a458e73365778, type: 3}
-  m_PrefabInstance: {fileID: 66760549}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &66760552 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8209919147568450872, guid: 7bb4698197bfc0c4d96a458e73365778, type: 3}
-  m_PrefabInstance: {fileID: 66760549}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6f1502ed0f2f38d4d9c20458031d2370, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

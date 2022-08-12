@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class AnimationManager : MonoBehaviour
 {
+    // TODO: Remove [SerializeField] attribute once you're done with the debugging.
+
     public Agent ownerAgent;
     public Transform spineBone;
     public Transform pelvisBone;
@@ -12,10 +14,30 @@ public class AnimationManager : MonoBehaviour
     float targetSpineAngle;
     float spineCurAngle;
     float SpineRotationLerpRate = 0.2f;
-    public bool spineShouldBeRotated; // TODO: This needs to happen while attacking etc. Write the code for it.
+    bool spineShouldBeRotated;
 
     Animator animator;
+    AnimatorStateInfo attackAndBlockLayerStateInfo;
+    AnimatorTransitionInfo attackAndBlockLayerTransitionInfo;
+    float attackAndBlockLayerWeight;
+    float idleLayerWeight;
 
+    public bool IsAttackingFromUp { get; private set; }
+    public bool IsAttackingFromRight { get; private set; }
+    public bool IsAttackingFromDown { get; private set; }
+    public bool IsAttackingFromLeft { get; private set; }
+
+    public bool IsDefendingFromUp { get; private set; }
+    public bool IsDefendingFromRight { get; private set; }
+    public bool IsDefendingFromDown { get; private set; }
+    public bool IsDefendingFromLeft { get; private set; }
+
+    // Layer IDs (WARNING: Their index order is in sync with how they're laid out in the Animator Controller).
+    const int LayerIdBase = 0;
+    const int LayerIdAttackAndBlock = 1;
+    const int LayerIdIdle = 2;
+
+    // Animator parameters
     static readonly int Hash_moveX = Animator.StringToHash("moveX");
     static readonly int Hash_moveY = Animator.StringToHash("moveY");
     static readonly int Hash_isAtk = Animator.StringToHash("isAtk");
@@ -23,6 +45,221 @@ public class AnimationManager : MonoBehaviour
     static readonly int Hash_combatDir = Animator.StringToHash("combatDir");
     static readonly int Hash_jump = Animator.StringToHash("jump");
     static readonly int Hash_isGrounded = Animator.StringToHash("isGrounded");
+
+    // AttackAndBlockLayer State tags
+    // Attack
+    // atk_hold
+    static readonly int Hash_StateTag_atk_up_hold = Animator.StringToHash("atk_up_hold");
+    static readonly int Hash_StateTag_atk_right_hold = Animator.StringToHash("atk_right_hold");
+    static readonly int Hash_StateTag_atk_down_hold = Animator.StringToHash("atk_down_hold");
+    static readonly int Hash_StateTag_atk_left_hold = Animator.StringToHash("atk_left_hold");
+    [SerializeField] bool isState_AtkHoldUp;
+    [SerializeField] bool isState_AtkHoldRight;
+    [SerializeField] bool isState_AtkHoldDown;
+    [SerializeField] bool isState_AtkHoldLeft;
+
+    // atk_release
+    static readonly int Hash_StateTag_atk_up_release = Animator.StringToHash("atk_up_release");
+    static readonly int Hash_StateTag_atk_right_release = Animator.StringToHash("atk_right_release");
+    static readonly int Hash_StateTag_atk_down_release = Animator.StringToHash("atk_down_release");
+    static readonly int Hash_StateTag_atk_left_release = Animator.StringToHash("atk_left_release");
+    [SerializeField] bool isState_AtkReleaseUp;
+    [SerializeField] bool isState_AtkReleaseRight;
+    [SerializeField] bool isState_AtkReleaseDown;
+    [SerializeField] bool isState_AtkReleaseLeft;
+
+    // atk_bounce
+    static readonly int Hash_StateTag_atk_up_bounce = Animator.StringToHash("atk_up_bounce");
+    static readonly int Hash_StateTag_atk_right_bounce = Animator.StringToHash("atk_right_bounce");
+    static readonly int Hash_StateTag_atk_down_bounce = Animator.StringToHash("atk_down_bounce");
+    static readonly int Hash_StateTag_atk_left_bounce = Animator.StringToHash("atk_left_bounce");
+    [SerializeField] bool isState_AtkBounceUp;
+    [SerializeField] bool isState_AtkBounceRight;
+    [SerializeField] bool isState_AtkBounceDown;
+    [SerializeField] bool isState_AtkBounceLeft;
+
+    // Defend
+    // def_hold
+    static readonly int Hash_StateTag_def_up_hold = Animator.StringToHash("def_up_hold");
+    static readonly int Hash_StateTag_def_right_hold = Animator.StringToHash("def_right_hold");
+    static readonly int Hash_StateTag_def_down_hold = Animator.StringToHash("def_down_hold");
+    static readonly int Hash_StateTag_def_left_hold = Animator.StringToHash("def_left_hold");
+    [SerializeField] bool isState_DefHoldUp;
+    [SerializeField] bool isState_DefHoldRight;
+    [SerializeField] bool isState_DefHoldDown;
+    [SerializeField] bool isState_DefHoldLeft;
+
+    // def_blocked
+    static readonly int Hash_StateTag_def_up_blocked = Animator.StringToHash("def_up_blocked");
+    static readonly int Hash_StateTag_def_right_blocked = Animator.StringToHash("def_right_blocked");
+    static readonly int Hash_StateTag_def_down_blocked = Animator.StringToHash("def_down_blocked");
+    static readonly int Hash_StateTag_def_left_blocked = Animator.StringToHash("def_left_blocked");
+    [SerializeField] bool isState_DefBlockedUp;
+    [SerializeField] bool isState_DefBlockedRight;
+    [SerializeField] bool isState_DefBlockedDown;
+    [SerializeField] bool isState_DefBlockedLeft;
+
+    // AttackAndBlockLayer Transition custom names
+    // Attack
+    // idle_to_atk_hold
+    static readonly int Hash_TransName_idle_to_atk_up_hold = Animator.StringToHash("idle_to_atk_up_hold");
+    static readonly int Hash_TransName_idle_to_atk_right_hold = Animator.StringToHash("idle_to_atk_right_hold");
+    static readonly int Hash_TransName_idle_to_atk_down_hold = Animator.StringToHash("idle_to_atk_down_hold");
+    static readonly int Hash_TransName_idle_to_atk_left_hold = Animator.StringToHash("idle_to_atk_left_hold");
+    [SerializeField] bool isTrans_IdleToAtkUpHold;
+    [SerializeField] bool isTrans_IdleToAtkRightHold;
+    [SerializeField] bool isTrans_IdleToAtkDownHold;
+    [SerializeField] bool isTrans_IdleToAtkLeftHold;
+
+
+    // atk_hold_to_release
+    static readonly int Hash_TransName_atk_up_hold_to_release = Animator.StringToHash("atk_up_hold_to_release");
+    static readonly int Hash_TransName_atk_right_hold_to_release = Animator.StringToHash("atk_right_hold_to_release");
+    static readonly int Hash_TransName_atk_down_hold_to_release = Animator.StringToHash("atk_down_hold_to_release");
+    static readonly int Hash_TransName_atk_left_hold_to_release = Animator.StringToHash("atk_left_hold_to_release");
+    [SerializeField] bool isTrans_AtkUpHoldToRelease;
+    [SerializeField] bool isTrans_AtkRightHoldToRelease;
+    [SerializeField] bool isTrans_AtkDownHoldToRelease;
+    [SerializeField] bool isTrans_AtkLeftHoldToRelease;
+
+    // atk_release_to_bounce
+    static readonly int Hash_TransName_atk_up_release_to_bounce = Animator.StringToHash("atk_up_release_to_bounce");
+    static readonly int Hash_TransName_atk_right_release_to_bounce = Animator.StringToHash("atk_right_release_to_bounce");
+    static readonly int Hash_TransName_atk_down_release_to_bounce = Animator.StringToHash("atk_down_release_to_bounce");
+    static readonly int Hash_TransName_atk_left_release_to_bounce = Animator.StringToHash("atk_left_release_to_bounce");
+    [SerializeField] bool isTrans_AtkUpReleaseToBounce;
+    [SerializeField] bool isTrans_AtkRightReleaseToBounce;
+    [SerializeField] bool isTrans_AtkDownReleaseToBounce;
+    [SerializeField] bool isTrans_AtkLeftReleaseToBounce;
+
+    // atk_release_to_idle
+    static readonly int Hash_TransName_atk_up_release_to_idle = Animator.StringToHash("atk_up_release_to_idle");
+    static readonly int Hash_TransName_atk_right_release_to_idle = Animator.StringToHash("atk_right_release_to_idle");
+    static readonly int Hash_TransName_atk_down_release_to_idle = Animator.StringToHash("atk_down_release_to_idle");
+    static readonly int Hash_TransName_atk_left_release_to_idle = Animator.StringToHash("atk_left_release_to_idle");
+    [SerializeField] bool isTrans_AtkUpReleaseToIdle;
+    [SerializeField] bool isTrans_AtkRightReleaseToIdle;
+    [SerializeField] bool isTrans_AtkDownReleaseToIdle;
+    [SerializeField] bool isTrans_AtkLeftReleaseToIdle;
+
+    // atk_bounce_to_idle
+    static readonly int Hash_TransName_atk_up_bounce_to_idle = Animator.StringToHash("atk_up_bounce_to_idle");
+    static readonly int Hash_TransName_atk_right_bounce_to_idle = Animator.StringToHash("atk_right_bounce_to_idle");
+    static readonly int Hash_TransName_atk_down_bounce_to_idle = Animator.StringToHash("atk_down_bounce_to_idle");
+    static readonly int Hash_TransName_atk_left_bounce_to_idle = Animator.StringToHash("atk_left_bounce_to_idle");
+    [SerializeField] bool isTrans_AtkUpBounceToIdle;
+    [SerializeField] bool isTrans_AtkRightBounceToIdle;
+    [SerializeField] bool isTrans_AtkDownBounceToIdle;
+    [SerializeField] bool isTrans_AtkLeftBounceToIdle;
+
+    // Ok... I wasn't expecting this nonsense.
+    // When leaving a state via a transition, Mecanim still considers you to be in the source state.
+    // Hence the nonsense below...
+    // atk_up_hold_to_def_hold
+    static readonly int Hash_TransName_atk_up_hold_to_def_up_hold = Animator.StringToHash("atk_up_hold_to_def_up_hold");
+    static readonly int Hash_TransName_atk_up_hold_to_def_right_hold = Animator.StringToHash("atk_up_hold_to_def_right_hold");
+    static readonly int Hash_TransName_atk_up_hold_to_def_down_hold = Animator.StringToHash("atk_up_hold_to_def_down_hold");
+    static readonly int Hash_TransName_atk_up_hold_to_def_left_hold = Animator.StringToHash("atk_up_hold_to_def_left_hold");
+    [SerializeField] bool isTrans_AtkUpHoldToDefUpHold;
+    [SerializeField] bool isTrans_AtkUpHoldToDefRightHold;
+    [SerializeField] bool isTrans_AtkUpHoldToDefDownHold;
+    [SerializeField] bool isTrans_AtkUpHoldToDefLeftHold;
+
+    // atk_right_hold_to_def_hold
+    static readonly int Hash_TransName_atk_right_hold_to_def_up_hold = Animator.StringToHash("atk_right_hold_to_def_up_hold");
+    static readonly int Hash_TransName_atk_right_hold_to_def_right_hold = Animator.StringToHash("atk_right_hold_to_def_right_hold");
+    static readonly int Hash_TransName_atk_right_hold_to_def_down_hold = Animator.StringToHash("atk_right_hold_to_def_down_hold");
+    static readonly int Hash_TransName_atk_right_hold_to_def_left_hold = Animator.StringToHash("atk_right_hold_to_def_left_hold");
+    [SerializeField] bool isTrans_AtkRightHoldToDefUpHold;
+    [SerializeField] bool isTrans_AtkRightHoldToDefRightHold;
+    [SerializeField] bool isTrans_AtkRightHoldToDefDownHold;
+    [SerializeField] bool isTrans_AtkRightHoldToDefLeftHold;
+
+    // atk_down_hold_to_def_hold
+    static readonly int Hash_TransName_atk_down_hold_to_def_up_hold = Animator.StringToHash("atk_down_hold_to_def_up_hold");
+    static readonly int Hash_TransName_atk_down_hold_to_def_right_hold = Animator.StringToHash("atk_down_hold_to_def_right_hold");
+    static readonly int Hash_TransName_atk_down_hold_to_def_down_hold = Animator.StringToHash("atk_down_hold_to_def_down_hold");
+    static readonly int Hash_TransName_atk_down_hold_to_def_left_hold = Animator.StringToHash("atk_down_hold_to_def_left_hold");
+    [SerializeField] bool isTrans_AtkDownHoldToDefUpHold;
+    [SerializeField] bool isTrans_AtkDownHoldToDefRightHold;
+    [SerializeField] bool isTrans_AtkDownHoldToDefDownHold;
+    [SerializeField] bool isTrans_AtkDownHoldToDefLeftHold;
+
+    // atk_left_hold_to_def_hold
+    static readonly int Hash_TransName_atk_left_hold_to_def_up_hold = Animator.StringToHash("atk_left_hold_to_def_up_hold");
+    static readonly int Hash_TransName_atk_left_hold_to_def_right_hold = Animator.StringToHash("atk_left_hold_to_def_right_hold");
+    static readonly int Hash_TransName_atk_left_hold_to_def_down_hold = Animator.StringToHash("atk_left_hold_to_def_down_hold");
+    static readonly int Hash_TransName_atk_left_hold_to_def_left_hold = Animator.StringToHash("atk_left_hold_to_def_left_hold");
+    [SerializeField] bool isTrans_AtkLeftHoldToDefUpHold;
+    [SerializeField] bool isTrans_AtkLeftHoldToDefRightHold;
+    [SerializeField] bool isTrans_AtkLeftHoldToDefDownHold;
+    [SerializeField] bool isTrans_AtkLeftHoldToDefLeftHold;
+
+
+    // Defend
+    // def_hold_to_blocked
+    static readonly int Hash_TransName_def_up_hold_to_blocked = Animator.StringToHash("def_up_hold_to_blocked");
+    static readonly int Hash_TransName_def_right_hold_to_blocked = Animator.StringToHash("def_right_hold_to_blocked");
+    static readonly int Hash_TransName_def_down_hold_to_blocked = Animator.StringToHash("def_down_hold_to_blocked");
+    static readonly int Hash_TransName_def_left_hold_to_blocked = Animator.StringToHash("def_left_hold_to_blocked");
+    [SerializeField] bool isTrans_DefUpHoldToBlocked;
+    [SerializeField] bool isTrans_DefRightHoldToBlocked;
+    [SerializeField] bool isTrans_DefDownHoldToBlocked;
+    [SerializeField] bool isTrans_DefLeftHoldToBlocked;
+
+    // def_blocked_to_hold
+    static readonly int Hash_TransName_def_up_blocked_to_hold = Animator.StringToHash("def_up_blocked_to_hold");
+    static readonly int Hash_TransName_def_right_blocked_to_hold = Animator.StringToHash("def_right_blocked_to_hold");
+    static readonly int Hash_TransName_def_down_blocked_to_hold = Animator.StringToHash("def_down_blocked_to_hold");
+    static readonly int Hash_TransName_def_left_blocked_to_hold = Animator.StringToHash("def_left_blocked_to_hold");
+    [SerializeField] bool isTrans_DefUpBlockedToHold;
+    [SerializeField] bool isTrans_DefRightBlockedToHold;
+    [SerializeField] bool isTrans_DefDownBlockedToHold;
+    [SerializeField] bool isTrans_DefLeftBlockedToHold;
+
+    // Ok... I wasn't expecting this nonsense.
+    // When leaving a state via a transition, Mecanim still considers you to be in the source state.
+    // Hence the nonsense below...
+    // def_up_hold_to_atk_hold
+    static readonly int Hash_TransName_def_up_hold_to_atk_up_hold = Animator.StringToHash("def_up_hold_to_atk_up_hold");
+    static readonly int Hash_TransName_def_up_hold_to_atk_right_hold = Animator.StringToHash("def_up_hold_to_atk_right_hold");
+    static readonly int Hash_TransName_def_up_hold_to_atk_down_hold = Animator.StringToHash("def_up_hold_to_atk_down_hold");
+    static readonly int Hash_TransName_def_up_hold_to_atk_left_hold = Animator.StringToHash("def_up_hold_to_atk_left_hold");
+    [SerializeField] bool isTrans_DefUpHoldToAtkUpHold;
+    [SerializeField] bool isTrans_DefUpHoldToAtkRightHold;
+    [SerializeField] bool isTrans_DefUpHoldToAtkDownHold;
+    [SerializeField] bool isTrans_DefUpHoldToAtkLeftHold;
+
+    // def_right_hold_to_atk_hold
+    static readonly int Hash_TransName_def_right_hold_to_atk_up_hold = Animator.StringToHash("def_right_hold_to_atk_up_hold");
+    static readonly int Hash_TransName_def_right_hold_to_atk_right_hold = Animator.StringToHash("def_right_hold_to_atk_right_hold");
+    static readonly int Hash_TransName_def_right_hold_to_atk_down_hold = Animator.StringToHash("def_right_hold_to_atk_down_hold");
+    static readonly int Hash_TransName_def_right_hold_to_atk_left_hold = Animator.StringToHash("def_right_hold_to_atk_left_hold");
+    [SerializeField] bool isTrans_DefRightHoldToAtkUpHold;
+    [SerializeField] bool isTrans_DefRightHoldToAtkRightHold;
+    [SerializeField] bool isTrans_DefRightHoldToAtkDownHold;
+    [SerializeField] bool isTrans_DefRightHoldToAtkLeftHold;
+
+    // def_down_hold_to_atk_hold
+    static readonly int Hash_TransName_def_down_hold_to_atk_up_hold = Animator.StringToHash("def_down_hold_to_atk_up_hold");
+    static readonly int Hash_TransName_def_down_hold_to_atk_right_hold = Animator.StringToHash("def_down_hold_to_atk_right_hold");
+    static readonly int Hash_TransName_def_down_hold_to_atk_down_hold = Animator.StringToHash("def_down_hold_to_atk_down_hold");
+    static readonly int Hash_TransName_def_down_hold_to_atk_left_hold = Animator.StringToHash("def_down_hold_to_atk_left_hold");
+    [SerializeField] bool isTrans_DefDownHoldToAtkUpHold;
+    [SerializeField] bool isTrans_DefDownHoldToAtkRightHold;
+    [SerializeField] bool isTrans_DefDownHoldToAtkDownHold;
+    [SerializeField] bool isTrans_DefDownHoldToAtkLeftHold;
+
+    // def_left_hold_to_atk_hold
+    static readonly int Hash_TransName_def_left_hold_to_atk_up_hold = Animator.StringToHash("def_left_hold_to_atk_up_hold");
+    static readonly int Hash_TransName_def_left_hold_to_atk_right_hold = Animator.StringToHash("def_left_hold_to_atk_right_hold");
+    static readonly int Hash_TransName_def_left_hold_to_atk_down_hold = Animator.StringToHash("def_left_hold_to_atk_down_hold");
+    static readonly int Hash_TransName_def_left_hold_to_atk_left_hold = Animator.StringToHash("def_left_hold_to_atk_left_hold");
+    [SerializeField] bool isTrans_DefLeftHoldToAtkUpHold;
+    [SerializeField] bool isTrans_DefLeftHoldToAtkRightHold;
+    [SerializeField] bool isTrans_DefLeftHoldToAtkDownHold;
+    [SerializeField] bool isTrans_DefLeftHoldToAtkLeftHold;
+
 
     bool jump = false;
 
@@ -42,11 +279,226 @@ public class AnimationManager : MonoBehaviour
         jump = isJumping;
     }
 
+    void ReadStateInfo()
+    {
+        attackAndBlockLayerStateInfo = animator.GetCurrentAnimatorStateInfo(LayerIdAttackAndBlock);
+
+        isState_AtkHoldUp = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_atk_up_hold;
+        isState_AtkHoldRight = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_atk_right_hold;
+        isState_AtkHoldDown = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_atk_down_hold;
+        isState_AtkHoldLeft = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_atk_left_hold;
+
+        isState_AtkReleaseUp = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_atk_up_release;
+        isState_AtkReleaseRight = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_atk_right_release;
+        isState_AtkReleaseDown = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_atk_down_release;
+        isState_AtkReleaseLeft = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_atk_left_release;
+
+        isState_AtkBounceUp = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_atk_up_bounce;
+        isState_AtkBounceRight = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_atk_right_bounce;
+        isState_AtkBounceDown = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_atk_down_bounce;
+        isState_AtkBounceLeft = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_atk_left_bounce;
+
+        isState_DefHoldUp = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_def_up_hold;
+        isState_DefHoldRight = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_def_right_hold;
+        isState_DefHoldDown = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_def_down_hold;
+        isState_DefHoldLeft = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_def_left_hold;
+
+        isState_DefBlockedUp = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_def_up_blocked;
+        isState_DefBlockedRight = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_def_right_blocked;
+        isState_DefBlockedDown = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_def_down_blocked;
+        isState_DefBlockedLeft = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_def_left_blocked;
+    }
+
+    void ReadTransitionInfo()
+    {
+        attackAndBlockLayerTransitionInfo = animator.GetAnimatorTransitionInfo(LayerIdAttackAndBlock);
+
+        // Attack
+        // idle_to_atk_hold
+        isTrans_IdleToAtkUpHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_idle_to_atk_up_hold;
+        isTrans_IdleToAtkRightHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_idle_to_atk_right_hold;
+        isTrans_IdleToAtkDownHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_idle_to_atk_down_hold;
+        isTrans_IdleToAtkLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_idle_to_atk_left_hold;
+
+        // atk_hold_to_release
+        isTrans_AtkUpHoldToRelease = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_up_hold_to_release;
+        isTrans_AtkRightHoldToRelease = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_right_hold_to_release;
+        isTrans_AtkDownHoldToRelease = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_down_hold_to_release;
+        isTrans_AtkLeftHoldToRelease = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_left_hold_to_release;
+
+        // atk_release_to_bounce
+        isTrans_AtkUpReleaseToBounce = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_up_release_to_bounce;
+        isTrans_AtkRightReleaseToBounce = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_right_release_to_bounce;
+        isTrans_AtkDownReleaseToBounce = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_down_release_to_bounce;
+        isTrans_AtkLeftReleaseToBounce = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_left_release_to_bounce;
+
+        // atk_release_to_idle
+        isTrans_AtkUpReleaseToIdle = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_up_release_to_idle;
+        isTrans_AtkRightReleaseToIdle = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_right_release_to_idle;
+        isTrans_AtkDownReleaseToIdle = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_down_release_to_idle;
+        isTrans_AtkLeftReleaseToIdle = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_left_release_to_idle;
+
+        // atk_bounce_to_idle
+        isTrans_AtkUpBounceToIdle = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_up_bounce_to_idle;
+        isTrans_AtkRightBounceToIdle = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_right_bounce_to_idle;
+        isTrans_AtkDownBounceToIdle = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_down_bounce_to_idle;
+        isTrans_AtkLeftBounceToIdle = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_left_bounce_to_idle;
+
+        // Ok... I wasn't expecting this nonsense.
+        // When leaving a state via a transition, Mecanim still considers you to be in the source state.
+        // Hence the nonsense below...
+        // atk_up_hold_to_def_hold
+        isTrans_AtkUpHoldToDefUpHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_up_hold_to_def_up_hold;
+        isTrans_AtkUpHoldToDefRightHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_up_hold_to_def_right_hold;
+        isTrans_AtkUpHoldToDefDownHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_up_hold_to_def_down_hold;
+        isTrans_AtkUpHoldToDefLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_up_hold_to_def_left_hold;
+
+        // atk_right_hold_to_def_hold
+        isTrans_AtkRightHoldToDefUpHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_right_hold_to_def_up_hold;
+        isTrans_AtkRightHoldToDefRightHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_right_hold_to_def_right_hold;
+        isTrans_AtkRightHoldToDefDownHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_right_hold_to_def_down_hold;
+        isTrans_AtkRightHoldToDefLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_right_hold_to_def_left_hold;
+
+        // atk_down_hold_to_def_hold
+        isTrans_AtkDownHoldToDefUpHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_down_hold_to_def_up_hold;
+        isTrans_AtkDownHoldToDefRightHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_down_hold_to_def_right_hold;
+        isTrans_AtkDownHoldToDefDownHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_down_hold_to_def_down_hold;
+        isTrans_AtkDownHoldToDefLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_down_hold_to_def_left_hold;
+
+        // atk_left_hold_to_def_hold
+        isTrans_AtkLeftHoldToDefUpHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_left_hold_to_def_up_hold;
+        isTrans_AtkLeftHoldToDefRightHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_left_hold_to_def_right_hold;
+        isTrans_AtkLeftHoldToDefDownHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_left_hold_to_def_down_hold;
+        isTrans_AtkLeftHoldToDefLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_atk_left_hold_to_def_left_hold;
+
+
+        // Defend
+        // def_hold_to_blocked
+        isTrans_DefUpHoldToBlocked = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_up_hold_to_blocked;
+        isTrans_DefRightHoldToBlocked = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_right_hold_to_blocked;
+        isTrans_DefDownHoldToBlocked = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_down_hold_to_blocked;
+        isTrans_DefLeftHoldToBlocked = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_left_hold_to_blocked;
+
+        // def_blocked_to_hold
+        isTrans_DefUpBlockedToHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_up_blocked_to_hold;
+        isTrans_DefRightBlockedToHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_right_blocked_to_hold;
+        isTrans_DefDownBlockedToHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_down_blocked_to_hold;
+        isTrans_DefLeftBlockedToHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_left_blocked_to_hold;
+
+        // Ok... I wasn't expecting this nonsense.
+        // When leaving a state via a transition, Mecanim still considers you to be in the source state.
+        // Hence the nonsense below...
+        // def_up_hold_to_atk_hold
+        isTrans_DefUpHoldToAtkUpHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_up_hold_to_atk_up_hold;
+        isTrans_DefUpHoldToAtkRightHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_up_hold_to_atk_right_hold;
+        isTrans_DefUpHoldToAtkDownHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_up_hold_to_atk_down_hold;
+        isTrans_DefUpHoldToAtkLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_up_hold_to_atk_left_hold;
+
+        // def_right_hold_to_atk_hold
+        isTrans_DefRightHoldToAtkUpHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_right_hold_to_atk_up_hold;
+        isTrans_DefRightHoldToAtkRightHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_right_hold_to_atk_right_hold;
+        isTrans_DefRightHoldToAtkDownHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_right_hold_to_atk_down_hold;
+        isTrans_DefRightHoldToAtkLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_right_hold_to_atk_left_hold;
+
+        // def_down_hold_to_atk_hold
+        isTrans_DefDownHoldToAtkUpHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_down_hold_to_atk_up_hold;
+        isTrans_DefDownHoldToAtkRightHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_down_hold_to_atk_right_hold;
+        isTrans_DefDownHoldToAtkDownHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_down_hold_to_atk_down_hold;
+        isTrans_DefDownHoldToAtkLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_down_hold_to_atk_left_hold;
+
+        // def_left_hold_to_atk_hold
+        isTrans_DefLeftHoldToAtkUpHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_left_hold_to_atk_up_hold;
+        isTrans_DefLeftHoldToAtkRightHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_left_hold_to_atk_right_hold;
+        isTrans_DefLeftHoldToAtkDownHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_left_hold_to_atk_down_hold;
+        isTrans_DefLeftHoldToAtkLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_left_hold_to_atk_left_hold;
+    }
+
+    void SetCombatParameters()
+    {
+        // Setting values based on state and transition info
+        IsAttackingFromUp = isState_AtkReleaseUp;
+        IsAttackingFromRight = isState_AtkReleaseRight;
+        IsAttackingFromDown = isState_AtkReleaseDown;
+        IsAttackingFromLeft = isState_AtkReleaseLeft;
+
+        IsDefendingFromUp = isState_DefHoldUp || isTrans_DefUpHoldToBlocked || isTrans_DefUpBlockedToHold;
+        IsDefendingFromRight = isState_DefHoldRight || isTrans_DefRightHoldToBlocked || isTrans_DefRightBlockedToHold;
+        IsDefendingFromDown = isState_DefHoldDown || isTrans_DefDownHoldToBlocked || isTrans_DefDownBlockedToHold;
+        IsDefendingFromLeft = isState_DefHoldLeft || isTrans_DefLeftHoldToBlocked || isTrans_DefLeftBlockedToHold;
+    }
+
+    void DecideIfSpineShouldBeRotated()
+    {
+        bool upStates = isState_AtkHoldUp || isState_AtkReleaseUp || isState_AtkBounceUp;
+        bool rightStates = isState_AtkHoldRight || isState_AtkReleaseRight || isState_AtkBounceRight;
+        bool downStates = isState_AtkHoldDown || isState_AtkReleaseDown || isState_AtkBounceDown;
+        bool leftStates = isState_AtkHoldLeft || isState_AtkReleaseLeft || isState_AtkBounceLeft;
+        bool allStates = upStates || rightStates || downStates || leftStates;
+
+        bool upTransitions = isTrans_IdleToAtkUpHold || isTrans_AtkUpHoldToRelease
+            || isTrans_AtkUpReleaseToBounce || isTrans_AtkUpReleaseToIdle || isTrans_AtkUpBounceToIdle;
+        bool rightTransitions = isTrans_IdleToAtkRightHold || isTrans_AtkRightHoldToRelease
+            || isTrans_AtkRightReleaseToBounce || isTrans_AtkRightReleaseToIdle || isTrans_AtkRightBounceToIdle;
+        bool downTransitions = isTrans_IdleToAtkDownHold || isTrans_AtkDownHoldToRelease
+            || isTrans_AtkDownReleaseToBounce || isTrans_AtkDownReleaseToIdle || isTrans_AtkDownBounceToIdle;
+        bool leftTransitions = isTrans_IdleToAtkLeftHold || isTrans_AtkLeftHoldToRelease
+            || isTrans_AtkLeftReleaseToBounce || isTrans_AtkLeftReleaseToIdle || isTrans_AtkLeftBounceToIdle;
+        bool allTransitions = upTransitions || rightTransitions || downTransitions || leftTransitions;
+
+        bool atkHoldToDefHoldTransitions =
+            isTrans_AtkUpHoldToDefUpHold
+        || isTrans_AtkUpHoldToDefRightHold
+        || isTrans_AtkUpHoldToDefDownHold
+        || isTrans_AtkUpHoldToDefLeftHold
+        || isTrans_AtkRightHoldToDefUpHold
+        || isTrans_AtkRightHoldToDefRightHold
+        || isTrans_AtkRightHoldToDefDownHold
+        || isTrans_AtkRightHoldToDefLeftHold
+        || isTrans_AtkDownHoldToDefUpHold
+        || isTrans_AtkDownHoldToDefRightHold
+        || isTrans_AtkDownHoldToDefDownHold
+        || isTrans_AtkDownHoldToDefLeftHold
+        || isTrans_AtkLeftHoldToDefUpHold
+        || isTrans_AtkLeftHoldToDefRightHold
+        || isTrans_AtkLeftHoldToDefDownHold
+        || isTrans_AtkLeftHoldToDefLeftHold;
+
+        bool defHoldToAtkHoldTransitions = 
+            isTrans_DefUpHoldToAtkUpHold
+        || isTrans_DefUpHoldToAtkRightHold
+        || isTrans_DefUpHoldToAtkDownHold
+        || isTrans_DefUpHoldToAtkLeftHold
+        || isTrans_DefRightHoldToAtkUpHold
+        || isTrans_DefRightHoldToAtkRightHold
+        || isTrans_DefRightHoldToAtkDownHold
+        || isTrans_DefRightHoldToAtkLeftHold
+        || isTrans_DefDownHoldToAtkUpHold
+        || isTrans_DefDownHoldToAtkRightHold
+        || isTrans_DefDownHoldToAtkDownHold
+        || isTrans_DefDownHoldToAtkLeftHold
+        || isTrans_DefLeftHoldToAtkUpHold
+        || isTrans_DefLeftHoldToAtkRightHold
+        || isTrans_DefLeftHoldToAtkDownHold
+        || isTrans_DefLeftHoldToAtkLeftHold;
+
+        spineShouldBeRotated = (allStates || allTransitions || defHoldToAtkHoldTransitions) && (atkHoldToDefHoldTransitions == false);
+
+        if (spineShouldBeRotated)
+        {
+            targetSpineAngle = ownerAgent.lookAngleX;
+        }
+    }
+
     public void UpdateAnimations(float moveX, float moveY, bool isGrounded, bool isAtk, bool isDef)
     {
         // Every update frame, assume that the target is zero degrees.
         // If the spine needs to be rotated, then the targetAngle will be read from the Agent later on.
         targetSpineAngle = 0;
+
+        ReadStateInfo();
+        ReadTransitionInfo();
+        SetCombatParameters();
+        DecideIfSpineShouldBeRotated();
 
         animator.SetFloat(Hash_moveX, moveX);
         animator.SetFloat(Hash_moveY, moveY);
@@ -55,14 +507,12 @@ public class AnimationManager : MonoBehaviour
         animator.SetBool(Hash_jump, jump);
         animator.SetBool(Hash_isGrounded, isGrounded);
 
-        if (spineShouldBeRotated)
-        {
-            // This should be called while attacking, etc.
-            targetSpineAngle = ownerAgent.lookAngleX;
-        }
-
-        // TODO: Put in a function.
         // Reset triggers below, after every "Set" call.
+        ResetTriggerParameters();
+    }
+
+    void ResetTriggerParameters()
+    {
         jump = false;
     }
 
