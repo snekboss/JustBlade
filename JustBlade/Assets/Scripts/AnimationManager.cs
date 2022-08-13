@@ -9,7 +9,9 @@ public class AnimationManager : MonoBehaviour
     public Agent ownerAgent;
     public Transform spineBone;
     public Transform pelvisBone;
-    float pelvisToSpineDistance;
+    Vector3 initialPelvisToSpineOffset;
+    Quaternion initialPelvisRotation;
+    Quaternion initialPelvisRotationInverse;
 
     float targetSpineAngle;
     float spineCurAngle;
@@ -19,8 +21,15 @@ public class AnimationManager : MonoBehaviour
     Animator animator;
     AnimatorStateInfo attackAndBlockLayerStateInfo;
     AnimatorTransitionInfo attackAndBlockLayerTransitionInfo;
+    [SerializeField] float idleTimer;
+    [SerializeField] float IdleTimerMax = 0.1f; // wait for a while before shifting layer weights
     float attackAndBlockLayerWeight;
     float idleLayerWeight;
+
+    float IdlingLerpRate_AttackAndBlockLayer = 0.1f; // 0.1f seems to be working well so far. Less is smoother, but slower.
+    float NotIdlingLerpRate_AttackAndBlockLayer = 0.4f; // It's better if this is higher than NotIdlingLerpRate_IdleLayer.
+    float IdlingLerpRate_IdleLayer = 1.0f; // Must lerp instantly, apparently...
+    float NotIdlingLerpRate_IdleLayer = 0.35f; // Don't make this less than 0.35f, and don't make it higher than NotIdlingLerpRate_AttackAndBlockLayer.
 
     public bool IsAttackingFromUp { get; private set; }
     public bool IsAttackingFromRight { get; private set; }
@@ -47,6 +56,10 @@ public class AnimationManager : MonoBehaviour
     static readonly int Hash_isGrounded = Animator.StringToHash("isGrounded");
 
     // AttackAndBlockLayer State tags
+    // Idle
+    static readonly int Hash_StateTag_idle = Animator.StringToHash("idle");
+    [SerializeField] bool isState_Idle;
+
     // Attack
     // atk_hold
     static readonly int Hash_StateTag_atk_up_hold = Animator.StringToHash("atk_up_hold");
@@ -197,6 +210,16 @@ public class AnimationManager : MonoBehaviour
 
 
     // Defend
+    // idle_to_def_hold
+    static readonly int Hash_TransName_idle_to_def_up_hold = Animator.StringToHash("idle_to_def_up_hold");
+    static readonly int Hash_TransName_idle_to_def_right_hold = Animator.StringToHash("idle_to_def_right_hold");
+    static readonly int Hash_TransName_idle_to_def_down_hold = Animator.StringToHash("idle_to_def_down_hold");
+    static readonly int Hash_TransName_idle_to_def_left_hold = Animator.StringToHash("idle_to_def_left_hold");
+    [SerializeField] bool isTrans_IdleToDefUpHold;
+    [SerializeField] bool isTrans_IdleToDefRightHold;
+    [SerializeField] bool isTrans_IdleToDefDownHold;
+    [SerializeField] bool isTrans_IdleToDefLeftHold;
+
     // def_hold_to_blocked
     static readonly int Hash_TransName_def_up_hold_to_blocked = Animator.StringToHash("def_up_hold_to_blocked");
     static readonly int Hash_TransName_def_right_hold_to_blocked = Animator.StringToHash("def_right_hold_to_blocked");
@@ -266,7 +289,9 @@ public class AnimationManager : MonoBehaviour
     void Awake()
     {
         animator = GetComponent<Animator>();
-        pelvisToSpineDistance = Vector3.Distance(spineBone.position, pelvisBone.position);
+        initialPelvisToSpineOffset = spineBone.position - pelvisBone.position;
+        initialPelvisRotation = pelvisBone.rotation;
+        initialPelvisRotationInverse = Quaternion.Inverse(initialPelvisRotation);
     }
 
     public void UpdateCombatDirection(Agent.CombatDirection combatDir)
@@ -282,6 +307,8 @@ public class AnimationManager : MonoBehaviour
     void ReadStateInfo()
     {
         attackAndBlockLayerStateInfo = animator.GetCurrentAnimatorStateInfo(LayerIdAttackAndBlock);
+
+        isState_Idle = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_idle;
 
         isState_AtkHoldUp = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_atk_up_hold;
         isState_AtkHoldRight = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_atk_right_hold;
@@ -312,7 +339,6 @@ public class AnimationManager : MonoBehaviour
     void ReadTransitionInfo()
     {
         attackAndBlockLayerTransitionInfo = animator.GetAnimatorTransitionInfo(LayerIdAttackAndBlock);
-
         // Attack
         // idle_to_atk_hold
         isTrans_IdleToAtkUpHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_idle_to_atk_up_hold;
@@ -373,6 +399,12 @@ public class AnimationManager : MonoBehaviour
 
 
         // Defend
+        // idle_to_def_hold
+        isTrans_IdleToDefUpHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_idle_to_def_up_hold;
+        isTrans_IdleToDefRightHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_idle_to_def_right_hold;
+        isTrans_IdleToDefDownHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_idle_to_def_down_hold;
+        isTrans_IdleToDefLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_idle_to_def_left_hold;
+
         // def_hold_to_blocked
         isTrans_DefUpHoldToBlocked = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_up_hold_to_blocked;
         isTrans_DefRightHoldToBlocked = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_right_hold_to_blocked;
@@ -463,7 +495,7 @@ public class AnimationManager : MonoBehaviour
         || isTrans_AtkLeftHoldToDefDownHold
         || isTrans_AtkLeftHoldToDefLeftHold;
 
-        bool defHoldToAtkHoldTransitions = 
+        bool defHoldToAtkHoldTransitions =
             isTrans_DefUpHoldToAtkUpHold
         || isTrans_DefUpHoldToAtkRightHold
         || isTrans_DefUpHoldToAtkDownHold
@@ -489,6 +521,54 @@ public class AnimationManager : MonoBehaviour
         }
     }
 
+    void SetLayerWeights()
+    {
+        // When you are transitioning from the a source state to a target state, Unity still considers you to be in that source state.
+        // In this case, even while we're transitioning from the idle state (source), Unity still considers you to be in the idle state.
+        // For this reason, we have to explicitly state that the transitions are not considered "idle".
+        bool isNotIdling = isState_Idle == false
+            || isTrans_IdleToAtkUpHold
+            || isTrans_IdleToAtkRightHold
+            || isTrans_IdleToAtkDownHold
+            || isTrans_IdleToAtkLeftHold
+            || isTrans_IdleToDefUpHold
+            || isTrans_IdleToDefRightHold
+            || isTrans_IdleToDefDownHold
+            || isTrans_IdleToDefLeftHold;
+
+        if (isNotIdling)
+        {
+            // not idling, therefore lerp (quicker) AttackAndBlock layer weight to 1, Idle Layer weight to 0
+
+            idleTimer = 0f;
+
+            attackAndBlockLayerWeight = Mathf.Lerp(animator.GetLayerWeight(LayerIdAttackAndBlock), 1f, NotIdlingLerpRate_AttackAndBlockLayer);
+            idleLayerWeight = Mathf.Lerp(animator.GetLayerWeight(LayerIdIdle), 0f, NotIdlingLerpRate_IdleLayer); // lerp rate was 0.5f
+
+            //attackAndBlockLayerWeight = 1f;
+            //idleLayerWeight = 0f;
+        }
+        else
+        {
+            // is idling
+
+            if (idleTimer <= IdleTimerMax)
+            {
+                idleTimer += Time.deltaTime;
+            }
+
+            if (idleTimer > IdleTimerMax)
+            {
+                attackAndBlockLayerWeight = Mathf.Lerp(animator.GetLayerWeight(LayerIdAttackAndBlock), 0f, IdlingLerpRate_AttackAndBlockLayer);
+                idleLayerWeight = Mathf.Lerp(animator.GetLayerWeight(LayerIdIdle), 1f, IdlingLerpRate_IdleLayer);
+            }
+        }
+
+        // Now, set the layer weights, dependong on whatever values were chosen above.
+        animator.SetLayerWeight(LayerIdAttackAndBlock, attackAndBlockLayerWeight);
+        animator.SetLayerWeight(LayerIdIdle, idleLayerWeight);
+    }
+
     public void UpdateAnimations(float moveX, float moveY, bool isGrounded, bool isAtk, bool isDef)
     {
         // Every update frame, assume that the target is zero degrees.
@@ -499,6 +579,7 @@ public class AnimationManager : MonoBehaviour
         ReadTransitionInfo();
         SetCombatParameters();
         DecideIfSpineShouldBeRotated();
+        SetLayerWeights();
 
         animator.SetFloat(Hash_moveX, moveX);
         animator.SetFloat(Hash_moveY, moveY);
@@ -524,11 +605,13 @@ public class AnimationManager : MonoBehaviour
 
     void ConnectSpineToPelvis()
     {
-        Vector3 pelvisToSpineDir = (spineBone.position - pelvisBone.position).normalized;
-        Vector3 pelvisToSpineOffset = pelvisToSpineDir * pelvisToSpineDistance;
+        Quaternion finalPelvisRotation = pelvisBone.rotation;
+        Quaternion offsetRotatorQuaternion = finalPelvisRotation * initialPelvisRotationInverse;
 
-        spineBone.position = pelvisBone.position + pelvisToSpineOffset;
-        Debug.DrawRay(pelvisBone.position, pelvisToSpineOffset, Color.red);
+        Vector3 finalPelvisToSpineOffset = offsetRotatorQuaternion * initialPelvisToSpineOffset;
+
+        spineBone.position = pelvisBone.position + finalPelvisToSpineOffset;
+        //Debug.DrawRay(pelvis.position, finalPelvisToSpineOffset, Color.red);
     }
     void RotateSpineByLookDirectionAngleX()
     {
