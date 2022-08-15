@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class StaticVariables : MonoBehaviour
+public class StaticVariables
 {
     static StaticVariables instance;
     public static StaticVariables Instance
@@ -25,5 +25,10 @@ public class StaticVariables : MonoBehaviour
     public LayerMask AgentLayer { get; private set; } = LayerMask.NameToLayer(AgentLayerName);
     public LayerMask WeaponLayer { get; private set; } = LayerMask.NameToLayer(WeaponLayerName);
     public LayerMask LimbLayer { get; private set; } = LayerMask.NameToLayer(LimbLayerName);
+
+    public const string HumanHeadName = "human_head";
+    public const string HumanTorsoName = "human_body_with_shorts";
+    public const string HumanHandsName = "human_hands";
+    public const string HumanLegsName = "human_feet";
 }
 

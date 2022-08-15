@@ -56,9 +56,9 @@ Camera:
     y: 0
     width: 1
     height: 1
-  near clip plane: 0.3
-  far clip plane: 1000
-  field of view: 60
+  near clip plane: 0.1
+  far clip plane: 100
+  field of view: 90
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -1008,6 +1008,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dbd9c22b5977577488809760f1ad0de8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  weaponBone: {fileID: 1753282508948166995}
+  equippedWeapon: {fileID: 0}
+  TEMP_weaponPrefab: {fileID: 0}
+  TEMP_headArmorPrefab: {fileID: 0}
+  TEMP_torsoArmorPrefab: {fileID: 0}
+  TEMP_handArmorPrefab: {fileID: 0}
+  TEMP_footArmorPrefab: {fileID: 0}
 --- !u!114 &3303926268302588129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1023,7 +1030,93 @@ MonoBehaviour:
   ownerAgent: {fileID: 8209919147568450872}
   spineBone: {fileID: 8178811115471198695}
   pelvisBone: {fileID: 966297118327077086}
-  spineShouldBeRotated: 1
+  idleTimer: 0
+  IdleTimerMax: 0.1
+  isState_Idle: 0
+  isState_AtkHoldUp: 0
+  isState_AtkHoldRight: 0
+  isState_AtkHoldDown: 0
+  isState_AtkHoldLeft: 0
+  isState_AtkReleaseUp: 0
+  isState_AtkReleaseRight: 0
+  isState_AtkReleaseDown: 0
+  isState_AtkReleaseLeft: 0
+  isState_AtkBounceUp: 0
+  isState_AtkBounceRight: 0
+  isState_AtkBounceDown: 0
+  isState_AtkBounceLeft: 0
+  isState_DefHoldUp: 0
+  isState_DefHoldRight: 0
+  isState_DefHoldDown: 0
+  isState_DefHoldLeft: 0
+  isState_DefBlockedUp: 0
+  isState_DefBlockedRight: 0
+  isState_DefBlockedDown: 0
+  isState_DefBlockedLeft: 0
+  isTrans_IdleToAtkUpHold: 0
+  isTrans_IdleToAtkRightHold: 0
+  isTrans_IdleToAtkDownHold: 0
+  isTrans_IdleToAtkLeftHold: 0
+  isTrans_AtkUpHoldToRelease: 0
+  isTrans_AtkRightHoldToRelease: 0
+  isTrans_AtkDownHoldToRelease: 0
+  isTrans_AtkLeftHoldToRelease: 0
+  isTrans_AtkUpReleaseToBounce: 0
+  isTrans_AtkRightReleaseToBounce: 0
+  isTrans_AtkDownReleaseToBounce: 0
+  isTrans_AtkLeftReleaseToBounce: 0
+  isTrans_AtkUpReleaseToIdle: 0
+  isTrans_AtkRightReleaseToIdle: 0
+  isTrans_AtkDownReleaseToIdle: 0
+  isTrans_AtkLeftReleaseToIdle: 0
+  isTrans_AtkUpBounceToIdle: 0
+  isTrans_AtkRightBounceToIdle: 0
+  isTrans_AtkDownBounceToIdle: 0
+  isTrans_AtkLeftBounceToIdle: 0
+  isTrans_AtkUpHoldToDefUpHold: 0
+  isTrans_AtkUpHoldToDefRightHold: 0
+  isTrans_AtkUpHoldToDefDownHold: 0
+  isTrans_AtkUpHoldToDefLeftHold: 0
+  isTrans_AtkRightHoldToDefUpHold: 0
+  isTrans_AtkRightHoldToDefRightHold: 0
+  isTrans_AtkRightHoldToDefDownHold: 0
+  isTrans_AtkRightHoldToDefLeftHold: 0
+  isTrans_AtkDownHoldToDefUpHold: 0
+  isTrans_AtkDownHoldToDefRightHold: 0
+  isTrans_AtkDownHoldToDefDownHold: 0
+  isTrans_AtkDownHoldToDefLeftHold: 0
+  isTrans_AtkLeftHoldToDefUpHold: 0
+  isTrans_AtkLeftHoldToDefRightHold: 0
+  isTrans_AtkLeftHoldToDefDownHold: 0
+  isTrans_AtkLeftHoldToDefLeftHold: 0
+  isTrans_IdleToDefUpHold: 0
+  isTrans_IdleToDefRightHold: 0
+  isTrans_IdleToDefDownHold: 0
+  isTrans_IdleToDefLeftHold: 0
+  isTrans_DefUpHoldToBlocked: 0
+  isTrans_DefRightHoldToBlocked: 0
+  isTrans_DefDownHoldToBlocked: 0
+  isTrans_DefLeftHoldToBlocked: 0
+  isTrans_DefUpBlockedToHold: 0
+  isTrans_DefRightBlockedToHold: 0
+  isTrans_DefDownBlockedToHold: 0
+  isTrans_DefLeftBlockedToHold: 0
+  isTrans_DefUpHoldToAtkUpHold: 0
+  isTrans_DefUpHoldToAtkRightHold: 0
+  isTrans_DefUpHoldToAtkDownHold: 0
+  isTrans_DefUpHoldToAtkLeftHold: 0
+  isTrans_DefRightHoldToAtkUpHold: 0
+  isTrans_DefRightHoldToAtkRightHold: 0
+  isTrans_DefRightHoldToAtkDownHold: 0
+  isTrans_DefRightHoldToAtkLeftHold: 0
+  isTrans_DefDownHoldToAtkUpHold: 0
+  isTrans_DefDownHoldToAtkRightHold: 0
+  isTrans_DefDownHoldToAtkDownHold: 0
+  isTrans_DefDownHoldToAtkLeftHold: 0
+  isTrans_DefLeftHoldToAtkUpHold: 0
+  isTrans_DefLeftHoldToAtkRightHold: 0
+  isTrans_DefLeftHoldToAtkDownHold: 0
+  isTrans_DefLeftHoldToAtkLeftHold: 0
 --- !u!1 &3372166521353268467
 GameObject:
   m_ObjectHideFlags: 0

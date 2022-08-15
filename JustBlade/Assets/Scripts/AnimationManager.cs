@@ -294,6 +294,18 @@ public class AnimationManager : MonoBehaviour
         initialPelvisRotationInverse = Quaternion.Inverse(initialPelvisRotation);
     }
 
+    public void ReportEquippedWeaponType(Weapon.WeaponType equippedWeaponType)
+    {
+        if (ownerAgent.EqMgr.equippedWeapon.weaponType == Weapon.WeaponType.TwoHanded)
+        {
+            // TODO: Use twohanded AnimatorOverrideController.
+        }
+        else if (ownerAgent.EqMgr.equippedWeapon.weaponType == Weapon.WeaponType.Polearm)
+        {
+            // TODO: Use polearm AnimatorOverrideController.
+        }
+    }
+
     public void UpdateCombatDirection(Agent.CombatDirection combatDir)
     {
         animator.SetInteger(Hash_combatDir, (int)combatDir);

@@ -66,9 +66,6 @@ public class PlayerAgent : Agent
     {
         gameObject.layer = StaticVariables.Instance.AgentLayer;
 
-        eqMgr = GetComponent<EquipmentManager>();
-        animMgr = GetComponent<AnimationManager>();
-
         isDefTimer = 2 * isDefTimerThreshold; // set it far above the threshold, so that the condition is not satisfied at the start.
 
         InitializeMovementCollider();
@@ -157,7 +154,7 @@ public class PlayerAgent : Agent
         if (btnJumpPressed && isGrounded && canJump)
         {
             jumpCooldownTimer = 0;
-            animMgr.SetJump(true);
+            AnimMgr.SetJump(true);
             playerMovementRigidbody.AddForce(Vector3.up * jumpPower, ForceMode.VelocityChange);
         }
     }
@@ -235,7 +232,7 @@ public class PlayerAgent : Agent
 
         if (wantToDefend || wantToAttack)
         {
-            animMgr.UpdateCombatDirection(combatDir);
+            AnimMgr.UpdateCombatDirection(combatDir);
         }
 
         lastCombatDir = combatDir;
@@ -252,7 +249,7 @@ public class PlayerAgent : Agent
         HandleCombatInputs();
         HandleCombatDirection();
 
-        animMgr.UpdateAnimations(moveX, moveY, isGrounded, isAtk, isDef);
+        AnimMgr.UpdateAnimations(moveX, moveY, isGrounded, isAtk, isDef);
     }
 
     void FixedUpdate()

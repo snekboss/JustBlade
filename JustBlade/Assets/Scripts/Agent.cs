@@ -4,8 +4,33 @@ using UnityEngine;
 
 public abstract class Agent : MonoBehaviour
 {
-    public EquipmentManager eqMgr;
-    public AnimationManager animMgr;
+    EquipmentManager eqMgr;
+    AnimationManager animMgr;
+
+    public EquipmentManager EqMgr
+    {
+        get
+        {
+            if (eqMgr == null)
+            {
+                eqMgr = GetComponent<EquipmentManager>();
+            }
+
+            return eqMgr;
+        }
+    }
+    public AnimationManager AnimMgr
+    {
+        get
+        {
+            if (animMgr == null)
+            {
+                animMgr = GetComponent<AnimationManager>();
+            }
+
+            return animMgr;
+        }
+    }
 
     public float lookAngleX;
 

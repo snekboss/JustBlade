@@ -17,6 +17,12 @@ public class Weapon : MonoBehaviour
         AxixZ = 2,
     }
 
+    public enum WeaponType
+    {
+        TwoHanded = 0,
+        Polearm = 1,
+    }
+
     public GameObject weaponVisual;
     [Range(0.01f, 20.0f)]
     public float weaponLength;
@@ -26,6 +32,8 @@ public class Weapon : MonoBehaviour
 
     public ColliderDirection colDirection;
     public bool isInverseDirection;
+
+    public WeaponType weaponType;
 
     // Damage values
     // Swing damage
@@ -94,6 +102,7 @@ public class Weapon : MonoBehaviour
             col = gameObject.AddComponent<CapsuleCollider>();
         }
 
+        col.isTrigger = true;
         col.height = weaponLength;
         col.radius = weaponRadius;
         col.direction = (int)(colDirection);
