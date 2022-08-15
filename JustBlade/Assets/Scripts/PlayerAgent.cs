@@ -64,7 +64,7 @@ public class PlayerAgent : Agent
 
     void Awake()
     {
-        gameObject.layer = LayerMask.NameToLayer("Agent"); // TODO: Remove magic string? How?
+        gameObject.layer = StaticVariables.Instance.AgentLayer;
 
         eqMgr = GetComponent<EquipmentManager>();
         animMgr = GetComponent<AnimationManager>();
