@@ -6,6 +6,7 @@ public abstract class Agent : MonoBehaviour
 {
     EquipmentManager eqMgr;
     AnimationManager animMgr;
+    LimbManager limbMgr;
 
     public EquipmentManager EqMgr
     {
@@ -29,6 +30,19 @@ public abstract class Agent : MonoBehaviour
             }
 
             return animMgr;
+        }
+    }
+
+    public LimbManager LimbMgr
+    {
+        get
+        {
+            if (limbMgr == null)
+            {
+                limbMgr = GetComponent<LimbManager>();
+            }
+
+            return limbMgr;
         }
     }
 

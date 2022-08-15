@@ -92,6 +92,7 @@ public class Weapon : MonoBehaviour
         }
     }
     CapsuleCollider col;
+    Rigidbody rbody;
 
     void InitializeColliderParameters()
     {
@@ -113,9 +114,22 @@ public class Weapon : MonoBehaviour
         gameObject.layer = StaticVariables.Instance.WeaponLayer;
     }
 
+    void InitializeRigidbodyParameters()
+    {
+        rbody = gameObject.GetComponent<Rigidbody>();
+        if (rbody == null)
+        {
+            rbody = gameObject.AddComponent<Rigidbody>();
+        }
+
+        rbody.isKinematic = true;
+        rbody.useGravity = false;
+    }
+
     void Awake()
     {
         InitializeColliderParameters();
+        InitializeRigidbodyParameters();
     }
 
     void OnValidate()
