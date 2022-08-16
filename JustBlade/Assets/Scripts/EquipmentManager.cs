@@ -20,10 +20,70 @@ public class EquipmentManager : MonoBehaviour
     // Actual equipment game object references which have been instantiated on the scene are below.
     public Weapon equippedWeapon;
 
-    public Armor EquippedHeadArmor { get; private set; }
-    public Armor EquippedTorsoArmor { get; private set; }
-    public Armor EquippedHandArmor { get; private set; }
-    public Armor EquippedLegArmor { get; private set; }
+    public Armor.ArmorLevel HeadArmorLevel
+    {
+        get
+        {
+            if (equippedHeadArmor == null)
+            {
+                return Armor.ArmorLevel.None;
+            }
+            else
+            {
+                return equippedHeadArmor.armorLevel;
+            }
+        }
+    }
+
+    public Armor.ArmorLevel TorsoArmorLevel
+    {
+        get
+        {
+            if (equippedTorsoArmor == null)
+            {
+                return Armor.ArmorLevel.None;
+            }
+            else
+            {
+                return equippedTorsoArmor.armorLevel;
+            }
+        }
+    }
+
+    public Armor.ArmorLevel HandArmorLevel
+    {
+        get
+        {
+            if (equippedHandArmor == null)
+            {
+                return Armor.ArmorLevel.None;
+            }
+            else
+            {
+                return equippedHandArmor.armorLevel;
+            }
+        }
+    }
+
+    public Armor.ArmorLevel LegArmorLevel
+    {
+        get
+        {
+            if (equippedLegArmor == null)
+            {
+                return Armor.ArmorLevel.None;
+            }
+            else
+            {
+                return equippedLegArmor.armorLevel;
+            }
+        }
+    }
+
+    Armor equippedHeadArmor;
+    Armor equippedTorsoArmor;
+    Armor equippedHandArmor;
+    Armor equippedLegArmor;
 
     // TODO: THIS IS TEMPORARY. REMOVE THE BELOW LINES WHEN THERE'S AN IN-GAME MENU TO CHOOSE EQUIPMENT.
     public Weapon TEMP_weaponPrefab;
@@ -71,16 +131,16 @@ public class EquipmentManager : MonoBehaviour
     {
         if (headArmorPrefab != null && headArmorPrefab.armorType == Armor.ArmorType.Head)
         {
-            EquippedHeadArmor = Instantiate(headArmorPrefab);
+            equippedHeadArmor = Instantiate(headArmorPrefab);
 
-            EquippedHeadArmor.transform.parent = ownerAgent.transform;
-            EquippedHeadArmor.transform.localPosition = Vector3.zero;
-            EquippedHeadArmor.transform.localRotation = Quaternion.identity;
-            EquippedHeadArmor.transform.localScale = Vector3.one;
+            equippedHeadArmor.transform.parent = ownerAgent.transform;
+            equippedHeadArmor.transform.localPosition = Vector3.zero;
+            equippedHeadArmor.transform.localRotation = Quaternion.identity;
+            equippedHeadArmor.transform.localScale = Vector3.one;
 
-            EquippedHeadArmor.skinnedMeshRenderer.bones = agentBones;
+            equippedHeadArmor.skinnedMeshRenderer.bones = agentBones;
 
-            if (EquippedHeadArmor.coversTheEntireBodyPart)
+            if (equippedHeadArmor.coversTheEntireBodyPart)
             {
                 agentHeadSMR.gameObject.SetActive(false);
             }
@@ -91,16 +151,16 @@ public class EquipmentManager : MonoBehaviour
     {
         if (torsoArmorPrefab != null && torsoArmorPrefab.armorType == Armor.ArmorType.Torso)
         {
-            EquippedTorsoArmor = Instantiate(torsoArmorPrefab);
+            equippedTorsoArmor = Instantiate(torsoArmorPrefab);
 
-            EquippedTorsoArmor.transform.parent = ownerAgent.transform;
-            EquippedTorsoArmor.transform.localPosition = Vector3.zero;
-            EquippedTorsoArmor.transform.localRotation = Quaternion.identity;
-            EquippedTorsoArmor.transform.localScale = Vector3.one;
+            equippedTorsoArmor.transform.parent = ownerAgent.transform;
+            equippedTorsoArmor.transform.localPosition = Vector3.zero;
+            equippedTorsoArmor.transform.localRotation = Quaternion.identity;
+            equippedTorsoArmor.transform.localScale = Vector3.one;
 
-            EquippedTorsoArmor.skinnedMeshRenderer.bones = agentBones;
+            equippedTorsoArmor.skinnedMeshRenderer.bones = agentBones;
 
-            if (EquippedTorsoArmor.coversTheEntireBodyPart)
+            if (equippedTorsoArmor.coversTheEntireBodyPart)
             {
                 agentTorsoSMR.gameObject.SetActive(false);
             }
@@ -111,16 +171,16 @@ public class EquipmentManager : MonoBehaviour
     {
         if (handArmorPrefab != null && handArmorPrefab.armorType == Armor.ArmorType.Hand)
         {
-            EquippedHandArmor = Instantiate(handArmorPrefab);
+            equippedHandArmor = Instantiate(handArmorPrefab);
 
-            EquippedHandArmor.transform.parent = ownerAgent.transform;
-            EquippedHandArmor.transform.localPosition = Vector3.zero;
-            EquippedHandArmor.transform.localRotation = Quaternion.identity;
-            EquippedHandArmor.transform.localScale = Vector3.one;
+            equippedHandArmor.transform.parent = ownerAgent.transform;
+            equippedHandArmor.transform.localPosition = Vector3.zero;
+            equippedHandArmor.transform.localRotation = Quaternion.identity;
+            equippedHandArmor.transform.localScale = Vector3.one;
 
-            EquippedHandArmor.skinnedMeshRenderer.bones = agentBones;
+            equippedHandArmor.skinnedMeshRenderer.bones = agentBones;
 
-            if (EquippedHandArmor.coversTheEntireBodyPart)
+            if (equippedHandArmor.coversTheEntireBodyPart)
             {
                 // IMPORTANT: Always allows at least one original SMR to be active in the scene.
                 // Because if all of them are turned off, then Unity decides not to play the animations, and the character remains in T-pose.
@@ -135,16 +195,16 @@ public class EquipmentManager : MonoBehaviour
     {
         if (legArmorPrefab != null && legArmorPrefab.armorType == Armor.ArmorType.Leg)
         {
-            EquippedLegArmor = Instantiate(legArmorPrefab);
+            equippedLegArmor = Instantiate(legArmorPrefab);
 
-            EquippedLegArmor.transform.parent = ownerAgent.transform;
-            EquippedLegArmor.transform.localPosition = Vector3.zero;
-            EquippedLegArmor.transform.localRotation = Quaternion.identity;
-            EquippedLegArmor.transform.localScale = Vector3.one;
+            equippedLegArmor.transform.parent = ownerAgent.transform;
+            equippedLegArmor.transform.localPosition = Vector3.zero;
+            equippedLegArmor.transform.localRotation = Quaternion.identity;
+            equippedLegArmor.transform.localScale = Vector3.one;
 
-            EquippedLegArmor.skinnedMeshRenderer.bones = agentBones;
+            equippedLegArmor.skinnedMeshRenderer.bones = agentBones;
 
-            if (EquippedLegArmor.coversTheEntireBodyPart)
+            if (equippedLegArmor.coversTheEntireBodyPart)
             {
                 agentLegsSMR.gameObject.SetActive(false);
             }

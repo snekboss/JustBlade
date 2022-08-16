@@ -4,6 +4,11 @@ using UnityEngine;
 
 public abstract class Agent : MonoBehaviour
 {
+    public readonly int MaximumHealth;
+    public int Health { get; protected set; }
+
+    public bool IsDead { get; protected set; }
+
     EquipmentManager eqMgr;
     AnimationManager animMgr;
     LimbManager limbMgr;
@@ -47,6 +52,19 @@ public abstract class Agent : MonoBehaviour
     }
 
     public float lookAngleX;
+
+    public void ApplyDamage(int amount)
+    {
+        Health -= amount;
+
+        if (Health <= 0)
+        {
+            IsDead = true;
+            // TODO: Add death animation to the game.
+            Debug.LogWarning("Agent \"" + name + "\" is dead, but there's no death animation, so we're just ignoring things now...");
+            //animMgr.PlayDeathAnimation();
+        }
+    }
 
     public enum CombatDirection
     {

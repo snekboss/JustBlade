@@ -12,7 +12,8 @@ public class Armor : MonoBehaviour
 
     public enum ArmorLevel
     {
-        Light = 1,
+        None = 0,
+        Light,
         Medium,
         Heavy,
     }

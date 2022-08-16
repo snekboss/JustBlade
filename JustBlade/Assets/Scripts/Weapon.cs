@@ -52,6 +52,7 @@ public class Weapon : MonoBehaviour
     public int SwingDmgLegHeavy;
 
     // Stab damage
+    // Head
     public int StabDmgHeadNaked;
     public int StabDmgHeadLight;
     public int StabDmgHeadMed;
