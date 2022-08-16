@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9054766836165676304}
   - component: {fileID: 9054766836165676307}
-  - component: {fileID: 9054766836165676305}
+  - component: {fileID: 2034874412}
   m_Layer: 7
   m_Name: LongswordContainer
   m_TagString: Untagged
@@ -52,6 +52,7 @@ MonoBehaviour:
   weaponRadius: 0.058
   colDirection: 0
   isInverseDirection: 1
+  weaponType: 0
   SwingDmgHeadNaked: 100
   SwingDmgHeadLight: 83
   SwingDmgHeadMed: 53
@@ -76,19 +77,18 @@ MonoBehaviour:
   StabDmgLegLight: 50
   StabDmgLegMed: 35
   StabDmgLegHeavy: 30
---- !u!136 &9054766836165676305
-CapsuleCollider:
+--- !u!65 &2034874412
+BoxCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9054766836165676309}
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_Enabled: 1
-  m_Radius: 0.058
-  m_Height: 1.218
-  m_Direction: 0
+  serializedVersion: 2
+  m_Size: {x: 1.218, y: 0.058, z: 0.058}
   m_Center: {x: -0.609, y: 0, z: 0}
 --- !u!1001 &9054766836057079026
 PrefabInstance:

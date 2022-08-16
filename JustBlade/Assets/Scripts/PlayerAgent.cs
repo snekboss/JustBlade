@@ -19,10 +19,8 @@ public class PlayerAgent : Agent
     public Transform cameraPivotTransform; // camera will be a child of this transform
     public Transform groundednessCheckerTransform; // used for checking if the player is grounded
 
-    public LayerMask defaultLayer;
-
-    public CapsuleCollider playerMovementCollider;
-    public Rigidbody playerMovementRigidbody;
+    CapsuleCollider playerMovementCollider;
+    Rigidbody playerMovementRigidbody;
     float playerMovementColliderRadius = 0.29f;
     float playerMovementRigidbodyMass = 70.0f;
 
@@ -127,7 +125,7 @@ public class PlayerAgent : Agent
     void HandleFootMovement()
     {
         // Movement related
-        isGrounded = Physics.CheckSphere(groundednessCheckerTransform.position, groundDistance, defaultLayer, QueryTriggerInteraction.Ignore);
+        isGrounded = Physics.CheckSphere(groundednessCheckerTransform.position, groundDistance, StaticVariables.Instance.DefaultLayer, QueryTriggerInteraction.Ignore);
 
         if (isGrounded)
         {

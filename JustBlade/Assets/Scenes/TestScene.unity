@@ -421,13 +421,6 @@ MonoBehaviour:
   rootBone: {fileID: 177484231}
   spineBone: {fileID: 56911850}
   neckBone: {fileID: 1627180093}
-  headHeight: 0.25
-  headWidth: 0.2
-  headDepth: 0.2
-  torsoWidth: 0.45
-  torsoDepth: 0.35
-  legsWidth: 0.45
-  legsDepth: 0.35
 --- !u!4 &1627180093 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6655873323139167786, guid: 7bb4698197bfc0c4d96a458e73365778, type: 3}

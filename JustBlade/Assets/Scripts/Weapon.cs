@@ -6,10 +6,6 @@ public class Weapon : MonoBehaviour
 {
     public bool EDIT_MODE;
 
-    /// <summary>
-    /// The value can be 0, 1 or 2 corresponding to the X, Y and Z axes, respectively.
-    /// For more info: https://docs.unity3d.com/ScriptReference/CapsuleCollider-direction.html
-    /// </summary>
     public enum ColliderDirection
     {
         AxisX = 0,
@@ -73,7 +69,10 @@ public class Weapon : MonoBehaviour
     public int StabDmgLegMed;
     public int StabDmgLegHeavy;
 
-    Vector3 colDirectionVec
+    Rigidbody rbody;
+    BoxCollider col;
+
+    Vector3 ColDirectionVec
     {
         get
         {
@@ -91,25 +90,42 @@ public class Weapon : MonoBehaviour
             }
         }
     }
-    CapsuleCollider col;
-    Rigidbody rbody;
+
+    Vector3 ColDimensionVec
+    {
+        get
+        {
+            if (colDirection == ColliderDirection.AxisX)
+            {
+                return new Vector3(weaponLength, weaponRadius, weaponRadius);
+            }
+            else if (colDirection == ColliderDirection.AxisY)
+            {
+                return new Vector3(weaponRadius, weaponLength, weaponRadius);
+            }
+            else
+            {
+                return new Vector3(weaponRadius, weaponRadius, weaponLength);
+            }
+        }
+
+    }
 
     void InitializeColliderParameters()
     {
-        col = gameObject.GetComponent<CapsuleCollider>();
+        col = gameObject.GetComponent<BoxCollider>();
 
         if (col == null)
         {
-            col = gameObject.AddComponent<CapsuleCollider>();
+            col = gameObject.AddComponent<BoxCollider>();
         }
 
         col.isTrigger = true;
-        col.height = weaponLength;
-        col.radius = weaponRadius;
-        col.direction = (int)(colDirection);
-        //transform.InverseTransformPoint(rootBone.transform.position);
+
         Vector3 posStart = weaponVisual.transform.localPosition;
-        col.center = posStart + (colDirectionVec * weaponLength / 2);
+        col.center = posStart + (ColDirectionVec * weaponLength / 2);
+
+        col.size = ColDimensionVec;
 
         gameObject.layer = StaticVariables.Instance.WeaponLayer;
     }
