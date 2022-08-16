@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class AnimationManager : MonoBehaviour
 {
+    // No, this is not the same as CombatDirection.
+    // The fact that there are 4 "getting hurt" directions doesn't mean they should be combined.
+    // There are 4 animations because making all the specific animations I would want to have would be very time consuming.
+    public enum GettingHurtDirection
+    {
+        Up = 0,
+        Right,
+        Down,
+        Left,
+    }
+
     // TODO: Remove [SerializeField] attribute once you're done with the debugging.
 
     Agent ownerAgent;
@@ -49,11 +60,16 @@ public class AnimationManager : MonoBehaviour
     // Animator parameters
     static readonly int Hash_moveX = Animator.StringToHash("moveX");
     static readonly int Hash_moveY = Animator.StringToHash("moveY");
+    static readonly int Hash_combatDir = Animator.StringToHash("combatDir");
     static readonly int Hash_isAtk = Animator.StringToHash("isAtk");
     static readonly int Hash_isDef = Animator.StringToHash("isDef");
-    static readonly int Hash_combatDir = Animator.StringToHash("combatDir");
+    static readonly int Hash_isAtkBounced = Animator.StringToHash("isAtkBounced");
+    static readonly int Hash_isDefBlocked = Animator.StringToHash("isDefBlocked");
     static readonly int Hash_jump = Animator.StringToHash("jump");
     static readonly int Hash_isGrounded = Animator.StringToHash("isGrounded");
+    static readonly int Hash_isHurt = Animator.StringToHash("isHurt");
+    static readonly int Hash_isHurtDir = Animator.StringToHash("isHurtDir");
+    static readonly int Hash_isDead = Animator.StringToHash("isDead");
 
     // AttackAndBlockLayer State tags
     // Idle
@@ -283,8 +299,11 @@ public class AnimationManager : MonoBehaviour
     [SerializeField] bool isTrans_DefLeftHoldToAtkDownHold;
     [SerializeField] bool isTrans_DefLeftHoldToAtkLeftHold;
 
-
-    bool jump = false;
+    // Trigger parameters which must be set to false every frame, after "Set" methods.
+    bool trigger_isAtkBounced;
+    bool trigger_isDefBlocked;
+    bool trigger_jump;
+    bool trigger_isHurt;
 
     void Awake()
     {
@@ -315,7 +334,18 @@ public class AnimationManager : MonoBehaviour
 
     public void SetJump(bool isJumping)
     {
-        jump = isJumping;
+        trigger_jump = isJumping;
+    }
+
+    public void SetGettingHurt(GettingHurtDirection gettingHurtDirection)
+    {
+        trigger_isHurt = true;
+        animator.SetInteger(Hash_isHurtDir, (int)gettingHurtDirection);
+    }
+
+    public void PlayDeathAnimation()
+    {
+        animator.SetBool(Hash_isDead, true);
     }
 
     void ReadStateInfo()
@@ -550,6 +580,10 @@ public class AnimationManager : MonoBehaviour
             || isTrans_IdleToDefDownHold
             || isTrans_IdleToDefLeftHold;
 
+        // If we're in a transitioning from AnyState, and it just so happens to be the idle state, then these transitions are also NOT considered "idle".
+        // Therefore, we exclude them too.
+        isNotIdling |= attackAndBlockLayerTransitionInfo.anyState;
+
         if (isNotIdling)
         {
             // not idling, therefore lerp (quicker) AttackAndBlock layer weight to 1, Idle Layer weight to 0
@@ -583,6 +617,22 @@ public class AnimationManager : MonoBehaviour
         animator.SetLayerWeight(LayerIdIdle, idleLayerWeight);
     }
 
+    void SetTriggerParameters()
+    {
+        animator.SetBool(Hash_isAtkBounced, trigger_isAtkBounced);
+        animator.SetBool(Hash_isDefBlocked, trigger_isDefBlocked);
+        animator.SetBool(Hash_jump, trigger_jump);
+        animator.SetBool(Hash_isHurt, trigger_isHurt);
+    }
+
+    void ResetTriggerParameters()
+    {
+        trigger_isAtkBounced = false;
+        trigger_isDefBlocked = false;
+        trigger_jump = false;
+        trigger_isHurt = false;
+    }
+
     public void UpdateAnimations(float moveX, float moveY, bool isGrounded, bool isAtk, bool isDef)
     {
         // Every update frame, assume that the target is zero degrees.
@@ -599,16 +649,13 @@ public class AnimationManager : MonoBehaviour
         animator.SetFloat(Hash_moveY, moveY);
         animator.SetBool(Hash_isAtk, isAtk);
         animator.SetBool(Hash_isDef, isDef);
-        animator.SetBool(Hash_jump, jump);
         animator.SetBool(Hash_isGrounded, isGrounded);
+
+        // Set triggers.
+        SetTriggerParameters();
 
         // Reset triggers below, after every "Set" call.
         ResetTriggerParameters();
-    }
-
-    void ResetTriggerParameters()
-    {
-        jump = false;
     }
 
     public void LateUpdateAnimations()
