@@ -905,6 +905,7 @@ GameObject:
   - component: {fileID: 8209919147568450872}
   - component: {fileID: 2011178560111457975}
   - component: {fileID: 3303926268302588129}
+  - component: {fileID: 922571951}
   m_Layer: 0
   m_Name: PlayerAgent
   m_TagString: Untagged
@@ -966,19 +967,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f1502ed0f2f38d4d9c20458031d2370, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  eqMgr: {fileID: 0}
-  animMgr: {fileID: 0}
   lookAngleX: 0
   headBone: {fileID: 7297044010335099565}
   rootBone: {fileID: 1382400116066858198}
   cam: {fileID: 963194227}
   cameraPivotTransform: {fileID: 1724222695684689829}
   groundednessCheckerTransform: {fileID: 5907487306699349195}
-  defaultLayer:
-    serializedVersion: 2
-    m_Bits: 1
-  playerMovementCollider: {fileID: 0}
-  playerMovementRigidbody: {fileID: 0}
   movementSpeed: 3
   jumpCooldownTimer: 0
   jumpCooldownTimerMax: 1
@@ -1010,11 +1004,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponBone: {fileID: 1753282508948166995}
   equippedWeapon: {fileID: 0}
-  TEMP_weaponPrefab: {fileID: 0}
-  TEMP_headArmorPrefab: {fileID: 0}
-  TEMP_torsoArmorPrefab: {fileID: 0}
-  TEMP_handArmorPrefab: {fileID: 0}
-  TEMP_footArmorPrefab: {fileID: 0}
+  TEMP_weaponPrefab: {fileID: 9054766836165676307, guid: 0f1242a587072f84cb0abfdc5fe472fc, type: 3}
+  TEMP_headArmorPrefab: {fileID: 8769159221732554429, guid: 320c2c1cba509a74abb8f0e29a8443f1, type: 3}
+  TEMP_torsoArmorPrefab: {fileID: 1324746687953447541, guid: 22ae69c5276ac0a4da538684b5d5ac18, type: 3}
+  TEMP_handArmorPrefab: {fileID: 8844822423302245203, guid: 3be4da8c456109848bfb74c88c41cc1f, type: 3}
+  TEMP_legArmorPrefab: {fileID: 4363543696782739176, guid: 98443f6f62f85dc45888fdb05e174f1f, type: 3}
 --- !u!114 &3303926268302588129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1117,6 +1111,21 @@ MonoBehaviour:
   isTrans_DefLeftHoldToAtkRightHold: 0
   isTrans_DefLeftHoldToAtkDownHold: 0
   isTrans_DefLeftHoldToAtkLeftHold: 0
+--- !u!114 &922571951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3350359074657051952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c3e4bbfe46d2e684b875d280ed15bbb1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rootBone: {fileID: 1382400116066858198}
+  spineBone: {fileID: 8178811115471198695}
+  neckBone: {fileID: 6655873323139167786}
 --- !u!1 &3372166521353268467
 GameObject:
   m_ObjectHideFlags: 0

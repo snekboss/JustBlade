@@ -125,7 +125,8 @@ public class PlayerAgent : Agent
     void HandleFootMovement()
     {
         // Movement related
-        isGrounded = Physics.CheckSphere(groundednessCheckerTransform.position, groundDistance, StaticVariables.Instance.DefaultLayer, QueryTriggerInteraction.Ignore);
+        LayerMask walkableLayerMask = 1 << StaticVariables.Instance.DefaultLayer.value;
+        isGrounded = Physics.CheckSphere(groundednessCheckerTransform.position, groundDistance, walkableLayerMask, QueryTriggerInteraction.Ignore);
 
         if (isGrounded)
         {

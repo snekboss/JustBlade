@@ -2,17 +2,19 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AiAgent : MonoBehaviour
+public class AiAgent : Agent
 {
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
+    // These are temporary
+    public float moveX;
+    public float moveY;
+    public bool isGrounded;
+    public bool isAtk;
+    public bool isDef;
+    public CombatDirection combatDir;
 
-    // Update is called once per frame
     void Update()
     {
-        
+        AnimMgr.UpdateCombatDirection(combatDir);
+        AnimMgr.UpdateAnimations(moveX, moveY, isGrounded, isAtk, isDef);
     }
 }

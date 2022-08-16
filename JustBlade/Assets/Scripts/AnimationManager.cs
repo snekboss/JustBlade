@@ -6,7 +6,7 @@ public class AnimationManager : MonoBehaviour
 {
     // TODO: Remove [SerializeField] attribute once you're done with the debugging.
 
-    public Agent ownerAgent;
+    Agent ownerAgent;
     public Transform spineBone;
     public Transform pelvisBone;
     Vector3 initialPelvisToSpineOffset;
@@ -289,6 +289,8 @@ public class AnimationManager : MonoBehaviour
     void Awake()
     {
         animator = GetComponent<Animator>();
+        ownerAgent = GetComponent<Agent>();
+
         initialPelvisToSpineOffset = spineBone.position - pelvisBone.position;
         initialPelvisRotation = pelvisBone.rotation;
         initialPelvisRotationInverse = Quaternion.Inverse(initialPelvisRotation);
