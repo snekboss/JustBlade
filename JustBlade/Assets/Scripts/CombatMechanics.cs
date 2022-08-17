@@ -28,6 +28,11 @@ public static class CombatMechanics
 
     public static bool IsDefenderAbleToBlock(Agent attacker, Agent defender)
     {
+        if (defender.AnimMgr.IsDefending == false)
+        {
+            return false;
+        }
+
         AttackerRelativePosition attackerRelativePosition = GetAttackerRelativePosition(attacker, defender);
 
         // Initially, assume that the defender is NOT able to block.
@@ -71,9 +76,23 @@ public static class CombatMechanics
             // This is because agents are right handed, and the weapons extend towards the agents' left side.
             // Meaning, the right side is relatively unprotected.
 
-            if (attacker.AnimMgr.IsAttackingFromRight)
+            if (attacker.AnimMgr.IsAttackingFromUp)
+            {
+                if (defender.AnimMgr.IsDefendingFromUp)
+                {
+                    defenderIsAbleToBlock = true;
+                }
+            }
+            else if (attacker.AnimMgr.IsAttackingFromRight)
             {
                 if (defender.AnimMgr.IsDefendingFromRight)
+                {
+                    defenderIsAbleToBlock = true;
+                }
+            }
+            else if (attacker.AnimMgr.IsAttackingFromDown)
+            {
+                if (defender.AnimMgr.IsDefendingFromDown)
                 {
                     defenderIsAbleToBlock = true;
                 }
@@ -269,7 +288,12 @@ public static class CombatMechanics
         float finalDamage = rawDamage * (1 - dmgReductionMulti);
         int finalDamageInt = System.Convert.ToInt32(finalDamage);
 
+        // Apply damage here.
         defender.ApplyDamage(finalDamageInt);
+
+        // Then, set the correct getting_hurt animation.
+        AnimationManager.GettingHurtDirection defGetHurtDir = GetDefenderHurtAnimation(attacker, defender, limbType);
+        defender.AnimMgr.SetGettingHurt(defGetHurtDir);
     }
 
     static AttackerRelativePosition GetAttackerRelativePosition(Agent attacker, Agent defender)
@@ -325,69 +349,70 @@ public static class CombatMechanics
         return attackerRelativePosition;
     }
 
-    static AnimationManager.GettingHurtDirection GetDefenderStunAnimationByMeleeAttack(Agent.CombatDirection attackerAttackDirection, AttackerRelativePosition attackerRelativePosition, Limb.LimbType limbType)
+    static AnimationManager.GettingHurtDirection GetDefenderHurtAnimation(Agent attacker, Agent defender, Limb.LimbType limbType)
     {
         // Again, CombatDirection and GettingHurtDirection enums have the same values, but aren't the same things.
         // The reason for this coincidence is the fact that I only have 4 getting_hurt animations.
         // If I had more animations, this coincidence would not occur.
 
         AnimationManager.GettingHurtDirection defenderGettingHurtAnimation = new AnimationManager.GettingHurtDirection();
+        AttackerRelativePosition attackerRelativePosition = GetAttackerRelativePosition(attacker, defender);
 
         if (attackerRelativePosition == AttackerRelativePosition.InFrontOfTheDefender)
         {
             if (limbType == Limb.LimbType.Head)
             {
-                if (attackerAttackDirection == Agent.CombatDirection.Up)
+                if (attacker.AnimMgr.IsAttackingFromUp)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Down;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Right)
+                else if (attacker.AnimMgr.IsAttackingFromRight)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Right;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Down)
+                else if (attacker.AnimMgr.IsAttackingFromDown)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Up;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Left)
+                else if (attacker.AnimMgr.IsAttackingFromLeft)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Left;
                 }
             }
             else if (limbType == Limb.LimbType.Torso)
             {
-                if (attackerAttackDirection == Agent.CombatDirection.Up)
+                if (attacker.AnimMgr.IsAttackingFromUp)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Down;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Right)
+                else if (attacker.AnimMgr.IsAttackingFromRight)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Right;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Down)
+                else if (attacker.AnimMgr.IsAttackingFromDown)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Down;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Left)
+                else if (attacker.AnimMgr.IsAttackingFromLeft)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Left;
                 }
             }
             else if (limbType == Limb.LimbType.Legs)
             {
-                if (attackerAttackDirection == Agent.CombatDirection.Up)
+                if (attacker.AnimMgr.IsAttackingFromUp)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Down;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Right)
+                else if (attacker.AnimMgr.IsAttackingFromRight)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Right;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Down)
+                else if (attacker.AnimMgr.IsAttackingFromDown)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Down;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Left)
+                else if (attacker.AnimMgr.IsAttackingFromLeft)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Left;
                 }
@@ -397,57 +422,57 @@ public static class CombatMechanics
         {
             if (limbType == Limb.LimbType.Head)
             {
-                if (attackerAttackDirection == Agent.CombatDirection.Up)
+                if (attacker.AnimMgr.IsAttackingFromUp)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Down;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Right)
+                else if (attacker.AnimMgr.IsAttackingFromRight)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Right;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Down)
+                else if (attacker.AnimMgr.IsAttackingFromDown)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Left;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Left)
+                else if (attacker.AnimMgr.IsAttackingFromLeft)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Left;
                 }
             }
             else if (limbType == Limb.LimbType.Torso)
             {
-                if (attackerAttackDirection == Agent.CombatDirection.Up)
+                if (attacker.AnimMgr.IsAttackingFromUp)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Right;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Right)
+                else if (attacker.AnimMgr.IsAttackingFromRight)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Right;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Down)
+                else if (attacker.AnimMgr.IsAttackingFromDown)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Down;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Left)
+                else if (attacker.AnimMgr.IsAttackingFromLeft)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Left;
                 }
             }
             else if (limbType == Limb.LimbType.Legs)
             {
-                if (attackerAttackDirection == Agent.CombatDirection.Up)
+                if (attacker.AnimMgr.IsAttackingFromUp)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Right;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Right)
+                else if (attacker.AnimMgr.IsAttackingFromRight)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Right;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Down)
+                else if (attacker.AnimMgr.IsAttackingFromDown)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Right;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Left)
+                else if (attacker.AnimMgr.IsAttackingFromLeft)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Right;
                 }
@@ -457,57 +482,57 @@ public static class CombatMechanics
         {
             if (limbType == Limb.LimbType.Head)
             {
-                if (attackerAttackDirection == Agent.CombatDirection.Up)
+                if (attacker.AnimMgr.IsAttackingFromUp)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Right;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Right)
+                else if (attacker.AnimMgr.IsAttackingFromRight)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Right;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Down)
+                else if (attacker.AnimMgr.IsAttackingFromDown)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Right;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Left)
+                else if (attacker.AnimMgr.IsAttackingFromLeft)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Left;
                 }
             }
             else if (limbType == Limb.LimbType.Torso)
             {
-                if (attackerAttackDirection == Agent.CombatDirection.Up)
+                if (attacker.AnimMgr.IsAttackingFromUp)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Up;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Right)
+                else if (attacker.AnimMgr.IsAttackingFromRight)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Right;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Down)
+                else if (attacker.AnimMgr.IsAttackingFromDown)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Up;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Left)
+                else if (attacker.AnimMgr.IsAttackingFromLeft)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Left;
                 }
             }
             else if (limbType == Limb.LimbType.Legs)
             {
-                if (attackerAttackDirection == Agent.CombatDirection.Up)
+                if (attacker.AnimMgr.IsAttackingFromUp)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Left;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Right)
+                else if (attacker.AnimMgr.IsAttackingFromRight)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Right;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Down)
+                else if (attacker.AnimMgr.IsAttackingFromDown)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Up;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Left)
+                else if (attacker.AnimMgr.IsAttackingFromLeft)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Left;
                 }
@@ -517,57 +542,57 @@ public static class CombatMechanics
         {
             if (limbType == Limb.LimbType.Head)
             {
-                if (attackerAttackDirection == Agent.CombatDirection.Up)
+                if (attacker.AnimMgr.IsAttackingFromUp)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Up;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Right)
+                else if (attacker.AnimMgr.IsAttackingFromRight)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Left;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Down)
+                else if (attacker.AnimMgr.IsAttackingFromDown)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Down;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Left)
+                else if (attacker.AnimMgr.IsAttackingFromLeft)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Right;
                 }
             }
             else if (limbType == Limb.LimbType.Torso)
             {
-                if (attackerAttackDirection == Agent.CombatDirection.Up)
+                if (attacker.AnimMgr.IsAttackingFromUp)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Up;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Right)
+                else if (attacker.AnimMgr.IsAttackingFromRight)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Left;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Down)
+                else if (attacker.AnimMgr.IsAttackingFromDown)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Up;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Left)
+                else if (attacker.AnimMgr.IsAttackingFromLeft)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Right;
                 }
             }
             else if (limbType == Limb.LimbType.Legs)
             {
-                if (attackerAttackDirection == Agent.CombatDirection.Up)
+                if (attacker.AnimMgr.IsAttackingFromUp)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Up;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Right)
+                else if (attacker.AnimMgr.IsAttackingFromRight)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Up;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Down)
+                else if (attacker.AnimMgr.IsAttackingFromDown)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Up;
                 }
-                else if (attackerAttackDirection == Agent.CombatDirection.Left)
+                else if (attacker.AnimMgr.IsAttackingFromLeft)
                 {
                     defenderGettingHurtAnimation = AnimationManager.GettingHurtDirection.Up;
                 }

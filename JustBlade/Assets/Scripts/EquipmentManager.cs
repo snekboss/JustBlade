@@ -125,6 +125,8 @@ public class EquipmentManager : MonoBehaviour
         equippedWeapon.transform.localRotation = Quaternion.identity;
 
         ownerAgent.AnimMgr.ReportEquippedWeaponType(equippedWeapon.weaponType);
+
+        equippedWeapon.InitializeOwnerAgent(ownerAgent);
     }
 
     void SpawnHeadArmor(Armor headArmorPrefab)

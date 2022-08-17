@@ -72,6 +72,8 @@ public class Weapon : MonoBehaviour
 
     Rigidbody rbody;
     BoxCollider col;
+    Agent ownerAgent;
+    [SerializeField] bool isDmgAlreadyApplied;
 
     Vector3 ColDirectionVec
     {
@@ -92,6 +94,7 @@ public class Weapon : MonoBehaviour
         }
     }
 
+    
     Vector3 ColDimensionVec
     {
         get
@@ -110,6 +113,11 @@ public class Weapon : MonoBehaviour
             }
         }
 
+    }
+
+    public void InitializeOwnerAgent(Agent ownerAgent)
+    {
+        this.ownerAgent = ownerAgent;
     }
 
     void InitializeColliderParameters()
@@ -149,11 +157,81 @@ public class Weapon : MonoBehaviour
         InitializeRigidbodyParameters();
     }
 
+    void Update()
+    {
+        if (ownerAgent == null || ownerAgent.IsDead)
+        {
+            return;
+        }
+
+        if (isDmgAlreadyApplied && ownerAgent.AnimMgr.IsAttacking == false)
+        {
+            // If the ownerAgent has stopped attacking, reset this switch so that the agent can apply damage next time they decide to attack.
+            isDmgAlreadyApplied = false;
+        }
+    }
+
     void OnValidate()
     {
         if (EDIT_MODE)
         {
             InitializeColliderParameters();
+        }
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (isDmgAlreadyApplied || ownerAgent == null || ownerAgent.IsDead || ownerAgent.AnimMgr.IsAttacking == false)
+        {
+            return;
+        }
+
+        // Check if the agent hit a limb.
+        if (other.gameObject.layer == StaticVariables.Instance.LimbLayer)
+        {
+            Limb defenderLimb = other.gameObject.GetComponent<Limb>();
+            if (defenderLimb.OwnerAgent == ownerAgent)
+            {
+                // Ignore if agent hit their own limbs.
+                return;
+            }
+
+            // At this point, we know we hit another agent's limb.
+            Agent attacker = ownerAgent;
+            Agent defender = defenderLimb.OwnerAgent;
+
+            // If the defender agent is already dead, then ignore.
+            if (defender.IsDead)
+            {
+                return;
+            }
+
+            // Check if the defender was able to block the attacker's attack.
+            // If so, set the correct "bounce" and "block" animations.
+            if (CombatMechanics.IsDefenderAbleToBlock(attacker, defender))
+            {
+                attacker.AnimMgr.SetIsAttackBounced(true);
+                defender.AnimMgr.SetIsDefBlocked(true);
+                isDmgAlreadyApplied = true;
+                return;
+            }
+            else
+            {
+                // At this point, we know that the defender could not defend, and therefore got hit.
+                // So, apply damage.
+                CombatMechanics.ApplyDamageToDefender(attacker, defender, defenderLimb.limbType);
+                isDmgAlreadyApplied = true;
+                return;
+            }
+        }
+
+        // Check if the aget hit scene geometry.
+        if (other.gameObject.layer == StaticVariables.Instance.DefaultLayer)
+        {
+            // Bounce the attack and return.
+            ownerAgent.AnimMgr.SetIsAttackBounced(true);
+            isDmgAlreadyApplied = true;
+            return;
         }
     }
 }

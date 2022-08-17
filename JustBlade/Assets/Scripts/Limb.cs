@@ -13,12 +13,17 @@ public class Limb : MonoBehaviour
 
     public LimbType limbType;
 
-    public Agent ownerAgent;
+    public Agent OwnerAgent { get; private set; }
 
     public BoxCollider col;
 
 
     Rigidbody rbody;
+
+    public void InitializeOwnerAgent(Agent ownerAgent)
+    {
+        OwnerAgent = ownerAgent;
+    }
 
     void Awake()
     {

@@ -46,11 +46,13 @@ public class AnimationManager : MonoBehaviour
     public bool IsAttackingFromRight { get; private set; }
     public bool IsAttackingFromDown { get; private set; }
     public bool IsAttackingFromLeft { get; private set; }
+    public bool IsAttacking { get { return IsAttackingFromUp || IsAttackingFromRight || IsAttackingFromDown || IsAttackingFromLeft; } }
 
     public bool IsDefendingFromUp { get; private set; }
     public bool IsDefendingFromRight { get; private set; }
     public bool IsDefendingFromDown { get; private set; }
     public bool IsDefendingFromLeft { get; private set; }
+    public bool IsDefending { get { return IsDefendingFromUp || IsDefendingFromRight || IsDefendingFromDown || IsDefendingFromLeft; } }
 
     // Layer IDs (WARNING: Their index order is in sync with how they're laid out in the Animator Controller).
     const int LayerIdBase = 0;
@@ -317,11 +319,11 @@ public class AnimationManager : MonoBehaviour
 
     public void ReportEquippedWeaponType(Weapon.WeaponType equippedWeaponType)
     {
-        if (ownerAgent.EqMgr.equippedWeapon.weaponType == Weapon.WeaponType.TwoHanded)
+        if (equippedWeaponType == Weapon.WeaponType.TwoHanded)
         {
             // TODO: Use twohanded AnimatorOverrideController.
         }
-        else if (ownerAgent.EqMgr.equippedWeapon.weaponType == Weapon.WeaponType.Polearm)
+        else if (equippedWeaponType == Weapon.WeaponType.Polearm)
         {
             // TODO: Use polearm AnimatorOverrideController.
         }
@@ -335,6 +337,16 @@ public class AnimationManager : MonoBehaviour
     public void SetJump(bool isJumping)
     {
         trigger_jump = isJumping;
+    }
+
+    public void SetIsAttackBounced(bool isAtkBounced)
+    {
+        trigger_isAtkBounced = isAtkBounced;
+    }
+
+    public void SetIsDefBlocked(bool isDefBlocked)
+    {
+        trigger_isDefBlocked = isDefBlocked;
     }
 
     public void SetGettingHurt(GettingHurtDirection gettingHurtDirection)

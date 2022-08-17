@@ -4,10 +4,10 @@ using UnityEngine;
 
 public abstract class Agent : MonoBehaviour
 {
-    public readonly int MaximumHealth;
-    public int Health { get; protected set; }
+    public static readonly int MaximumHealth = 100;
+    public int Health { get; protected set; } = MaximumHealth;
 
-    public bool IsDead { get; protected set; }
+    public bool IsDead { get; protected set; } = false;
 
     EquipmentManager eqMgr;
     AnimationManager animMgr;
@@ -74,7 +74,7 @@ public abstract class Agent : MonoBehaviour
         Left
     }
 
-    protected void LateUpdate()
+    void LateUpdate()
     {
         animMgr.LateUpdateAnimations();
     }

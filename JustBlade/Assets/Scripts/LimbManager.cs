@@ -51,6 +51,8 @@ public class LimbManager : MonoBehaviour
         Vector3 legsDimensions = new Vector3(LegsWidth, LegsDepth, rootToSpineHeight);
         limbLegs.col.size = legsDimensions;
         limbLegs.col.center = Vector3.forward * rootToSpineHeight / 2;
+
+        limbLegs.InitializeOwnerAgent(ownerAgent);
     }
 
     void InitializeTorsoLimb()
@@ -72,7 +74,9 @@ public class LimbManager : MonoBehaviour
         // spineBone.left coincides with world's up.
         Vector3 torsoDimensions = new Vector3(spineToNeckHeight, TorsoWidth, TorsoDepth);
         limbTorso.col.size = torsoDimensions;
-        limbTorso.col.center = Vector3.left * spineToNeckHeight / 2; 
+        limbTorso.col.center = Vector3.left * spineToNeckHeight / 2;
+
+        limbTorso.InitializeOwnerAgent(ownerAgent);
     }
 
     void InitializeHeadLimb()
@@ -94,7 +98,9 @@ public class LimbManager : MonoBehaviour
         // neckBone.left coincides with world's up.
         Vector3 headDimensions = new Vector3(HeadHeight, HeadWidth, HeadDepth);
         limbHead.col.size = headDimensions;
-        limbHead.col.center = Vector3.left * HeadHeight / 2;  
+        limbHead.col.center = Vector3.left * HeadHeight / 2;
+
+        limbHead.InitializeOwnerAgent(ownerAgent);
     }
 
     void Awake()
