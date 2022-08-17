@@ -358,6 +358,12 @@ public class AnimationManager : MonoBehaviour
     public void PlayDeathAnimation()
     {
         animator.SetBool(Hash_isDead, true);
+
+        attackAndBlockLayerWeight = 0;
+        idleLayerWeight = 0;
+
+        animator.SetLayerWeight(LayerIdAttackAndBlock, attackAndBlockLayerWeight);
+        animator.SetLayerWeight(LayerIdIdle, idleLayerWeight);
     }
 
     void ReadStateInfo()

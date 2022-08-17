@@ -239,6 +239,11 @@ public class PlayerAgent : Agent
 
     void Update()
     {
+        if (IsDead)
+        {
+            return;
+        }
+
         ReadInputs();
 
         HandleCameraZoom();

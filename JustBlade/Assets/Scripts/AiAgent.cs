@@ -14,6 +14,11 @@ public class AiAgent : Agent
 
     void Update()
     {
+        if (IsDead)
+        {
+            return;
+        }
+
         AnimMgr.UpdateCombatDirection(combatDir);
         AnimMgr.UpdateAnimations(moveX, moveY, isGrounded, isAtk, isDef);
     }
