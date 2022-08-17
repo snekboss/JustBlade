@@ -241,6 +241,11 @@ public class PlayerAgent : Agent
     {
         if (IsDead)
         {
+            // Detach the camera from the player.
+            if (cam.transform.parent != null)
+            {
+                cam.transform.parent = null;
+            }
             return;
         }
 

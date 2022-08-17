@@ -4,6 +4,7 @@ using UnityEngine;
 
 public abstract class Agent : MonoBehaviour
 {
+    public static readonly float AgentDespawnTime = 5;
     public static readonly int MaximumHealth = 100;
     public int Health { get; protected set; } = MaximumHealth;
 
@@ -61,6 +62,7 @@ public abstract class Agent : MonoBehaviour
         {
             IsDead = true;
             animMgr.PlayDeathAnimation();
+            StartCoroutine("AgentDespawnCoroutine");
         }
     }
 
@@ -75,5 +77,11 @@ public abstract class Agent : MonoBehaviour
     void LateUpdate()
     {
         animMgr.LateUpdateAnimations();
+    }
+
+    IEnumerator AgentDespawnCoroutine()
+    {
+        yield return new WaitForSeconds(AgentDespawnTime);
+        Destroy(this.gameObject);
     }
 }
