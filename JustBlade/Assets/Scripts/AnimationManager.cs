@@ -364,6 +364,8 @@ public class AnimationManager : MonoBehaviour
 
         animator.SetLayerWeight(LayerIdAttackAndBlock, attackAndBlockLayerWeight);
         animator.SetLayerWeight(LayerIdIdle, idleLayerWeight);
+
+        ownerAgent.EqMgr.equippedWeapon.SetCollisionAbility(false);
     }
 
     void ReadStateInfo()
@@ -521,6 +523,11 @@ public class AnimationManager : MonoBehaviour
         IsDefendingFromLeft = isState_DefHoldLeft || isTrans_DefLeftHoldToBlocked || isTrans_DefLeftBlockedToHold;
     }
 
+    void DecideIfWeaponHitboxShouldBeActive()
+    {
+        ownerAgent.EqMgr.equippedWeapon.SetCollisionAbility(IsAttacking);
+    }
+
     void DecideIfSpineShouldBeRotated()
     {
         bool upStates = isState_AtkHoldUp || isState_AtkReleaseUp || isState_AtkBounceUp;
@@ -660,6 +667,7 @@ public class AnimationManager : MonoBehaviour
         ReadStateInfo();
         ReadTransitionInfo();
         SetCombatParameters();
+        DecideIfWeaponHitboxShouldBeActive();
         DecideIfSpineShouldBeRotated();
         SetLayerWeights();
 

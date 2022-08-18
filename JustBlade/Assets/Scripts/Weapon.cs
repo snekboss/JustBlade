@@ -120,6 +120,24 @@ public class Weapon : MonoBehaviour
         this.ownerAgent = ownerAgent;
     }
 
+    public void SetCollisionAbility(bool canCollide)
+    {
+        if (canCollide)
+        {
+            if (gameObject.layer == StaticVariables.Instance.NoCollisionLayer)
+            {
+                gameObject.layer = StaticVariables.Instance.WeaponLayer;
+            }
+        }
+        else
+        {
+            if (gameObject.layer == StaticVariables.Instance.WeaponLayer)
+            {
+                gameObject.layer = StaticVariables.Instance.NoCollisionLayer;
+            }
+        }
+    }
+
     void InitializeColliderParameters()
     {
         col = gameObject.GetComponent<BoxCollider>();
