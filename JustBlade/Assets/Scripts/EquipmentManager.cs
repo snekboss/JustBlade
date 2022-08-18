@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class EquipmentManager : MonoBehaviour
 {
+    public float DEBUG_MOV_PENALTY;
+
     public Agent ownerAgent { get; private set; }
     public AnimationManager animMgr { get; set; }
 
@@ -192,7 +194,6 @@ public class EquipmentManager : MonoBehaviour
         }
     }
 
-
     void SpawnLegArmor(Armor legArmorPrefab)
     {
         if (legArmorPrefab != null && legArmorPrefab.armorType == Armor.ArmorType.Leg)
@@ -213,11 +214,18 @@ public class EquipmentManager : MonoBehaviour
         }
     }
 
+    void SetAgentMovementSpeed()
+    {
+        float movSpeed = Agent.DefaultMovementSpeed * DEBUG_MOV_PENALTY; // TODO: Apply armor penalty multipliers here.
+        ownerAgent.InitializeMovementSpeed(movSpeed);
+    }
+
     void Awake()
     {
         Initialize();
 
         // TODO: THIS IS TEMPORARY UNTIL I MAKE AN IN-GAME MENU.
         SpawnEquipment(TEMP_weaponPrefab, TEMP_headArmorPrefab, TEMP_torsoArmorPrefab, TEMP_handArmorPrefab, TEMP_legArmorPrefab);
+        SetAgentMovementSpeed();
     }
 }

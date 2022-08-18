@@ -227,6 +227,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2011178560111457975, guid: 7bb4698197bfc0c4d96a458e73365778, type: 3}
+      propertyPath: DEBUG_MOV_PENALTY
+      value: 0.7
+      objectReference: {fileID: 0}
     - target: {fileID: 2681063993493225354, guid: 7bb4698197bfc0c4d96a458e73365778, type: 3}
       propertyPath: m_RootOrder
       value: 2

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class PlayerAgent : Agent
 {
+    public float DEBUG_MOV_MAG;
     public Transform headBone;
     public Transform rootBone;
     // TODO: Remove[SerializeField]. It is for debugging purposes only.
@@ -28,11 +29,10 @@ public class PlayerAgent : Agent
     float moveX;
     float moveY;
     float jumpPower = 4.0f;
-    public float movementSpeed = 5.0f;
     [SerializeField] float jumpCooldownTimer;
     [SerializeField] float jumpCooldownTimerMax = 1.0f;
     [Range(0.01f, 10.0f)] public float groundDistance = 0.3f;
-    Vector3 playerMoveDir;
+    Vector3 playerMoveVelocity;
     [SerializeField] bool isGrounded;
 
     // Rotation fields
@@ -131,9 +131,12 @@ public class PlayerAgent : Agent
         if (isGrounded)
         {
             float moveX = Input.GetAxis("Horizontal");
-            float moveY = Input.GetAxis("Vertical");
-            playerMoveDir = Vector3.ClampMagnitude(new Vector3(moveX, 0, moveY), 1);
+            float moveY = Input.GetAxis("Vertical"); 
+            Vector3 playerMoveDir = Vector3.ClampMagnitude(new Vector3(moveX, 0, moveY), 1);
             playerMoveDir = transform.TransformDirection(playerMoveDir);
+
+            playerMoveVelocity = playerMoveDir * MovementSpeed;
+            CurrentMovementSpeed = playerMoveVelocity.magnitude;
         }
 
         // Jump related
@@ -259,10 +262,12 @@ public class PlayerAgent : Agent
         HandleCombatDirection();
 
         AnimMgr.UpdateAnimations(moveX, moveY, isGrounded, isAtk, isDef);
+
+        DEBUG_MOV_MAG = playerMoveVelocity.magnitude;
     }
 
     void FixedUpdate()
     {
-        playerMovementRigidbody.MovePosition(playerMovementRigidbody.position + playerMoveDir * movementSpeed * Time.fixedDeltaTime);
+        playerMovementRigidbody.MovePosition(playerMovementRigidbody.position + playerMoveVelocity * Time.fixedDeltaTime);
     }
 }

@@ -6,7 +6,11 @@ public abstract class Agent : MonoBehaviour
 {
     public static readonly float AgentDespawnTime = 5;
     public static readonly int MaximumHealth = 100;
+    public static readonly float DefaultMovementSpeed = 2.5f; // TODO: Need a good value.
     public int Health { get; protected set; } = MaximumHealth;
+
+    public float CurrentMovementSpeed { get; protected set; }
+    public float MovementSpeed { get; protected set; }
 
     public bool IsDead { get; protected set; } = false;
 
@@ -64,6 +68,11 @@ public abstract class Agent : MonoBehaviour
             animMgr.PlayDeathAnimation();
             StartCoroutine("AgentDespawnCoroutine");
         }
+    }
+
+    public void InitializeMovementSpeed(float initMovSpeed)
+    {
+        MovementSpeed = initMovSpeed;
     }
 
     public enum CombatDirection

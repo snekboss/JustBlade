@@ -72,6 +72,7 @@ public class AnimationManager : MonoBehaviour
     static readonly int Hash_isHurt = Animator.StringToHash("isHurt");
     static readonly int Hash_isHurtDir = Animator.StringToHash("isHurtDir");
     static readonly int Hash_isDead = Animator.StringToHash("isDead");
+    static readonly int Hash_multipMovSpeed = Animator.StringToHash("multipMovSpeed");
 
     // AttackAndBlockLayer State tags
     // Idle
@@ -658,8 +659,50 @@ public class AnimationManager : MonoBehaviour
         trigger_isHurt = false;
     }
 
+    void UpdateMultiplierParameters()
+    {
+        if (ownerAgent.MovementSpeed < Agent.DefaultMovementSpeed)
+        {
+            float ratio = ownerAgent.MovementSpeed / Agent.DefaultMovementSpeed * 0.75f;
+            if (moveX > ratio)
+            {
+                moveX = ratio;
+            }
+
+            if (moveX < -ratio)
+            {
+                moveX = -ratio;
+            }
+
+            if (moveY > ratio)
+            {
+                moveY = ratio;
+            }
+
+            if (moveY < -ratio)
+            {
+                moveY = -ratio;
+            }
+
+        }
+        float multipMovSpeed = ownerAgent.CurrentMovementSpeed / Agent.DefaultMovementSpeed;
+
+        if (multipMovSpeed < 1.0f && ownerAgent.MovementSpeed >= Agent.DefaultMovementSpeed)
+        {
+            multipMovSpeed = 1.0f;
+        }
+        animator.SetFloat(Hash_multipMovSpeed, multipMovSpeed);
+
+    }
+
+    float moveX;
+    float moveY;
+
     public void UpdateAnimations(float moveX, float moveY, bool isGrounded, bool isAtk, bool isDef)
     {
+        this.moveX = moveX;
+        this.moveY = moveY;
+
         // Every update frame, assume that the target is zero degrees.
         // If the spine needs to be rotated, then the targetAngle will be read from the Agent later on.
         targetSpineAngle = 0;
@@ -671,8 +714,12 @@ public class AnimationManager : MonoBehaviour
         DecideIfSpineShouldBeRotated();
         SetLayerWeights();
 
-        animator.SetFloat(Hash_moveX, moveX);
-        animator.SetFloat(Hash_moveY, moveY);
+
+        // Update Animator Controller multiplier parameters.
+        UpdateMultiplierParameters();
+
+        animator.SetFloat(Hash_moveX, this.moveX);
+        animator.SetFloat(Hash_moveY, this.moveY);
         animator.SetBool(Hash_isAtk, isAtk);
         animator.SetBool(Hash_isDef, isDef);
         animator.SetBool(Hash_isGrounded, isGrounded);
