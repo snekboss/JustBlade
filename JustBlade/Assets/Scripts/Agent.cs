@@ -4,11 +4,14 @@ using UnityEngine;
 
 public abstract class Agent : MonoBehaviour
 {
-    public static readonly float AgentDespawnTime = 5;
     public static readonly int MaximumHealth = 100;
-    public int Health { get; protected set; } = MaximumHealth;
+    public static readonly float AgentDespawnTime = 5;
+    public static readonly float DefaultMovementSpeedLimit = 2.5f;
 
+    public int Health { get; protected set; } = MaximumHealth;
     public bool IsDead { get; protected set; } = false;
+    public abstract float CurrentMovementSpeed { get; protected set; }
+    public float MovementSpeedLimit { get; protected set; }
 
     EquipmentManager eqMgr;
     AnimationManager animMgr;
@@ -64,6 +67,11 @@ public abstract class Agent : MonoBehaviour
             animMgr.PlayDeathAnimation();
             StartCoroutine("AgentDespawnCoroutine");
         }
+    }
+
+    public void InitializeMovementSpeedLimit(float movementSpeedLimit)
+    {
+        MovementSpeedLimit = movementSpeedLimit;
     }
 
     public enum CombatDirection

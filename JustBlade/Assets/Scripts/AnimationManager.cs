@@ -17,6 +17,8 @@ public class AnimationManager : MonoBehaviour
 
     // TODO: Remove [SerializeField] attribute once you're done with the debugging.
 
+    static readonly float SlowAgentSpeedRatioExponentForMoveXY = 1.85f;
+
     Agent ownerAgent;
     public Transform spineBone;
     public Transform pelvisBone;
@@ -72,6 +74,7 @@ public class AnimationManager : MonoBehaviour
     static readonly int Hash_isHurt = Animator.StringToHash("isHurt");
     static readonly int Hash_isHurtDir = Animator.StringToHash("isHurtDir");
     static readonly int Hash_isDead = Animator.StringToHash("isDead");
+    static readonly int Hash_moveAnimSpeedMulti = Animator.StringToHash("moveAnimSpeedMulti");
 
     // AttackAndBlockLayer State tags
     // Idle
@@ -368,6 +371,53 @@ public class AnimationManager : MonoBehaviour
         ownerAgent.EqMgr.equippedWeapon.SetCollisionAbility(false);
     }
 
+    void HandleMovementAnimationParameters(Vector2 localMoveDir, out float moveX, out float moveY)
+    {
+        float curMoveSpeed = ownerAgent.CurrentMovementSpeed;
+
+        float speedRatio = curMoveSpeed / Agent.DefaultMovementSpeedLimit;
+
+        // Initialize moveX and moveY based on localMoveDir.
+        // The scale depends on speedRatio.
+        // However, the absolute value of both moveX and moveY must never be above 1.0f.
+        Vector2 moveXY = localMoveDir.normalized;
+        float moveXYmulti = Mathf.Clamp01(speedRatio);
+
+        moveX = moveXY.x * moveXYmulti;
+        moveY = moveXY.y * moveXYmulti;
+
+        // This multiplier is allowed to be greater than 1.0f, but it can never be less than 1.0f.
+        float moveAnimSpeedMulti = 1.0f; 
+
+        // We compare the agent's curMoveSpeed to the Agent.DefaultMovementSpeedLimit. 
+        if (curMoveSpeed >= Agent.DefaultMovementSpeedLimit)
+        {
+            // Here, we know that curMovSpeed is faster than the default.
+            // The only kind of agent who can do this is a fast agent.
+
+            // So let the movement animation play faster.
+            moveAnimSpeedMulti = speedRatio;
+        }
+        else
+        {
+            // Here, we know that curMovSpeed is slower than the default.
+            // However, we don't know if this is because the agent is a slow agent, or is just speeding up.
+
+            if (ownerAgent.MovementSpeedLimit < Agent.DefaultMovementSpeedLimit)
+            {
+                // Here, we know that agent is a slow guy, and can never reach the default speed.
+
+                // So, we reduce moveX and moveY values accordingly.
+                speedRatio = Mathf.Pow(speedRatio, SlowAgentSpeedRatioExponentForMoveXY);
+                moveX = Mathf.Clamp(moveX, -speedRatio, speedRatio);
+                moveY = Mathf.Clamp(moveY, -speedRatio, speedRatio);
+            }
+        }
+
+        // Finally, set the movement animation moveAnimSpeedMulti.
+        animator.SetFloat(Hash_moveAnimSpeedMulti, moveAnimSpeedMulti);
+    }
+
     void ReadStateInfo()
     {
         attackAndBlockLayerStateInfo = animator.GetCurrentAnimatorStateInfo(LayerIdAttackAndBlock);
@@ -658,11 +708,15 @@ public class AnimationManager : MonoBehaviour
         trigger_isHurt = false;
     }
 
-    public void UpdateAnimations(float moveX, float moveY, bool isGrounded, bool isAtk, bool isDef)
+    public void UpdateAnimations(Vector2 localMoveDir, bool isGrounded, bool isAtk, bool isDef)
     {
         // Every update frame, assume that the target is zero degrees.
         // If the spine needs to be rotated, then the targetAngle will be read from the Agent later on.
         targetSpineAngle = 0;
+
+        float moveX;
+        float moveY;
+        HandleMovementAnimationParameters(localMoveDir, out moveX, out moveY);
 
         ReadStateInfo();
         ReadTransitionInfo();

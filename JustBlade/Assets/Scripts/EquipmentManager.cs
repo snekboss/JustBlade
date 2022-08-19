@@ -4,6 +4,17 @@ using UnityEngine;
 
 public class EquipmentManager : MonoBehaviour
 {
+    //public float DEBUG_movSpeedMulti;
+    //public float DEBUG_newSpeedLimit;
+
+    static readonly float DefaultHandArmorMovementSpeedPenalty = 0.01f;
+    static readonly float DefaultHeadArmorMovementSpeedPenalty = 0.02f;
+    static readonly float DefaultLegArmorMovementSpeedPenalty = 0.03f;
+    static readonly float DefaultTorsoArmorMovementSpeedPenalty = 0.04f;
+    static readonly float FinalMovementSpeedPenaltyMultiplier = 3.0f;
+
+    static readonly float DefaultMovementSpeedMultiplier = 1.6f;
+
     public Agent ownerAgent { get; private set; }
     public AnimationManager animMgr { get; set; }
 
@@ -113,6 +124,8 @@ public class EquipmentManager : MonoBehaviour
         SpawnTorsoArmor(torsoArmorPrefab);
         SpawnHandArmor(handArmorPrefab);
         SpawnLegArmor(legArmorPrefab);
+
+        UpdateMovementSpeedMultiplier();
     }
 
     void SpawnWeapon(Weapon weaponPrefab)
@@ -211,6 +224,24 @@ public class EquipmentManager : MonoBehaviour
                 agentLegsSMR.gameObject.SetActive(false);
             }
         }
+    }
+
+    void UpdateMovementSpeedMultiplier()
+    {
+        float handPenalty = (int)(HandArmorLevel) * DefaultHandArmorMovementSpeedPenalty;
+        float headPenalty = (int)(HeadArmorLevel) * DefaultHeadArmorMovementSpeedPenalty;
+        float legPenalty = (int)(LegArmorLevel) * DefaultLegArmorMovementSpeedPenalty;
+        float torsoPenalty = (int)(TorsoArmorLevel) * DefaultTorsoArmorMovementSpeedPenalty;
+        float sumPenalty = handPenalty + headPenalty + legPenalty + torsoPenalty;
+        float finalPenalty = sumPenalty * FinalMovementSpeedPenaltyMultiplier;
+
+        float movementSpeedMultiplier = DefaultMovementSpeedMultiplier - finalPenalty;
+        float newSpeedLimit = Agent.DefaultMovementSpeedLimit * movementSpeedMultiplier;
+
+        //DEBUG_movSpeedMulti = movementSpeedMultiplier;
+        //DEBUG_newSpeedLimit = newSpeedLimit;
+
+        ownerAgent.InitializeMovementSpeedLimit(newSpeedLimit);
     }
 
     void Awake()

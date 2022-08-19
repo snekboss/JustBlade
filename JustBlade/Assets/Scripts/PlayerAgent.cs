@@ -25,14 +25,16 @@ public class PlayerAgent : Agent
     float playerMovementRigidbodyMass = 70.0f;
 
     // Foot movement fields
-    float moveX;
-    float moveY;
+    float moveInputX;
+    float moveInputY;
+    Vector2 localMoveDirXZ;
+    Vector2 worldVelocityXZ;
+    public override float CurrentMovementSpeed { get; protected set; }
+
     float jumpPower = 4.0f;
-    public float movementSpeed = 5.0f;
     [SerializeField] float jumpCooldownTimer;
     [SerializeField] float jumpCooldownTimerMax = 1.0f;
     [Range(0.01f, 10.0f)] public float groundDistance = 0.3f;
-    Vector3 playerMoveDir;
     [SerializeField] bool isGrounded;
 
     // Rotation fields
@@ -90,13 +92,12 @@ public class PlayerAgent : Agent
     void ReadInputs()
     {
         // Foot movement
-        moveX = Input.GetAxis("Horizontal");
-        moveY = Input.GetAxis("Vertical");
+        moveInputX = Input.GetAxis("Horizontal");
+        moveInputY = Input.GetAxis("Vertical");
 
         // Camera rotation
         mouseX = Input.GetAxis("Mouse X");
         mouseY = Input.GetAxis("Mouse Y");
-
 
         // Button inputs
         btnAtkPressed = Input.GetMouseButtonDown(0);
@@ -130,10 +131,17 @@ public class PlayerAgent : Agent
 
         if (isGrounded)
         {
-            float moveX = Input.GetAxis("Horizontal");
-            float moveY = Input.GetAxis("Vertical");
-            playerMoveDir = Vector3.ClampMagnitude(new Vector3(moveX, 0, moveY), 1);
-            playerMoveDir = transform.TransformDirection(playerMoveDir);
+            localMoveDirXZ = Vector2.ClampMagnitude(new Vector2(moveInputX, moveInputY), 1.0f);
+
+            Vector3 localMoveDir3D = new Vector3(localMoveDirXZ.x, 0, localMoveDirXZ.y);
+
+            Vector3 worldMoveDir3D = transform.TransformDirection(localMoveDir3D);
+
+            Vector3 worldVelocity3D = worldMoveDir3D * MovementSpeedLimit;
+
+            worldVelocityXZ = new Vector2(worldVelocity3D.x, worldVelocity3D.z);
+
+            CurrentMovementSpeed = worldVelocityXZ.magnitude;
         }
 
         // Jump related
@@ -258,11 +266,12 @@ public class PlayerAgent : Agent
         HandleCombatInputs();
         HandleCombatDirection();
 
-        AnimMgr.UpdateAnimations(moveX, moveY, isGrounded, isAtk, isDef);
+        AnimMgr.UpdateAnimations(localMoveDirXZ, isGrounded, isAtk, isDef);
     }
 
     void FixedUpdate()
     {
-        playerMovementRigidbody.MovePosition(playerMovementRigidbody.position + playerMoveDir * movementSpeed * Time.fixedDeltaTime);
+        Vector3 worldVelocity3D = new Vector3(worldVelocityXZ.x, 0, worldVelocityXZ.y);
+        playerMovementRigidbody.MovePosition(playerMovementRigidbody.position + worldVelocity3D * Time.fixedDeltaTime);
     }
 }
