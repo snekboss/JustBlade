@@ -663,7 +663,10 @@ public class AnimationManager : MonoBehaviour
     {
         if (ownerAgent.MovementSpeed < Agent.DefaultMovementSpeed)
         {
-            float ratio = ownerAgent.MovementSpeed / Agent.DefaultMovementSpeed * 0.75f;
+            //float ratio = ownerAgent.MovementSpeed / Agent.DefaultMovementSpeed * 0.75f;
+            float ratio = ownerAgent.MovementSpeed / Agent.DefaultMovementSpeed;
+            ratio = Mathf.Pow(ratio, 1.85f);
+            
             if (moveX > ratio)
             {
                 moveX = ratio;
@@ -687,7 +690,7 @@ public class AnimationManager : MonoBehaviour
         }
         float multipMovSpeed = ownerAgent.CurrentMovementSpeed / Agent.DefaultMovementSpeed;
 
-        if (multipMovSpeed < 1.0f && ownerAgent.MovementSpeed >= Agent.DefaultMovementSpeed)
+        if (multipMovSpeed < 1.0f/* && ownerAgent.MovementSpeed >= Agent.DefaultMovementSpeed*/)
         {
             multipMovSpeed = 1.0f;
         }
