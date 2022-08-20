@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class AiAgent : Agent
 {
@@ -14,6 +15,27 @@ public class AiAgent : Agent
     public CombatDirection combatDir;
 
     public override float CurrentMovementSpeed { get; protected set; }
+
+    NavMeshAgent nma;
+
+    public static readonly float NavMeshAgentAcceleration = 8.0f;
+
+    public override void Awake()
+    {
+        base.Awake();
+
+        InitializeNavMeshAgent();
+    }
+
+    void InitializeNavMeshAgent()
+    {
+        nma = GetComponent<NavMeshAgent>();
+
+        nma.height = AgentHeight;
+        nma.radius = AgentRadius;
+        nma.speed = MovementSpeedLimit;
+        nma.acceleration = NavMeshAgentAcceleration;
+    }
 
     void Update()
     {

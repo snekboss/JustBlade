@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class PlayerAgent : Agent
 {
-    public Transform headBone;
-    public Transform rootBone;
+    public static readonly float PlayerMovementRigidbodyMass = 70.0f;
     // TODO: Remove[SerializeField]. It is for debugging purposes only.
 
     Vector3 cameraOffsetFromPivotDirection = new Vector3(0, 0.3f, -1.3f);
@@ -21,8 +20,6 @@ public class PlayerAgent : Agent
 
     CapsuleCollider playerMovementCollider;
     Rigidbody playerMovementRigidbody;
-    float playerMovementColliderRadius = 0.29f;
-    float playerMovementRigidbodyMass = 70.0f;
 
     // Foot movement fields
     float moveInputX;
@@ -62,9 +59,9 @@ public class PlayerAgent : Agent
     [SerializeField] float isDefTimer;
     float isDefTimerThreshold = 0.5f;
 
-    void Awake()
+    public override void Awake()
     {
-        gameObject.layer = StaticVariables.Instance.AgentLayer;
+        base.Awake();
 
         isDefTimer = 2 * isDefTimerThreshold; // set it far above the threshold, so that the condition is not satisfied at the start.
 
@@ -74,19 +71,17 @@ public class PlayerAgent : Agent
 
     void InitializeMovementCollider()
     {
-        float height = headBone.transform.position.y - rootBone.transform.position.y;
         playerMovementCollider = gameObject.AddComponent<CapsuleCollider>();
-        playerMovementCollider.height = height;
-        Vector3 rootBoneLocalPos = transform.InverseTransformPoint(rootBone.transform.position);
-        playerMovementCollider.center = rootBoneLocalPos + Vector3.up * height / 2;
-        playerMovementCollider.radius = playerMovementColliderRadius;
+        playerMovementCollider.height = AgentHeight;
+        playerMovementCollider.center = Vector3.up * AgentHeight / 2;
+        playerMovementCollider.radius = AgentRadius;
     }
 
     void InitializeMovementRigidbody()
     {
         playerMovementRigidbody = gameObject.AddComponent<Rigidbody>();
         playerMovementRigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-        playerMovementRigidbody.mass = playerMovementRigidbodyMass;
+        playerMovementRigidbody.mass = PlayerMovementRigidbodyMass;
     }
 
     void ReadInputs()

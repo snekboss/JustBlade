@@ -7,6 +7,8 @@ public abstract class Agent : MonoBehaviour
     public static readonly int MaximumHealth = 100;
     public static readonly float AgentDespawnTime = 5;
     public static readonly float DefaultMovementSpeedLimit = 2.5f;
+    public static readonly float AgentHeight = 1.85f;
+    public static readonly float AgentRadius = 0.25f;
 
     public int Health { get; protected set; } = MaximumHealth;
     public bool IsDead { get; protected set; } = false;
@@ -80,6 +82,11 @@ public abstract class Agent : MonoBehaviour
         Right,
         Down,
         Left
+    }
+
+    public virtual void Awake()
+    {
+        gameObject.layer = StaticVariables.Instance.AgentLayer;
     }
 
     void LateUpdate()

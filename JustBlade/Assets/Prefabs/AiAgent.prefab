@@ -1607,6 +1607,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9611006c46a7c664d87594fa52d98ad0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  headBone: {fileID: 4038910880550374465}
+  rootBone: {fileID: 5649223959042826810}
+  leftUpperArmBone: {fileID: 6496154827991338622}
+  rightUpperArmBone: {fileID: 306095839771251822}
+  lookAngleX: 0
+  curMovSpeed: 0
+  moveX: 0
+  moveY: 0
+  isGrounded: 1
+  isAtk: 0
+  isDef: 0
+  combatDir: 0
 --- !u!114 &5089193923706036315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1638,7 +1650,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7023280a05db37942b51cf63bc922f41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ownerAgent: {fileID: 0}
   spineBone: {fileID: 3227303804717059851}
   pelvisBone: {fileID: 5774086182151286322}
   idleTimer: 0
