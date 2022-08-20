@@ -1547,6 +1547,7 @@ GameObject:
   - component: {fileID: 5089193923706036315}
   - component: {fileID: 8111178340955713037}
   - component: {fileID: 6721999397170714355}
+  - component: {fileID: 1080316829}
   m_Layer: 0
   m_Name: AiAgent
   m_TagString: Untagged
@@ -1607,10 +1608,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9611006c46a7c664d87594fa52d98ad0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  headBone: {fileID: 4038910880550374465}
-  rootBone: {fileID: 5649223959042826810}
-  leftUpperArmBone: {fileID: 6496154827991338622}
-  rightUpperArmBone: {fileID: 306095839771251822}
   lookAngleX: 0
   curMovSpeed: 0
   moveX: 0
@@ -1754,6 +1751,28 @@ MonoBehaviour:
   rootBone: {fileID: 5649223959042826810}
   spineBone: {fileID: 3227303804717059851}
   neckBone: {fileID: 78601147160813766}
+--- !u!195 &1080316829
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8302257294258779100}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.25
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 1.85
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
 --- !u!1 &8324060877371865631
 GameObject:
   m_ObjectHideFlags: 0
