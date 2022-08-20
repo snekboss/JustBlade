@@ -967,12 +967,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f1502ed0f2f38d4d9c20458031d2370, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  headBone: {fileID: 7297044010335099565}
-  rootBone: {fileID: 1382400116066858198}
-  leftUpperArmBone: {fileID: 535836768308353170}
-  rightUpperArmBone: {fileID: 6446390894333149826}
   lookAngleX: 0
-  DEBUG_PLAYER_RADIUS: 0
   cam: {fileID: 963194227}
   cameraPivotTransform: {fileID: 1724222695684689829}
   groundednessCheckerTransform: {fileID: 5907487306699349195}
@@ -1006,7 +1001,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponBone: {fileID: 1753282508948166995}
   equippedWeapon: {fileID: 0}
-  TEMP_weaponPrefab: {fileID: 9054766836165676307, guid: 0f1242a587072f84cb0abfdc5fe472fc, type: 3}
+  TEMP_weaponPrefab: {fileID: 4009175891147424103, guid: ce39279876fec5f44a6994a7851291d5, type: 3}
   TEMP_headArmorPrefab: {fileID: 8769159221732554429, guid: 320c2c1cba509a74abb8f0e29a8443f1, type: 3}
   TEMP_torsoArmorPrefab: {fileID: 1324746687953447541, guid: 22ae69c5276ac0a4da538684b5d5ac18, type: 3}
   TEMP_handArmorPrefab: {fileID: 8844822423302245203, guid: 3be4da8c456109848bfb74c88c41cc1f, type: 3}
@@ -1025,6 +1020,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   spineBone: {fileID: 8178811115471198695}
   pelvisBone: {fileID: 966297118327077086}
+  poleAOC: {fileID: 22100000, guid: 885cf256419dbce4e9870b2f8e7c39e9, type: 2}
   idleTimer: 0
   IdleTimerMax: 0.1
   isState_Idle: 0

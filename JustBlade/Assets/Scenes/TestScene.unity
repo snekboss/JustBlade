@@ -378,6 +378,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5089193923706036315, guid: dcef08d3e0dc6bf4e9ef62251f520387, type: 3}
+      propertyPath: TEMP_weaponPrefab
+      value: 
+      objectReference: {fileID: 4009175891147424103, guid: ce39279876fec5f44a6994a7851291d5, type: 3}
     - target: {fileID: 8302257294258779100, guid: dcef08d3e0dc6bf4e9ef62251f520387, type: 3}
       propertyPath: m_Name
       value: AiAgent

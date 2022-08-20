@@ -9,8 +9,6 @@ AnimatorOverrideController:
   m_Name: AgentPolearmAOC
   m_Controller: {fileID: 9100000, guid: 80d2b8acbe1bcce48a03edf1cfca8af0, type: 2}
   m_Clips:
-  - m_OriginalClip: {fileID: 3273536486443565751, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
-    m_OverrideClip: {fileID: -6806352293367785172, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
   - m_OriginalClip: {fileID: -3118405810742627638, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
     m_OverrideClip: {fileID: -826669538441835876, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
   - m_OriginalClip: {fileID: -6077386193115167104, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
@@ -51,3 +49,5 @@ AnimatorOverrideController:
     m_OverrideClip: {fileID: -6065874679290353075, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
   - m_OriginalClip: {fileID: -82164300458220133, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
     m_OverrideClip: {fileID: 4781020314658314906, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
+  - m_OriginalClip: {fileID: 3273536486443565751, guid: 9e17f81d57ff44a45ae2d96cf9d3c53b, type: 3}
+    m_OverrideClip: {fileID: -6806352293367785172, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}

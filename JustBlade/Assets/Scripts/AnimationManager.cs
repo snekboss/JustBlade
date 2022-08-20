@@ -32,6 +32,8 @@ public class AnimationManager : MonoBehaviour
     bool spineShouldBeRotated;
 
     Animator animator;
+    RuntimeAnimatorController initialRuntimeAC;
+    public AnimatorOverrideController poleAOC;
     AnimatorStateInfo attackAndBlockLayerStateInfo;
     AnimatorTransitionInfo attackAndBlockLayerTransitionInfo;
     [SerializeField] float idleTimer;
@@ -313,6 +315,7 @@ public class AnimationManager : MonoBehaviour
     void Awake()
     {
         animator = GetComponent<Animator>();
+        initialRuntimeAC = animator.runtimeAnimatorController;
         ownerAgent = GetComponent<Agent>();
 
         initialPelvisToSpineOffset = spineBone.position - pelvisBone.position;
@@ -324,11 +327,11 @@ public class AnimationManager : MonoBehaviour
     {
         if (equippedWeaponType == Weapon.WeaponType.TwoHanded)
         {
-            // TODO: Use twohanded AnimatorOverrideController.
+            animator.runtimeAnimatorController = initialRuntimeAC;
         }
         else if (equippedWeaponType == Weapon.WeaponType.Polearm)
         {
-            // TODO: Use polearm AnimatorOverrideController.
+            animator.runtimeAnimatorController = poleAOC;
         }
     }
 
