@@ -639,7 +639,7 @@ public class AnimationManager : MonoBehaviour
 
         if (spineShouldBeRotated)
         {
-            targetSpineAngle = ownerAgent.lookAngleX;
+            targetSpineAngle = ownerAgent.LookAngleX;
         }
     }
 

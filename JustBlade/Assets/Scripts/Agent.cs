@@ -57,9 +57,9 @@ public abstract class Agent : MonoBehaviour
         }
     }
 
-    public float lookAngleX;
+    public float LookAngleX { get; protected set; }
 
-    public void ApplyDamage(int amount)
+    public void ApplyDamage(Agent attacker, int amount)
     {
         Health -= amount;
 
@@ -68,8 +68,13 @@ public abstract class Agent : MonoBehaviour
             IsDead = true;
             animMgr.PlayDeathAnimation();
             StartCoroutine("AgentDespawnCoroutine");
+            return;
         }
+
+        OnDamaged(attacker, amount);
     }
+
+    protected virtual void OnDamaged(Agent attacker, int amount) { }
 
     public void InitializeMovementSpeedLimit(float movementSpeedLimit)
     {

@@ -289,7 +289,7 @@ public static class CombatMechanics
         int finalDamageInt = System.Convert.ToInt32(finalDamage);
 
         // Apply damage here.
-        defender.ApplyDamage(finalDamageInt);
+        defender.ApplyDamage(attacker, finalDamageInt);
 
         // Then, set the correct getting_hurt animation.
         AnimationManager.GettingHurtDirection defGetHurtDir = GetDefenderHurtAnimation(attacker, defender, limbType);

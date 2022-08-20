@@ -164,9 +164,9 @@ public class PlayerAgent : Agent
     void HandleEyeRotation()
     {
         playerAgentYaw += playerCameraRotationSpeed * mouseX * Time.deltaTime;
-        lookAngleX -= playerCameraRotationSpeed * mouseY * Time.deltaTime; // Subtracting, because negative angle about X axis means "up".
+        LookAngleX -= playerCameraRotationSpeed * mouseY * Time.deltaTime; // Subtracting, because negative angle about X axis means "up".
 
-        lookAngleX = Mathf.Clamp(lookAngleX, -EyesPitchThreshold, EyesPitchThreshold);
+        LookAngleX = Mathf.Clamp(LookAngleX, -EyesPitchThreshold, EyesPitchThreshold);
 
         // First, reset all rotations.
         transform.rotation = Quaternion.identity;
@@ -174,7 +174,7 @@ public class PlayerAgent : Agent
 
         // Then, rotate with the new angles.
         transform.Rotate(Vector3.up, playerAgentYaw);
-        cameraPivotTransform.Rotate(Vector3.right, lookAngleX);
+        cameraPivotTransform.Rotate(Vector3.right, LookAngleX);
     }
 
     void HandleCombatInputs()
