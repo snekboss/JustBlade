@@ -82,6 +82,10 @@ public class AiAgent : Agent
         nma.radius = AgentRadius;
         nma.speed = MovementSpeedLimit;
         nma.acceleration = NavMeshAgentAcceleration;
+
+        // While moving to position, don't let the AI code rotate the agent transform.
+        // Just, go where you're told, and don't do any rotations...
+        nma.angularSpeed = 0; 
     }
 
     protected override void OnDamaged(Agent attacker, int amount)
