@@ -11,6 +11,8 @@ public class AiAgent : Agent
     public static readonly float SlerpRateLookDirection = 0.2f;
     public static readonly float LerpRateYawAngle = 0.1f;
 
+    public static readonly float DefendTimeMax = 2.0f;
+
     [Range(0.0f, 5.0f)]
     public float TooFarPercent;
 
@@ -21,9 +23,6 @@ public class AiAgent : Agent
     public float TooClosePercent;
 
     // Below are temporary
-    public float curMovSpeed; // TODO: Use navMeshAgent.speed or something, but this is temporary.
-    public float moveX;
-    public float moveY;
     public bool isGrounded;
     public bool isAtk;
     public bool isDef;
@@ -34,7 +33,7 @@ public class AiAgent : Agent
 
     NavMeshAgent nma;
 
-    public static readonly float NavMeshAgentAcceleration = 8.0f;
+    public static readonly float NavMeshAgentAcceleration = 3.0f;
     Transform agentEyes;
 
     float yawAngle;
@@ -43,6 +42,9 @@ public class AiAgent : Agent
     Agent enemyAgent;
     float distanceFromEnemy;
     public Limb.LimbType targetLimbType;
+
+    float defendTimer;
+
 
     public enum DistanceToTargetState
     {
@@ -92,7 +94,9 @@ public class AiAgent : Agent
     {
         enemyAgent = attacker;
 
-        // TODO: Defend for a while.
+        defendTimer = 0;
+        combatState = AiCombatState.Defending;
+        combatDir = GetRandomCombatDirection();
     }
 
     Vector3 GetLookPosition()
@@ -166,6 +170,7 @@ public class AiAgent : Agent
             Vector3 curLookDir = transform.forward;
 
             Vector3 lookPos = enemyAgent.transform.position;
+            //Vector3 lookPos = DEBUG_TRANSFORM.position;
 
             Vector3 targetLookDir = lookPos - transform.position;
             targetLookDir.y = 0;
@@ -222,6 +227,18 @@ public class AiAgent : Agent
         return (CombatDirection)randInt;
     }
 
+    Vector2 GetLocalMoveDir()
+    {
+        Vector3 curVelocity = nma.velocity;
+
+        Vector3 curVelocityLocal = transform.InverseTransformDirection(curVelocity);
+
+        Vector3 curVelocityLocalXZ = new Vector2(curVelocityLocal.x, curVelocityLocal.z).normalized;
+
+        float speedRatio = CurrentMovementSpeed / MovementSpeedLimit;
+
+        return curVelocityLocalXZ * speedRatio;
+    }
 
     void ThinkMovement()
     {
@@ -238,22 +255,12 @@ public class AiAgent : Agent
         {
             case DistanceToTargetState.TooFar:
 
-                if (nma.isStopped)
-                {
-                    nma.isStopped = false;
-                }
-
                 nma.SetDestination(desiredDestination); // TODO: Handle return value.
 
                 combatState = AiCombatState.Idling;
 
                 break;
             case DistanceToTargetState.CloseEnough:
-
-                if (nma.isStopped == false)
-                {
-                    nma.isStopped = true;
-                }
 
                 if (combatState != AiCombatState.Defending)
                 {
@@ -262,11 +269,6 @@ public class AiAgent : Agent
 
                 break;
             case DistanceToTargetState.TooClose:
-
-                if (nma.isStopped)
-                {
-                    nma.isStopped = false;
-                }
 
                 nma.SetDestination(desiredDestination); // TODO: Handle return value.
 
@@ -301,12 +303,19 @@ public class AiAgent : Agent
                 combatDir = GetRandomCombatDirection();
                 break;
             case AiCombatState.Defending:
+                isAtk = false;
+                isDef = true;
+
+                defendTimer += Time.deltaTime;
+                if (defendTimer >= DefendTimeMax)
+                {
+                    isDef = false;
+                    combatState = AiCombatState.Attacking;
+                }
                 break;
             default:
                 break;
         }
-
-
     }
 
     void Update()
@@ -316,7 +325,7 @@ public class AiAgent : Agent
             return;
         }
 
-        CurrentMovementSpeed = curMovSpeed;
+        CurrentMovementSpeed = nma.velocity.magnitude;
 
         if (enemyAgent != null)
         {
@@ -329,7 +338,10 @@ public class AiAgent : Agent
         SetYawAngle();
         SetLookAngleX();
 
+        // Update animations.
         AnimMgr.UpdateCombatDirection(combatDir);
-        AnimMgr.UpdateAnimations(new Vector2(moveX, moveY), isGrounded, isAtk, isDef);
+
+        Vector2 localMoveDir = GetLocalMoveDir();
+        AnimMgr.UpdateAnimations(localMoveDir, isGrounded, isAtk, isDef);
     }
 }

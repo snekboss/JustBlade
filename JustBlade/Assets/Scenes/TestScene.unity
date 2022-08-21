@@ -383,7 +383,15 @@ PrefabInstance:
     m_TransformParent: {fileID: 0}
     m_Modifications:
     - target: {fileID: 1080316829, guid: dcef08d3e0dc6bf4e9ef62251f520387, type: 3}
+      propertyPath: m_AutoBraking
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 1080316829, guid: dcef08d3e0dc6bf4e9ef62251f520387, type: 3}
       propertyPath: m_AngularSpeed
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1080316829, guid: dcef08d3e0dc6bf4e9ef62251f520387, type: 3}
+      propertyPath: m_StoppingDistance
       value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 1748176825034016795, guid: dcef08d3e0dc6bf4e9ef62251f520387, type: 3}
@@ -397,6 +405,10 @@ PrefabInstance:
     - target: {fileID: 1748176825034016795, guid: dcef08d3e0dc6bf4e9ef62251f520387, type: 3}
       propertyPath: TooFarPercent
       value: 1.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1748176825034016795, guid: dcef08d3e0dc6bf4e9ef62251f520387, type: 3}
+      propertyPath: DEBUG_TRANSFORM
+      value: 
       objectReference: {fileID: 0}
     - target: {fileID: 1748176825034016795, guid: dcef08d3e0dc6bf4e9ef62251f520387, type: 3}
       propertyPath: TooClosePercent
