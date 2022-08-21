@@ -14,13 +14,13 @@ public class AiAgent : Agent
     public static readonly float DefendTimeMax = 2.0f;
 
     [Range(0.0f, 5.0f)]
-    public float TooFarPercent;
+    public float TooFarMultiplier;
 
     [Range(0.0f, 1.0f)]
     public float CloseEnoughPercent;
 
     [Range(0.0f, 5.0f)]
-    public float TooClosePercent;
+    public float TooCloseMultiplier;
 
     // Below are temporary
     public bool isGrounded;
@@ -33,7 +33,7 @@ public class AiAgent : Agent
 
     NavMeshAgent nma;
 
-    public static readonly float NavMeshAgentAcceleration = 3.0f;
+    public static readonly float NavMeshAgentAcceleration = 8.0f;
     Transform agentEyes;
 
     float yawAngle;
@@ -84,6 +84,7 @@ public class AiAgent : Agent
         nma.radius = AgentRadius;
         nma.speed = MovementSpeedLimit;
         nma.acceleration = NavMeshAgentAcceleration;
+        nma.stoppingDistance = EqMgr.equippedWeapon.weaponLength * TooFarMultiplier;
 
         // While moving to position, don't let the AI code rotate the agent transform.
         // Just, go where you're told, and don't do any rotations...
@@ -194,14 +195,14 @@ public class AiAgent : Agent
         // Assume we're close enough.
         distanceState = DistanceToTargetState.CloseEnough;
 
-        float tooFarDistLimit = EqMgr.equippedWeapon.weaponLength * TooFarPercent;
+        float tooFarDistLimit = EqMgr.equippedWeapon.weaponLength * TooFarMultiplier;
         if (distanceFromEnemy > tooFarDistLimit)
         {
             distanceState = DistanceToTargetState.TooFar;
             return;
         }
 
-        float tooCloseDistLimit = EqMgr.equippedWeapon.weaponLength * TooClosePercent;
+        float tooCloseDistLimit = EqMgr.equippedWeapon.weaponLength * TooCloseMultiplier;
         if (distanceFromEnemy < tooCloseDistLimit)
         {
             distanceState = DistanceToTargetState.TooClose;
@@ -213,8 +214,8 @@ public class AiAgent : Agent
     {
         Vector3 enemyToSelfDir = (transform.position - enemyAgent.transform.position).normalized;
 
-        Vector3 tooFarPos = enemyAgent.transform.position + (enemyToSelfDir * TooFarPercent);
-        Vector3 tooClosePos = enemyAgent.transform.position + (enemyToSelfDir * TooClosePercent);
+        Vector3 tooFarPos = enemyAgent.transform.position + (enemyToSelfDir * TooFarMultiplier);
+        Vector3 tooClosePos = enemyAgent.transform.position + (enemyToSelfDir * TooCloseMultiplier);
 
         Vector3 desiredPos = Vector3.Lerp(tooClosePos, tooFarPos, CloseEnoughPercent);
 
