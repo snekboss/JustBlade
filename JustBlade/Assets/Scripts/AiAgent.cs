@@ -11,6 +11,15 @@ public class AiAgent : Agent
     public static readonly float SlerpRateLookDirection = 0.2f;
     public static readonly float LerpRateYawAngle = 0.1f;
 
+    [Range(0.0f, 5.0f)]
+    public float TooFarPercent;
+
+    [Range(0.0f, 1.0f)]
+    public float CloseEnoughPercent;
+
+    [Range(0.0f, 5.0f)]
+    public float TooClosePercent;
+
     // Below are temporary
     public float curMovSpeed; // TODO: Use navMeshAgent.speed or something, but this is temporary.
     public float moveX;
@@ -32,7 +41,25 @@ public class AiAgent : Agent
     public float targetYawAngle;
 
     Agent enemyAgent;
+    float distanceFromEnemy;
     public Limb.LimbType targetLimbType;
+
+    public enum DistanceToTargetState
+    {
+        TooFar,
+        CloseEnough,
+        TooClose,
+    }
+
+    public enum AiCombatState
+    {
+        Idling,
+        Attacking,
+        Defending,
+    }
+
+    public DistanceToTargetState distanceState;
+    public AiCombatState combatState;
 
 
     public override void Awake()
@@ -153,13 +180,128 @@ public class AiAgent : Agent
         transform.Rotate(Vector3.up, yawAngle);
     }
 
+    void SetDistanceToTargetState()
+    {
+        // Assume we're close enough.
+        distanceState = DistanceToTargetState.CloseEnough;
+
+        float tooFarDistLimit = EqMgr.equippedWeapon.weaponLength * TooFarPercent;
+        if (distanceFromEnemy > tooFarDistLimit)
+        {
+            distanceState = DistanceToTargetState.TooFar;
+            return;
+        }
+
+        float tooCloseDistLimit = EqMgr.equippedWeapon.weaponLength * TooClosePercent;
+        if (distanceFromEnemy < tooCloseDistLimit)
+        {
+            distanceState = DistanceToTargetState.TooClose;
+            return;
+        }
+    }
+
+    Vector3 GetDesiredDestination()
+    {
+        Vector3 enemyToSelfDir = (transform.position - enemyAgent.transform.position).normalized;
+
+        Vector3 tooFarPos = enemyAgent.transform.position + (enemyToSelfDir * TooFarPercent);
+        Vector3 tooClosePos = enemyAgent.transform.position + (enemyToSelfDir * TooClosePercent);
+
+        Vector3 desiredPos = Vector3.Lerp(tooClosePos, tooFarPos, CloseEnoughPercent);
+
+        return desiredPos;
+    }
+
+    CombatDirection GetRandomCombatDirection()
+    {
+        int randInt = Random.Range(0, 4);
+        return (CombatDirection)randInt;
+    }
+
+
     void ThinkMovement()
     {
+        if (enemyAgent == null)
+        {
+            return;
+        }
 
+        SetDistanceToTargetState();
+
+        Vector3 desiredDestination = GetDesiredDestination();
+
+        switch (distanceState)
+        {
+            case DistanceToTargetState.TooFar:
+
+                if (nma.isStopped)
+                {
+                    nma.isStopped = false;
+                }
+
+                nma.SetDestination(desiredDestination); // TODO: Handle return value.
+
+                combatState = AiCombatState.Idling;
+
+                break;
+            case DistanceToTargetState.CloseEnough:
+
+                if (nma.isStopped == false)
+                {
+                    nma.isStopped = true;
+                }
+
+                if (combatState != AiCombatState.Defending)
+                {
+                    combatState = AiCombatState.Attacking;
+                }
+
+                break;
+            case DistanceToTargetState.TooClose:
+
+                if (nma.isStopped)
+                {
+                    nma.isStopped = false;
+                }
+
+                nma.SetDestination(desiredDestination); // TODO: Handle return value.
+
+                if (combatState != AiCombatState.Defending)
+                {
+                    combatState = AiCombatState.Attacking;
+                }
+
+                break;
+            default:
+                break;
+        }
     }
 
     void ThinkCombat()
     {
+        if (enemyAgent == null)
+        {
+            return;
+        }
+
+        switch (combatState)
+        {
+            case AiCombatState.Idling:
+                isAtk = false;
+                isDef = false;
+                break;
+            case AiCombatState.Attacking:
+                isDef = false;
+
+                //isAtk = !isAtk; // spamming attack
+                combatDir = GetRandomCombatDirection();
+                break;
+            case AiCombatState.Defending:
+                break;
+            default:
+                break;
+        }
+
 
     }
 
@@ -171,6 +313,11 @@ public class AiAgent : Agent
         }
 
         CurrentMovementSpeed = curMovSpeed;
+
+        if (enemyAgent != null)
+        {
+            distanceFromEnemy = Vector3.Distance(transform.position, enemyAgent.transform.position);
+        }
 
         ThinkMovement();
         ThinkCombat();
