@@ -376,8 +376,6 @@ public class AnimationManager : MonoBehaviour
 
     void HandleMovementAnimationParameters(Vector2 localMoveDir, float curMoveSpeed, out float moveX, out float moveY)
     {
-        //float curMoveSpeed = ownerAgent.CurrentMovementSpeed;
-
         float speedRatio = curMoveSpeed / Agent.DefaultMovementSpeedLimit;
 
         // Initialize moveX and moveY based on localMoveDir.

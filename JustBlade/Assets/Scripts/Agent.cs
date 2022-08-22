@@ -12,7 +12,7 @@ public abstract class Agent : MonoBehaviour
 
     public int Health { get; protected set; } = MaximumHealth;
     public bool IsDead { get; protected set; } = false;
-    public abstract float CurrentMovementSpeed { get; protected set; }
+    protected float currentMovementSpeed;
     public float MovementSpeedLimit { get; protected set; }
 
     EquipmentManager eqMgr;
@@ -76,7 +76,7 @@ public abstract class Agent : MonoBehaviour
 
     protected virtual void OnDamaged(Agent attacker, int amount) { }
 
-    public void InitializeMovementSpeedLimit(float movementSpeedLimit)
+    public virtual void InitializeMovementSpeedLimit(float movementSpeedLimit)
     {
         MovementSpeedLimit = movementSpeedLimit;
     }

@@ -26,7 +26,6 @@ public class PlayerAgent : Agent
     float moveInputY;
     Vector2 localMoveDirXZ;
     Vector2 worldVelocityXZ;
-    public override float CurrentMovementSpeed { get; protected set; }
 
     float jumpPower = 4.0f;
     [SerializeField] float jumpCooldownTimer;
@@ -136,7 +135,7 @@ public class PlayerAgent : Agent
 
             worldVelocityXZ = new Vector2(worldVelocity3D.x, worldVelocity3D.z);
 
-            CurrentMovementSpeed = worldVelocityXZ.magnitude;
+            currentMovementSpeed = worldVelocityXZ.magnitude;
         }
 
         // Jump related
@@ -261,7 +260,7 @@ public class PlayerAgent : Agent
         HandleCombatInputs();
         HandleCombatDirection();
 
-        AnimMgr.UpdateAnimations(localMoveDirXZ, CurrentMovementSpeed, isGrounded, isAtk, isDef);
+        AnimMgr.UpdateAnimations(localMoveDirXZ, currentMovementSpeed, isGrounded, isAtk, isDef);
     }
 
     void FixedUpdate()
