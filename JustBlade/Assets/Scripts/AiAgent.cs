@@ -11,6 +11,7 @@ public class AiAgent : Agent
     static readonly float SlerpRateLookDirection = 0.2f;
     static readonly float LerpRateYawAngle = 0.1f;
 
+    static readonly float AttackTimeMax = 1.0f;
     static readonly float DefendTimeMax = 2.0f;
 
     static readonly float TooCloseMultiplier = 0.75f;
@@ -25,19 +26,20 @@ public class AiAgent : Agent
     public bool isGrounded;
     public bool isAtk;
     public bool isDef;
-    public CombatDirection combatDir;
     // Above are temporary
+
+    CombatDirection combatDir;
 
     NavMeshAgent nma;
 
     Transform agentEyes;
 
     float yawAngle;
-    public float targetYawAngle;
+    float targetYawAngle;
 
     Agent enemyAgent;
     float distanceFromEnemy;
-    public Limb.LimbType targetLimbType;
+    Limb.LimbType targetLimbType;
 
     // Unity's NavMeshAgent stops very abruptly. Below fields are to smooth out the Agent's animation.
     Vector3 lastNonZeroVelocity;
@@ -47,6 +49,7 @@ public class AiAgent : Agent
 
     Vector3 desiredMoveDestination;
 
+    float attackTimer;
     float defendTimer;
 
     public enum DistanceToTargetState
@@ -63,8 +66,8 @@ public class AiAgent : Agent
         Defending,
     }
 
-    public DistanceToTargetState distanceState;
-    public AiCombatState combatState;
+    DistanceToTargetState distanceState;
+    AiCombatState combatState;
 
 
     public override void Awake()
@@ -322,9 +325,17 @@ public class AiAgent : Agent
                 break;
             case AiCombatState.Attacking:
                 isDef = false;
+                isAtk = false;
 
-                //isAtk = !isAtk; // spamming attack
-                combatDir = GetRandomCombatDirection();
+                attackTimer += Time.deltaTime;
+
+                if (attackTimer >= AttackTimeMax)
+                {
+                    attackTimer = 0;
+                    isAtk = true;
+                    combatDir = GetRandomCombatDirection();
+                }
+                
                 break;
             case AiCombatState.Defending:
                 isAtk = false;
