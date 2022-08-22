@@ -261,7 +261,7 @@ public class PlayerAgent : Agent
         HandleCombatInputs();
         HandleCombatDirection();
 
-        AnimMgr.UpdateAnimations(localMoveDirXZ, isGrounded, isAtk, isDef);
+        AnimMgr.UpdateAnimations(localMoveDirXZ, CurrentMovementSpeed, isGrounded, isAtk, isDef);
     }
 
     void FixedUpdate()

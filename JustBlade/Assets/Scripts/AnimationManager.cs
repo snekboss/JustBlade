@@ -374,9 +374,9 @@ public class AnimationManager : MonoBehaviour
         ownerAgent.EqMgr.equippedWeapon.SetCollisionAbility(false);
     }
 
-    void HandleMovementAnimationParameters(Vector2 localMoveDir, out float moveX, out float moveY)
+    void HandleMovementAnimationParameters(Vector2 localMoveDir, float curMoveSpeed, out float moveX, out float moveY)
     {
-        float curMoveSpeed = ownerAgent.CurrentMovementSpeed;
+        //float curMoveSpeed = ownerAgent.CurrentMovementSpeed;
 
         float speedRatio = curMoveSpeed / Agent.DefaultMovementSpeedLimit;
 
@@ -711,7 +711,7 @@ public class AnimationManager : MonoBehaviour
         trigger_isHurt = false;
     }
 
-    public void UpdateAnimations(Vector2 localMoveDir, bool isGrounded, bool isAtk, bool isDef)
+    public void UpdateAnimations(Vector2 localMoveDir, float curMoveSpeed, bool isGrounded, bool isAtk, bool isDef)
     {
         // Every update frame, assume that the target is zero degrees.
         // If the spine needs to be rotated, then the targetAngle will be read from the Agent later on.
@@ -719,7 +719,7 @@ public class AnimationManager : MonoBehaviour
 
         float moveX;
         float moveY;
-        HandleMovementAnimationParameters(localMoveDir, out moveX, out moveY);
+        HandleMovementAnimationParameters(localMoveDir, curMoveSpeed, out moveX, out moveY);
 
         ReadStateInfo();
         ReadTransitionInfo();

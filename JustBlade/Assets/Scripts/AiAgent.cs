@@ -5,22 +5,20 @@ using UnityEngine.AI;
 
 public class AiAgent : Agent
 {
-    public static readonly float HeadLookPercentPosY = 0.55f;
-    public static readonly float TorsoLookPercentPosY = 0.75f;
-    public static readonly float LegsLookPercentPosY = 0.5f;
-    public static readonly float SlerpRateLookDirection = 0.2f;
-    public static readonly float LerpRateYawAngle = 0.1f;
+    static readonly float HeadLookPercentPosY = 0.55f;
+    static readonly float TorsoLookPercentPosY = 0.75f;
+    static readonly float LegsLookPercentPosY = 0.5f;
+    static readonly float SlerpRateLookDirection = 0.2f;
+    static readonly float LerpRateYawAngle = 0.1f;
 
-    public static readonly float DefendTimeMax = 2.0f;
+    static readonly float DefendTimeMax = 2.0f;
 
-    [Range(0.0f, 5.0f)]
-    public float TooFarMultiplier;
+    static readonly float TooCloseMultiplier = 0.75f;
+    static readonly float TooFarMultiplier = 1.0f;
+    static readonly float CloseEnoughPercent = 0.5f;
 
-    [Range(0.0f, 1.0f)]
-    public float CloseEnoughPercent;
-
-    [Range(0.0f, 5.0f)]
-    public float TooCloseMultiplier;
+    float TooCloseBorder;
+    float TooFarBorder;
 
     // Below are temporary
     public bool isGrounded;
@@ -43,8 +41,19 @@ public class AiAgent : Agent
     float distanceFromEnemy;
     public Limb.LimbType targetLimbType;
 
-    float defendTimer;
+    public Vector3 lastNonZeroVelocity;
+    public float lastNonZeroSpeed;
 
+    public float lastNonZeroSpeedDecreaseRate = 0.1f;
+
+    [Range(0.01f, 1.0f)]
+    public float StopLerpRate;
+
+    public bool downThere;
+
+    Vector3 desiredDestination;
+
+    float defendTimer;
 
     public enum DistanceToTargetState
     {
@@ -73,6 +82,9 @@ public class AiAgent : Agent
         yawAngle = transform.eulerAngles.y;
         targetYawAngle = yawAngle;
 
+        TooFarBorder = EqMgr.equippedWeapon.weaponLength * TooFarMultiplier;
+        TooCloseBorder = EqMgr.equippedWeapon.weaponLength * TooCloseMultiplier;
+
         InitializeNavMeshAgent();
     }
 
@@ -84,7 +96,7 @@ public class AiAgent : Agent
         nma.radius = AgentRadius;
         nma.speed = MovementSpeedLimit;
         nma.acceleration = NavMeshAgentAcceleration;
-        nma.stoppingDistance = EqMgr.equippedWeapon.weaponLength * TooFarMultiplier;
+        nma.stoppingDistance = 0;
 
         // While moving to position, don't let the AI code rotate the agent transform.
         // Just, go where you're told, and don't do any rotations...
@@ -195,31 +207,27 @@ public class AiAgent : Agent
         // Assume we're close enough.
         distanceState = DistanceToTargetState.CloseEnough;
 
-        float tooFarDistLimit = EqMgr.equippedWeapon.weaponLength * TooFarMultiplier;
-        if (distanceFromEnemy > tooFarDistLimit)
+        if (distanceFromEnemy > TooFarBorder)
         {
             distanceState = DistanceToTargetState.TooFar;
             return;
         }
 
-        float tooCloseDistLimit = EqMgr.equippedWeapon.weaponLength * TooCloseMultiplier;
-        if (distanceFromEnemy < tooCloseDistLimit)
+        if (distanceFromEnemy < TooCloseBorder)
         {
             distanceState = DistanceToTargetState.TooClose;
             return;
         }
     }
 
-    Vector3 GetDesiredDestination()
+    void DetermineDesiredDestination()
     {
         Vector3 enemyToSelfDir = (transform.position - enemyAgent.transform.position).normalized;
 
-        Vector3 tooFarPos = enemyAgent.transform.position + (enemyToSelfDir * TooFarMultiplier);
-        Vector3 tooClosePos = enemyAgent.transform.position + (enemyToSelfDir * TooCloseMultiplier);
+        Vector3 tooFarPos = enemyAgent.transform.position + (enemyToSelfDir * TooFarBorder);
+        Vector3 tooClosePos = enemyAgent.transform.position + (enemyToSelfDir * TooCloseBorder);
 
-        Vector3 desiredPos = Vector3.Lerp(tooClosePos, tooFarPos, CloseEnoughPercent);
-
-        return desiredPos;
+        desiredDestination = Vector3.Lerp(tooClosePos, tooFarPos, CloseEnoughPercent);
     }
 
     CombatDirection GetRandomCombatDirection()
@@ -228,17 +236,35 @@ public class AiAgent : Agent
         return (CombatDirection)randInt;
     }
 
-    Vector2 GetLocalMoveDir()
+    Vector2 GetLocalMoveDir(out float outSpeed)
     {
-        Vector3 curVelocity = nma.velocity;
+        if (CurrentMovementSpeed > 0)
+        {
+            Vector3 curVelocity = nma.velocity;
 
-        Vector3 curVelocityLocal = transform.InverseTransformDirection(curVelocity);
+            Vector3 curVelocityLocal = transform.InverseTransformDirection(curVelocity);
 
-        Vector3 curVelocityLocalXZ = new Vector2(curVelocityLocal.x, curVelocityLocal.z).normalized;
+            Vector2 curVelocityLocalXZ = new Vector2(curVelocityLocal.x, curVelocityLocal.z).normalized;
 
-        float speedRatio = CurrentMovementSpeed / MovementSpeedLimit;
+            float speedRatio = CurrentMovementSpeed / MovementSpeedLimit;
 
-        return curVelocityLocalXZ * speedRatio;
+            downThere = false;
+            outSpeed = CurrentMovementSpeed;
+            return curVelocityLocalXZ * speedRatio;
+
+        }
+        else
+        {
+            lastNonZeroVelocity = Vector3.Slerp(lastNonZeroVelocity, Vector3.zero, StopLerpRate);
+            lastNonZeroSpeed = lastNonZeroVelocity.magnitude;
+
+            Vector3 velocityLocal = transform.InverseTransformDirection(lastNonZeroVelocity);
+            Vector2 velocityLocalXZ = new Vector2(velocityLocal.x, velocityLocal.z);
+
+            downThere = true;
+            outSpeed = lastNonZeroSpeed;
+            return velocityLocalXZ;
+        }
     }
 
     void ThinkMovement()
@@ -250,7 +276,7 @@ public class AiAgent : Agent
 
         SetDistanceToTargetState();
 
-        Vector3 desiredDestination = GetDesiredDestination();
+        DetermineDesiredDestination();
 
         switch (distanceState)
         {
@@ -258,7 +284,10 @@ public class AiAgent : Agent
 
                 nma.SetDestination(desiredDestination); // TODO: Handle return value.
 
-                combatState = AiCombatState.Idling;
+                if (combatState != AiCombatState.Defending)
+                {
+                    combatState = AiCombatState.Idling;
+                }
 
                 break;
             case DistanceToTargetState.CloseEnough:
@@ -328,6 +357,12 @@ public class AiAgent : Agent
 
         CurrentMovementSpeed = nma.velocity.magnitude;
 
+        if (CurrentMovementSpeed > 0)
+        {
+            lastNonZeroSpeed = CurrentMovementSpeed;
+            lastNonZeroVelocity = nma.velocity;
+        }
+
         if (enemyAgent != null)
         {
             distanceFromEnemy = Vector3.Distance(transform.position, enemyAgent.transform.position);
@@ -342,7 +377,8 @@ public class AiAgent : Agent
         // Update animations.
         AnimMgr.UpdateCombatDirection(combatDir);
 
-        Vector2 localMoveDir = GetLocalMoveDir();
-        AnimMgr.UpdateAnimations(localMoveDir, isGrounded, isAtk, isDef);
+        float outSpeed;
+        Vector2 localMoveDir = GetLocalMoveDir(out outSpeed);
+        AnimMgr.UpdateAnimations(localMoveDir, outSpeed, isGrounded, isAtk, isDef);
     }
 }
