@@ -275,10 +275,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerAgent
       objectReference: {fileID: 0}
-    - target: {fileID: 8209919147568450872, guid: 7bb4698197bfc0c4d96a458e73365778, type: 3}
-      propertyPath: timescale
-      value: 1
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7bb4698197bfc0c4d96a458e73365778, type: 3}
 --- !u!1 &705507993
@@ -382,34 +378,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 1748176825034016795, guid: dcef08d3e0dc6bf4e9ef62251f520387, type: 3}
-      propertyPath: StopLerpRate
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1748176825034016795, guid: dcef08d3e0dc6bf4e9ef62251f520387, type: 3}
-      propertyPath: TooFarMultiplier
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1748176825034016795, guid: dcef08d3e0dc6bf4e9ef62251f520387, type: 3}
-      propertyPath: CloseEnoughPercent
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 1748176825034016795, guid: dcef08d3e0dc6bf4e9ef62251f520387, type: 3}
-      propertyPath: TooCloseMultiplier
-      value: 0.75
-      objectReference: {fileID: 0}
-    - target: {fileID: 1748176825034016795, guid: dcef08d3e0dc6bf4e9ef62251f520387, type: 3}
-      propertyPath: LastNonZeroSpeedDecreaseRatePercent
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1748176825034016795, guid: dcef08d3e0dc6bf4e9ef62251f520387, type: 3}
-      propertyPath: LastNonZeroSpeedDecreaseRateMultiplier
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 5089193923706036315, guid: dcef08d3e0dc6bf4e9ef62251f520387, type: 3}
-      propertyPath: TEMP_weaponPrefab
-      value: 
-      objectReference: {fileID: 4009175891147424103, guid: ce39279876fec5f44a6994a7851291d5, type: 3}
     - target: {fileID: 8302257294258779100, guid: dcef08d3e0dc6bf4e9ef62251f520387, type: 3}
       propertyPath: m_Name
       value: AiAgent

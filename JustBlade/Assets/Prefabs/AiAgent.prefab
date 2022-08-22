@@ -1609,17 +1609,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9611006c46a7c664d87594fa52d98ad0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TooFarMultiplier: 1.5
-  CloseEnoughPercent: 0.5
-  TooCloseMultiplier: 1
   isGrounded: 1
   isAtk: 1
   isDef: 0
-  combatDir: 1
-  targetYawAngle: 0
-  targetLimbType: 0
-  distanceState: 0
-  combatState: 0
 --- !u!114 &5089193923706036315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1634,7 +1626,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponBone: {fileID: 4980347806226239423}
   equippedWeapon: {fileID: 0}
-  TEMP_weaponPrefab: {fileID: 9054766836165676307, guid: b102aad93fdd8fc4499e1f3e74ceef1e, type: 3}
+  TEMP_weaponPrefab: {fileID: 4009175891147424103, guid: ce39279876fec5f44a6994a7851291d5, type: 3}
   TEMP_headArmorPrefab: {fileID: 8769159221732554429, guid: 320c2c1cba509a74abb8f0e29a8443f1, type: 3}
   TEMP_torsoArmorPrefab: {fileID: 1324746687953447541, guid: 22ae69c5276ac0a4da538684b5d5ac18, type: 3}
   TEMP_handArmorPrefab: {fileID: 8844822423302245203, guid: 3be4da8c456109848bfb74c88c41cc1f, type: 3}
