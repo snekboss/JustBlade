@@ -227,6 +227,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2011178560111457975, guid: 7bb4698197bfc0c4d96a458e73365778, type: 3}
+      propertyPath: TEMP_weaponPrefab
+      value: 
+      objectReference: {fileID: 9054766836165676307, guid: b102aad93fdd8fc4499e1f3e74ceef1e, type: 3}
     - target: {fileID: 2681063993493225354, guid: 7bb4698197bfc0c4d96a458e73365778, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -275,6 +279,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: PlayerAgent
       objectReference: {fileID: 0}
+    - target: {fileID: 8346614506167543280, guid: 7bb4698197bfc0c4d96a458e73365778, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 80d2b8acbe1bcce48a03edf1cfca8af0, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7bb4698197bfc0c4d96a458e73365778, type: 3}
 --- !u!1 &705507993
@@ -378,6 +386,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 5089193923706036315, guid: dcef08d3e0dc6bf4e9ef62251f520387, type: 3}
+      propertyPath: TEMP_weaponPrefab
+      value: 
+      objectReference: {fileID: 9054766836165676307, guid: b102aad93fdd8fc4499e1f3e74ceef1e, type: 3}
     - target: {fileID: 8302257294258779100, guid: dcef08d3e0dc6bf4e9ef62251f520387, type: 3}
       propertyPath: m_Name
       value: AiAgent

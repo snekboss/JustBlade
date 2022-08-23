@@ -35,16 +35,20 @@ public class AnimationManager : MonoBehaviour
     RuntimeAnimatorController initialRuntimeAC;
     public AnimatorOverrideController poleAOC;
     AnimatorStateInfo attackAndBlockLayerStateInfo;
+    AnimatorStateInfo gettingHurtLayerStateInfo;
     AnimatorTransitionInfo attackAndBlockLayerTransitionInfo;
+    AnimatorTransitionInfo gettingHurtLayerTransitionInfo;
     [SerializeField] float idleTimer;
     [SerializeField] float IdleTimerMax = 0.1f; // wait for a while before shifting layer weights
     float attackAndBlockLayerWeight;
     float idleLayerWeight;
+    float gettingHurtLayerWeight;
 
     float IdlingLerpRate_AttackAndBlockLayer = 0.1f; // 0.1f seems to be working well so far. Less is smoother, but slower.
     float NotIdlingLerpRate_AttackAndBlockLayer = 0.4f; // It's better if this is higher than NotIdlingLerpRate_IdleLayer.
     float IdlingLerpRate_IdleLayer = 1.0f; // Must lerp instantly, apparently...
     float NotIdlingLerpRate_IdleLayer = 0.35f; // Don't make this less than 0.35f, and don't make it higher than NotIdlingLerpRate_AttackAndBlockLayer.
+    float GettingHurtLerpRate = 0.2f;
 
     public bool IsAttackingFromUp { get; private set; }
     public bool IsAttackingFromRight { get; private set; }
@@ -58,10 +62,13 @@ public class AnimationManager : MonoBehaviour
     public bool IsDefendingFromLeft { get; private set; }
     public bool IsDefending { get { return IsDefendingFromUp || IsDefendingFromRight || IsDefendingFromDown || IsDefendingFromLeft; } }
 
+    public bool IsGettingHurt { get; private set; }
+
     // Layer IDs (WARNING: Their index order is in sync with how they're laid out in the Animator Controller).
     const int LayerIdBase = 0;
     const int LayerIdAttackAndBlock = 1;
     const int LayerIdIdle = 2;
+    const int LayerIdGettingHurt = 3;
 
     // Animator parameters
     static readonly int Hash_moveX = Animator.StringToHash("moveX");
@@ -77,6 +84,18 @@ public class AnimationManager : MonoBehaviour
     static readonly int Hash_isHurtDir = Animator.StringToHash("isHurtDir");
     static readonly int Hash_isDead = Animator.StringToHash("isDead");
     static readonly int Hash_moveAnimSpeedMulti = Animator.StringToHash("moveAnimSpeedMulti");
+
+    // GettingHurtLayer State tags
+    static readonly int Hash_StateTag_fine = Animator.StringToHash("fine"); // it plays the idle_2h animation clip by default
+    static readonly int Hash_StateTag_getting_hurt_up = Animator.StringToHash("getting_hurt_up");
+    static readonly int Hash_StateTag_getting_hurt_right = Animator.StringToHash("getting_hurt_right");
+    static readonly int Hash_StateTag_getting_hurt_down = Animator.StringToHash("getting_hurt_down");
+    static readonly int Hash_StateTag_getting_hurt_left = Animator.StringToHash("getting_hurt_left");
+    [SerializeField] bool isState_fine;
+    [SerializeField] bool isState_getting_hurt_up;
+    [SerializeField] bool isState_getting_hurt_right;
+    [SerializeField] bool isState_getting_hurt_down;
+    [SerializeField] bool isState_getting_hurt_left;
 
     // AttackAndBlockLayer State tags
     // Idle
@@ -306,6 +325,25 @@ public class AnimationManager : MonoBehaviour
     [SerializeField] bool isTrans_DefLeftHoldToAtkDownHold;
     [SerializeField] bool isTrans_DefLeftHoldToAtkLeftHold;
 
+    // These are in GettingHurtLayer
+    static readonly int Hash_TransName_fine_to_getting_hurt_up = Animator.StringToHash("fine_to_getting_hurt_up");
+    static readonly int Hash_TransName_fine_to_getting_hurt_right = Animator.StringToHash("fine_to_getting_hurt_right");
+    static readonly int Hash_TransName_fine_to_getting_hurt_down = Animator.StringToHash("fine_to_getting_hurt_down");
+    static readonly int Hash_TransName_fine_to_getting_hurt_left = Animator.StringToHash("fine_to_getting_hurt_left");
+    [SerializeField] bool isTrans_FineToGettingHurtUp;
+    [SerializeField] bool isTrans_FineToGettingHurtRight;
+    [SerializeField] bool isTrans_FineToGettingHurtDown;
+    [SerializeField] bool isTrans_FineToGettingHurtLeft;
+
+    static readonly int Hash_TransName_getting_hurt_up_to_fine = Animator.StringToHash("getting_hurt_up_to_fine");
+    static readonly int Hash_TransName_getting_hurt_right_to_fine = Animator.StringToHash("getting_hurt_right_to_fine");
+    static readonly int Hash_TransName_getting_hurt_down_to_fine = Animator.StringToHash("getting_hurt_down_to_fine");
+    static readonly int Hash_TransName_getting_hurt_left_to_fine = Animator.StringToHash("getting_hurt_left_to_fine");
+    [SerializeField] bool isTrans_GettingHurtUpToFine;
+    [SerializeField] bool isTrans_GettingHurtRightToFine;
+    [SerializeField] bool isTrans_GettingHurtDownToFine;
+    [SerializeField] bool isTrans_GettingHurtLeftToFine;
+
     // Trigger parameters which must be set to false every frame, after "Set" methods.
     bool trigger_isAtkBounced;
     bool trigger_isDefBlocked;
@@ -388,7 +426,7 @@ public class AnimationManager : MonoBehaviour
         moveY = moveXY.y * moveXYmulti;
 
         // This multiplier is allowed to be greater than 1.0f, but it can never be less than 1.0f.
-        float moveAnimSpeedMulti = 1.0f; 
+        float moveAnimSpeedMulti = 1.0f;
 
         // We compare the agent's curMoveSpeed to the Agent.DefaultMovementSpeedLimit. 
         if (curMoveSpeed >= Agent.DefaultMovementSpeedLimit)
@@ -421,6 +459,7 @@ public class AnimationManager : MonoBehaviour
 
     void ReadStateInfo()
     {
+        // AttackAndBlockLayer
         attackAndBlockLayerStateInfo = animator.GetCurrentAnimatorStateInfo(LayerIdAttackAndBlock);
 
         isState_Idle = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_idle;
@@ -449,10 +488,21 @@ public class AnimationManager : MonoBehaviour
         isState_DefBlockedRight = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_def_right_blocked;
         isState_DefBlockedDown = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_def_down_blocked;
         isState_DefBlockedLeft = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_def_left_blocked;
+
+        // GettingHurtLayer
+        gettingHurtLayerStateInfo = animator.GetCurrentAnimatorStateInfo(LayerIdGettingHurt);
+
+        isState_fine = gettingHurtLayerStateInfo.tagHash == Hash_StateTag_fine;
+
+        isState_getting_hurt_up = gettingHurtLayerStateInfo.tagHash == Hash_StateTag_getting_hurt_up;
+        isState_getting_hurt_right = gettingHurtLayerStateInfo.tagHash == Hash_StateTag_getting_hurt_right;
+        isState_getting_hurt_down = gettingHurtLayerStateInfo.tagHash == Hash_StateTag_getting_hurt_down;
+        isState_getting_hurt_left = gettingHurtLayerStateInfo.tagHash == Hash_StateTag_getting_hurt_left;
     }
 
     void ReadTransitionInfo()
     {
+        // AttackAndBlockLayer
         attackAndBlockLayerTransitionInfo = animator.GetAnimatorTransitionInfo(LayerIdAttackAndBlock);
         // Attack
         // idle_to_atk_hold
@@ -558,6 +608,19 @@ public class AnimationManager : MonoBehaviour
         isTrans_DefLeftHoldToAtkRightHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_left_hold_to_atk_right_hold;
         isTrans_DefLeftHoldToAtkDownHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_left_hold_to_atk_down_hold;
         isTrans_DefLeftHoldToAtkLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_left_hold_to_atk_left_hold;
+
+        // GettingHurtLayer
+        gettingHurtLayerTransitionInfo = animator.GetAnimatorTransitionInfo(LayerIdGettingHurt);
+
+        isTrans_FineToGettingHurtUp = gettingHurtLayerTransitionInfo.userNameHash == Hash_TransName_fine_to_getting_hurt_up;
+        isTrans_FineToGettingHurtRight = gettingHurtLayerTransitionInfo.userNameHash == Hash_TransName_fine_to_getting_hurt_right;
+        isTrans_FineToGettingHurtDown = gettingHurtLayerTransitionInfo.userNameHash == Hash_TransName_fine_to_getting_hurt_down;
+        isTrans_FineToGettingHurtLeft = gettingHurtLayerTransitionInfo.userNameHash == Hash_TransName_fine_to_getting_hurt_left;
+
+        isTrans_GettingHurtUpToFine = gettingHurtLayerTransitionInfo.userNameHash == Hash_TransName_getting_hurt_up_to_fine;
+        isTrans_GettingHurtRightToFine = gettingHurtLayerTransitionInfo.userNameHash == Hash_TransName_getting_hurt_right_to_fine;
+        isTrans_GettingHurtDownToFine = gettingHurtLayerTransitionInfo.userNameHash == Hash_TransName_getting_hurt_down_to_fine;
+        isTrans_GettingHurtLeftToFine = gettingHurtLayerTransitionInfo.userNameHash == Hash_TransName_getting_hurt_left_to_fine;
     }
 
     void SetCombatParameters()
@@ -572,6 +635,20 @@ public class AnimationManager : MonoBehaviour
         IsDefendingFromRight = isState_DefHoldRight || isTrans_DefRightHoldToBlocked || isTrans_DefRightBlockedToHold;
         IsDefendingFromDown = isState_DefHoldDown || isTrans_DefDownHoldToBlocked || isTrans_DefDownBlockedToHold;
         IsDefendingFromLeft = isState_DefHoldLeft || isTrans_DefLeftHoldToBlocked || isTrans_DefLeftBlockedToHold;
+
+        IsGettingHurt =
+            isState_getting_hurt_up
+         || isState_getting_hurt_right
+         || isState_getting_hurt_down
+         || isState_getting_hurt_left
+         || isTrans_FineToGettingHurtUp
+         || isTrans_FineToGettingHurtRight
+         || isTrans_FineToGettingHurtDown
+         || isTrans_FineToGettingHurtLeft
+         || isTrans_GettingHurtUpToFine
+         || isTrans_GettingHurtRightToFine
+         || isTrans_GettingHurtDownToFine
+         || isTrans_GettingHurtLeftToFine;
     }
 
     void DecideIfWeaponHitboxShouldBeActive()
@@ -643,6 +720,10 @@ public class AnimationManager : MonoBehaviour
 
     void SetLayerWeights()
     {
+        // TODO: Just exactly *when* you decide isGettingHurt is true/false might play a huge role in all this, alongside layer weights...
+
+        gettingHurtLayerWeight = Mathf.Lerp(animator.GetLayerWeight(LayerIdGettingHurt), 0f, GettingHurtLerpRate);
+
         // When you are transitioning from the a source state to a target state, Unity still considers you to be in that source state.
         // In this case, even while we're transitioning from the idle state (source), Unity still considers you to be in the idle state.
         // For this reason, we have to explicitly state that the transitions are not considered "idle".
@@ -666,8 +747,23 @@ public class AnimationManager : MonoBehaviour
 
             idleTimer = 0f;
 
-            attackAndBlockLayerWeight = Mathf.Lerp(animator.GetLayerWeight(LayerIdAttackAndBlock), 1f, NotIdlingLerpRate_AttackAndBlockLayer);
-            idleLayerWeight = Mathf.Lerp(animator.GetLayerWeight(LayerIdIdle), 0f, NotIdlingLerpRate_IdleLayer); // lerp rate was 0.5f
+            if (IsGettingHurt)
+            {
+                // TODO: The layer weight shifting needs work.
+                // Maybe new lerp rates for gettingHurt layer for each condition "idling, notidling" etc?
+                attackAndBlockLayerWeight = Mathf.Lerp(animator.GetLayerWeight(LayerIdAttackAndBlock), 0f, NotIdlingLerpRate_AttackAndBlockLayer);
+                idleLayerWeight = Mathf.Lerp(animator.GetLayerWeight(LayerIdIdle), 0f, NotIdlingLerpRate_IdleLayer); // lerp rate was 0.5f
+                gettingHurtLayerWeight = Mathf.Lerp(animator.GetLayerWeight(LayerIdGettingHurt), 1f, NotIdlingLerpRate_AttackAndBlockLayer);
+            }
+            else
+            {
+                // TODO: The layer weight shifting needs work.
+                // Maybe new lerp rates for gettingHurt layer for each condition "idling, notidling" etc?
+                attackAndBlockLayerWeight = Mathf.Lerp(animator.GetLayerWeight(LayerIdAttackAndBlock), 1f, NotIdlingLerpRate_AttackAndBlockLayer);
+                idleLayerWeight = Mathf.Lerp(animator.GetLayerWeight(LayerIdIdle), 0f, NotIdlingLerpRate_IdleLayer); // lerp rate was 0.5f
+                gettingHurtLayerWeight = Mathf.Lerp(animator.GetLayerWeight(LayerIdGettingHurt), 0f, NotIdlingLerpRate_AttackAndBlockLayer);
+            }
+            
 
             //attackAndBlockLayerWeight = 1f;
             //idleLayerWeight = 0f;
@@ -683,14 +779,31 @@ public class AnimationManager : MonoBehaviour
 
             if (idleTimer > IdleTimerMax)
             {
-                attackAndBlockLayerWeight = Mathf.Lerp(animator.GetLayerWeight(LayerIdAttackAndBlock), 0f, IdlingLerpRate_AttackAndBlockLayer);
-                idleLayerWeight = Mathf.Lerp(animator.GetLayerWeight(LayerIdIdle), 1f, IdlingLerpRate_IdleLayer);
+                if (IsGettingHurt)
+                {
+                    // TODO: The layer weight shifting needs work.
+                    // Maybe new lerp rates for gettingHurt layer for each condition "idling, notidling" etc?
+                    attackAndBlockLayerWeight = Mathf.Lerp(animator.GetLayerWeight(LayerIdAttackAndBlock), 0f, IdlingLerpRate_AttackAndBlockLayer);
+                    idleLayerWeight = Mathf.Lerp(animator.GetLayerWeight(LayerIdIdle), 0f, IdlingLerpRate_IdleLayer);
+                    gettingHurtLayerWeight = Mathf.Lerp(animator.GetLayerWeight(LayerIdGettingHurt), 1f, IdlingLerpRate_AttackAndBlockLayer);
+                }
+                else
+                {
+                    // TODO: The layer weight shifting needs work.
+                    // Maybe new lerp rates for gettingHurt layer for each condition "idling, notidling" etc?
+                    attackAndBlockLayerWeight = Mathf.Lerp(animator.GetLayerWeight(LayerIdAttackAndBlock), 0f, IdlingLerpRate_AttackAndBlockLayer);
+                    idleLayerWeight = Mathf.Lerp(animator.GetLayerWeight(LayerIdIdle), 1f, IdlingLerpRate_AttackAndBlockLayer);
+                    gettingHurtLayerWeight = Mathf.Lerp(animator.GetLayerWeight(LayerIdGettingHurt), 0f, IdlingLerpRate_AttackAndBlockLayer);
+                }
+
             }
         }
+
 
         // Now, set the layer weights, dependong on whatever values were chosen above.
         animator.SetLayerWeight(LayerIdAttackAndBlock, attackAndBlockLayerWeight);
         animator.SetLayerWeight(LayerIdIdle, idleLayerWeight);
+        animator.SetLayerWeight(LayerIdGettingHurt, gettingHurtLayerWeight);
     }
 
     void SetTriggerParameters()

@@ -199,7 +199,8 @@ public class Weapon : MonoBehaviour
 
     void OnTriggerStay(Collider other)
     {
-        if (isDmgAlreadyApplied || ownerAgent == null || ownerAgent.IsDead || ownerAgent.AnimMgr.IsAttacking == false)
+        if (isDmgAlreadyApplied || ownerAgent == null || ownerAgent.IsDead || ownerAgent.AnimMgr.IsAttacking == false
+            || ownerAgent.AnimMgr.IsGettingHurt == true) // doesn't really work, since the Agent could just be Holding the attack...
         {
             return;
         }
