@@ -190,7 +190,12 @@ public class PlayerAgent : Agent
             isDefTimer = 0;
         }
 
-        if (isDefTimer < isDefTimerThreshold && !isAtk)
+        if (btnAtkHeld || btnDefHeld)
+        {
+            isDefTimer = isDefTimerThreshold * 2;
+        }
+
+        if (isDefTimer < isDefTimerThreshold && !btnAtkHeld)
         {
             isDef = true;
             isDefTimer += Time.deltaTime;

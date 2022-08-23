@@ -306,6 +306,47 @@ public class AnimationManager : MonoBehaviour
     [SerializeField] bool isTrans_DefLeftHoldToAtkDownHold;
     [SerializeField] bool isTrans_DefLeftHoldToAtkLeftHold;
 
+    // def_blocked to atk_hold transitions
+    // def_up_blocked to atk_hold
+    static readonly int Hash_TransName_def_up_blocked_to_atk_up_hold = Animator.StringToHash("def_up_blocked_to_atk_up_hold");
+    static readonly int Hash_TransName_def_up_blocked_to_atk_right_hold = Animator.StringToHash("def_up_blocked_to_atk_right_hold");
+    static readonly int Hash_TransName_def_up_blocked_to_atk_down_hold = Animator.StringToHash("def_up_blocked_to_atk_down_hold");
+    static readonly int Hash_TransName_def_up_blocked_to_atk_left_hold = Animator.StringToHash("def_up_blocked_to_atk_left_hold");
+    [SerializeField] bool isTrans_DefUpBlockedToAtkUpHold;
+    [SerializeField] bool isTrans_DefUpBlockedToAtkRightHold;
+    [SerializeField] bool isTrans_DefUpBlockedToAtkDownHold;
+    [SerializeField] bool isTrans_DefUpBlockedToAtkLeftHold;
+
+    // def_right_blocked to atk_hold
+    static readonly int Hash_TransName_def_right_blocked_to_atk_up_hold = Animator.StringToHash("def_right_blocked_to_atk_up_hold");
+    static readonly int Hash_TransName_def_right_blocked_to_atk_right_hold = Animator.StringToHash("def_right_blocked_to_atk_right_hold");
+    static readonly int Hash_TransName_def_right_blocked_to_atk_down_hold = Animator.StringToHash("def_right_blocked_to_atk_down_hold");
+    static readonly int Hash_TransName_def_right_blocked_to_atk_left_hold = Animator.StringToHash("def_right_blocked_to_atk_left_hold");
+    [SerializeField] bool isTrans_DefRightBlockedToAtkUpHold;
+    [SerializeField] bool isTrans_DefRightBlockedToAtkRightHold;
+    [SerializeField] bool isTrans_DefRightBlockedToAtkDownHold;
+    [SerializeField] bool isTrans_DefRightBlockedToAtkLeftHold;
+
+    // def_down_blocked to atk_hold
+    static readonly int Hash_TransName_def_down_blocked_to_atk_up_hold = Animator.StringToHash("def_down_blocked_to_atk_up_hold");
+    static readonly int Hash_TransName_def_down_blocked_to_atk_right_hold = Animator.StringToHash("def_down_blocked_to_atk_right_hold");
+    static readonly int Hash_TransName_def_down_blocked_to_atk_down_hold = Animator.StringToHash("def_down_blocked_to_atk_down_hold");
+    static readonly int Hash_TransName_def_down_blocked_to_atk_left_hold = Animator.StringToHash("def_down_blocked_to_atk_left_hold");
+    [SerializeField] bool isTrans_DefDownBlockedToAtkUpHold;
+    [SerializeField] bool isTrans_DefDownBlockedToAtkRightHold;
+    [SerializeField] bool isTrans_DefDownBlockedToAtkDownHold;
+    [SerializeField] bool isTrans_DefDownBlockedToAtkLeftHold;
+
+    // def_left_blocked to atk_hold
+    static readonly int Hash_TransName_def_left_blocked_to_atk_up_hold = Animator.StringToHash("def_left_blocked_to_atk_up_hold");
+    static readonly int Hash_TransName_def_left_blocked_to_atk_right_hold = Animator.StringToHash("def_left_blocked_to_atk_right_hold");
+    static readonly int Hash_TransName_def_left_blocked_to_atk_down_hold = Animator.StringToHash("def_left_blocked_to_atk_down_hold");
+    static readonly int Hash_TransName_def_left_blocked_to_atk_left_hold = Animator.StringToHash("def_left_blocked_to_atk_left_hold");
+    [SerializeField] bool isTrans_DefLeftBlockedToAtkUpHold;
+    [SerializeField] bool isTrans_DefLeftBlockedToAtkRightHold;
+    [SerializeField] bool isTrans_DefLeftBlockedToAtkDownHold;
+    [SerializeField] bool isTrans_DefLeftBlockedToAtkLeftHold;
+
     // Trigger parameters which must be set to false every frame, after "Set" methods.
     bool trigger_isAtkBounced;
     bool trigger_isDefBlocked;
@@ -388,7 +429,7 @@ public class AnimationManager : MonoBehaviour
         moveY = moveXY.y * moveXYmulti;
 
         // This multiplier is allowed to be greater than 1.0f, but it can never be less than 1.0f.
-        float moveAnimSpeedMulti = 1.0f; 
+        float moveAnimSpeedMulti = 1.0f;
 
         // We compare the agent's curMoveSpeed to the Agent.DefaultMovementSpeedLimit. 
         if (curMoveSpeed >= Agent.DefaultMovementSpeedLimit)
@@ -558,6 +599,31 @@ public class AnimationManager : MonoBehaviour
         isTrans_DefLeftHoldToAtkRightHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_left_hold_to_atk_right_hold;
         isTrans_DefLeftHoldToAtkDownHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_left_hold_to_atk_down_hold;
         isTrans_DefLeftHoldToAtkLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_left_hold_to_atk_left_hold;
+
+        // def_blocked to atk_hold transitions
+        // def_up_blocked to atk_hold
+        isTrans_DefUpBlockedToAtkUpHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_up_blocked_to_atk_up_hold;
+        isTrans_DefUpBlockedToAtkRightHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_up_blocked_to_atk_right_hold;
+        isTrans_DefUpBlockedToAtkDownHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_up_blocked_to_atk_down_hold;
+        isTrans_DefUpBlockedToAtkLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_up_blocked_to_atk_left_hold;
+
+        // def_right_blocked to atk_hold
+        isTrans_DefRightBlockedToAtkUpHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_right_blocked_to_atk_up_hold;
+        isTrans_DefRightBlockedToAtkRightHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_right_blocked_to_atk_right_hold;
+        isTrans_DefRightBlockedToAtkDownHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_right_blocked_to_atk_down_hold;
+        isTrans_DefRightBlockedToAtkLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_right_blocked_to_atk_left_hold;
+
+        // def_down_blocked to atk_hold
+        isTrans_DefDownBlockedToAtkUpHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_down_blocked_to_atk_up_hold;
+        isTrans_DefDownBlockedToAtkRightHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_down_blocked_to_atk_right_hold;
+        isTrans_DefDownBlockedToAtkDownHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_down_blocked_to_atk_down_hold;
+        isTrans_DefDownBlockedToAtkLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_down_blocked_to_atk_left_hold;
+
+        // def_left_blocked to atk_hold
+        isTrans_DefLeftBlockedToAtkUpHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_left_blocked_to_atk_up_hold;
+        isTrans_DefLeftBlockedToAtkRightHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_left_blocked_to_atk_right_hold;
+        isTrans_DefLeftBlockedToAtkDownHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_left_blocked_to_atk_down_hold;
+        isTrans_DefLeftBlockedToAtkLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_def_left_blocked_to_atk_left_hold;
     }
 
     void SetCombatParameters()
@@ -633,7 +699,26 @@ public class AnimationManager : MonoBehaviour
         || isTrans_DefLeftHoldToAtkDownHold
         || isTrans_DefLeftHoldToAtkLeftHold;
 
-        spineShouldBeRotated = (allStates || allTransitions || defHoldToAtkHoldTransitions) && (atkHoldToDefHoldTransitions == false);
+        bool defBlockedToAtkHoldTransitions =
+            isTrans_DefUpBlockedToAtkUpHold
+        || isTrans_DefUpBlockedToAtkRightHold
+        || isTrans_DefUpBlockedToAtkDownHold
+        || isTrans_DefUpBlockedToAtkLeftHold
+        || isTrans_DefRightBlockedToAtkUpHold
+        || isTrans_DefRightBlockedToAtkRightHold
+        || isTrans_DefRightBlockedToAtkDownHold
+        || isTrans_DefRightBlockedToAtkLeftHold
+        || isTrans_DefDownBlockedToAtkUpHold
+        || isTrans_DefDownBlockedToAtkRightHold
+        || isTrans_DefDownBlockedToAtkDownHold
+        || isTrans_DefDownBlockedToAtkLeftHold
+        || isTrans_DefLeftBlockedToAtkUpHold
+        || isTrans_DefLeftBlockedToAtkRightHold
+        || isTrans_DefLeftBlockedToAtkDownHold
+        || isTrans_DefLeftBlockedToAtkLeftHold;
+
+        spineShouldBeRotated = (allStates || allTransitions || defHoldToAtkHoldTransitions || defBlockedToAtkHoldTransitions)
+            && (atkHoldToDefHoldTransitions == false);
 
         if (spineShouldBeRotated)
         {
