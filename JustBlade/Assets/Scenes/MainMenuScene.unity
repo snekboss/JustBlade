@@ -206,7 +206,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 79445904}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1917405536}
+        m_TargetAssemblyTypeName: MainMenuUI, Assembly-CSharp
+        m_MethodName: OnClick_ButtonExitGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &79445904
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -640,7 +652,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 224674342}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1917405536}
+        m_TargetAssemblyTypeName: MainMenuUI, Assembly-CSharp
+        m_MethodName: OnClick_ButtonStartGame
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &224674342
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -762,7 +786,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 286796493}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1917405536}
+        m_TargetAssemblyTypeName: MainMenuUI, Assembly-CSharp
+        m_MethodName: OnClick_ButtonControls
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &286796493
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1579,7 +1615,19 @@ MonoBehaviour:
   m_Value: 45
   m_OnValueChanged:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1917405536}
+        m_TargetAssemblyTypeName: MainMenuUI, Assembly-CSharp
+        m_MethodName: OnSlider_ValueChanged
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!1 &1374448554
 GameObject:
   m_ObjectHideFlags: 0
@@ -2036,7 +2084,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1888832368}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 1917405536}
+        m_TargetAssemblyTypeName: MainMenuUI, Assembly-CSharp
+        m_MethodName: OnClick_ButtonGoBack
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1888832368
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2160,6 +2220,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1917405535}
+  - component: {fileID: 1917405536}
   m_Layer: 0
   m_Name: MainMenuUI
   m_TagString: Untagged
@@ -2185,6 +2246,26 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1917405536
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1917405534}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3087a4cdd178cd74bbe2a206ee6cd79b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sliderMouseSensitivity: {fileID: 1341430540}
+  txtMouseSensitivity: {fileID: 1594071873}
+  screenMainMenu: {fileID: 107281043}
+  screenControls: {fileID: 1002149334}
+  btnStartGame: {fileID: 224674341}
+  btnControls: {fileID: 286796492}
+  btnExitGame: {fileID: 79445903}
+  btnGoBack: {fileID: 1888832367}
 --- !u!1 &1974509121
 GameObject:
   m_ObjectHideFlags: 0

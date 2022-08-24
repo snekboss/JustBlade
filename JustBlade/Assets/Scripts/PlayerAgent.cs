@@ -36,7 +36,7 @@ public class PlayerAgent : Agent
     // Rotation fields
     float mouseX;
     float mouseY;
-    public static float playerCameraRotationSpeed = 45.0f;
+    public static float PlayerCameraRotationSpeed = 45.0f;
     float playerAgentYaw; // yawing the player agent (left right about Y axis)
     const float EyesPitchThreshold = 89.0f;
 
@@ -162,8 +162,8 @@ public class PlayerAgent : Agent
 
     void HandleEyeRotation()
     {
-        playerAgentYaw += playerCameraRotationSpeed * mouseX * Time.deltaTime;
-        LookAngleX -= playerCameraRotationSpeed * mouseY * Time.deltaTime; // Subtracting, because negative angle about X axis means "up".
+        playerAgentYaw += PlayerCameraRotationSpeed * mouseX * Time.deltaTime;
+        LookAngleX -= PlayerCameraRotationSpeed * mouseY * Time.deltaTime; // Subtracting, because negative angle about X axis means "up".
 
         LookAngleX = Mathf.Clamp(LookAngleX, -EyesPitchThreshold, EyesPitchThreshold);
 
