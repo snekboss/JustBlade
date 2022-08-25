@@ -228,16 +228,26 @@ public class EquipmentManager : MonoBehaviour
         }
     }
 
-    void UpdateMovementSpeedMultiplier()
+    public static float CalculateMovementSpeedMultiplier(Armor.ArmorLevel HeadArmorLevel
+        , Armor.ArmorLevel TorsoArmorLevel
+        , Armor.ArmorLevel HandArmorLevel
+        , Armor.ArmorLevel LegArmorLevel)
     {
-        float handPenalty = (int)(HandArmorLevel) * DefaultHandArmorMovementSpeedPenalty;
         float headPenalty = (int)(HeadArmorLevel) * DefaultHeadArmorMovementSpeedPenalty;
-        float legPenalty = (int)(LegArmorLevel) * DefaultLegArmorMovementSpeedPenalty;
         float torsoPenalty = (int)(TorsoArmorLevel) * DefaultTorsoArmorMovementSpeedPenalty;
-        float sumPenalty = handPenalty + headPenalty + legPenalty + torsoPenalty;
+        float handPenalty = (int)(HandArmorLevel) * DefaultHandArmorMovementSpeedPenalty;
+        float legPenalty = (int)(LegArmorLevel) * DefaultLegArmorMovementSpeedPenalty;
+        float sumPenalty = headPenalty + torsoPenalty + handPenalty + legPenalty;
+
         float finalPenalty = sumPenalty * FinalMovementSpeedPenaltyMultiplier;
 
         float movementSpeedMultiplier = DefaultMovementSpeedMultiplier - finalPenalty;
+        return movementSpeedMultiplier;
+    }
+
+    void UpdateMovementSpeedMultiplier()
+    {
+        float movementSpeedMultiplier = CalculateMovementSpeedMultiplier(HeadArmorLevel, TorsoArmorLevel, HandArmorLevel, LegArmorLevel);
         float newSpeedLimit = Agent.DefaultMovementSpeedLimit * movementSpeedMultiplier;
 
         //DEBUG_movSpeedMulti = movementSpeedMultiplier;

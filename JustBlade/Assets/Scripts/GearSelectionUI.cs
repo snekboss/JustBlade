@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
@@ -17,6 +18,9 @@ public class GearSelectionUI : MonoBehaviour
     public TextMeshProUGUI txtSelectedTorsoArmor;
     public TextMeshProUGUI txtSelectedHandArmor;
     public TextMeshProUGUI txtSelectedLegArmor;
+
+    public TextMeshProUGUI txtWeaponInfoBody;
+    public TextMeshProUGUI txtArmorInfoBody;
 
     public Button btnNextWeapon;
     public Button btnNextHeadArmor;
@@ -94,6 +98,11 @@ public class GearSelectionUI : MonoBehaviour
         OnMannequinEquipmentChanged();
     }
 
+    public void OnClick_ButtonBack()
+    {
+        SceneManager.LoadScene("TournamentInfoMenuScene");
+    }
+
     public void OnClick_ButtonFight()
     {
         SceneManager.LoadScene("ArenaScene");
@@ -106,11 +115,49 @@ public class GearSelectionUI : MonoBehaviour
 
     void UpdateTexts()
     {
-        txtSelectedWeapon.text = PrefabManager.Weapons[TournamentVariables.PlayerChosenWeaponIndex].shownName;
-        txtSelectedHeadArmor.text = PrefabManager.HeadArmors[TournamentVariables.PlayerChosenHeadArmorIndex].shownName;
-        txtSelectedTorsoArmor.text = PrefabManager.TorsoArmors[TournamentVariables.PlayerChosenTorsoArmorIndex].shownName;
-        txtSelectedHandArmor.text = PrefabManager.HandArmors[TournamentVariables.PlayerChosenHandArmorIndex].shownName;
-        txtSelectedLegArmor.text = PrefabManager.LegArmors[TournamentVariables.PlayerChosenLegArmorIndex].shownName;
+        Weapon chosenWeapon = PrefabManager.Weapons[TournamentVariables.PlayerChosenWeaponIndex];
+        Armor chosenHeadArmor = PrefabManager.HeadArmors[TournamentVariables.PlayerChosenHeadArmorIndex];
+        Armor chosenTorsoArmor = PrefabManager.TorsoArmors[TournamentVariables.PlayerChosenTorsoArmorIndex];
+        Armor chosenHandArmor = PrefabManager.HandArmors[TournamentVariables.PlayerChosenHandArmorIndex];
+        Armor chosenLegArmor = PrefabManager.LegArmors[TournamentVariables.PlayerChosenLegArmorIndex];
+
+        txtSelectedWeapon.text = chosenWeapon.shownName;
+        txtSelectedHeadArmor.text = chosenHeadArmor.shownName;
+        txtSelectedTorsoArmor.text = chosenTorsoArmor.shownName;
+        txtSelectedHandArmor.text = chosenHandArmor.shownName;
+        txtSelectedLegArmor.text = chosenLegArmor.shownName;
+
+        /*
+        Type: Two Handed
+        Length: 132
+        Average swing damage: 58
+        Average stab damage: 45
+         */
+        string NL = Environment.NewLine;
+        string typeStr = chosenWeapon.weaponType == Weapon.WeaponType.TwoHanded ? "Two handed" : "Polearm";
+        int lengthInt = Convert.ToInt32(chosenWeapon.weaponLength * 100);
+        txtWeaponInfoBody.text =
+            "Type: " + typeStr + NL
+            + "Length: " + lengthInt.ToString() + NL
+            + "Average swing damage: " + chosenWeapon.AverageSwingDamage.ToString() + NL
+            + "Average stab damage: " + chosenWeapon.AverageStabDamage.ToString();
+
+        /*
+        Head armor level: Medium
+        Torso armor level: Medium
+        Hand armor level: Medium
+        Leg armor level: Medium
+        Movement speed: 160%
+         */
+        float movSpeedMulti = EquipmentManager.CalculateMovementSpeedMultiplier(chosenHeadArmor.armorLevel
+            , chosenTorsoArmor.armorLevel, chosenHandArmor.armorLevel, chosenLegArmor.armorLevel);
+        int movSpeedMultiInt = Convert.ToInt32(movSpeedMulti * 100);
+        txtArmorInfoBody.text =
+            "Head armor level: " + chosenHeadArmor.armorLevel.ToString() + NL
+            + "Torso armor level: " + chosenTorsoArmor.armorLevel.ToString() + NL
+            + "Hand armor level: " + chosenHandArmor.armorLevel.ToString() + NL
+            + "Leg armor level: " + chosenLegArmor.armorLevel.ToString() + NL
+            + "Movement speed: " + movSpeedMultiInt + "%";
     }
 
     void OnMannequinEquipmentChanged()

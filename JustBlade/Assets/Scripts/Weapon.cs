@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -72,6 +73,30 @@ public class Weapon : MonoBehaviour
     public int StabDmgLegMed;
     public int StabDmgLegHeavy;
 
+    public int AverageSwingDamage
+    {
+        get
+        {
+            int sum = SwingDmgHeadNaked + SwingDmgHeadLight + SwingDmgHeadMed + SwingDmgHeadHeavy
+                + SwingDmgTorsoNaked + SwingDmgTorsoLight + SwingDmgTorsoMed + SwingDmgTorsoHeavy
+                + SwingDmgLegNaked + SwingDmgLegLight + SwingDmgLegMed + SwingDmgLegHeavy;
+            float avgFloat = (float)(sum) / 12.0f;
+            return Convert.ToInt32(avgFloat);
+        }
+    }
+
+    public int AverageStabDamage
+    {
+        get 
+        { 
+            int sum = StabDmgHeadNaked + StabDmgHeadLight + StabDmgHeadMed + StabDmgHeadHeavy
+                + StabDmgTorsoNaked + StabDmgTorsoLight + StabDmgTorsoMed + StabDmgTorsoHeavy
+                + StabDmgLegNaked + StabDmgLegLight + StabDmgLegMed + StabDmgLegHeavy;
+            float avgFloat = (float)(sum) / 12.0f;
+            return Convert.ToInt32(avgFloat);
+        }
+    }
+
     Rigidbody rbody;
     BoxCollider col;
     Agent ownerAgent;
@@ -96,7 +121,6 @@ public class Weapon : MonoBehaviour
         }
     }
 
-    
     Vector3 ColDimensionVec
     {
         get
