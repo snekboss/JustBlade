@@ -25,6 +25,7 @@ public class AnimationManager : MonoBehaviour
     Vector3 initialPelvisToSpineOffset;
     Quaternion initialPelvisRotation;
     Quaternion initialPelvisRotationInverse;
+    Vector3 initialAgentScale;
 
     float targetSpineAngle;
     float spineCurAngle;
@@ -345,6 +346,7 @@ public class AnimationManager : MonoBehaviour
         initialPelvisToSpineOffset = spineBone.position - pelvisBone.position;
         initialPelvisRotation = pelvisBone.rotation;
         initialPelvisRotationInverse = Quaternion.Inverse(initialPelvisRotation);
+        initialAgentScale = ownerAgent.transform.lossyScale;
     }
 
     public void ReportEquippedWeaponType(Weapon.WeaponType equippedWeaponType)
@@ -776,7 +778,16 @@ public class AnimationManager : MonoBehaviour
 
         Vector3 finalPelvisToSpineOffset = offsetRotatorQuaternion * initialPelvisToSpineOffset;
 
-        spineBone.position = pelvisBone.position + finalPelvisToSpineOffset;
+        float scaleRatioX = ownerAgent.transform.lossyScale.x / initialAgentScale.x;
+        float scaleRatioY = ownerAgent.transform.lossyScale.y / initialAgentScale.y;
+        float scaleRatioZ = ownerAgent.transform.lossyScale.z / initialAgentScale.z;
+
+        Vector3 offset = finalPelvisToSpineOffset;
+        offset.x *= scaleRatioX;
+        offset.y *= scaleRatioY;
+        offset.z *= scaleRatioZ;
+
+        spineBone.position = pelvisBone.position + offset;
         //Debug.DrawRay(pelvis.position, finalPelvisToSpineOffset, Color.red);
     }
     void RotateSpineByLookDirectionAngleX()
