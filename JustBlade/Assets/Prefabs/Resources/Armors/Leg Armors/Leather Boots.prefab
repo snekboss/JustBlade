@@ -521,6 +521,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abefe3543a58dc8418a75accb5b090d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shownName: Leather Boots
   skinnedMeshRenderer: {fileID: 7248652362248302963}
   armorType: 3
   armorLevel: 1

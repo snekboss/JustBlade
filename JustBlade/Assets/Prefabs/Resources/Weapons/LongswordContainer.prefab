@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EDIT_MODE: 0
+  shownName: Longsword
   weaponVisual: {fileID: 8172229744354804131}
   weaponLength: 1.218
   weaponRadius: 0.058
@@ -77,6 +78,7 @@ MonoBehaviour:
   StabDmgLegLight: 50
   StabDmgLegMed: 35
   StabDmgLegHeavy: 30
+  isDmgAlreadyApplied: 0
 --- !u!65 &2034874412
 BoxCollider:
   m_ObjectHideFlags: 0

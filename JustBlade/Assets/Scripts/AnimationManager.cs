@@ -31,8 +31,34 @@ public class AnimationManager : MonoBehaviour
     float SpineRotationLerpRate = 0.2f;
     bool spineShouldBeRotated;
 
-    Animator animator;
+    Animator animat;
+    Animator Animat
+    { 
+        get 
+        {
+            if (animat == null) 
+            {
+                animat = GetComponent<Animator>();
+            }
+
+            return animat;
+        }
+    }
     RuntimeAnimatorController initialRuntimeAC;
+    RuntimeAnimatorController InitialRuntimeAC
+    {
+        get
+        {
+            if (initialRuntimeAC == null)
+            {
+                initialRuntimeAC = Animat.runtimeAnimatorController;
+            }
+
+            return initialRuntimeAC;
+        }
+    }
+
+
     public AnimatorOverrideController poleAOC;
     AnimatorStateInfo attackAndBlockLayerStateInfo;
     AnimatorTransitionInfo attackAndBlockLayerTransitionInfo;
@@ -314,8 +340,6 @@ public class AnimationManager : MonoBehaviour
 
     void Awake()
     {
-        animator = GetComponent<Animator>();
-        initialRuntimeAC = animator.runtimeAnimatorController;
         ownerAgent = GetComponent<Agent>();
 
         initialPelvisToSpineOffset = spineBone.position - pelvisBone.position;
@@ -327,17 +351,17 @@ public class AnimationManager : MonoBehaviour
     {
         if (equippedWeaponType == Weapon.WeaponType.TwoHanded)
         {
-            animator.runtimeAnimatorController = initialRuntimeAC;
+            Animat.runtimeAnimatorController = InitialRuntimeAC;
         }
         else if (equippedWeaponType == Weapon.WeaponType.Polearm)
         {
-            animator.runtimeAnimatorController = poleAOC;
+            Animat.runtimeAnimatorController = poleAOC;
         }
     }
 
     public void UpdateCombatDirection(Agent.CombatDirection combatDir)
     {
-        animator.SetInteger(Hash_combatDir, (int)combatDir);
+        Animat.SetInteger(Hash_combatDir, (int)combatDir);
     }
 
     public void SetJump(bool isJumping)
@@ -358,18 +382,18 @@ public class AnimationManager : MonoBehaviour
     public void SetGettingHurt(GettingHurtDirection gettingHurtDirection)
     {
         trigger_isHurt = true;
-        animator.SetInteger(Hash_isHurtDir, (int)gettingHurtDirection);
+        Animat.SetInteger(Hash_isHurtDir, (int)gettingHurtDirection);
     }
 
     public void PlayDeathAnimation()
     {
-        animator.SetBool(Hash_isDead, true);
+        Animat.SetBool(Hash_isDead, true);
 
         attackAndBlockLayerWeight = 0;
         idleLayerWeight = 0;
 
-        animator.SetLayerWeight(LayerIdAttackAndBlock, attackAndBlockLayerWeight);
-        animator.SetLayerWeight(LayerIdIdle, idleLayerWeight);
+        Animat.SetLayerWeight(LayerIdAttackAndBlock, attackAndBlockLayerWeight);
+        Animat.SetLayerWeight(LayerIdIdle, idleLayerWeight);
 
         ownerAgent.EqMgr.equippedWeapon.SetCollisionAbility(false);
     }
@@ -416,12 +440,12 @@ public class AnimationManager : MonoBehaviour
         }
 
         // Finally, set the movement animation moveAnimSpeedMulti.
-        animator.SetFloat(Hash_moveAnimSpeedMulti, moveAnimSpeedMulti);
+        Animat.SetFloat(Hash_moveAnimSpeedMulti, moveAnimSpeedMulti);
     }
 
     void ReadStateInfo()
     {
-        attackAndBlockLayerStateInfo = animator.GetCurrentAnimatorStateInfo(LayerIdAttackAndBlock);
+        attackAndBlockLayerStateInfo = Animat.GetCurrentAnimatorStateInfo(LayerIdAttackAndBlock);
 
         isState_Idle = attackAndBlockLayerStateInfo.tagHash == Hash_StateTag_idle;
 
@@ -453,7 +477,7 @@ public class AnimationManager : MonoBehaviour
 
     void ReadTransitionInfo()
     {
-        attackAndBlockLayerTransitionInfo = animator.GetAnimatorTransitionInfo(LayerIdAttackAndBlock);
+        attackAndBlockLayerTransitionInfo = Animat.GetAnimatorTransitionInfo(LayerIdAttackAndBlock);
         // Attack
         // idle_to_atk_hold
         isTrans_IdleToAtkUpHold = attackAndBlockLayerTransitionInfo.userNameHash == Hash_TransName_idle_to_atk_up_hold;
@@ -666,8 +690,8 @@ public class AnimationManager : MonoBehaviour
 
             idleTimer = 0f;
 
-            attackAndBlockLayerWeight = Mathf.Lerp(animator.GetLayerWeight(LayerIdAttackAndBlock), 1f, NotIdlingLerpRate_AttackAndBlockLayer);
-            idleLayerWeight = Mathf.Lerp(animator.GetLayerWeight(LayerIdIdle), 0f, NotIdlingLerpRate_IdleLayer); // lerp rate was 0.5f
+            attackAndBlockLayerWeight = Mathf.Lerp(Animat.GetLayerWeight(LayerIdAttackAndBlock), 1f, NotIdlingLerpRate_AttackAndBlockLayer);
+            idleLayerWeight = Mathf.Lerp(Animat.GetLayerWeight(LayerIdIdle), 0f, NotIdlingLerpRate_IdleLayer); // lerp rate was 0.5f
 
             //attackAndBlockLayerWeight = 1f;
             //idleLayerWeight = 0f;
@@ -683,22 +707,22 @@ public class AnimationManager : MonoBehaviour
 
             if (idleTimer > IdleTimerMax)
             {
-                attackAndBlockLayerWeight = Mathf.Lerp(animator.GetLayerWeight(LayerIdAttackAndBlock), 0f, IdlingLerpRate_AttackAndBlockLayer);
-                idleLayerWeight = Mathf.Lerp(animator.GetLayerWeight(LayerIdIdle), 1f, IdlingLerpRate_IdleLayer);
+                attackAndBlockLayerWeight = Mathf.Lerp(Animat.GetLayerWeight(LayerIdAttackAndBlock), 0f, IdlingLerpRate_AttackAndBlockLayer);
+                idleLayerWeight = Mathf.Lerp(Animat.GetLayerWeight(LayerIdIdle), 1f, IdlingLerpRate_IdleLayer);
             }
         }
 
         // Now, set the layer weights, dependong on whatever values were chosen above.
-        animator.SetLayerWeight(LayerIdAttackAndBlock, attackAndBlockLayerWeight);
-        animator.SetLayerWeight(LayerIdIdle, idleLayerWeight);
+        Animat.SetLayerWeight(LayerIdAttackAndBlock, attackAndBlockLayerWeight);
+        Animat.SetLayerWeight(LayerIdIdle, idleLayerWeight);
     }
 
     void SetTriggerParameters()
     {
-        animator.SetBool(Hash_isAtkBounced, trigger_isAtkBounced);
-        animator.SetBool(Hash_isDefBlocked, trigger_isDefBlocked);
-        animator.SetBool(Hash_jump, trigger_jump);
-        animator.SetBool(Hash_isHurt, trigger_isHurt);
+        Animat.SetBool(Hash_isAtkBounced, trigger_isAtkBounced);
+        Animat.SetBool(Hash_isDefBlocked, trigger_isDefBlocked);
+        Animat.SetBool(Hash_jump, trigger_jump);
+        Animat.SetBool(Hash_isHurt, trigger_isHurt);
     }
 
     void ResetTriggerParameters()
@@ -726,11 +750,11 @@ public class AnimationManager : MonoBehaviour
         DecideIfSpineShouldBeRotated();
         SetLayerWeights();
 
-        animator.SetFloat(Hash_moveX, moveX);
-        animator.SetFloat(Hash_moveY, moveY);
-        animator.SetBool(Hash_isAtk, isAtk);
-        animator.SetBool(Hash_isDef, isDef);
-        animator.SetBool(Hash_isGrounded, isGrounded);
+        Animat.SetFloat(Hash_moveX, moveX);
+        Animat.SetFloat(Hash_moveY, moveY);
+        Animat.SetBool(Hash_isAtk, isAtk);
+        Animat.SetBool(Hash_isDef, isDef);
+        Animat.SetBool(Hash_isGrounded, isGrounded);
 
         // Set triggers.
         SetTriggerParameters();

@@ -94,6 +94,20 @@ public class AiAgent : Agent
         InitializeNavMeshAgent();
     }
 
+    public override void RequestEquipmentSet(out Weapon weaponPrefab
+        , out Armor headArmorPrefab
+        , out Armor torsoArmorPrefab
+        , out Armor handArmorPrefab
+        , out Armor legArmorPrefab)
+    {
+        weaponPrefab = PrefabManager.Weapons[Random.Range(0, PrefabManager.Weapons.Count)];
+
+        headArmorPrefab = PrefabManager.HeadArmors[Random.Range(0, PrefabManager.HeadArmors.Count)];
+        torsoArmorPrefab = PrefabManager.TorsoArmors[Random.Range(0, PrefabManager.TorsoArmors.Count)];
+        handArmorPrefab = PrefabManager.HandArmors[Random.Range(0, PrefabManager.HandArmors.Count)];
+        legArmorPrefab = PrefabManager.LegArmors[Random.Range(0, PrefabManager.LegArmors.Count)];
+    }
+
     void InitializeNavMeshAgent()
     {
         nma = GetComponent<NavMeshAgent>();

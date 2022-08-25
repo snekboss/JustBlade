@@ -60,31 +60,17 @@ public static class PrefabManager
         }
     }
 
-    static List<Weapon> twoHandedWeapons;
-    public static List<Weapon> TwoHandedWeapons
+    static List<Weapon> weapons;
+    public static List<Weapon> Weapons
     {
         get
         {
-            if (twoHandedWeapons == null)
+            if (weapons == null)
             {
-                twoHandedWeapons = LoadWeapons("Weapons/Two Handed Weapons");
+                weapons = LoadWeapons("Weapons");
             }
 
-            return twoHandedWeapons;
-        }
-    }
-
-    static List<Weapon> polearmWeapons;
-    public static List<Weapon> PolearmWeapons
-    {
-        get
-        {
-            if (polearmWeapons == null)
-            {
-                polearmWeapons = LoadWeapons("Weapons/Polearm Weapons");
-            }
-
-            return polearmWeapons;
+            return weapons;
         }
     }
 

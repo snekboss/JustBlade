@@ -19,6 +19,8 @@ public class Weapon : MonoBehaviour
         Polearm = 1,
     }
 
+    public string shownName;
+
     public GameObject weaponVisual;
     [Range(0.01f, 20.0f)]
     public float weaponLength;

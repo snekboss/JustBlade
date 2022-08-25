@@ -1251,6 +1251,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abefe3543a58dc8418a75accb5b090d7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  shownName: Leather Gloves
   skinnedMeshRenderer: {fileID: 3842118656870171380}
   armorType: 2
   armorLevel: 1

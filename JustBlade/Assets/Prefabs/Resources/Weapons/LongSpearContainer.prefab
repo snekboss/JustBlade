@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EDIT_MODE: 0
+  shownName: Long Spear
   weaponVisual: {fileID: 4279015489137797311}
   weaponLength: 1.75
   weaponRadius: 0.058
@@ -77,6 +78,7 @@ MonoBehaviour:
   StabDmgLegLight: 0
   StabDmgLegMed: 0
   StabDmgLegHeavy: 0
+  isDmgAlreadyApplied: 0
 --- !u!65 &9133187139175165154
 BoxCollider:
   m_ObjectHideFlags: 0

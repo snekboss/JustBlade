@@ -135,7 +135,7 @@ GameObject:
   - component: {fileID: 23120750}
   - component: {fileID: 23120749}
   m_Layer: 0
-  m_Name: Text_SelectedBootsName (TMP)
+  m_Name: Text_SelectedLegArmorName (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -158,7 +158,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -229.9999, y: -180}
+  m_AnchoredPosition: {x: -229.99988, y: -180}
   m_SizeDelta: {x: 300, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &23120749
@@ -798,72 +798,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 261475895}
   m_CullTransparentMesh: 1
---- !u!1001 &309917406
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1840256524}
-    m_Modifications:
-    - target: {fileID: 2681063993493225354, guid: d7b6e9bed99f8214ba2f5f5f8bc34d37, type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2681063993493225354, guid: d7b6e9bed99f8214ba2f5f5f8bc34d37, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2681063993493225354, guid: d7b6e9bed99f8214ba2f5f5f8bc34d37, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2681063993493225354, guid: d7b6e9bed99f8214ba2f5f5f8bc34d37, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2681063993493225354, guid: d7b6e9bed99f8214ba2f5f5f8bc34d37, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2681063993493225354, guid: d7b6e9bed99f8214ba2f5f5f8bc34d37, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2681063993493225354, guid: d7b6e9bed99f8214ba2f5f5f8bc34d37, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2681063993493225354, guid: d7b6e9bed99f8214ba2f5f5f8bc34d37, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2681063993493225354, guid: d7b6e9bed99f8214ba2f5f5f8bc34d37, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2681063993493225354, guid: d7b6e9bed99f8214ba2f5f5f8bc34d37, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2681063993493225354, guid: d7b6e9bed99f8214ba2f5f5f8bc34d37, type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 3350359074657051952, guid: d7b6e9bed99f8214ba2f5f5f8bc34d37, type: 3}
-      propertyPath: m_Name
-      value: MannequinAgent
-      objectReference: {fileID: 0}
-    - target: {fileID: 7285864657172723287, guid: d7b6e9bed99f8214ba2f5f5f8bc34d37, type: 3}
-      propertyPath: cam
-      value: 
-      objectReference: {fileID: 963194227}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d7b6e9bed99f8214ba2f5f5f8bc34d37, type: 3}
---- !u!4 &309917407 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2681063993493225354, guid: d7b6e9bed99f8214ba2f5f5f8bc34d37, type: 3}
-  m_PrefabInstance: {fileID: 309917406}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &404726593
 GameObject:
   m_ObjectHideFlags: 0
@@ -947,7 +881,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 404726596}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 488232024}
+        m_TargetAssemblyTypeName: GearSelectionUI, Assembly-CSharp
+        m_MethodName: OnClick_ButtonNextWeapon
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &404726596
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -995,6 +941,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 488232023}
+  - component: {fileID: 488232024}
   m_Layer: 0
   m_Name: GearSelectionUI
   m_TagString: Untagged
@@ -1022,6 +969,36 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &488232024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 488232022}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca304d013354c5745975e80a974428b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mannequinContainer: {fileID: 1840256524}
+  mannequinAgentPrefab: {fileID: 3350359074657051952, guid: d7b6e9bed99f8214ba2f5f5f8bc34d37, type: 3}
+  txtSelectedWeapon: {fileID: 958147598}
+  txtSelectedHeadArmor: {fileID: 661428132}
+  txtSelectedTorsoArmor: {fileID: 1117091353}
+  txtSelectedHandArmor: {fileID: 797689408}
+  txtSelectedLegArmor: {fileID: 23120749}
+  btnNextWeapon: {fileID: 404726595}
+  btnNextHeadArmor: {fileID: 1933050101}
+  btnNextTorsoArmor: {fileID: 690023096}
+  btnNextHandArmor: {fileID: 1805601740}
+  btnNextLegArmor: {fileID: 788365107}
+  btnPrevWeapon: {fileID: 1212660931}
+  btnPrevHeadArmor: {fileID: 2083531595}
+  btnPrevTorsoArmor: {fileID: 1810199311}
+  btnPrevHandArmor: {fileID: 1859641363}
+  btnPrevLegArmor: {fileID: 669741751}
+  btnFight: {fileID: 1480810783}
 --- !u!1 &661428130
 GameObject:
   m_ObjectHideFlags: 0
@@ -1034,7 +1011,7 @@ GameObject:
   - component: {fileID: 661428133}
   - component: {fileID: 661428132}
   m_Layer: 0
-  m_Name: Text_SelectedHelmetName (TMP)
+  m_Name: Text_SelectedHeadArmorName (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1057,7 +1034,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -229.9999, y: -90}
+  m_AnchoredPosition: {x: -229.99988, y: -90}
   m_SizeDelta: {x: 300, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &661428132
@@ -1307,7 +1284,7 @@ GameObject:
   - component: {fileID: 669741752}
   - component: {fileID: 669741751}
   m_Layer: 0
-  m_Name: Button_PreviousBoots
+  m_Name: Button_PreviousLegArmor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1377,7 +1354,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 669741752}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 488232024}
+        m_TargetAssemblyTypeName: GearSelectionUI, Assembly-CSharp
+        m_MethodName: OnClick_ButtonPrevLegArmor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &669741752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1429,7 +1418,7 @@ GameObject:
   - component: {fileID: 690023097}
   - component: {fileID: 690023096}
   m_Layer: 0
-  m_Name: Button_NextCuirass
+  m_Name: Button_NextTorsoArmor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1499,7 +1488,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 690023097}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 488232024}
+        m_TargetAssemblyTypeName: GearSelectionUI, Assembly-CSharp
+        m_MethodName: OnClick_ButtonNextTorsoArmor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &690023097
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1701,7 +1702,7 @@ GameObject:
   - component: {fileID: 788365108}
   - component: {fileID: 788365107}
   m_Layer: 0
-  m_Name: Button_NextBoots
+  m_Name: Button_NextLegArmor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1771,7 +1772,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 788365108}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 488232024}
+        m_TargetAssemblyTypeName: GearSelectionUI, Assembly-CSharp
+        m_MethodName: OnClick_ButtonNextLegArmor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &788365108
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1822,7 +1835,7 @@ GameObject:
   - component: {fileID: 797689409}
   - component: {fileID: 797689408}
   m_Layer: 0
-  m_Name: Text_SelectedGlovesName (TMP)
+  m_Name: Text_SelectedHandArmorName (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2446,7 +2459,7 @@ GameObject:
   - component: {fileID: 1117091354}
   - component: {fileID: 1117091353}
   m_Layer: 0
-  m_Name: Text_SelectedCuirassName (TMP)
+  m_Name: Text_SelectedTorsoArmorName (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2469,7 +2482,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 1, y: 1}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: -229.9999, y: -120}
+  m_AnchoredPosition: {x: -229.99988, y: -120}
   m_SizeDelta: {x: 300, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1117091353
@@ -2890,7 +2903,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1212660932}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 488232024}
+        m_TargetAssemblyTypeName: GearSelectionUI, Assembly-CSharp
+        m_MethodName: OnClick_ButtonPrevWeapon
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1212660932
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3012,7 +3037,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1480810784}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 488232024}
+        m_TargetAssemblyTypeName: GearSelectionUI, Assembly-CSharp
+        m_MethodName: OnClick_ButtonFight
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1480810784
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3469,7 +3506,7 @@ GameObject:
   - component: {fileID: 1805601741}
   - component: {fileID: 1805601740}
   m_Layer: 0
-  m_Name: Button_NextGloves
+  m_Name: Button_NextHandArmor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3539,7 +3576,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1805601741}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 488232024}
+        m_TargetAssemblyTypeName: GearSelectionUI, Assembly-CSharp
+        m_MethodName: OnClick_ButtonNextHandArmor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1805601741
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3591,7 +3640,7 @@ GameObject:
   - component: {fileID: 1810199312}
   - component: {fileID: 1810199311}
   m_Layer: 0
-  m_Name: Button_PreviousCuirass
+  m_Name: Button_PreviousTorsoArmor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3661,7 +3710,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1810199312}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 488232024}
+        m_TargetAssemblyTypeName: GearSelectionUI, Assembly-CSharp
+        m_MethodName: OnClick_ButtonPrevTorsoArmor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1810199312
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -3997,8 +4058,7 @@ Transform:
   m_LocalPosition: {x: 2, y: -1.5, z: 4}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 309917407}
+  m_Children: []
   m_Father: {fileID: 488232023}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4015,7 +4075,7 @@ GameObject:
   - component: {fileID: 1859641364}
   - component: {fileID: 1859641363}
   m_Layer: 0
-  m_Name: Button_PreviousGloves
+  m_Name: Button_PreviousHandArmor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4085,7 +4145,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1859641364}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 488232024}
+        m_TargetAssemblyTypeName: GearSelectionUI, Assembly-CSharp
+        m_MethodName: OnClick_ButtonPrevHandArmor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1859641364
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4610,7 +4682,7 @@ GameObject:
   - component: {fileID: 1933050102}
   - component: {fileID: 1933050101}
   m_Layer: 0
-  m_Name: Button_NextHelmet
+  m_Name: Button_NextHeadArmor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4680,7 +4752,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 1933050102}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 488232024}
+        m_TargetAssemblyTypeName: GearSelectionUI, Assembly-CSharp
+        m_MethodName: OnClick_ButtonNextHeadArmor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &1933050102
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -4867,7 +4951,7 @@ GameObject:
   - component: {fileID: 2083531596}
   - component: {fileID: 2083531595}
   m_Layer: 0
-  m_Name: Button_PreviousHelmet
+  m_Name: Button_PreviousHeadArmor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4937,7 +5021,19 @@ MonoBehaviour:
   m_TargetGraphic: {fileID: 2083531596}
   m_OnClick:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 488232024}
+        m_TargetAssemblyTypeName: GearSelectionUI, Assembly-CSharp
+        m_MethodName: OnClick_ButtonPrevHeadArmor
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
 --- !u!114 &2083531596
 MonoBehaviour:
   m_ObjectHideFlags: 0

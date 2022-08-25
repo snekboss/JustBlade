@@ -18,6 +18,7 @@ public class Armor : MonoBehaviour
         Heavy,
     }
 
+    public string shownName;
     public SkinnedMeshRenderer skinnedMeshRenderer;
     public ArmorType armorType;
     public ArmorLevel armorLevel;

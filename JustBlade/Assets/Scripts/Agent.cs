@@ -81,6 +81,12 @@ public abstract class Agent : MonoBehaviour
         MovementSpeedLimit = movementSpeedLimit;
     }
 
+    public abstract void RequestEquipmentSet(out Weapon weaponPrefab
+        , out Armor headArmorPrefab
+        , out Armor torsoArmorPrefab
+        , out Armor handArmorPrefab
+        , out Armor legArmorPrefab);
+
     public enum CombatDirection
     {
         Up = 0,

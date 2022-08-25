@@ -47,6 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   EDIT_MODE: 0
+  shownName: Noodle Longsword
   weaponVisual: {fileID: 8172229744354804131}
   weaponLength: 1.218
   weaponRadius: 0.058

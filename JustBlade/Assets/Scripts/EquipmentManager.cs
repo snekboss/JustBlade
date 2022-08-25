@@ -27,7 +27,6 @@ public class EquipmentManager : MonoBehaviour
     SkinnedMeshRenderer agentHandsSMR;
     SkinnedMeshRenderer agentLegsSMR;
 
-
     // Actual equipment game object references which have been instantiated on the scene are below.
     public Weapon equippedWeapon;
 
@@ -95,14 +94,6 @@ public class EquipmentManager : MonoBehaviour
     Armor equippedTorsoArmor;
     Armor equippedHandArmor;
     Armor equippedLegArmor;
-
-    // TODO: THIS IS TEMPORARY. REMOVE THE BELOW LINES WHEN THERE'S AN IN-GAME MENU TO CHOOSE EQUIPMENT.
-    public Weapon TEMP_weaponPrefab;
-    public Armor TEMP_headArmorPrefab;
-    public Armor TEMP_torsoArmorPrefab;
-    public Armor TEMP_handArmorPrefab;
-    public Armor TEMP_legArmorPrefab;
-
     void Initialize()
     {
         ownerAgent = GetComponent<Agent>();
@@ -116,9 +107,20 @@ public class EquipmentManager : MonoBehaviour
         agentBones = agentHeadSMR.bones; // TODO: TEMP?
     }
 
-
-    public void SpawnEquipment(Weapon weaponPrefab, Armor headArmorPrefab, Armor torsoArmorPrefab, Armor handArmorPrefab, Armor legArmorPrefab)
+    void SpawnEquipment()
     {
+        Weapon weaponPrefab;
+        Armor headArmorPrefab;
+        Armor torsoArmorPrefab;
+        Armor handArmorPrefab;
+        Armor legArmorPrefab;
+
+        ownerAgent.RequestEquipmentSet(out weaponPrefab
+            , out headArmorPrefab
+            , out torsoArmorPrefab
+            , out handArmorPrefab
+            , out legArmorPrefab);
+
         SpawnWeapon(weaponPrefab);
         SpawnHeadArmor(headArmorPrefab);
         SpawnTorsoArmor(torsoArmorPrefab);
@@ -200,7 +202,7 @@ public class EquipmentManager : MonoBehaviour
                 // IMPORTANT: Always allows at least one original SMR to be active in the scene.
                 // Because if all of them are turned off, then Unity decides not to play the animations, and the character remains in T-pose.
                 // We'll allow hands to be always visible, since clipping issues won't be too conspicuous.
-               // agentHandsSMR.gameObject.SetActive(false);
+                // agentHandsSMR.gameObject.SetActive(false);
             }
         }
     }
@@ -248,7 +250,6 @@ public class EquipmentManager : MonoBehaviour
     {
         Initialize();
 
-        // TODO: THIS IS TEMPORARY UNTIL I MAKE AN IN-GAME MENU.
-        SpawnEquipment(TEMP_weaponPrefab, TEMP_headArmorPrefab, TEMP_torsoArmorPrefab, TEMP_handArmorPrefab, TEMP_legArmorPrefab);
+        SpawnEquipment();
     }
 }

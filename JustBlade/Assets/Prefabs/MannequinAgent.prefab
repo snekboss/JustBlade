@@ -897,11 +897,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponBone: {fileID: 1753282508948166995}
   equippedWeapon: {fileID: 0}
-  TEMP_weaponPrefab: {fileID: 4009175891147424103, guid: ce39279876fec5f44a6994a7851291d5, type: 3}
-  TEMP_headArmorPrefab: {fileID: 8769159221732554429, guid: 320c2c1cba509a74abb8f0e29a8443f1, type: 3}
-  TEMP_torsoArmorPrefab: {fileID: 1324746687953447541, guid: 22ae69c5276ac0a4da538684b5d5ac18, type: 3}
-  TEMP_handArmorPrefab: {fileID: 8844822423302245203, guid: 3be4da8c456109848bfb74c88c41cc1f, type: 3}
-  TEMP_legArmorPrefab: {fileID: 4363543696782739176, guid: 98443f6f62f85dc45888fdb05e174f1f, type: 3}
 --- !u!114 &3303926268302588129
 MonoBehaviour:
   m_ObjectHideFlags: 0
