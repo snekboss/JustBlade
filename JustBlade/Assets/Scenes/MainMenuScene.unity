@@ -490,9 +490,47 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'TODO
+  m_text: '(Key -> Explanation)
 
-    (Key -> Explanation)'
+
+    W -> Move forward
+
+    S -> Move backward
+
+    A
+    -> Strafe left
+
+    D -> Strafe righ
+
+    Spacebar -> Jump
+
+    M -> Pause Menu
+
+
+    Moving
+    the mouse up/down/left/right -> Choose a combat direction
+
+
+    --- Left Mouse
+    Button ---
+
+    Click-> Prepare to attack in chosen direction
+
+    Hold -> Continue
+    holding the attack
+
+    Release -> Attack in chosen direction
+
+
+    --- Right
+    Mouse Button ---
+
+    Click -> Prepare to defend in chosen direction
+
+    Hold
+    -> Continue defending
+
+    Release -> Stop defending'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -519,7 +557,7 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 72
+  m_fontSize: 18
   m_fontSizeBase: 36
   m_fontWeight: 400
   m_enableAutoSizing: 1
