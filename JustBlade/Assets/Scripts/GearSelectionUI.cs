@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
 public class GearSelectionUI : MonoBehaviour
@@ -95,7 +96,7 @@ public class GearSelectionUI : MonoBehaviour
 
     public void OnClick_ButtonFight()
     {
-        // TODO: Load arena scene
+        SceneManager.LoadScene("ArenaScene");
     }
 
     void Start()

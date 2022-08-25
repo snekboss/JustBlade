@@ -9,7 +9,10 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenuScene.unity
     guid: a51d38f78cf16da4bb8bc1b0a1300e16
   - enabled: 1
-    path: Assets/Scenes/GearSelectionScene.unity
+    path: Assets/Scenes/TournamentInfoMenuScene.unity
+    guid: 8760c79c97261154e8a0ff7e4eb588f0
+  - enabled: 1
+    path: Assets/Scenes/GearSelectionMenuScene.unity
     guid: 4754a269ac10c5d419b66a9fe2d7f298
   - enabled: 1
     path: Assets/Scenes/ArenaScene.unity

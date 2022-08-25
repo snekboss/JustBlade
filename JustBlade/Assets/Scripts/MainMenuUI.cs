@@ -24,9 +24,10 @@ public class MainMenuUI : MonoBehaviour
         PlayerAgent.PlayerCameraRotationSpeed = sliderMouseSensitivity.value;
         Time.timeScale = 1;
 
-        // TODO: Initialize tournament settings.
+        TournamentVariables.IsPlayerEliminated = false;
+        TournamentVariables.CurrentRoundNumber = 1;
 
-        SceneManager.LoadScene("GearSelectionScene");
+        SceneManager.LoadScene("TournamentInfoMenuScene");
     }
 
     public void OnClick_ButtonControls()
