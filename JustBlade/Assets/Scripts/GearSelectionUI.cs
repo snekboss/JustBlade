@@ -6,6 +6,8 @@ using UnityEngine.UI;
 
 public class GearSelectionUI : MonoBehaviour
 {
+    public float mannequinAgentSize;
+
     public Transform mannequinContainer;
     public GameObject mannequinAgentPrefab;
 
@@ -129,5 +131,6 @@ public class GearSelectionUI : MonoBehaviour
         mannequinAgent = mannequinGO.GetComponent<MannequinAgent>();
         mannequinAgent.transform.parent = mannequinContainer;
         mannequinAgent.transform.localPosition = Vector3.zero;
+        mannequinAgent.transform.localScale = Vector3.one * mannequinAgentSize;
     }
 }
