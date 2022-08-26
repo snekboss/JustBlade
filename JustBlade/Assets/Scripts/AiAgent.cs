@@ -29,10 +29,6 @@ public class AiAgent : Agent
     float TooFarBorder;
     float AttackDistanceBorder;
 
-    // Below are temporary
-    public bool isGrounded;
-    // Above are temporary
-
     bool isAtk;
     bool isDef;
 
@@ -466,6 +462,8 @@ public class AiAgent : Agent
 
         float speed;
         Vector2 localMoveDir = GetLocalMoveDir(out speed);
-        AnimMgr.UpdateAnimations(localMoveDir, speed, isGrounded, isAtk, isDef);
+
+        // AiAgents are always considered to be grounded, since NavMeshAgents can't jump anyway...
+        AnimMgr.UpdateAnimations(localMoveDir, speed, true, isAtk, isDef);
     }
 }
