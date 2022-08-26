@@ -67,7 +67,7 @@ public class AnimationManager : MonoBehaviour
     AnimatorStateInfo attackAndBlockLayerStateInfo;
     AnimatorTransitionInfo attackAndBlockLayerTransitionInfo;
     [SerializeField] float idleTimer;
-    [SerializeField] float IdleTimerMax = 0.1f; // wait for a while before shifting layer weights
+    static readonly float IdleTimerMax = 0.1f; // wait for a while before shifting layer weights
     float attackAndBlockLayerWeight;
     float idleLayerWeight;
 

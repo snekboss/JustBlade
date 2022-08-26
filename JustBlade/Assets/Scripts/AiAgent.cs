@@ -23,6 +23,8 @@ public class AiAgent : Agent
     static readonly float ChanceToChooseNonSideCombatDirection = 0.75f; // chance to choose up or down as combat dir.
     public static readonly float NavMeshAgentBaseAcceleration = 4.0f;
 
+    public GameObject friendlinessIndicator;
+
     float TooCloseBorder;
     float TooFarBorder;
     float AttackDistanceBorder;
@@ -81,15 +83,7 @@ public class AiAgent : Agent
     public delegate Agent AiAgentSearchForEnemyEvent(AiAgent caller, out int numRemainingFriends);
     public virtual event AiAgentSearchForEnemyEvent OnSearchForEnemyAgent;
 
-    public override void Awake()
-    {
-        base.Awake();
-
-        agentEyes = transform.Find("AgentEyes");
-
-        yawAngle = transform.eulerAngles.y;
-        targetYawAngle = yawAngle;
-    }
+    
 
     public override void InitializeMovementSpeedLimit(float movementSpeedLimit)
     {
@@ -429,10 +423,26 @@ public class AiAgent : Agent
         }
     }
 
+    public override void Awake()
+    {
+        base.Awake();
+
+        agentEyes = transform.Find("AgentEyes");
+
+        yawAngle = transform.eulerAngles.y;
+        targetYawAngle = yawAngle;
+    }
+
+    void Start()
+    {
+        friendlinessIndicator.SetActive(isFriendOfPlayer);
+    }
     void Update()
     {
         if (IsDead)
         {
+            rBody.velocity = Vector3.zero;
+            rBody.angularVelocity = Vector3.zero;
             return;
         }
 
