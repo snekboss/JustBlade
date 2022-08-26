@@ -87,6 +87,7 @@ public class AnimationManager : MonoBehaviour
     public bool IsDefendingFromDown { get; private set; }
     public bool IsDefendingFromLeft { get; private set; }
     public bool IsDefending { get { return IsDefendingFromUp || IsDefendingFromRight || IsDefendingFromDown || IsDefendingFromLeft; } }
+    public bool IsIdling { get; private set; }
 
     // Layer IDs (WARNING: Their index order is in sync with how they're laid out in the Animator Controller).
     const int LayerIdBase = 0;
@@ -702,6 +703,8 @@ public class AnimationManager : MonoBehaviour
             || isTrans_IdleToDefRightHold
             || isTrans_IdleToDefDownHold
             || isTrans_IdleToDefLeftHold;
+
+        IsIdling = !isNotIdling; // yeah sorry for the negations but ugh.
 
         // If we're in a transitioning from AnyState, and it just so happens to be the idle state, then these transitions are also NOT considered "idle".
         // Therefore, we exclude them too.

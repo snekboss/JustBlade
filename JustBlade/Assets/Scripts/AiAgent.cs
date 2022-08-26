@@ -12,7 +12,7 @@ public class AiAgent : Agent
     static readonly float SlerpRateLookDirection = 0.2f;
     static readonly float LerpRateYawAngle = 0.1f;
 
-    static readonly float AttackTimeMax = 1.0f;
+    static readonly float AttackTimeMax = 0.5f;
     static readonly float DefendTimeMax = 2.0f;
     static readonly float SearchForEnemyTimeMax = 0.5f;
 
@@ -285,7 +285,7 @@ public class AiAgent : Agent
         return ret;
     }
 
-    Limb.LimbType GetRandomLimbType()
+    Limb.LimbType GetRandomTargetLimbType()
     {
         return (Limb.LimbType)Random.Range(0, 3);
     }
@@ -365,10 +365,10 @@ public class AiAgent : Agent
                 {
                     attackTimer = 0;
                     isAtk = true;
-                    if (AnimMgr.IsAttacking == false)
+                    if (AnimMgr.IsIdling)
                     {
                         combatDir = GetBiasedRandomCombatDirection();
-                        targetLimbType = GetRandomLimbType();
+                        targetLimbType = GetRandomTargetLimbType();
                     }
                 }
 

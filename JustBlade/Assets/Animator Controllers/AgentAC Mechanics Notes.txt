@@ -1,5 +1,5 @@
 => These are some notes regarding how the AgentAC is structured.
-=> The whole point of this document is the "The transition details" part further down.
+=> The whole point of this document is the "Transition and animation speed details" part further down.
 => However, to keep things somewhat readable, I also wrote down some Miscellaneous notes.
 
 
@@ -22,66 +22,49 @@ The following convention will be used for all directions:
 
 
 
-****************************** The transition details ******************************
----------- Source: idle ----------
-=> From idle to atk_hold:
-	- No exit time.
-	- Fixed transition, with a duration of 0.2 seconds.
+****************************** Transition and animation speed details ******************************
 
-=> From idle to def_hold:
-	- No exit time.
-	- Fixed transition, with a duration of 0.2 seconds.
+=> IMPORTANT: All transitions are fixed durations, measured in seconds.
+=> IMPORTANT: The playback speed of all animations is 60 frames per second.
 
 
 
----------- Source: atk ----------
-=> From atk_hold to atk_release:
-	- No exit time.
-	- No transition duration (ie, normalized duration of 0%).
+******************** Attack ********************
+=> Any transition which goes to any kind of "atk_hold" animation is considered to be "Attack Windup".
+=> Any "atk_release" animation is considered to be "Attack Release".
+=> Any transition which goes from any kind of "atk_release" to "idle" is considered to be "Attack Release Recovery".
+=> Any transition which goes from any kind of "atk_bounced" to "idle" is considered to be "Attack Bounced Recovery".
 
-=> From atk_hold to def_hold:
-	- No exit time.
-	- Fixed transition, with a duration of 0.2 seconds.
 
-=> From atk_release to atk_bounce:
-	- No exit time.
-	- Fixed transition, with a duration of 0.1 seconds.
+----- Attack Transitions -----
+=> Attack Windup transition times are 0.66 for swings, and 1.0 for stabs.
+=> Both of the Attack Release Recovery and Attack Bounced Recovery times are the same for swings and stabs:
+	- For swings, the times are 0.66.
+	- For stabs, the times are 0.33. This is to account for the slower windup time for stab attacks.
 
-=> From atk_release to idle:
-	- Has exit time, with normalized time equal to 1.
-	- Fixed transition, with a duration of 0.2 seconds.
 
-=> From atk_bounce to idle:
-	- Has exit time, with normalized time equal to 1.
-	- Fixed transition, with a duration of 0.4 seconds.
+----- Attack Animations -----
+=> Attack Release animation speed will not be touched.
+All attack animations are 40 frames long, so that means 0.66 seconds. That's good enough for me.
 
 
 
----------- Source: def ----------
-=> From def_hold to idle:
-	- No exit time.
-	- Fixed transition, with a duration of 0.2 seconds.
-
-=> From def_hold to (different) def_hold:
-	- No exit time.
-	- Fixed transition, with a duration of 0.2 seconds.
-
-=> From def_hold to def_blocked:
-	- No exit time.
-	- No transition duration (ie, normalized duration of 0%).
-
-=> From def_hold to atk_hold:
-	- No exit time.
-	- Fixed transition, with a duration of 0.2 seconds.
-
-=> From def_blocked to idle:
-	- Has exit time, with normalized time equal to 1.
-	- Fixed transition, with a duration of 0.2 seconds.
-
-=> From def_blocked to def_hold:
-	- Has exit time, with normalized time equal to 1.
-	- Fixed transition, with a duration of 0.2 seconds.
+******************** Defend ********************
+=> Any transition which goes to any kind of "def_hold" animation is considered to be "Defend Windup".
+=> Any transition which goes from any kind of "def_hold" to "idle" is considered to be "Defend Release".
+=> Any "def_blocked" animation is considered to be "Defend Blocked".
+=> Any transition which goes from any kind of "def_blocked" to "idle" OR "def_hold" is considered
+to be "Defend Blocked Recovery".
 
 
+----- Defend Transitions -----
+=> Good news! Any kind of transition duration will be 0.2 seconds no matter what.
+This is to make sure that blocking is faster than attacks, so that the agents don't get spammed by attacks.
+
+
+----- Defend Animations -----
+=> By default, all Defend Blocked animations are 25 frames long, so that means roughly 0.416 seconds.
+=> To make sure defending is more responsive, all Defend Blocked animations will have a HARDCODED multiplier of 4.0.
+This means that Defend Blocked animations will last roughly 0.104 seconds.
 
 

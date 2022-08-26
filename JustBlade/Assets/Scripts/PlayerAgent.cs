@@ -58,7 +58,7 @@ public class PlayerAgent : Agent
     [SerializeField] bool isAtk;
     [SerializeField] bool isDef;
     [SerializeField] float isDefTimer;
-    float isDefTimerThreshold = 0.5f;
+    float isDefTimerThreshold = 0.1f;
 
     public override void Awake()
     {
