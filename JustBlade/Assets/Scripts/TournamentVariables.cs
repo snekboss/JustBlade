@@ -129,4 +129,7 @@ public static class TournamentVariables
     public static bool IsPlayerEliminated = false;
 
     public static bool IsTournamentEnded { get { return IsPlayerEliminated || CurrentRoundNumber > MaximumRoundNumber; } }
+
+    public static int TotalOpponentsBeatenByPlayer;
+    public static bool PlayerWasBestedInThisMelee;
 }

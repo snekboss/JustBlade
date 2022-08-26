@@ -13,6 +13,7 @@ public class AiAgent : Agent
 
     static readonly float AttackTimeMax = 1.0f;
     static readonly float DefendTimeMax = 2.0f;
+    static readonly float SearchForEnemyTimeMax = 0.5f;
 
     static readonly float TooCloseMultiplier = 0.75f;
     static readonly float TooFarMultiplier = 1.0f;
@@ -31,6 +32,7 @@ public class AiAgent : Agent
     CombatDirection combatDir;
 
     NavMeshAgent nma;
+    Rigidbody rBody;
 
     Transform agentEyes;
 
@@ -51,6 +53,7 @@ public class AiAgent : Agent
 
     float attackTimer;
     float defendTimer;
+    float searchForEnemyTimer;
 
     public enum DistanceToTargetState
     {
@@ -69,6 +72,8 @@ public class AiAgent : Agent
     DistanceToTargetState distanceState;
     AiCombatState combatState;
 
+    public delegate Agent AiAgentSearchForEnemyEvent(AiAgent caller);
+    public virtual event AiAgentSearchForEnemyEvent OnSearchForEnemyAgent;
 
     public override void Awake()
     {
@@ -78,9 +83,6 @@ public class AiAgent : Agent
 
         yawAngle = transform.eulerAngles.y;
         targetYawAngle = yawAngle;
-
-        TooFarBorder = EqMgr.equippedWeapon.weaponLength * TooFarMultiplier;
-        TooCloseBorder = EqMgr.equippedWeapon.weaponLength * TooCloseMultiplier;
     }
 
     public override void InitializeMovementSpeedLimit(float movementSpeedLimit)
@@ -92,6 +94,12 @@ public class AiAgent : Agent
         lastNonZeroSpeedDecreaseLerpRate = Mathf.Clamp01(lastNonZeroSpeedDecreaseLerpRate);
 
         InitializeNavMeshAgent();
+    }
+
+    public override void OnGearInitialized()
+    {
+        TooFarBorder = EqMgr.equippedWeapon.weaponLength * TooFarMultiplier;
+        TooCloseBorder = EqMgr.equippedWeapon.weaponLength * TooCloseMultiplier;
     }
 
     public override void RequestEquipmentSet(out Weapon weaponPrefab
@@ -120,7 +128,17 @@ public class AiAgent : Agent
 
         // While moving to position, don't let the AI code rotate the agent transform.
         // Just, go where you're told, and don't do any rotations...
-        nma.angularSpeed = 0; 
+        nma.angularSpeed = 0;
+
+        rBody = GetComponent<Rigidbody>();
+        if (rBody == null)
+        {
+            rBody = gameObject.AddComponent<Rigidbody>();
+        }
+        //rBody.isKinematic = true;
+        rBody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        rBody.useGravity = true;
+        rBody.mass = AgentMass;
     }
 
     protected override void OnDamaged(Agent attacker, int amount)
@@ -349,7 +367,7 @@ public class AiAgent : Agent
                     isAtk = true;
                     combatDir = GetRandomCombatDirection();
                 }
-                
+
                 break;
             case AiCombatState.Defending:
                 isAtk = false;
@@ -378,6 +396,32 @@ public class AiAgent : Agent
         }
     }
 
+    void HandleSearchForEnemyAgent()
+    {
+        if (enemyAgent != null)
+        {
+            if (enemyAgent.IsDead)
+            {
+                enemyAgent = null;
+            }
+
+            searchForEnemyTimer = 0;
+        }
+
+        if (enemyAgent == null)
+        {
+            searchForEnemyTimer += Time.deltaTime;
+            if (searchForEnemyTimer > SearchForEnemyTimeMax)
+            {
+                searchForEnemyTimer = 0;
+                if (OnSearchForEnemyAgent != null)
+                {
+                    enemyAgent = OnSearchForEnemyAgent(this);
+                }
+            }
+        }
+    }
+
     void Update()
     {
         if (IsDead)
@@ -386,6 +430,8 @@ public class AiAgent : Agent
         }
 
         SetMovementParameters();
+
+        HandleSearchForEnemyAgent();
 
         if (enemyAgent != null)
         {

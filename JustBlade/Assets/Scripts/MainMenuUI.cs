@@ -25,6 +25,8 @@ public class MainMenuUI : MonoBehaviour
         Time.timeScale = 1;
 
         TournamentVariables.IsPlayerEliminated = false;
+        TournamentVariables.PlayerWasBestedInThisMelee = false;
+        TournamentVariables.TotalOpponentsBeatenByPlayer = 0;
         TournamentVariables.CurrentRoundNumber = 1;
 
         SceneManager.LoadScene("TournamentInfoMenuScene");

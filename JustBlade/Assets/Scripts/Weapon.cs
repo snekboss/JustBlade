@@ -250,6 +250,19 @@ public class Weapon : MonoBehaviour
                 return;
             }
 
+            // Check if the defender is friendly. If so, don't damage the friend.
+            bool isFriendly =
+                (attacker.isFriendOfPlayer == true && defender.isFriendOfPlayer == true) 
+             || (attacker.isFriendOfPlayer == false && defender.isFriendOfPlayer == false);
+
+            if (isFriendly)
+            {
+                // Bounce the attack so that the agents don't use one another as meat shields.
+                attacker.AnimMgr.SetIsAttackBounced(true);
+                isDmgAlreadyApplied = true;
+                return;
+            }
+
             // Check if the defender was able to block the attacker's attack.
             // If so, set the correct "bounce" and "block" animations.
             if (CombatMechanics.IsDefenderAbleToBlock(attacker, defender))

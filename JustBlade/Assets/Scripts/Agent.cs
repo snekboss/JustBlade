@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -9,11 +10,19 @@ public abstract class Agent : MonoBehaviour
     public static readonly float DefaultMovementSpeedLimit = 2.5f;
     public static readonly float AgentHeight = 1.85f;
     public static readonly float AgentRadius = 0.25f;
+    public static readonly float AgentMass = 70.0f;
 
     public int Health { get; protected set; } = MaximumHealth;
     public bool IsDead { get; protected set; } = false;
     protected float currentMovementSpeed;
     public float MovementSpeedLimit { get; protected set; }
+
+    public bool isFriendOfPlayer;
+
+    public bool IsPlayerAgent { get; protected set; }
+
+    public delegate void AgentDeathEvent(Agent victim, Agent killer);
+    public event AgentDeathEvent OnDeath;
 
     EquipmentManager eqMgr;
     AnimationManager animMgr;
@@ -68,6 +77,11 @@ public abstract class Agent : MonoBehaviour
             IsDead = true;
             animMgr.PlayDeathAnimation();
             StartCoroutine("AgentDespawnCoroutine");
+
+            if (OnDeath != null)
+            {
+                OnDeath(this, attacker);
+            }
             return;
         }
 
@@ -75,6 +89,8 @@ public abstract class Agent : MonoBehaviour
     }
 
     protected virtual void OnDamaged(Agent attacker, int amount) { }
+
+    public virtual void OnGearInitialized() { }
 
     public virtual void InitializeMovementSpeedLimit(float movementSpeedLimit)
     {
@@ -98,6 +114,7 @@ public abstract class Agent : MonoBehaviour
     public virtual void Awake()
     {
         gameObject.layer = StaticVariables.Instance.AgentLayer;
+        IsPlayerAgent = false;
     }
 
     void LateUpdate()

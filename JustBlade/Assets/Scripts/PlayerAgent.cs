@@ -1,10 +1,10 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class PlayerAgent : Agent
 {
-    public static readonly float PlayerMovementRigidbodyMass = 70.0f;
     // TODO: Remove[SerializeField]. It is for debugging purposes only.
 
     Vector3 cameraOffsetFromPivotDirection = new Vector3(0, 0.3f, -1.3f);
@@ -40,6 +40,8 @@ public class PlayerAgent : Agent
     float playerAgentYaw; // yawing the player agent (left right about Y axis)
     const float EyesPitchThreshold = 89.0f;
 
+    NavMeshObstacle nmo;
+
     [SerializeField] CombatDirection lastCombatDir;
     [SerializeField] CombatDirection combatDir;
 
@@ -61,6 +63,8 @@ public class PlayerAgent : Agent
     public override void Awake()
     {
         base.Awake();
+        isFriendOfPlayer = true;
+        IsPlayerAgent = true;
 
         isDefTimer = 2 * isDefTimerThreshold; // set it far above the threshold, so that the condition is not satisfied at the start.
 
@@ -88,13 +92,19 @@ public class PlayerAgent : Agent
         playerMovementCollider.height = AgentHeight;
         playerMovementCollider.center = Vector3.up * AgentHeight / 2;
         playerMovementCollider.radius = AgentRadius;
+
+        nmo = gameObject.AddComponent<NavMeshObstacle>();
+        nmo.height = playerMovementCollider.height;
+        nmo.center = playerMovementCollider.center;
+        nmo.radius = playerMovementCollider.radius;
+        nmo.carving = false;
     }
 
     void InitializeMovementRigidbody()
     {
         playerMovementRigidbody = gameObject.AddComponent<Rigidbody>();
         playerMovementRigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-        playerMovementRigidbody.mass = PlayerMovementRigidbodyMass;
+        playerMovementRigidbody.mass = AgentMass;
     }
 
     void ReadInputs()
@@ -257,6 +267,10 @@ public class PlayerAgent : Agent
     {
         if (IsDead)
         {
+            playerMovementRigidbody.velocity = Vector3.zero;
+            playerMovementRigidbody.angularVelocity = Vector3.zero;
+            // playerMovementRigidbody.isKinematic = true;
+
             // Detach the camera from the player.
             if (cam.transform.parent != null)
             {

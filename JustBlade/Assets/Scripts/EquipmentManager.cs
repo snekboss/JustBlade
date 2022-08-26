@@ -128,6 +128,7 @@ public class EquipmentManager : MonoBehaviour
         SpawnLegArmor(legArmorPrefab);
 
         UpdateMovementSpeedMultiplier();
+        ownerAgent.OnGearInitialized();
     }
 
     void SpawnWeapon(Weapon weaponPrefab)
