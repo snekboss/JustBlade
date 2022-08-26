@@ -401,7 +401,7 @@ public class AiAgent : Agent
             {
                 enemyAgent = null;
             }
-
+            
             searchForEnemyTimer = 0;
         }
 
@@ -414,6 +414,7 @@ public class AiAgent : Agent
                 if (OnSearchForEnemyAgent != null)
                 {
                     enemyAgent = OnSearchForEnemyAgent(this, out numRemainingFriends);
+                    nma.isStopped = (enemyAgent == null);
                 }
             }
         }

@@ -18,18 +18,18 @@ public class RoundManager : MonoBehaviour
 
     float distanceBetweenAgents = 0.25f;
 
-    float roundEndTime = 3.0f;
+    readonly float roundEndTime = 3.0f;
 
     bool isRoundEnded;
 
-    List<Agent> livingPlayerTeamAgents;
-    List<Agent> livingEnemyTeamAgents;
+    List<Agent> playerTeamAgents;
+    List<Agent> enemyTeamAgents;
 
     int numEnemiesBeatenByPlayer;
 
     void SpawnPlayerTeamAgents()
     {
-        livingPlayerTeamAgents = new List<Agent>();
+        playerTeamAgents = new List<Agent>();
 
         Vector3 spawnPos = playerTeamSpawnPoint.position;
         Vector3 dir = playerTeamSpawnDirection == SpawnDirection.Right ? Vector3.right : Vector3.left;
@@ -56,7 +56,7 @@ public class RoundManager : MonoBehaviour
             a.OnDeath += OnAgentDeath;
 
             a.transform.position = spawnPos;
-            livingPlayerTeamAgents.Add(a);
+            playerTeamAgents.Add(a);
 
             spawnPos = spawnPos + nextAgentSpawnOffset;
         }
@@ -65,7 +65,7 @@ public class RoundManager : MonoBehaviour
 
     void SpawnEnemyTeamAgents()
     {
-        livingEnemyTeamAgents = new List<Agent>();
+        enemyTeamAgents = new List<Agent>();
 
         Vector3 spawnPos = enemyTeamSpawnPoint.position;
         Vector3 dir = enemyTeamSpawnDirection == SpawnDirection.Right ? Vector3.right : Vector3.left;
@@ -79,7 +79,7 @@ public class RoundManager : MonoBehaviour
             a.OnDeath += OnAgentDeath;
 
             a.transform.position = spawnPos;
-            livingEnemyTeamAgents.Add(a);
+            enemyTeamAgents.Add(a);
 
             spawnPos = spawnPos + nextAgentSpawnOffset;
         }
@@ -99,14 +99,14 @@ public class RoundManager : MonoBehaviour
 
         if (victim.isFriendOfPlayer)
         {
-            livingPlayerTeamAgents.Remove(victim);
+            playerTeamAgents.Remove(victim);
         }
         else
         {
-            livingEnemyTeamAgents.Remove(victim);
+            enemyTeamAgents.Remove(victim);
         }
 
-        if (livingPlayerTeamAgents.Count == 0 || livingEnemyTeamAgents.Count == 0 || victim.IsPlayerAgent)
+        if (playerTeamAgents.Count == 0 || enemyTeamAgents.Count == 0 || victim.IsPlayerAgent)
         {
             if (isRoundEnded == false)
             {
@@ -120,15 +120,19 @@ public class RoundManager : MonoBehaviour
         Agent ret = null;
         if (caller.isFriendOfPlayer)
         {
-            ret = livingEnemyTeamAgents.Find(agent => !agent.IsDead);
+            List<Agent> agents = enemyTeamAgents.FindAll(a => !a.IsDead);
 
-            numRemainingFriends = livingPlayerTeamAgents.Count;
+            ret = agents[Random.Range(0, agents.Count)];
+
+            numRemainingFriends = playerTeamAgents.Count;
         }
         else
         {
-            ret = livingPlayerTeamAgents.Find(agent => !agent.IsDead);
+            List<Agent> agents = playerTeamAgents.FindAll(a => !a.IsDead);
 
-            numRemainingFriends = livingEnemyTeamAgents.Count;
+            ret = agents[Random.Range(0, agents.Count)];
+
+            numRemainingFriends = enemyTeamAgents.Count;
         }
 
         return ret;
