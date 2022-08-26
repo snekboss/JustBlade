@@ -143,8 +143,15 @@ public class AiAgent : Agent
         enemyAgent = attacker;
 
         defendTimer = 0;
-        combatState = AiCombatState.Defending;
-        combatDir = GetBiasedRandomCombatDirection();
+
+        // Decide to defend based on the flip of a coin.
+        int rand = Random.Range(0, 3);
+        if (rand % 2 == 0)
+        {
+            combatState = AiCombatState.Defending;
+            combatDir = GetBiasedRandomCombatDirection();
+        }
+        
     }
 
     Vector3 GetLookPosition()
