@@ -28,16 +28,19 @@ public class AnimationManager : MonoBehaviour
     Vector3 initialAgentScale;
 
     float targetSpineAngle;
+
+    static readonly float TargetSpineAngleMaxForOverheadSwings = 30f;
+
     float spineCurAngle;
     float SpineRotationLerpRate = 0.2f;
     bool spineShouldBeRotated;
 
     Animator animat;
     Animator Animat
-    { 
-        get 
+    {
+        get
         {
-            if (animat == null) 
+            if (animat == null)
             {
                 animat = GetComponent<Animator>();
             }
@@ -414,7 +417,7 @@ public class AnimationManager : MonoBehaviour
         moveY = moveXY.y * moveXYmulti;
 
         // This multiplier is allowed to be greater than 1.0f, but it can never be less than 1.0f.
-        float moveAnimSpeedMulti = 1.0f; 
+        float moveAnimSpeedMulti = 1.0f;
 
         // We compare the agent's curMoveSpeed to the Agent.DefaultMovementSpeedLimit. 
         if (curMoveSpeed >= Agent.DefaultMovementSpeedLimit)
@@ -641,29 +644,47 @@ public class AnimationManager : MonoBehaviour
         || isTrans_AtkLeftHoldToDefDownHold
         || isTrans_AtkLeftHoldToDefLeftHold;
 
-        bool defHoldToAtkHoldTransitions =
+        bool defHoldToAtkUpHoldTransitions =
             isTrans_DefUpHoldToAtkUpHold
-        || isTrans_DefUpHoldToAtkRightHold
-        || isTrans_DefUpHoldToAtkDownHold
-        || isTrans_DefUpHoldToAtkLeftHold
         || isTrans_DefRightHoldToAtkUpHold
-        || isTrans_DefRightHoldToAtkRightHold
-        || isTrans_DefRightHoldToAtkDownHold
-        || isTrans_DefRightHoldToAtkLeftHold
         || isTrans_DefDownHoldToAtkUpHold
+        || isTrans_DefLeftHoldToAtkUpHold;
+
+        bool defHoldToAtkRightHoldTransitions =
+            isTrans_DefUpHoldToAtkRightHold
+        || isTrans_DefRightHoldToAtkRightHold
         || isTrans_DefDownHoldToAtkRightHold
+        || isTrans_DefLeftHoldToAtkRightHold;
+
+        bool defHoldToAtkDownHoldTransitions =
+            isTrans_DefUpHoldToAtkDownHold
+        || isTrans_DefRightHoldToAtkDownHold
         || isTrans_DefDownHoldToAtkDownHold
+        || isTrans_DefLeftHoldToAtkDownHold;
+
+        bool defHoldToAtkLeftHoldTransitions =
+            isTrans_DefUpHoldToAtkLeftHold
+        || isTrans_DefRightHoldToAtkLeftHold
         || isTrans_DefDownHoldToAtkLeftHold
-        || isTrans_DefLeftHoldToAtkUpHold
-        || isTrans_DefLeftHoldToAtkRightHold
-        || isTrans_DefLeftHoldToAtkDownHold
         || isTrans_DefLeftHoldToAtkLeftHold;
+
+        bool defHoldToAtkHoldTransitions =
+            defHoldToAtkUpHoldTransitions
+        || defHoldToAtkRightHoldTransitions
+        || defHoldToAtkDownHoldTransitions
+        || defHoldToAtkLeftHoldTransitions;
 
         spineShouldBeRotated = (allStates || allTransitions || defHoldToAtkHoldTransitions) && (atkHoldToDefHoldTransitions == false);
 
         if (spineShouldBeRotated)
         {
             targetSpineAngle = ownerAgent.LookAngleX;
+
+            if (upStates || upTransitions || defHoldToAtkUpHoldTransitions)
+            {
+                // Being able to look all the way up/down while attacking from up looks weird, so put a limit to it.
+                targetSpineAngle = Mathf.Clamp(targetSpineAngle, -TargetSpineAngleMaxForOverheadSwings, TargetSpineAngleMaxForOverheadSwings);
+            }
         }
     }
 

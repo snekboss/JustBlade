@@ -1,3 +1,4 @@
+//using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -18,16 +19,20 @@ public class AiAgent : Agent
     static readonly float TooCloseMultiplier = 0.75f;
     static readonly float TooFarMultiplier = 1.0f;
     static readonly float CloseEnoughPercent = 0.5f; // Percentage between TooClose and TooFar.
+    static readonly float AttackDistanceMultiplier = 1.5f;
+    static readonly float ChanceToChooseNonSideCombatDirection = 0.75f; // chance to choose up or down as combat dir.
     public static readonly float NavMeshAgentBaseAcceleration = 4.0f;
 
     float TooCloseBorder;
     float TooFarBorder;
+    float AttackDistanceBorder;
 
     // Below are temporary
     public bool isGrounded;
-    public bool isAtk;
-    public bool isDef;
     // Above are temporary
+
+    bool isAtk;
+    bool isDef;
 
     CombatDirection combatDir;
 
@@ -51,6 +56,7 @@ public class AiAgent : Agent
 
     Vector3 desiredMoveDestination;
 
+    int numRemainingFriends;
     float attackTimer;
     float defendTimer;
     float searchForEnemyTimer;
@@ -72,7 +78,7 @@ public class AiAgent : Agent
     DistanceToTargetState distanceState;
     AiCombatState combatState;
 
-    public delegate Agent AiAgentSearchForEnemyEvent(AiAgent caller);
+    public delegate Agent AiAgentSearchForEnemyEvent(AiAgent caller, out int numRemainingFriends);
     public virtual event AiAgentSearchForEnemyEvent OnSearchForEnemyAgent;
 
     public override void Awake()
@@ -100,6 +106,7 @@ public class AiAgent : Agent
     {
         TooFarBorder = EqMgr.equippedWeapon.weaponLength * TooFarMultiplier;
         TooCloseBorder = EqMgr.equippedWeapon.weaponLength * TooCloseMultiplier;
+        AttackDistanceBorder = EqMgr.equippedWeapon.weaponLength * AttackDistanceMultiplier;
     }
 
     public override void RequestEquipmentSet(out Weapon weaponPrefab
@@ -147,7 +154,7 @@ public class AiAgent : Agent
 
         defendTimer = 0;
         combatState = AiCombatState.Defending;
-        combatDir = GetRandomCombatDirection();
+        combatDir = GetBiasedRandomCombatDirection();
     }
 
     Vector3 GetLookPosition()
@@ -240,24 +247,6 @@ public class AiAgent : Agent
         transform.Rotate(Vector3.up, yawAngle);
     }
 
-    void SetDistanceToTargetState()
-    {
-        // Assume we're close enough.
-        distanceState = DistanceToTargetState.CloseEnough;
-
-        if (distanceFromEnemy > TooFarBorder)
-        {
-            distanceState = DistanceToTargetState.TooFar;
-            return;
-        }
-
-        if (distanceFromEnemy < TooCloseBorder)
-        {
-            distanceState = DistanceToTargetState.TooClose;
-            return;
-        }
-    }
-
     void DetermineDesiredDestination()
     {
         Vector3 enemyToSelfDir = (transform.position - enemyAgent.transform.position).normalized;
@@ -268,10 +257,40 @@ public class AiAgent : Agent
         desiredMoveDestination = Vector3.Lerp(tooClosePos, tooFarPos, CloseEnoughPercent);
     }
 
-    CombatDirection GetRandomCombatDirection()
+    CombatDirection GetBiasedRandomCombatDirection()
     {
-        int randInt = Random.Range(0, 4);
-        return (CombatDirection)randInt;
+        CombatDirection ret;
+        if (numRemainingFriends < 1)
+        {
+            // There are no allies around, so feel free to choose any direction.
+            ret = (CombatDirection)Random.Range(0, 4);
+        }
+        else
+        {
+            // There are allies around, so we'll prefer stabs or overhead swings (to avoid hitting friends).
+
+            float flip = Random.Range(0.0f, 1.0f);
+            int flipInt = System.Convert.ToInt32(flip * 100.0f);
+
+            if (flip < ChanceToChooseNonSideCombatDirection)
+            {
+                // We rolled to choose a non-side direction (ie, we rolled "up" or "down").
+                // So choose one of them based on whether or not randInt is even or odd.
+                ret = flipInt % 2 == 0 ? CombatDirection.Up : CombatDirection.Down;
+            }
+            else
+            {
+                // Same as above, except for "left" or "right".
+                ret = flipInt % 2 == 0 ? CombatDirection.Left : CombatDirection.Right;
+            }
+        }
+
+        return ret;
+    }
+
+    Limb.LimbType GetRandomLimbType()
+    {
+        return (Limb.LimbType)Random.Range(0, 3);
     }
 
     Vector2 GetLocalMoveDir(out float outSpeed)
@@ -303,42 +322,11 @@ public class AiAgent : Agent
             return;
         }
 
-        SetDistanceToTargetState();
-
         DetermineDesiredDestination();
 
-        switch (distanceState)
+        if ((distanceFromEnemy > TooFarBorder) || (distanceFromEnemy < TooCloseBorder))
         {
-            case DistanceToTargetState.TooFar:
-
-                nma.SetDestination(desiredMoveDestination); // TODO: Handle return value.
-
-                if (combatState != AiCombatState.Defending)
-                {
-                    combatState = AiCombatState.Idling;
-                }
-
-                break;
-            case DistanceToTargetState.CloseEnough:
-
-                if (combatState != AiCombatState.Defending)
-                {
-                    combatState = AiCombatState.Attacking;
-                }
-
-                break;
-            case DistanceToTargetState.TooClose:
-
-                nma.SetDestination(desiredMoveDestination); // TODO: Handle return value.
-
-                if (combatState != AiCombatState.Defending)
-                {
-                    combatState = AiCombatState.Attacking;
-                }
-
-                break;
-            default:
-                break;
+            nma.SetDestination(desiredMoveDestination); // TODO: Handle return value.
         }
     }
 
@@ -347,6 +335,21 @@ public class AiAgent : Agent
         if (enemyAgent == null)
         {
             return;
+        }
+
+        if (distanceFromEnemy < AttackDistanceBorder)
+        {
+            if (combatState != AiCombatState.Defending)
+            {
+                combatState = AiCombatState.Attacking;
+            }
+        }
+        else
+        {
+            if (combatState != AiCombatState.Defending)
+            {
+                combatState = AiCombatState.Idling;
+            }
         }
 
         switch (combatState)
@@ -365,7 +368,11 @@ public class AiAgent : Agent
                 {
                     attackTimer = 0;
                     isAtk = true;
-                    combatDir = GetRandomCombatDirection();
+                    if (AnimMgr.IsAttacking == false)
+                    {
+                        combatDir = GetBiasedRandomCombatDirection();
+                        targetLimbType = GetRandomLimbType();
+                    }
                 }
 
                 break;
@@ -416,7 +423,7 @@ public class AiAgent : Agent
                 searchForEnemyTimer = 0;
                 if (OnSearchForEnemyAgent != null)
                 {
-                    enemyAgent = OnSearchForEnemyAgent(this);
+                    enemyAgent = OnSearchForEnemyAgent(this, out numRemainingFriends);
                 }
             }
         }

@@ -115,16 +115,20 @@ public class RoundManager : MonoBehaviour
         }
     }
 
-    Agent OnAiAgentSearchForEnemy(AiAgent caller)
+    Agent OnAiAgentSearchForEnemy(AiAgent caller, out int numRemainingFriends)
     {
         Agent ret = null;
         if (caller.isFriendOfPlayer)
         {
             ret = livingEnemyTeamAgents.Find(agent => !agent.IsDead);
+
+            numRemainingFriends = livingPlayerTeamAgents.Count;
         }
         else
         {
             ret = livingPlayerTeamAgents.Find(agent => !agent.IsDead);
+
+            numRemainingFriends = livingEnemyTeamAgents.Count;
         }
 
         return ret;
