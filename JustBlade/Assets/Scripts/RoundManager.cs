@@ -122,7 +122,10 @@ public class RoundManager : MonoBehaviour
         {
             List<Agent> agents = enemyTeamAgents.FindAll(a => !a.IsDead);
 
-            ret = agents[Random.Range(0, agents.Count)];
+            if (agents.Count >= 1)
+            {
+                ret = agents[Random.Range(0, agents.Count)];
+            }
 
             numRemainingFriends = playerTeamAgents.Count;
         }
@@ -130,7 +133,10 @@ public class RoundManager : MonoBehaviour
         {
             List<Agent> agents = playerTeamAgents.FindAll(a => !a.IsDead);
 
-            ret = agents[Random.Range(0, agents.Count)];
+            if (agents.Count >= 1)
+            {
+                ret = agents[Random.Range(0, agents.Count)];
+            }
 
             numRemainingFriends = enemyTeamAgents.Count;
         }
