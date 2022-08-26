@@ -145,8 +145,8 @@ public class AiAgent : Agent
         defendTimer = 0;
 
         // Decide to defend based on the flip of a coin.
-        int rand = Random.Range(0, 3);
-        if (rand % 2 == 0)
+        int rand = Random.Range(0, 2);
+        if (rand == 0)
         {
             combatState = AiCombatState.Defending;
             combatDir = GetBiasedRandomCombatDirection();
