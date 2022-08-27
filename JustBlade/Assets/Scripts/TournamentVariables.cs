@@ -16,7 +16,7 @@ public static class TournamentVariables
                 return 1;
             }
 
-            return (MaximumRoundNumber - CurrentRoundNumber + 1) * MaxNumAgentsInEachTeamMultiplier;
+            return (MaximumRoundNumber - CurrentRoundNumber) * MaxNumAgentsInEachTeamMultiplier;
         }
     }
 

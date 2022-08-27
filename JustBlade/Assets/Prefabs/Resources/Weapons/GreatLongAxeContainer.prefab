@@ -1,0 +1,173 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3743906578953373304
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3743906578953373307}
+  - component: {fileID: 3743906578953373301}
+  - component: {fileID: 3743906578953373306}
+  m_Layer: 7
+  m_Name: GreatLongAxeContainer
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3743906578953373307
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3743906578953373304}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 3782951462574022268}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3743906578953373301
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3743906578953373304}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 40c10ec7fcab36e4d9b9aa15387d3c67, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EDIT_MODE: 0
+  shownName: Great Long Axe
+  weaponVisual: {fileID: 4554387046226232518}
+  weaponLength: 1.09
+  weaponRadius: 0.06
+  colDirection: 0
+  isInverseDirection: 1
+  weaponType: 1
+  SwingDmgHeadNaked: 100
+  SwingDmgHeadLight: 100
+  SwingDmgHeadMed: 71
+  SwingDmgHeadHeavy: 55
+  SwingDmgTorsoNaked: 100
+  SwingDmgTorsoLight: 75
+  SwingDmgTorsoMed: 51
+  SwingDmgTorsoHeavy: 40
+  SwingDmgLegNaked: 100
+  SwingDmgLegLight: 65
+  SwingDmgLegMed: 45
+  SwingDmgLegHeavy: 34
+  StabDmgHeadNaked: 23
+  StabDmgHeadLight: 22
+  StabDmgHeadMed: 21
+  StabDmgHeadHeavy: 20
+  StabDmgTorsoNaked: 13
+  StabDmgTorsoLight: 12
+  StabDmgTorsoMed: 11
+  StabDmgTorsoHeavy: 10
+  StabDmgLegNaked: 13
+  StabDmgLegLight: 7
+  StabDmgLegMed: 6
+  StabDmgLegHeavy: 5
+  isDmgAlreadyApplied: 0
+--- !u!65 &3743906578953373306
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3743906578953373304}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 1.09, y: 0.06, z: 0.06}
+  m_Center: {x: -0.545, y: 0, z: 0}
+--- !u!1001 &3743906578973702551
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 3743906578953373307}
+    m_Modifications:
+    - target: {fileID: -8679921383154817045, guid: 72bec45a8910b0f4b9f84ade4e1ebf45, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 72bec45a8910b0f4b9f84ade4e1ebf45, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.34
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 72bec45a8910b0f4b9f84ade4e1ebf45, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.34
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 72bec45a8910b0f4b9f84ade4e1ebf45, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.34
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 72bec45a8910b0f4b9f84ade4e1ebf45, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 72bec45a8910b0f4b9f84ade4e1ebf45, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 72bec45a8910b0f4b9f84ade4e1ebf45, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 72bec45a8910b0f4b9f84ade4e1ebf45, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 72bec45a8910b0f4b9f84ade4e1ebf45, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 72bec45a8910b0f4b9f84ade4e1ebf45, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 72bec45a8910b0f4b9f84ade4e1ebf45, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 72bec45a8910b0f4b9f84ade4e1ebf45, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 72bec45a8910b0f4b9f84ade4e1ebf45, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: -8679921383154817045, guid: 72bec45a8910b0f4b9f84ade4e1ebf45, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 919132149155446097, guid: 72bec45a8910b0f4b9f84ade4e1ebf45, type: 3}
+      propertyPath: m_Name
+      value: Great Long Axe
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 72bec45a8910b0f4b9f84ade4e1ebf45, type: 3}
+--- !u!4 &3782951462574022268 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 72bec45a8910b0f4b9f84ade4e1ebf45, type: 3}
+  m_PrefabInstance: {fileID: 3743906578973702551}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &4554387046226232518 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 919132149155446097, guid: 72bec45a8910b0f4b9f84ade4e1ebf45, type: 3}
+  m_PrefabInstance: {fileID: 3743906578973702551}
+  m_PrefabAsset: {fileID: 0}

@@ -19,7 +19,7 @@ public class AiAgent : Agent
     static readonly float TooCloseMultiplier = 0.75f;
     static readonly float TooFarMultiplier = 1.0f;
     static readonly float CloseEnoughPercent = 0.5f; // Percentage between TooClose and TooFar.
-    static readonly float AttackDistanceMultiplier = 1.5f;
+    static readonly float AttackDistanceMultiplier = 2f;
     static readonly float ChanceToChooseNonSideCombatDirection = 0.75f; // chance to choose up or down as combat dir.
     public static readonly float NavMeshAgentBaseAcceleration = 4.0f;
 

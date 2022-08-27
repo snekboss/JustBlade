@@ -54,30 +54,30 @@ MonoBehaviour:
   colDirection: 0
   isInverseDirection: 1
   weaponType: 1
-  SwingDmgHeadNaked: 1
-  SwingDmgHeadLight: 1
-  SwingDmgHeadMed: 1
-  SwingDmgHeadHeavy: 1
-  SwingDmgTorsoNaked: 1
-  SwingDmgTorsoLight: 1
-  SwingDmgTorsoMed: 1
-  SwingDmgTorsoHeavy: 1
-  SwingDmgLegNaked: 1
-  SwingDmgLegLight: 1
-  SwingDmgLegMed: 1
-  SwingDmgLegHeavy: 1
-  StabDmgHeadNaked: 1
-  StabDmgHeadLight: 1
-  StabDmgHeadMed: 1
-  StabDmgHeadHeavy: 1
-  StabDmgTorsoNaked: 1
-  StabDmgTorsoLight: 1
-  StabDmgTorsoMed: 1
-  StabDmgTorsoHeavy: 1
-  StabDmgLegNaked: 1
-  StabDmgLegLight: 1
-  StabDmgLegMed: 1
-  StabDmgLegHeavy: 1
+  SwingDmgHeadNaked: 45
+  SwingDmgHeadLight: 40
+  SwingDmgHeadMed: 32
+  SwingDmgHeadHeavy: 27
+  SwingDmgTorsoNaked: 30
+  SwingDmgTorsoLight: 25
+  SwingDmgTorsoMed: 17
+  SwingDmgTorsoHeavy: 12
+  SwingDmgLegNaked: 30
+  SwingDmgLegLight: 20
+  SwingDmgLegMed: 12
+  SwingDmgLegHeavy: 7
+  StabDmgHeadNaked: 100
+  StabDmgHeadLight: 77
+  StabDmgHeadMed: 67
+  StabDmgHeadHeavy: 45
+  StabDmgTorsoNaked: 75
+  StabDmgTorsoLight: 62
+  StabDmgTorsoMed: 52
+  StabDmgTorsoHeavy: 38
+  StabDmgLegNaked: 70
+  StabDmgLegLight: 57
+  StabDmgLegMed: 42
+  StabDmgLegHeavy: 34
   isDmgAlreadyApplied: 0
 --- !u!65 &9133187139175165154
 BoxCollider:
