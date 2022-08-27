@@ -127,7 +127,7 @@ public class RoundManager : MonoBehaviour
                 ret = agents[Random.Range(0, agents.Count)];
             }
 
-            numRemainingFriends = playerTeamAgents.Count;
+            numRemainingFriends = playerTeamAgents.Count - 1;
         }
         else
         {
@@ -138,7 +138,7 @@ public class RoundManager : MonoBehaviour
                 ret = agents[Random.Range(0, agents.Count)];
             }
 
-            numRemainingFriends = enemyTeamAgents.Count;
+            numRemainingFriends = enemyTeamAgents.Count - 1;
         }
 
         return ret;

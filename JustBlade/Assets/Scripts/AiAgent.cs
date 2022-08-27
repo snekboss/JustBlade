@@ -21,6 +21,7 @@ public class AiAgent : Agent
     static readonly float CloseEnoughPercent = 0.5f; // Percentage between TooClose and TooFar.
     static readonly float AttackDistanceMultiplier = 2f;
     static readonly float ChanceToChooseNonSideCombatDirection = 0.75f; // chance to choose up or down as combat dir.
+    static readonly float ChanceToChooseLegAsTargetLimbType = 0.1f;
     public static readonly float NavMeshAgentBaseAcceleration = 4.0f;
 
     public GameObject friendlinessIndicator;
@@ -59,13 +60,6 @@ public class AiAgent : Agent
     float defendTimer;
     float searchForEnemyTimer;
 
-    public enum DistanceToTargetState
-    {
-        TooFar,
-        CloseEnough,
-        TooClose,
-    }
-
     public enum AiCombatState
     {
         Idling,
@@ -73,13 +67,10 @@ public class AiAgent : Agent
         Defending,
     }
 
-    DistanceToTargetState distanceState;
     AiCombatState combatState;
 
     public delegate Agent AiAgentSearchForEnemyEvent(AiAgent caller, out int numRemainingFriends);
     public virtual event AiAgentSearchForEnemyEvent OnSearchForEnemyAgent;
-
-    
 
     public override void InitializeMovementSpeedLimit(float movementSpeedLimit)
     {
@@ -134,7 +125,7 @@ public class AiAgent : Agent
         }
         //rBody.isKinematic = true;
         rBody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-        rBody.useGravity = true;
+        rBody.useGravity = false;
         rBody.mass = AgentMass;
     }
 
@@ -285,9 +276,23 @@ public class AiAgent : Agent
         return ret;
     }
 
-    Limb.LimbType GetRandomTargetLimbType()
+    Limb.LimbType GetBiasedRandomTargetLimbType()
     {
-        return (Limb.LimbType)Random.Range(0, 3);
+        // Be less likely to choose legs as the target limb type.
+
+        float flip = Random.Range(0.0f, 1.0f);
+        if (flip < ChanceToChooseLegAsTargetLimbType)
+        {
+            Debug.Log("LEGS!!!");
+            return Limb.LimbType.Legs;
+        }
+        else
+        {
+            // We didn't choose legs, so choose Head or Torso based on the flip of a coin.
+
+            int flipInt = System.Convert.ToInt32(flip * 100.0f);
+            return flipInt % 2 == 0 ? Limb.LimbType.Head : Limb.LimbType.Torso;
+        }
     }
 
     Vector2 GetLocalMoveDir(out float outSpeed)
@@ -368,7 +373,7 @@ public class AiAgent : Agent
                     if (AnimMgr.IsIdling)
                     {
                         combatDir = GetBiasedRandomCombatDirection();
-                        targetLimbType = GetRandomTargetLimbType();
+                        targetLimbType = GetBiasedRandomTargetLimbType();
                     }
                 }
 
@@ -454,6 +459,10 @@ public class AiAgent : Agent
         {
             rBody.velocity = Vector3.zero;
             rBody.angularVelocity = Vector3.zero;
+            rBody.isKinematic = false;
+            rBody.useGravity = false;
+            nma.enabled = false;
+            friendlinessIndicator.SetActive(false);
             return;
         }
 

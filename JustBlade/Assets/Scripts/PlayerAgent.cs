@@ -284,6 +284,7 @@ public class PlayerAgent : Agent
             playerMovementRigidbody.velocity = Vector3.zero;
             playerMovementRigidbody.angularVelocity = Vector3.zero;
             // playerMovementRigidbody.isKinematic = true;
+            worldVelocityXZ = Vector2.zero;
 
             // Detach the camera from the player.
             if (cam.transform.parent != null)

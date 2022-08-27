@@ -816,6 +816,11 @@ public class AnimationManager : MonoBehaviour
     }
     void RotateSpineByLookDirectionAngleX()
     {
+        if (ownerAgent.IsDead)
+        {
+            targetSpineAngle = 0;
+        }
+
         spineCurAngle = Mathf.LerpAngle(spineCurAngle, targetSpineAngle, SpineRotationLerpRate);
 
         Transform spineAfterAnim = spineBone.transform;
