@@ -68,7 +68,7 @@ public class TournamentInfoUI : MonoBehaviour
 
         if (TournamentVariables.CurrentRoundNumber == 1)
         {
-            infoStr += "Welcome to the Melee Tournament.";
+            infoStr += "Welcome to the Melee Tournament. ";
         }
 
         string bestedStr = "";
