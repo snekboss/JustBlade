@@ -5,6 +5,8 @@
 
 
 ****************************** Miscellaneous notes ******************************
+=> I should mention that the scale of the human model is 0.29. This means that every imported animation for the human
+should have a scale factor of 0.29.
 => Base Layer is where the movement animations play. When the agent is not attacking, Base Layer controls the whole body.
 However, if the agent starts attacking, then Base Layer will lose control of some of the bones in the skeleton.
 Those bones will be controlled by the AttackAndBlockLayer (or whatever else), but Base Layer will still control the rest

@@ -50,7 +50,7 @@ AnimatorState:
   m_MirrorParameterActive: 0
   m_CycleOffsetParameterActive: 0
   m_TimeParameterActive: 0
-  m_Motion: {fileID: -6077386193115167104, guid: 32881914cd24ee54cb929ae3b6f0838f, type: 3}
+  m_Motion: {fileID: -6077386193115167104, guid: f67d308eb3807514ebbd4ff8a4bf9c0b, type: 3}
   m_Tag: atk_down_release
   m_SpeedParameter: 
   m_MirrorParameter: 
