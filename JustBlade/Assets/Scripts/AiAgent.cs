@@ -283,7 +283,6 @@ public class AiAgent : Agent
         float flip = Random.Range(0.0f, 1.0f);
         if (flip < ChanceToChooseLegAsTargetLimbType)
         {
-            Debug.Log("LEGS!!!");
             return Limb.LimbType.Legs;
         }
         else
