@@ -65,6 +65,12 @@ public class TournamentInfoUI : MonoBehaviour
         screenRoundInfo.SetActive(!TournamentVariables.IsTournamentEnded);
 
         string infoStr = "";
+
+        if (TournamentVariables.CurrentRoundNumber == 1)
+        {
+            infoStr += "Welcome to the Melee Tournament.";
+        }
+
         string bestedStr = "";
         if (TournamentVariables.PlayerWasBestedInThisMelee)
         {
@@ -72,7 +78,7 @@ public class TournamentInfoUI : MonoBehaviour
         }
 
         string participantStr = TournamentVariables.IsFinalRound ? "participant" : "participants";
-        infoStr =
+        infoStr +=
             string.Format("You are at around {0} of {1}. There will be {2} {3} in each team. Click Next to proceed to the gear selection menu."
             , TournamentVariables.CurrentRoundNumber
             , TournamentVariables.MaximumRoundNumber

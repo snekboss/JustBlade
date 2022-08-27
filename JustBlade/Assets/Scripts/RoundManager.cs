@@ -16,6 +16,8 @@ public class RoundManager : MonoBehaviour
     public PlayerAgent playerAgentPrefab;
     public AiAgent aiAgentPrefab;
 
+    public event Agent.AgentDeathEvent OnAnyAgentDeath;
+
     float distanceBetweenAgents = 0.25f;
 
     readonly float roundEndTime = 3.0f;
@@ -54,6 +56,7 @@ public class RoundManager : MonoBehaviour
 
             a.isFriendOfPlayer = true;
             a.OnDeath += OnAgentDeath;
+            OnAnyAgentDeath += a.OnOtherAgentDeath;
 
             a.transform.position = spawnPos;
             playerTeamAgents.Add(a);
@@ -77,6 +80,7 @@ public class RoundManager : MonoBehaviour
             a.OnSearchForEnemyAgent += OnAiAgentSearchForEnemy;
             a.isFriendOfPlayer = false;
             a.OnDeath += OnAgentDeath;
+            OnAnyAgentDeath += a.OnOtherAgentDeath;
 
             a.transform.position = spawnPos;
             enemyTeamAgents.Add(a);
@@ -87,6 +91,11 @@ public class RoundManager : MonoBehaviour
 
     void OnAgentDeath(Agent victim, Agent killer)
     {
+        if (OnAnyAgentDeath != null)
+        {
+            OnAnyAgentDeath(victim, killer);
+        }
+
         if (killer.IsPlayerAgent)
         {
             numEnemiesBeatenByPlayer++;

@@ -145,6 +145,18 @@ public class AiAgent : Agent
         
     }
 
+    public override void OnOtherAgentDeath(Agent victim, Agent killer)
+    {
+        bool isLostFriendly =
+            (victim.isFriendOfPlayer == true && isFriendOfPlayer == true)
+            || (victim.isFriendOfPlayer == false && isFriendOfPlayer == false);
+
+        if (isLostFriendly)
+        {
+            numRemainingFriends--;
+        }
+    }
+
     Vector3 GetLookPosition()
     {
         if (enemyAgent == null)

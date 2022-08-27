@@ -92,6 +92,8 @@ public abstract class Agent : MonoBehaviour
 
     public virtual void OnGearInitialized() { }
 
+    public virtual void OnOtherAgentDeath(Agent victim, Agent killer) { }
+
     public virtual void InitializeMovementSpeedLimit(float movementSpeedLimit)
     {
         MovementSpeedLimit = movementSpeedLimit;
