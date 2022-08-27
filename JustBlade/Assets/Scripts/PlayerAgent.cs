@@ -16,8 +16,8 @@ public class PlayerAgent : Agent
     static readonly float CameraZoomMultiMin = 0.5f;
     static readonly float CameraZoomMultiMax = 1.5f;
 
-    static float cameraOffsetYcur = 0.5f;
-    static float cameraZoomMultiCur = 0.6f;
+    static float cameraOffsetYcur = 0.3f;
+    static float cameraZoomMultiCur = 1.0f;
 
     public Camera cam;
     public Transform cameraPivotTransform; // camera will be a child of this transform

@@ -19,12 +19,16 @@ public class AiAgent : Agent
     static readonly float TooCloseMultiplier = 0.75f;
     static readonly float TooFarMultiplier = 1.0f;
     static readonly float CloseEnoughPercent = 0.5f; // Percentage between TooClose and TooFar.
+    //static readonly float TooCloseBorderLowerBound = 0.9f;
+    static readonly float TooFarBorderLowerBound = 1.2f;
     static readonly float AttackDistanceMultiplier = 2f;
     static readonly float ChanceToChooseNonSideCombatDirection = 0.75f; // chance to choose up or down as combat dir.
     static readonly float ChanceToChooseLegAsTargetLimbType = 0.1f;
     public static readonly float NavMeshAgentBaseAcceleration = 4.0f;
 
     public GameObject friendlinessIndicator;
+    public Material friendlyColorMat;
+    public Material enemyColorMat;
 
     float TooCloseBorder;
     float TooFarBorder;
@@ -87,6 +91,17 @@ public class AiAgent : Agent
     {
         TooFarBorder = EqMgr.equippedWeapon.weaponLength * TooFarMultiplier;
         TooCloseBorder = EqMgr.equippedWeapon.weaponLength * TooCloseMultiplier;
+
+        if (TooFarBorder < TooFarBorderLowerBound)
+        {
+            TooFarBorder = TooFarBorderLowerBound;
+        }
+
+        //if (TooCloseBorder < TooCloseBorderLowerBound)
+        //{
+        //    TooCloseBorder = TooCloseBorderLowerBound;
+        //}
+
         AttackDistanceBorder = EqMgr.equippedWeapon.weaponLength * AttackDistanceMultiplier;
     }
 
@@ -462,8 +477,22 @@ public class AiAgent : Agent
 
     void Start()
     {
-        friendlinessIndicator.SetActive(isFriendOfPlayer);
+        InitFriendlinessIndicator();
     }
+
+    void InitFriendlinessIndicator()
+    {
+        MeshRenderer mr = friendlinessIndicator.GetComponent<MeshRenderer>();
+        if (isFriendOfPlayer)
+        {
+            mr.material = friendlyColorMat;
+        }
+        else
+        {
+            mr.material = enemyColorMat;
+        }
+    }
+
     void Update()
     {
         if (IsDead)

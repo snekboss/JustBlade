@@ -1612,6 +1612,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isFriendOfPlayer: 0
   friendlinessIndicator: {fileID: 8321640778244885349}
+  friendlyColorMat: {fileID: 2100000, guid: 17c2acc9cde9ca0488577a500d0f6a8a, type: 2}
+  enemyColorMat: {fileID: 2100000, guid: cf1fcb2a07751a746a06ab85e2290712, type: 2}
+  TooCloseBorder: 0
+  TooFarBorder: 0
 --- !u!114 &5089193923706036315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1775,8 +1779,7 @@ GameObject:
   - component: {fileID: 1971884129700997387}
   - component: {fileID: 3576747474257639314}
   - component: {fileID: 7574274640446345278}
-  - component: {fileID: 1675632732961682442}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: FriendlinessIndicator
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1848,19 +1851,6 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
---- !u!135 &1675632732961682442
-SphereCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8321640778244885349}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 2
-  m_Radius: 0.5
-  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8324060877371865631
 GameObject:
   m_ObjectHideFlags: 0
@@ -1917,7 +1907,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8374178886210597557}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.7973759, z: 0.08695316}
+  m_LocalPosition: {x: 0, y: 1.6, z: 0.08695316}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []

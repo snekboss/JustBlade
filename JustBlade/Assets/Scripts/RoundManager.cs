@@ -18,7 +18,7 @@ public class RoundManager : MonoBehaviour
 
     public event Agent.AgentDeathEvent OnAnyAgentDeath;
 
-    float distanceBetweenAgents = 0.25f;
+    float distanceBetweenAgents = 3.0f; // 3.0f seems ok
 
     readonly float roundEndTime = 3.0f;
 

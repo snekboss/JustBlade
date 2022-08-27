@@ -57,8 +57,8 @@ Camera:
     width: 1
     height: 1
   near clip plane: 0.1
-  far clip plane: 100
-  field of view: 90
+  far clip plane: 200
+  field of view: 60
   orthographic: 0
   orthographic size: 5
   m_Depth: -1
@@ -967,6 +967,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6f1502ed0f2f38d4d9c20458031d2370, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isFriendOfPlayer: 0
   cam: {fileID: 963194227}
   cameraPivotTransform: {fileID: 1724222695684689829}
   groundednessCheckerTransform: {fileID: 5907487306699349195}
@@ -982,7 +983,7 @@ MonoBehaviour:
   btnDefHeld: 0
   btnDefReleased: 0
   btnJumpPressed: 0
-  btnKickPressed: 0
+  btnShiftHeld: 0
   isAtk: 0
   isDef: 0
   isDefTimer: 0
@@ -1000,11 +1001,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponBone: {fileID: 1753282508948166995}
   equippedWeapon: {fileID: 0}
-  TEMP_weaponPrefab: {fileID: 4009175891147424103, guid: ce39279876fec5f44a6994a7851291d5, type: 3}
-  TEMP_headArmorPrefab: {fileID: 8769159221732554429, guid: 320c2c1cba509a74abb8f0e29a8443f1, type: 3}
-  TEMP_torsoArmorPrefab: {fileID: 1324746687953447541, guid: 22ae69c5276ac0a4da538684b5d5ac18, type: 3}
-  TEMP_handArmorPrefab: {fileID: 8844822423302245203, guid: 3be4da8c456109848bfb74c88c41cc1f, type: 3}
-  TEMP_legArmorPrefab: {fileID: 4363543696782739176, guid: 98443f6f62f85dc45888fdb05e174f1f, type: 3}
 --- !u!114 &3303926268302588129
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1021,7 +1017,6 @@ MonoBehaviour:
   pelvisBone: {fileID: 966297118327077086}
   poleAOC: {fileID: 22100000, guid: 885cf256419dbce4e9870b2f8e7c39e9, type: 2}
   idleTimer: 0
-  IdleTimerMax: 0.1
   isState_Idle: 0
   isState_AtkHoldUp: 0
   isState_AtkHoldRight: 0
