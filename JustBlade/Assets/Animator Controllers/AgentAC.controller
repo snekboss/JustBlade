@@ -3946,14 +3946,14 @@ AnimatorState:
   m_Speed: 1
   m_CycleOffset: 0
   m_Transitions:
-  - {fileID: 8074345884739714715}
-  - {fileID: -3218576191862970480}
-  - {fileID: -8064757530591613417}
-  - {fileID: -1977398726686567535}
   - {fileID: -1746086676009236865}
   - {fileID: -4550911227395845053}
   - {fileID: 4432035600572657709}
   - {fileID: -3722415719676454334}
+  - {fileID: 8074345884739714715}
+  - {fileID: -3218576191862970480}
+  - {fileID: -8064757530591613417}
+  - {fileID: -1977398726686567535}
   m_StateMachineBehaviours: []
   m_Position: {x: 50, y: 50, z: 0}
   m_IKOnFeet: 0

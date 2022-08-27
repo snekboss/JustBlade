@@ -7,11 +7,15 @@ public class PlayerAgent : Agent
 {
     // TODO: Remove[SerializeField]. It is for debugging purposes only.
 
-    Vector3 cameraOffsetFromPivotDirection = new Vector3(0, 0.3f, -1.3f);
+    float cameraOffsetYcur = 0.5f;
+    float cameraOffsetYmin = -0.6f;
+    float cameraOffsetYmax = 1.6f;
+    float cameraOffsetYchangeSpeed = 3.0f;
+
     float cameraZoomLerpRate = 0.2f;
     float cameraZoomMultiSpeed = 3.0f;
-    float cameraZoomMultiCur = 1.0f;
-    float cameraZoomMultiMin = 0.8f;
+    float cameraZoomMultiCur = 0.6f;
+    float cameraZoomMultiMin = 0.5f;
     float cameraZoomMultiMax = 1.5f;
 
     public Camera cam;
@@ -52,7 +56,7 @@ public class PlayerAgent : Agent
     [SerializeField] bool btnDefHeld;
     [SerializeField] bool btnDefReleased;
     [SerializeField] bool btnJumpPressed;
-    [SerializeField] bool btnKickPressed;
+    [SerializeField] bool btnShiftHeld;
 
     // Below are not inputs, but they depend on inputs.
     [SerializeField] bool isAtk;
@@ -126,17 +130,26 @@ public class PlayerAgent : Agent
         btnDefReleased = Input.GetMouseButtonUp(1);
 
         btnJumpPressed = Input.GetKeyDown(KeyCode.Space);
-        btnKickPressed = Input.GetKeyDown(KeyCode.E);
+        btnShiftHeld = Input.GetKey(KeyCode.LeftShift);
     }
 
     void HandleCameraZoom()
     {
-        cameraZoomMultiCur -= Input.mouseScrollDelta.y * Time.deltaTime * cameraZoomMultiSpeed;
-        cameraZoomMultiCur = Mathf.Clamp(cameraZoomMultiCur, cameraZoomMultiMin, cameraZoomMultiMax);
+        if (btnShiftHeld == false)
+        {
+            cameraZoomMultiCur -= Input.mouseScrollDelta.y * Time.deltaTime * cameraZoomMultiSpeed;
+            cameraZoomMultiCur = Mathf.Clamp(cameraZoomMultiCur, cameraZoomMultiMin, cameraZoomMultiMax);
+        }
+        else
+        {
+            cameraOffsetYcur += Input.mouseScrollDelta.y * Time.deltaTime * cameraOffsetYchangeSpeed;
+            cameraOffsetYcur = Mathf.Clamp(cameraOffsetYcur, cameraOffsetYmin, cameraOffsetYmax);
+        }
 
         // Using Vector3.zero, because the camera is supposed to be the child of cameraPivotTransform.
         // You can remove "Vector3.zero", but this is more explicit.
-        Vector3 destination = Vector3.zero + cameraOffsetFromPivotDirection * cameraZoomMultiCur;
+        Vector3 cameraOffset = new Vector3(0, cameraOffsetYcur, -1);
+        Vector3 destination = Vector3.zero + cameraOffset * cameraZoomMultiCur;
 
         cam.transform.localPosition = Vector3.Lerp(cam.transform.localPosition, destination, cameraZoomLerpRate);
     }

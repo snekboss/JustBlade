@@ -422,6 +422,13 @@ public class AiAgent : Agent
                 {
                     enemyAgent = OnSearchForEnemyAgent(this, out numRemainingFriends);
                     nma.isStopped = (enemyAgent == null);
+                    if (enemyAgent == null)
+                    {
+                        lastNonZeroSpeed = 0;
+                        lastNonZeroVelocity = Vector3.zero;
+                        isAtk = false;
+                        isDef = false;
+                    }
                 }
             }
         }
