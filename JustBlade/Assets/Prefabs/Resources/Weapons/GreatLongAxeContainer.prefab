@@ -159,6 +159,14 @@ PrefabInstance:
       propertyPath: m_Name
       value: Great Long Axe
       objectReference: {fileID: 0}
+    - target: {fileID: 2356510880798546002, guid: 72bec45a8910b0f4b9f84ade4e1ebf45, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d0694b57da7c9c3458541e28dfc3fb3b, type: 2}
+    - target: {fileID: 5484937360129737603, guid: 72bec45a8910b0f4b9f84ade4e1ebf45, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 86a6a92507a8aef4f8e38fa18ba629b5, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 72bec45a8910b0f4b9f84ade4e1ebf45, type: 3}
 --- !u!4 &3782951462574022268 stripped

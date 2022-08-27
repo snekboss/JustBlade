@@ -155,6 +155,14 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3581481792090924260, guid: 739e0c43153e04045b0d54f8e590023a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 86a6a92507a8aef4f8e38fa18ba629b5, type: 2}
+    - target: {fileID: -2718501629829032412, guid: 739e0c43153e04045b0d54f8e590023a, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d0694b57da7c9c3458541e28dfc3fb3b, type: 2}
     - target: {fileID: 919132149155446097, guid: 739e0c43153e04045b0d54f8e590023a, type: 3}
       propertyPath: m_Name
       value: Great Axe

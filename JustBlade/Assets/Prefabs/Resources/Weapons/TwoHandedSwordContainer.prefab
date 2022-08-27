@@ -155,10 +155,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -4378134495089592261, guid: 8a138e03944500a40bfaf4bb29d076b3, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: ce48a9b87bd1cac4a8e2f1694ad87784, type: 2}
     - target: {fileID: 919132149155446097, guid: 8a138e03944500a40bfaf4bb29d076b3, type: 3}
       propertyPath: m_Name
       value: Two Handed Sword
       objectReference: {fileID: 0}
+    - target: {fileID: 9071522563243194829, guid: 8a138e03944500a40bfaf4bb29d076b3, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 86a6a92507a8aef4f8e38fa18ba629b5, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a138e03944500a40bfaf4bb29d076b3, type: 3}
 --- !u!1 &362054647188534150 stripped

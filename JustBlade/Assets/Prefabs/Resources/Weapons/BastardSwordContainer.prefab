@@ -155,10 +155,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -701718590866697847, guid: 36a99db4579e0aa4195184775c7364e5, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 86a6a92507a8aef4f8e38fa18ba629b5, type: 2}
     - target: {fileID: 919132149155446097, guid: 36a99db4579e0aa4195184775c7364e5, type: 3}
       propertyPath: m_Name
       value: Bastard Sword
       objectReference: {fileID: 0}
+    - target: {fileID: 8918214817321980549, guid: 36a99db4579e0aa4195184775c7364e5, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1fa10b9e16cb8214bb35b34f87747864, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 36a99db4579e0aa4195184775c7364e5, type: 3}
 --- !u!1 &5171276916607890618 stripped

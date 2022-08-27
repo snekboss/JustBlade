@@ -155,10 +155,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -771402832135210956, guid: ef652bd4e0dd24740978f25e8bf87990, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: d0694b57da7c9c3458541e28dfc3fb3b, type: 2}
     - target: {fileID: 919132149155446097, guid: ef652bd4e0dd24740978f25e8bf87990, type: 3}
       propertyPath: m_Name
       value: War Spear
       objectReference: {fileID: 0}
+    - target: {fileID: 2757103873430518382, guid: ef652bd4e0dd24740978f25e8bf87990, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 86a6a92507a8aef4f8e38fa18ba629b5, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ef652bd4e0dd24740978f25e8bf87990, type: 3}
 --- !u!1 &2430496146317283450 stripped
