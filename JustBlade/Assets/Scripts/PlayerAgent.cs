@@ -7,16 +7,17 @@ public class PlayerAgent : Agent
 {
     // TODO: Remove[SerializeField]. It is for debugging purposes only.
 
-    float cameraOffsetYcur = 0.5f;
-    float cameraOffsetYmin = -0.6f;
-    float cameraOffsetYmax = 1.6f;
-    float cameraOffsetYchangeSpeed = 3.0f;
+    static readonly float CameraOffsetYmin = -0.6f;
+    static readonly float CameraOffsetYmax = 1.6f;
+    static readonly float CameraOffsetYchangeSpeed = 3.0f;
 
-    float cameraZoomLerpRate = 0.2f;
-    float cameraZoomMultiSpeed = 3.0f;
-    float cameraZoomMultiCur = 0.6f;
-    float cameraZoomMultiMin = 0.5f;
-    float cameraZoomMultiMax = 1.5f;
+    static readonly float CameraZoomLerpRate = 0.2f;
+    static readonly float CameraZoomMultiSpeed = 3.0f;
+    static readonly float CameraZoomMultiMin = 0.5f;
+    static readonly float CameraZoomMultiMax = 1.5f;
+
+    static float cameraOffsetYcur = 0.5f;
+    static float cameraZoomMultiCur = 0.6f;
 
     public Camera cam;
     public Transform cameraPivotTransform; // camera will be a child of this transform
@@ -137,13 +138,13 @@ public class PlayerAgent : Agent
     {
         if (btnShiftHeld == false)
         {
-            cameraZoomMultiCur -= Input.mouseScrollDelta.y * Time.deltaTime * cameraZoomMultiSpeed;
-            cameraZoomMultiCur = Mathf.Clamp(cameraZoomMultiCur, cameraZoomMultiMin, cameraZoomMultiMax);
+            cameraZoomMultiCur -= Input.mouseScrollDelta.y * Time.deltaTime * CameraZoomMultiSpeed;
+            cameraZoomMultiCur = Mathf.Clamp(cameraZoomMultiCur, CameraZoomMultiMin, CameraZoomMultiMax);
         }
         else
         {
-            cameraOffsetYcur += Input.mouseScrollDelta.y * Time.deltaTime * cameraOffsetYchangeSpeed;
-            cameraOffsetYcur = Mathf.Clamp(cameraOffsetYcur, cameraOffsetYmin, cameraOffsetYmax);
+            cameraOffsetYcur += Input.mouseScrollDelta.y * Time.deltaTime * CameraOffsetYchangeSpeed;
+            cameraOffsetYcur = Mathf.Clamp(cameraOffsetYcur, CameraOffsetYmin, CameraOffsetYmax);
         }
 
         // Using Vector3.zero, because the camera is supposed to be the child of cameraPivotTransform.
@@ -151,7 +152,7 @@ public class PlayerAgent : Agent
         Vector3 cameraOffset = new Vector3(0, cameraOffsetYcur, -1);
         Vector3 destination = Vector3.zero + cameraOffset * cameraZoomMultiCur;
 
-        cam.transform.localPosition = Vector3.Lerp(cam.transform.localPosition, destination, cameraZoomLerpRate);
+        cam.transform.localPosition = Vector3.Lerp(cam.transform.localPosition, destination, CameraZoomLerpRate);
     }
 
     void HandleFootMovement()
