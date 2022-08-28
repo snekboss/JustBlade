@@ -26,6 +26,8 @@ public class InGameUI : MonoBehaviour
 
     void InitInGameUI()
     {
+        Cursor.visible = false;
+
         screenPauseMenu.SetActive(false);
         screenPlayerInfo.SetActive(false);
 
@@ -73,10 +75,12 @@ public class InGameUI : MonoBehaviour
             if (isPaused)
             {
                 Time.timeScale = 0;
+                Cursor.visible = true;
             }
             else
             {
                 Time.timeScale = 1;
+                Cursor.visible = false;
             }
         }
     }

@@ -26,6 +26,8 @@ public class MainMenuUI : MonoBehaviour
 
     void InitMainMenuUI()
     {
+        Cursor.visible = true;
+
         screenMainMenu.SetActive(true);
         screenKeyBindings.SetActive(false);
         screenSettings.SetActive(false);
