@@ -32,5 +32,11 @@ public class StaticVariables
     public const string HumanTorsoName = "human_body_with_shorts";
     public const string HumanHandsName = "human_hands";
     public const string HumanLegsName = "human_feet";
+
+    public static float PlayerCameraRotationSpeed = 45.0f;
+    public static float PlayerCameraFieldOfView = 60.0f;
+    public static float ThirdPersonCameraOffsetYcur = 0.3f;
+    public static float ThirdPersonCameraOffsetZcur = 1.0f;
+    public static bool IsCameraModeFirstPerson = false;
 }
 

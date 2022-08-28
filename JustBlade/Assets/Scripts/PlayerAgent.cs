@@ -6,19 +6,16 @@ using UnityEngine.AI;
 public class PlayerAgent : Agent
 {
     // TODO: Remove[SerializeField]. It is for debugging purposes only.
-    static readonly float ThirdPersonCameraOffsetYmin = -1.0f;
-    static readonly float ThirdPersonCameraOffsetYmax = 0.5f;
-    static readonly float ThirdPersonCameraOffsetYchangeSpeed = 3.0f;
+    const float ThirdPersonCameraOffsetYmin = -1.0f;
+    const float ThirdPersonCameraOffsetYmax = 0.5f;
+    const float ThirdPersonCameraOffsetYchangeSpeed = 3.0f;
 
-    static readonly float ThirdPersonCameraOffsetZchangeSpeed = 3.0f;
-    static readonly float ThirdPersonCameraOffsetZmin = 0.75f;
-    static readonly float ThirdPersonCameraOffsetZmax = 2.5f;
-    public bool IsCameraModeFirstPerson;
-    public bool IsCameraModeOrbital;
+    const float ThirdPersonCameraOffsetZchangeSpeed = 3.0f;
+    const float ThirdPersonCameraOffsetZmin = 0.75f;
+    const float ThirdPersonCameraOffsetZmax = 2.5f;
+    bool IsCameraModeOrbital;
 
     public Camera mainCameraPrefab;
-    static float thirdPersonCameraOffsetYcur = 0.3f;
-    static float thirdPersonCameraOffsetZcur = 1.0f;
 
     Transform chosenCameraTrackingPoint;
     public Transform thirdPersonViewTrackingPoint;
@@ -46,7 +43,7 @@ public class PlayerAgent : Agent
     // Agent rotation fields
     float mouseX;
     float mouseY;
-    public static float PlayerCameraRotationSpeed = 45.0f;
+
     float cameraYaw; // left right about Y axis
     const float CameraPitchThreshold = 89.0f;
 
@@ -159,7 +156,7 @@ public class PlayerAgent : Agent
 
     void HandleCameraMode()
     {
-        if (IsCameraModeFirstPerson)
+        if (StaticVariables.IsCameraModeFirstPerson)
         {
             chosenCameraTrackingPoint = firstPersonViewTrackingPoint;
             EqMgr.ToggleHelmetVisibility(false);
@@ -175,7 +172,7 @@ public class PlayerAgent : Agent
     {
         if (btnRpressed)
         {
-            IsCameraModeFirstPerson = !IsCameraModeFirstPerson;
+            StaticVariables.IsCameraModeFirstPerson = !StaticVariables.IsCameraModeFirstPerson;
 
             HandleCameraMode();
         }
@@ -188,8 +185,10 @@ public class PlayerAgent : Agent
 
     void HandleCameraRotation()
     {
-        cameraYaw += PlayerCameraRotationSpeed * mouseX * Time.deltaTime;
-        LookAngleX -= PlayerCameraRotationSpeed * mouseY * Time.deltaTime; // Subtracting, because negative angle about X axis means "up".
+        cameraYaw += StaticVariables.PlayerCameraRotationSpeed * mouseX * Time.deltaTime;
+
+        // Subtracting, because negative angle about X axis means "up".
+        LookAngleX -= StaticVariables.PlayerCameraRotationSpeed * mouseY * Time.deltaTime; 
 
         LookAngleX = Mathf.Clamp(LookAngleX, -CameraPitchThreshold, CameraPitchThreshold);
 
@@ -325,23 +324,25 @@ public class PlayerAgent : Agent
         // Assume the camera is in first person view mode.
         Vector3 offset = Vector3.zero;
 
-        if (IsCameraModeFirstPerson == false)
+        if (StaticVariables.IsCameraModeFirstPerson == false)
         {
             // The camera is actually in third person view mode, so apply the zoom effects.
 
             if (btnShiftHeld == false)
             {
-                thirdPersonCameraOffsetZcur -= Input.mouseScrollDelta.y * Time.deltaTime * ThirdPersonCameraOffsetZchangeSpeed;
-                thirdPersonCameraOffsetZcur = Mathf.Clamp(thirdPersonCameraOffsetZcur, ThirdPersonCameraOffsetZmin, ThirdPersonCameraOffsetZmax);
+                StaticVariables.ThirdPersonCameraOffsetZcur -= Input.mouseScrollDelta.y * Time.deltaTime * ThirdPersonCameraOffsetZchangeSpeed;
+                StaticVariables.ThirdPersonCameraOffsetZcur 
+                    = Mathf.Clamp(StaticVariables.ThirdPersonCameraOffsetZcur, ThirdPersonCameraOffsetZmin, ThirdPersonCameraOffsetZmax);
             }
             else
             {
-                thirdPersonCameraOffsetYcur += Input.mouseScrollDelta.y * Time.deltaTime * ThirdPersonCameraOffsetYchangeSpeed;
-                thirdPersonCameraOffsetYcur = Mathf.Clamp(thirdPersonCameraOffsetYcur, ThirdPersonCameraOffsetYmin, ThirdPersonCameraOffsetYmax);
+                StaticVariables.ThirdPersonCameraOffsetYcur += Input.mouseScrollDelta.y * Time.deltaTime * ThirdPersonCameraOffsetYchangeSpeed;
+                StaticVariables.ThirdPersonCameraOffsetYcur 
+                    = Mathf.Clamp(StaticVariables.ThirdPersonCameraOffsetYcur, ThirdPersonCameraOffsetYmin, ThirdPersonCameraOffsetYmax);
             }
 
-            Vector3 offsetZ = Camera.main.transform.forward * (-thirdPersonCameraOffsetZcur);
-            Vector3 offsetY = Vector3.up * thirdPersonCameraOffsetYcur;
+            Vector3 offsetZ = Camera.main.transform.forward * (-StaticVariables.ThirdPersonCameraOffsetZcur);
+            Vector3 offsetY = Vector3.up * StaticVariables.ThirdPersonCameraOffsetYcur;
             offset = offsetZ + offsetY;
         }
         

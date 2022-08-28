@@ -11,17 +11,37 @@ public class MainMenuUI : MonoBehaviour
     public Slider sliderMouseSensitivity;
     public TextMeshProUGUI txtMouseSensitivity;
 
+    public Slider sliderFieldOfView;
+    public TextMeshProUGUI txtFieldOfView;
+
     public GameObject screenMainMenu;
-    public GameObject screenControls;
+    public GameObject screenKeyBindings;
+    public GameObject screenSettings;
 
     public Button btnStartGame;
-    public Button btnControls;
+    public Button btnKeyBindings;
+    public Button btnSettings;
     public Button btnExitGame;
     public Button btnGoBack;
 
-    public void OnClick_ButtonStartGame()
+    void InitMainMenuUI()
     {
-        PlayerAgent.PlayerCameraRotationSpeed = sliderMouseSensitivity.value;
+        screenMainMenu.SetActive(true);
+        screenKeyBindings.SetActive(false);
+        screenSettings.SetActive(false);
+
+        btnGoBack.gameObject.SetActive(false);
+
+        sliderMouseSensitivity.value = StaticVariables.PlayerCameraRotationSpeed;
+        sliderFieldOfView.value = StaticVariables.PlayerCameraFieldOfView;
+
+        OnSliderValueChanged_MouseSensitivity();
+        OnSliderValueChanged_FieldOfView();
+    }
+
+
+    public void OnButtonClick_StartGame()
+    {
         Time.timeScale = 1;
 
         TournamentVariables.IsPlayerEliminated = false;
@@ -32,44 +52,52 @@ public class MainMenuUI : MonoBehaviour
         SceneManager.LoadScene("TournamentInfoMenuScene");
     }
 
-    public void OnClick_ButtonControls()
+    public void OnButtonClick_KeyBindings()
     {
         screenMainMenu.SetActive(false);
-        screenControls.SetActive(true);
+        screenKeyBindings.SetActive(true);
+        screenSettings.SetActive(false);
 
         btnGoBack.gameObject.SetActive(true);
     }
 
-    public void OnClick_ButtonExitGame()
+    public void OnButtonClick_Settings()
+    {
+        screenMainMenu.SetActive(false);
+        screenKeyBindings.SetActive(false);
+        screenSettings.SetActive(true);
+
+        btnGoBack.gameObject.SetActive(true);
+    }
+
+    public void OnButtonClick_ExitGame()
     {
         Application.Quit();
     }
 
-    public void OnClick_ButtonGoBack()
+    public void OnButtonClick_GoBack()
     {
         screenMainMenu.SetActive(true);
-        screenControls.SetActive(false);
+        screenKeyBindings.SetActive(false);
+        screenSettings.SetActive(false);
 
         btnGoBack.gameObject.SetActive(false);
     }
 
-    public void OnSlider_ValueChanged()
+    public void OnSliderValueChanged_MouseSensitivity()
     {
         int val = Convert.ToInt32(sliderMouseSensitivity.value);
         txtMouseSensitivity.text = "Mouse Sensitivity: " + val;
-        PlayerAgent.PlayerCameraRotationSpeed = val;
+        StaticVariables.PlayerCameraRotationSpeed = val;
     }
 
-    void InitMainMenuUI()
+    public void OnSliderValueChanged_FieldOfView()
     {
-        screenMainMenu.SetActive(true);
-        screenControls.SetActive(false);
+        int val = Convert.ToInt32(sliderFieldOfView.value);
+        txtFieldOfView.text = "Field of View: " + val;
+        StaticVariables.PlayerCameraFieldOfView = val;
 
-        btnGoBack.gameObject.SetActive(false);
-
-        sliderMouseSensitivity.value = PlayerAgent.PlayerCameraRotationSpeed;
-
-        OnSlider_ValueChanged();
+        Camera.main.fieldOfView = StaticVariables.PlayerCameraFieldOfView;
     }
 
     void Start()
