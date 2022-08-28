@@ -272,7 +272,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &107281044
 RectTransform:
   m_ObjectHideFlags: 0
@@ -503,37 +503,42 @@ MonoBehaviour:
 
     M -> Pause Menu
 
+    R -> Toggle first/third
+    person view
 
-    Mouse wheel ->
-    Adjust camera zoom
+    T -> Toggle orbital camera
+
+
+    Mouse wheel -> Adjust camera
+    zoom
 
     Left shift + Mouse wheel -> Adjust camera height
 
 
-    Moving
-    the mouse up/down/left/right -> Choose a combat direction
+    Moving the mouse
+    up/down/left/right -> Choose a combat direction
 
 
-    --- Left Mouse
-    Button ---
+    --- Left Mouse Button ---
 
-    Click-> Prepare to attack in chosen direction
+    Click->
+    Prepare to attack in chosen direction
 
-    Hold -> Continue
-    holding the attack
+    Hold -> Continue holding the attack
 
-    Release -> Attack in chosen direction
+    Release
+    -> Attack in chosen direction
 
 
-    --- Right
-    Mouse Button ---
+    --- Right Mouse Button ---
 
-    Click -> Prepare to defend in chosen direction
+    Click ->
+    Prepare to defend in chosen direction
 
-    Hold
-    -> Continue defending
+    Hold -> Continue defending
 
-    Release -> Stop defending'
+    Release
+    -> Stop defending'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1352,7 +1357,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1002149335
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1447,8 +1452,8 @@ RectTransform:
   m_Father: {fileID: 1042790124}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.112676054, y: 0}
-  m_AnchorMax: {x: 0.112676054, y: 1}
+  m_AnchorMin: {x: 0, y: 0}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 20, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -2060,7 +2065,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1888832366
 RectTransform:
   m_ObjectHideFlags: 0
@@ -2210,7 +2215,7 @@ RectTransform:
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
-  m_AnchorMax: {x: 0.112676054, y: 1}
+  m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 10, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}

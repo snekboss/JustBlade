@@ -351,6 +351,11 @@ public class AnimationManager : MonoBehaviour
         initialPelvisRotation = pelvisBone.rotation;
         initialPelvisRotationInverse = Quaternion.Inverse(initialPelvisRotation);
         initialAgentScale = ownerAgent.transform.lossyScale;
+
+        if (ownerAgent.IsPlayerAgent)
+        {
+            Animat.cullingMode = AnimatorCullingMode.AlwaysAnimate;
+        }
     }
 
     public void ReportEquippedWeaponType(Weapon.WeaponType equippedWeaponType)

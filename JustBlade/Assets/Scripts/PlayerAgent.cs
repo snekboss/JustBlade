@@ -6,26 +6,29 @@ using UnityEngine.AI;
 public class PlayerAgent : Agent
 {
     // TODO: Remove[SerializeField]. It is for debugging purposes only.
+    static readonly float ThirdPersonCameraOffsetYmin = -1.0f;
+    static readonly float ThirdPersonCameraOffsetYmax = 0.5f;
+    static readonly float ThirdPersonCameraOffsetYchangeSpeed = 3.0f;
 
-    static readonly float CameraOffsetYmin = -0.6f;
-    static readonly float CameraOffsetYmax = 1.6f;
-    static readonly float CameraOffsetYchangeSpeed = 3.0f;
+    static readonly float ThirdPersonCameraOffsetZchangeSpeed = 3.0f;
+    static readonly float ThirdPersonCameraOffsetZmin = 0.75f;
+    static readonly float ThirdPersonCameraOffsetZmax = 2.5f;
+    public bool IsCameraModeFirstPerson;
+    public bool IsCameraModeOrbital;
 
-    static readonly float CameraZoomLerpRate = 0.2f;
-    static readonly float CameraZoomMultiSpeed = 3.0f;
-    static readonly float CameraZoomMultiMin = 0.5f;
-    static readonly float CameraZoomMultiMax = 1.5f;
+    public Camera mainCameraPrefab;
+    static float thirdPersonCameraOffsetYcur = 0.3f;
+    static float thirdPersonCameraOffsetZcur = 1.0f;
 
-    static float cameraOffsetYcur = 0.3f;
-    static float cameraZoomMultiCur = 1.0f;
-
-    public Camera cam;
-    public Transform cameraPivotTransform; // camera will be a child of this transform
+    Transform chosenCameraTrackingPoint;
+    public Transform thirdPersonViewTrackingPoint;
+    public Transform firstPersonViewTrackingPoint;
     public Transform groundednessCheckerTransform; // used for checking if the player is grounded
 
     CapsuleCollider playerMovementCollider;
     Rigidbody playerMovementRigidbody;
 
+    #region Foot movement fields
     // Foot movement fields
     float moveInputX;
     float moveInputY;
@@ -33,36 +36,45 @@ public class PlayerAgent : Agent
     Vector2 worldVelocityXZ;
 
     float jumpPower = 4.0f;
-    [SerializeField] float jumpCooldownTimer;
-    [SerializeField] float jumpCooldownTimerMax = 1.0f;
-    [Range(0.01f, 10.0f)] public float groundDistance = 0.3f;
-    [SerializeField] bool isGrounded;
+    float jumpCooldownTimer;
+    float jumpCooldownTimerMax = 1.0f;
+    public float groundDistance = 0.3f;
+    bool isGrounded;
+    #endregion
 
-    // Rotation fields
+    #region Agent rotation fields
+    // Agent rotation fields
     float mouseX;
     float mouseY;
     public static float PlayerCameraRotationSpeed = 45.0f;
-    float playerAgentYaw; // yawing the player agent (left right about Y axis)
-    const float EyesPitchThreshold = 89.0f;
+    float cameraYaw; // left right about Y axis
+    const float CameraPitchThreshold = 89.0f;
+
+    static readonly float TargetLookDirSlerpRate = 0.1f;
+    Vector3 targetLookDir;
+
+    #endregion
 
     NavMeshObstacle nmo;
 
-    [SerializeField] CombatDirection lastCombatDir;
-    [SerializeField] CombatDirection combatDir;
+    CombatDirection lastCombatDir;
+    CombatDirection combatDir;
 
     // Combat inputs
-    [SerializeField] bool btnAtkPressed;
-    [SerializeField] bool btnAtkHeld;
-    [SerializeField] bool btnDefPressed;
-    [SerializeField] bool btnDefHeld;
-    [SerializeField] bool btnDefReleased;
-    [SerializeField] bool btnJumpPressed;
-    [SerializeField] bool btnShiftHeld;
+    bool btnAtkPressed;
+    bool btnAtkHeld;
+    bool btnDefPressed;
+    bool btnDefHeld;
+    bool btnDefReleased;
+    bool btnJumpPressed;
+    bool btnShiftHeld; // toggle editing camera offset Y or Z
+    bool btnRpressed; // toggle first/third person view
+    bool btnTpressed; // toggle orbital camera
 
     // Below are not inputs, but they depend on inputs.
-    [SerializeField] bool isAtk;
-    [SerializeField] bool isDef;
-    [SerializeField] float isDefTimer;
+    bool isAtk;
+    bool isDef;
+    float isDefTimer;
     float isDefTimerThreshold = 0.1f;
 
     public override void Awake()
@@ -132,27 +144,75 @@ public class PlayerAgent : Agent
 
         btnJumpPressed = Input.GetKeyDown(KeyCode.Space);
         btnShiftHeld = Input.GetKey(KeyCode.LeftShift);
+
+        btnRpressed = Input.GetKeyDown(KeyCode.R);
+        btnTpressed = Input.GetKeyDown(KeyCode.T);
     }
 
-    void HandleCameraZoom()
+    void SpawnMainCamera()
     {
-        if (btnShiftHeld == false)
+        if (Camera.main == null)
         {
-            cameraZoomMultiCur -= Input.mouseScrollDelta.y * Time.deltaTime * CameraZoomMultiSpeed;
-            cameraZoomMultiCur = Mathf.Clamp(cameraZoomMultiCur, CameraZoomMultiMin, CameraZoomMultiMax);
+            Instantiate(mainCameraPrefab);
+        }
+    }
+
+    void HandleCameraMode()
+    {
+        if (IsCameraModeFirstPerson)
+        {
+            chosenCameraTrackingPoint = firstPersonViewTrackingPoint;
+            EqMgr.ToggleHelmetVisibility(false);
         }
         else
         {
-            cameraOffsetYcur += Input.mouseScrollDelta.y * Time.deltaTime * CameraOffsetYchangeSpeed;
-            cameraOffsetYcur = Mathf.Clamp(cameraOffsetYcur, CameraOffsetYmin, CameraOffsetYmax);
+            chosenCameraTrackingPoint = thirdPersonViewTrackingPoint;
+            EqMgr.ToggleHelmetVisibility(true);
+        }
+    }
+
+    void HandleCameraViewMode()
+    {
+        if (btnRpressed)
+        {
+            IsCameraModeFirstPerson = !IsCameraModeFirstPerson;
+
+            HandleCameraMode();
         }
 
-        // Using Vector3.zero, because the camera is supposed to be the child of cameraPivotTransform.
-        // You can remove "Vector3.zero", but this is more explicit.
-        Vector3 cameraOffset = new Vector3(0, cameraOffsetYcur, -1);
-        Vector3 destination = Vector3.zero + cameraOffset * cameraZoomMultiCur;
+        if (btnTpressed)
+        {
+            IsCameraModeOrbital = !IsCameraModeOrbital;
+        }
+    }
 
-        cam.transform.localPosition = Vector3.Lerp(cam.transform.localPosition, destination, CameraZoomLerpRate);
+    void HandleCameraRotation()
+    {
+        cameraYaw += PlayerCameraRotationSpeed * mouseX * Time.deltaTime;
+        LookAngleX -= PlayerCameraRotationSpeed * mouseY * Time.deltaTime; // Subtracting, because negative angle about X axis means "up".
+
+        LookAngleX = Mathf.Clamp(LookAngleX, -CameraPitchThreshold, CameraPitchThreshold);
+
+        // First, reset rotation.
+        Camera.main.transform.rotation = Quaternion.identity;
+
+        // Then, rotate with the new angles.
+        Camera.main.transform.Rotate(Vector3.up, cameraYaw);
+        Camera.main.transform.Rotate(Vector3.right, LookAngleX);
+    }
+
+    void HandleAgentRotation()
+    {
+        if (IsCameraModeOrbital == false)
+        {
+            // Only keep track of camera's forward when we're NOT in orbital mode.
+            targetLookDir = Camera.main.transform.forward;
+            targetLookDir.y = 0;
+        }
+
+        Quaternion lookRot = Quaternion.LookRotation(targetLookDir);
+
+        transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, TargetLookDirSlerpRate);
     }
 
     void HandleFootMovement()
@@ -198,22 +258,6 @@ public class PlayerAgent : Agent
         }
     }
 
-    void HandleEyeRotation()
-    {
-        playerAgentYaw += PlayerCameraRotationSpeed * mouseX * Time.deltaTime;
-        LookAngleX -= PlayerCameraRotationSpeed * mouseY * Time.deltaTime; // Subtracting, because negative angle about X axis means "up".
-
-        LookAngleX = Mathf.Clamp(LookAngleX, -EyesPitchThreshold, EyesPitchThreshold);
-
-        // First, reset all rotations.
-        transform.rotation = Quaternion.identity;
-        cameraPivotTransform.rotation = Quaternion.identity;
-
-        // Then, rotate with the new angles.
-        transform.Rotate(Vector3.up, playerAgentYaw);
-        cameraPivotTransform.Rotate(Vector3.right, LookAngleX);
-    }
-
     void HandleCombatInputs()
     {
         // Handle attacking
@@ -240,7 +284,6 @@ public class PlayerAgent : Agent
         // Assume combatDir hasn't changed.
         combatDir = lastCombatDir;
 
-        // 
         if (Mathf.Abs(mouseX) > Mathf.Abs(mouseY))
         {
             //it has to be left or right
@@ -277,6 +320,42 @@ public class PlayerAgent : Agent
         lastCombatDir = combatDir;
     }
 
+    void HandleCameraPosition()
+    {
+        // Assume the camera is in first person view mode.
+        Vector3 offset = Vector3.zero;
+
+        if (IsCameraModeFirstPerson == false)
+        {
+            // The camera is actually in third person view mode, so apply the zoom effects.
+
+            if (btnShiftHeld == false)
+            {
+                thirdPersonCameraOffsetZcur -= Input.mouseScrollDelta.y * Time.deltaTime * ThirdPersonCameraOffsetZchangeSpeed;
+                thirdPersonCameraOffsetZcur = Mathf.Clamp(thirdPersonCameraOffsetZcur, ThirdPersonCameraOffsetZmin, ThirdPersonCameraOffsetZmax);
+            }
+            else
+            {
+                thirdPersonCameraOffsetYcur += Input.mouseScrollDelta.y * Time.deltaTime * ThirdPersonCameraOffsetYchangeSpeed;
+                thirdPersonCameraOffsetYcur = Mathf.Clamp(thirdPersonCameraOffsetYcur, ThirdPersonCameraOffsetYmin, ThirdPersonCameraOffsetYmax);
+            }
+
+            Vector3 offsetZ = Camera.main.transform.forward * (-thirdPersonCameraOffsetZcur);
+            Vector3 offsetY = Vector3.up * thirdPersonCameraOffsetYcur;
+            offset = offsetZ + offsetY;
+        }
+        
+        Vector3 destination = chosenCameraTrackingPoint.position + offset;
+
+        Camera.main.transform.position = destination;
+    }
+
+    void Start()
+    {
+        SpawnMainCamera();
+        HandleCameraMode();
+    }
+
     void Update()
     {
         if (IsDead)
@@ -286,24 +365,28 @@ public class PlayerAgent : Agent
             // playerMovementRigidbody.isKinematic = true;
             worldVelocityXZ = Vector2.zero;
 
-            // Detach the camera from the player.
-            if (cam.transform.parent != null)
-            {
-                cam.transform.parent = null;
-            }
             return;
         }
 
         ReadInputs();
 
-        HandleCameraZoom();
+        HandleCameraViewMode();
+        HandleCameraRotation();
+        HandleAgentRotation();
         HandleFootMovement();
-        HandleEyeRotation();
 
         HandleCombatInputs();
         HandleCombatDirection();
 
         AnimMgr.UpdateAnimations(localMoveDirXZ, currentMovementSpeed, isGrounded, isAtk, isDef);
+    }
+
+    protected override void LateUpdate()
+    {
+        base.LateUpdate(); // let the spine be rotated
+
+        // Move the camera to the position after the spine has been rotated.
+        HandleCameraPosition();
     }
 
     void FixedUpdate()

@@ -129,6 +129,8 @@ public class EquipmentManager : MonoBehaviour
 
         UpdateMovementSpeedMultiplier();
         ownerAgent.OnGearInitialized();
+
+        SetSkinnedMeshVisibility();
     }
 
     void SpawnWeapon(Weapon weaponPrefab)
@@ -208,7 +210,6 @@ public class EquipmentManager : MonoBehaviour
         }
     }
 
-
     void SpawnLegArmor(Armor legArmorPrefab)
     {
         if (legArmorPrefab != null && legArmorPrefab.armorType == Armor.ArmorType.Leg)
@@ -225,6 +226,59 @@ public class EquipmentManager : MonoBehaviour
             if (equippedLegArmor.coversTheEntireBodyPart)
             {
                 agentLegsSMR.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public void ToggleHelmetVisibility(bool isVisible)
+    {
+        if (isVisible)
+        {
+            agentHeadSMR.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+            if (equippedHeadArmor != null)
+            {
+                equippedHeadArmor.skinnedMeshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
+            }
+        }
+        else
+        {
+            agentHeadSMR.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+            if (equippedHeadArmor != null)
+            {
+                equippedHeadArmor.skinnedMeshRenderer.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.ShadowsOnly;
+            }
+        }
+    }
+
+    void SetSkinnedMeshVisibility()
+    {
+        if (ownerAgent.IsPlayerAgent)
+        {
+            agentHeadSMR.updateWhenOffscreen = true;
+            agentTorsoSMR.updateWhenOffscreen = true;
+            agentHandsSMR.updateWhenOffscreen = true;
+            agentLegsSMR.updateWhenOffscreen = true;
+
+            // The question mark syntax thing like equippedHeadArmor?.blah doesn't work... -.-
+
+            if (equippedHeadArmor != null)
+            {
+                equippedHeadArmor.skinnedMeshRenderer.updateWhenOffscreen = true;
+            }
+
+            if (equippedTorsoArmor != null)
+            {
+                equippedTorsoArmor.skinnedMeshRenderer.updateWhenOffscreen = true;
+            }
+
+            if (equippedHandArmor != null)
+            {
+                equippedHandArmor.skinnedMeshRenderer.updateWhenOffscreen = true;
+            }
+
+            if (equippedLegArmor != null)
+            {
+                equippedLegArmor.skinnedMeshRenderer.updateWhenOffscreen = true;
             }
         }
     }

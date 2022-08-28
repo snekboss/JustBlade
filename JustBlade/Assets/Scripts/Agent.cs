@@ -119,7 +119,7 @@ public abstract class Agent : MonoBehaviour
         IsPlayerAgent = false;
     }
 
-    void LateUpdate()
+    protected virtual void LateUpdate()
     {
         animMgr.LateUpdateAnimations();
     }
