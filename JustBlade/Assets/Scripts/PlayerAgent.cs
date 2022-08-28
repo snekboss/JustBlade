@@ -370,6 +370,8 @@ public class PlayerAgent : Agent
             playerMovementRigidbody.angularVelocity = Vector3.zero;
             // playerMovementRigidbody.isKinematic = true;
             worldVelocityXZ = Vector2.zero;
+            mouseX = 0;
+            mouseY = 0;
 
             return;
         }

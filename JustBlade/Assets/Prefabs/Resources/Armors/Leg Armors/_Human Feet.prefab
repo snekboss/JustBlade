@@ -745,7 +745,7 @@ GameObject:
   - component: {fileID: 6354394998585516492}
   - component: {fileID: 1275321199118390783}
   m_Layer: 0
-  m_Name: Human Feet
+  m_Name: _Human Feet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

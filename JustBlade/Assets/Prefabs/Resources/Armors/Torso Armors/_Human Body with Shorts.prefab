@@ -996,7 +996,7 @@ GameObject:
   - component: {fileID: 6212990037966358681}
   - component: {fileID: 4612365907453365835}
   m_Layer: 0
-  m_Name: Human Body with Shorts
+  m_Name: _Human Body with Shorts
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0

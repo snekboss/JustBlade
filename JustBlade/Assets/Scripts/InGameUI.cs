@@ -24,6 +24,8 @@ public class InGameUI : MonoBehaviour
 
     void InitInGameUI()
     {
+        StaticVariables.IsGamePaused = false;
+
         Cursor.visible = false;
 
         screenPauseMenu.SetActive(false);
