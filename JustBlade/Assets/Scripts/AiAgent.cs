@@ -495,6 +495,11 @@ public class AiAgent : Agent
 
     void Update()
     {
+        if (StaticVariables.IsGamePaused)
+        {
+            return;
+        }
+
         if (IsDead)
         {
             rBody.velocity = Vector3.zero;

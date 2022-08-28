@@ -22,8 +22,6 @@ public class InGameUI : MonoBehaviour
 
     public Button btnReturnToMainMenu;
 
-    bool isPaused;
-
     void InitInGameUI()
     {
         Cursor.visible = false;
@@ -68,11 +66,11 @@ public class InGameUI : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.M))
         {
-            isPaused = !isPaused;
+            StaticVariables.IsGamePaused = !StaticVariables.IsGamePaused;
 
-            screenPauseMenu.SetActive(isPaused);
+            screenPauseMenu.SetActive(StaticVariables.IsGamePaused);
 
-            if (isPaused)
+            if (StaticVariables.IsGamePaused)
             {
                 Time.timeScale = 0;
                 Cursor.visible = true;

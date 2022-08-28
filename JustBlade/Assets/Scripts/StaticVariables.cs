@@ -38,5 +38,6 @@ public class StaticVariables
     public static float ThirdPersonCameraOffsetYcur = 0.3f;
     public static float ThirdPersonCameraOffsetZcur = 1.0f;
     public static bool IsCameraModeFirstPerson = false;
+    public static bool IsGamePaused = false;
 }
 

@@ -20,6 +20,8 @@ public class TournamentInfoUI : MonoBehaviour
 
     void Start()
     {
+        Cursor.visible = true;
+
         UpdateTexts();
     }
 

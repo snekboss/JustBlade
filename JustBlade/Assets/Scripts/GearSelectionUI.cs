@@ -110,6 +110,8 @@ public class GearSelectionUI : MonoBehaviour
 
     void Start()
     {
+        Cursor.visible = true;
+
         OnMannequinEquipmentChanged();
     }
 

@@ -359,6 +359,11 @@ public class PlayerAgent : Agent
 
     void Update()
     {
+        if (StaticVariables.IsGamePaused)
+        {
+            return;
+        }
+
         if (IsDead)
         {
             playerMovementRigidbody.velocity = Vector3.zero;
@@ -384,6 +389,11 @@ public class PlayerAgent : Agent
 
     protected override void LateUpdate()
     {
+        if (StaticVariables.IsGamePaused)
+        {
+            return;
+        }
+
         base.LateUpdate(); // let the spine be rotated
 
         // Move the camera to the position after the spine has been rotated.
@@ -392,6 +402,11 @@ public class PlayerAgent : Agent
 
     void FixedUpdate()
     {
+        if (StaticVariables.IsGamePaused)
+        {
+            return;
+        }
+
         Vector3 worldVelocity3D = new Vector3(worldVelocityXZ.x, 0, worldVelocityXZ.y);
         playerMovementRigidbody.MovePosition(playerMovementRigidbody.position + worldVelocity3D * Time.fixedDeltaTime);
     }
