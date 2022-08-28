@@ -47,7 +47,7 @@ public class MainMenuUI : MonoBehaviour
         OnSliderValueChanged_MouseSensitivity();
         OnSliderValueChanged_FieldOfView();
 
-        UpdateQualitySettingWidgets();
+        OnButtonClick_SetDefaultQuality();
     }
 
     public void OnButtonClick_StartGame()
