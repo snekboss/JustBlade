@@ -33,11 +33,25 @@ public class StaticVariables
     public const string HumanHandsName = "human_hands";
     public const string HumanLegsName = "human_feet";
 
+    /// <summary>
+    /// These are in sync with Unity's <see cref="QualitySettings.names"/>.
+    /// </summary>
+    enum QualitySetting
+    {
+        VeryLow = 0,
+        Low,
+        Medium,
+        High,
+        VeryHigh,
+        Ultra,
+    }
+
     public static float PlayerCameraRotationSpeed = 45.0f;
     public static float PlayerCameraFieldOfView = 60.0f;
     public static float ThirdPersonCameraOffsetYcur = 0.3f;
     public static float ThirdPersonCameraOffsetZcur = 1.0f;
     public static bool IsCameraModeFirstPerson = false;
     public static bool IsGamePaused = false;
+    public static int DefaultQualitySetting = (int)(QualitySetting.High);
 }
 

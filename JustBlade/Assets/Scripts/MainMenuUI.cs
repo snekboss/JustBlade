@@ -24,6 +24,13 @@ public class MainMenuUI : MonoBehaviour
     public Button btnExitGame;
     public Button btnGoBack;
 
+    public TextMeshProUGUI txtChosenQuality;
+
+    public Button btnIncreaseQuality;
+    public Button btnDecreaseQuality;
+    public Button btnSetDefaultQuality;
+
+
     void InitMainMenuUI()
     {
         Cursor.visible = true;
@@ -39,8 +46,9 @@ public class MainMenuUI : MonoBehaviour
 
         OnSliderValueChanged_MouseSensitivity();
         OnSliderValueChanged_FieldOfView();
-    }
 
+        UpdateQualitySettingWidgets();
+    }
 
     public void OnButtonClick_StartGame()
     {
@@ -84,6 +92,37 @@ public class MainMenuUI : MonoBehaviour
         screenSettings.SetActive(false);
 
         btnGoBack.gameObject.SetActive(false);
+    }
+
+    public void OnButtonClick_IncreaseQuality()
+    {
+        QualitySettings.IncreaseLevel(true);
+
+        UpdateQualitySettingWidgets();
+    }
+
+    public void OnButtonClick_DecreaseQuality()
+    {
+        QualitySettings.DecreaseLevel(true);
+
+        UpdateQualitySettingWidgets();
+    }
+
+    public void OnButtonClick_SetDefaultQuality()
+    {
+        QualitySettings.SetQualityLevel(StaticVariables.DefaultQualitySetting, true);
+
+        UpdateQualitySettingWidgets();
+    }
+
+    void UpdateQualitySettingWidgets()
+    {
+        int index = QualitySettings.GetQualityLevel();
+
+        btnDecreaseQuality.interactable = (index != 0);
+        btnIncreaseQuality.interactable = (index != (QualitySettings.names.Length - 1));
+
+        txtChosenQuality.text = QualitySettings.names[index];
     }
 
     public void OnSliderValueChanged_MouseSensitivity()
