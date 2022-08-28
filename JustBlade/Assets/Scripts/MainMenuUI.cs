@@ -31,6 +31,8 @@ public class MainMenuUI : MonoBehaviour
     public Button btnSetDefaultQuality;
 
 
+    static bool isLoadingForTheFirstTime = true;
+
     void InitMainMenuUI()
     {
         Cursor.visible = true;
@@ -47,7 +49,15 @@ public class MainMenuUI : MonoBehaviour
         OnSliderValueChanged_MouseSensitivity();
         OnSliderValueChanged_FieldOfView();
 
-        OnButtonClick_SetDefaultQuality();
+        if (isLoadingForTheFirstTime)
+        {
+            OnButtonClick_SetDefaultQuality();
+            isLoadingForTheFirstTime = false;
+        }
+        else
+        {
+            UpdateQualitySettingWidgets();
+        }
     }
 
     public void OnButtonClick_StartGame()
