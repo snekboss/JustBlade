@@ -23,12 +23,12 @@ public class TournamentInfoUI : MonoBehaviour
         UpdateTexts();
     }
 
-    public void OnClick_ButtonReturnToMainMenu()
+    public void OnButtonClick_ReturnToMainMenu()
     {
         SceneManager.LoadScene("MainMenuScene");
     }
 
-    public void OnClick_ButtonNext()
+    public void OnButtonClick_Next()
     {
         SceneManager.LoadScene("GearSelectionMenuScene");
     }

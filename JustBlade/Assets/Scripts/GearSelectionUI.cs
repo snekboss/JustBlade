@@ -38,72 +38,72 @@ public class GearSelectionUI : MonoBehaviour
 
     MannequinAgent mannequinAgent;
 
-    public void OnClick_ButtonNextWeapon()
+    public void OnButtonClick_NextWeapon()
     {
         TournamentVariables.PlayerChosenWeaponIndex++;
         OnMannequinEquipmentChanged();
     }
 
-    public void OnClick_ButtonNextHeadArmor()
+    public void OnButtonClick_NextHeadArmor()
     {
         TournamentVariables.PlayerChosenHeadArmorIndex++;
         OnMannequinEquipmentChanged();
     }
 
-    public void OnClick_ButtonNextTorsoArmor()
+    public void OnButtonClick_NextTorsoArmor()
     {
         TournamentVariables.PlayerChosenTorsoArmorIndex++;
         OnMannequinEquipmentChanged();
     }
 
-    public void OnClick_ButtonNextHandArmor()
+    public void OnButtonClick_NextHandArmor()
     {
         TournamentVariables.PlayerChosenHandArmorIndex++;
         OnMannequinEquipmentChanged();
     }
 
-    public void OnClick_ButtonNextLegArmor()
+    public void OnButtonClick_NextLegArmor()
     {
         TournamentVariables.PlayerChosenLegArmorIndex++;
         OnMannequinEquipmentChanged();
     }
 
-    public void OnClick_ButtonPrevWeapon()
+    public void OnButtonClick_PrevWeapon()
     {
         TournamentVariables.PlayerChosenWeaponIndex--;
         OnMannequinEquipmentChanged();
     }
 
-    public void OnClick_ButtonPrevHeadArmor()
+    public void OnButtonClick_PrevHeadArmor()
     {
         TournamentVariables.PlayerChosenHeadArmorIndex--;
         OnMannequinEquipmentChanged();
     }
 
-    public void OnClick_ButtonPrevTorsoArmor()
+    public void OnButtonClick_PrevTorsoArmor()
     {
         TournamentVariables.PlayerChosenTorsoArmorIndex--;
         OnMannequinEquipmentChanged();
     }
 
-    public void OnClick_ButtonPrevHandArmor()
+    public void OnButtonClick_PrevHandArmor()
     {
         TournamentVariables.PlayerChosenHandArmorIndex--;
         OnMannequinEquipmentChanged();
     }
 
-    public void OnClick_ButtonPrevLegArmor()
+    public void OnButtonClick_PrevLegArmor()
     {
         TournamentVariables.PlayerChosenLegArmorIndex--;
         OnMannequinEquipmentChanged();
     }
 
-    public void OnClick_ButtonBack()
+    public void OnButtonClick_Back()
     {
         SceneManager.LoadScene("TournamentInfoMenuScene");
     }
 
-    public void OnClick_ButtonFight()
+    public void OnButtonClick_Fight()
     {
         SceneManager.LoadScene("ArenaScene");
     }
@@ -137,7 +137,8 @@ public class GearSelectionUI : MonoBehaviour
         string typeStr = chosenWeapon.weaponType == Weapon.WeaponType.TwoHanded ? "Two handed" : "Polearm";
         int lengthInt = Convert.ToInt32(chosenWeapon.weaponLength * 100);
         txtWeaponInfoBody.text =
-            "Type: " + typeStr + NL
+            "Name: " + chosenWeapon.shownName + NL
+            + "Type: " + typeStr + NL
             + "Length: " + lengthInt.ToString() + NL
             + "Average swing damage: " + chosenWeapon.AverageSwingDamage.ToString() + NL
             + "Average stab damage: " + chosenWeapon.AverageStabDamage.ToString();

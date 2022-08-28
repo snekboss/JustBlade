@@ -504,7 +504,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 33995552}
         m_TargetAssemblyTypeName: TournamentInfoUI, Assembly-CSharp
-        m_MethodName: OnClick_ButtonReturnToMainMenu
+        m_MethodName: OnButtonClick_ReturnToMainMenu
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1167,7 +1167,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 33995552}
         m_TargetAssemblyTypeName: TournamentInfoUI, Assembly-CSharp
-        m_MethodName: OnClick_ButtonNext
+        m_MethodName: OnButtonClick_Next
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

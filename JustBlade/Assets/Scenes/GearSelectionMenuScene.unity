@@ -884,7 +884,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 488232024}
         m_TargetAssemblyTypeName: GearSelectionUI, Assembly-CSharp
-        m_MethodName: OnClick_ButtonNextWeapon
+        m_MethodName: OnButtonClick_NextWeapon
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1222,7 +1222,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 488232024}
         m_TargetAssemblyTypeName: GearSelectionUI, Assembly-CSharp
-        m_MethodName: OnClick_ButtonPrevLegArmor
+        m_MethodName: OnButtonClick_PrevLegArmor
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1356,7 +1356,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 488232024}
         m_TargetAssemblyTypeName: GearSelectionUI, Assembly-CSharp
-        m_MethodName: OnClick_ButtonNextTorsoArmor
+        m_MethodName: OnButtonClick_NextTorsoArmor
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1641,7 +1641,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 488232024}
         m_TargetAssemblyTypeName: GearSelectionUI, Assembly-CSharp
-        m_MethodName: OnClick_ButtonNextLegArmor
+        m_MethodName: OnButtonClick_NextLegArmor
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2236,14 +2236,16 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Type: Two Handed
+  m_text: 'Name: Greatsword
+
+    Type: Two Handed
 
     Length: 132
 
-    Average swing damage: 58
+    Average swing
+    damage: 58
 
-    Average
-    stab damage: 45'
+    Average stab damage: 45'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -3194,7 +3196,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 488232024}
         m_TargetAssemblyTypeName: GearSelectionUI, Assembly-CSharp
-        m_MethodName: OnClick_ButtonPrevWeapon
+        m_MethodName: OnButtonClick_PrevWeapon
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3503,7 +3505,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 488232024}
         m_TargetAssemblyTypeName: GearSelectionUI, Assembly-CSharp
-        m_MethodName: OnClick_ButtonBack
+        m_MethodName: OnButtonClick_Back
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3772,7 +3774,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 488232024}
         m_TargetAssemblyTypeName: GearSelectionUI, Assembly-CSharp
-        m_MethodName: OnClick_ButtonFight
+        m_MethodName: OnButtonClick_Fight
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4347,7 +4349,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 488232024}
         m_TargetAssemblyTypeName: GearSelectionUI, Assembly-CSharp
-        m_MethodName: OnClick_ButtonNextHandArmor
+        m_MethodName: OnButtonClick_NextHandArmor
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4481,7 +4483,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 488232024}
         m_TargetAssemblyTypeName: GearSelectionUI, Assembly-CSharp
-        m_MethodName: OnClick_ButtonPrevTorsoArmor
+        m_MethodName: OnButtonClick_PrevTorsoArmor
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4885,7 +4887,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 488232024}
         m_TargetAssemblyTypeName: GearSelectionUI, Assembly-CSharp
-        m_MethodName: OnClick_ButtonPrevHandArmor
+        m_MethodName: OnButtonClick_PrevHandArmor
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5492,7 +5494,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 488232024}
         m_TargetAssemblyTypeName: GearSelectionUI, Assembly-CSharp
-        m_MethodName: OnClick_ButtonNextHeadArmor
+        m_MethodName: OnButtonClick_NextHeadArmor
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5761,7 +5763,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 488232024}
         m_TargetAssemblyTypeName: GearSelectionUI, Assembly-CSharp
-        m_MethodName: OnClick_ButtonPrevHeadArmor
+        m_MethodName: OnButtonClick_PrevHeadArmor
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
