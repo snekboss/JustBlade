@@ -347,6 +347,7 @@ public class AnimationManager : MonoBehaviour
 
     /// <summary>
     /// Plays the death animation.
+    /// Also disables weapon collisions.
     /// </summary>
     public void PlayDeathAnimation()
     {

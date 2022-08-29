@@ -2,6 +2,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A static class which holds references to the prefabs under the "Resources" folder of this project.
+/// The prefabs are loaded once via lazy initialization, and remain in memory throughout the life cycle of the game application.
+/// The prefab references are accessible from anywhere throughout the life cycle of the game.
+/// </summary>
 public static class PrefabManager
 {
     static List<Armor> headArmors;
@@ -74,6 +79,11 @@ public static class PrefabManager
         }
     }
 
+    /// <summary>
+    /// Loads armors based on a given path, under "Resources" folder of this project.
+    /// </summary>
+    /// <param name="path">The name of a subfolder under "Resources".</param>
+    /// <returns>List of <see cref="Armor"/> prefabs.</returns>
     static List<Armor> LoadArmors(string path)
     {
         List<Armor> ret = new List<Armor>();
@@ -89,6 +99,11 @@ public static class PrefabManager
         return ret;
     }
 
+    /// <summary>
+    /// Loads weapons based on a given path, under "Resources" folder of this project.
+    /// </summary>
+    /// <param name="path">The name of a subfolder under "Resources".</param>
+    /// <returns>List of <see cref="Weapon"/> prefabs.</returns>
     static List<Weapon> LoadWeapons(string path)
     {
         List<Weapon> ret = new List<Weapon>();

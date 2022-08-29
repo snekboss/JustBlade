@@ -6,6 +6,12 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/// <summary>
+/// A script which designates the attached game object as Tournament Info Menu UI.
+/// It contains the logic of the controls of the Tournament Info Menu UI.
+/// The tournament info screen is shown before and after a tournament round.
+/// It is also shown when the player is eliminated from the tournament (game over) and when the player wins the tournament.
+/// </summary>
 public class TournamentInfoUI : MonoBehaviour
 {
     public GameObject screenGameOver;
@@ -18,6 +24,10 @@ public class TournamentInfoUI : MonoBehaviour
     public Button btnReturnToMainMenu;
     public Button btnNext;
 
+    /// <summary>
+    /// Unity's Start method.
+    /// In this case, it is used to make the mouse cursor visible, and invoke <see cref="UpdateTexts"/>.
+    /// </summary>
     void Start()
     {
         Cursor.visible = true;
@@ -25,16 +35,29 @@ public class TournamentInfoUI : MonoBehaviour
         UpdateTexts();
     }
 
+    /// <summary>
+    /// Returns to the main menu by loading MainMenuScene.
+    /// </summary>
     public void OnButtonClick_ReturnToMainMenu()
     {
         SceneManager.LoadScene("MainMenuScene");
     }
 
+    /// <summary>
+    /// Navigates to the gear selection menu by loading GearSelectionMenuScene.
+    /// </summary>
     public void OnButtonClick_Next()
     {
         SceneManager.LoadScene("GearSelectionMenuScene");
     }
 
+    /// <summary>
+    /// This method is invoked when the game is over.
+    /// The game could be over in one of two ways:
+    /// - The player is eliminated from the tournament.
+    /// - The player wins the tournament.
+    /// In either case, this method handles the text which is shown on the screen.
+    /// </summary>
     void UpdateGameOverScreenTexts()
     {
         screenGameOver.SetActive(TournamentVariables.IsTournamentEnded);
@@ -62,6 +85,11 @@ public class TournamentInfoUI : MonoBehaviour
         txtGameOverBody.text = gameOverBodyStr;
     }
 
+    /// <summary>
+    /// This method is invoked before each tournament round.
+    /// It is also invoked after each round (unless the game is over).
+    /// It is used to the text which is shown on the screen, which gives information about the current tournament round.
+    /// </summary>
     void UpdateRoundInfoScreenTexts()
     {
         screenRoundInfo.SetActive(!TournamentVariables.IsTournamentEnded);
@@ -90,6 +118,9 @@ public class TournamentInfoUI : MonoBehaviour
         txtRoundInfoBody.text = bestedStr + infoStr;
     }
 
+    /// <summary>
+    /// Updates all texts shown on the screen by invoking both <see cref="UpdateGameOverScreenTexts"/> and <see cref="UpdateRoundInfoScreenTexts"/>.
+    /// </summary>
     void UpdateTexts()
     {
         UpdateGameOverScreenTexts();

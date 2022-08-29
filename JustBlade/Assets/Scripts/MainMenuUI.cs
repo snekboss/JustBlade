@@ -6,6 +6,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/// <summary>
+/// A script which designates the attached game object as Main Menu UI.
+/// It contains the logic of the controls of the Main Menu UI.
+/// </summary>
 public class MainMenuUI : MonoBehaviour
 {
     public Slider sliderMouseSensitivity;
@@ -33,6 +37,12 @@ public class MainMenuUI : MonoBehaviour
 
     static bool isLoadingForTheFirstTime = true;
 
+    /// <summary>
+    /// Initializes the Main Menu UI. It involves things like:
+    /// - Making the mouse cursor visible,
+    /// - Setting the initial values of sliders,
+    /// - Setting up the default quality settings (if the game was loaded for the first time).
+    /// </summary>
     void InitMainMenuUI()
     {
         Cursor.visible = true;
@@ -60,18 +70,22 @@ public class MainMenuUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Starts the game by navigating to the TournamentInfoMenuScene.
+    /// It also unpauses the game (in case it was paused the last time).
+    /// </summary>
     public void OnButtonClick_StartGame()
     {
         Time.timeScale = 1;
 
-        TournamentVariables.IsPlayerEliminated = false;
-        TournamentVariables.PlayerWasBestedInThisMelee = false;
-        TournamentVariables.TotalOpponentsBeatenByPlayer = 0;
-        TournamentVariables.CurrentRoundNumber = 1;
+        TournamentVariables.StartNewTournament();
 
         SceneManager.LoadScene("TournamentInfoMenuScene");
     }
 
+    /// <summary>
+    /// Navigates to the Key Bindings submenu.
+    /// </summary>
     public void OnButtonClick_KeyBindings()
     {
         screenMainMenu.SetActive(false);
@@ -81,6 +95,9 @@ public class MainMenuUI : MonoBehaviour
         btnGoBack.gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// Navigates to the Settings submenu.
+    /// </summary>
     public void OnButtonClick_Settings()
     {
         screenMainMenu.SetActive(false);
@@ -90,11 +107,17 @@ public class MainMenuUI : MonoBehaviour
         btnGoBack.gameObject.SetActive(true);
     }
 
+    /// <summary>
+    /// Exits the game.
+    /// </summary>
     public void OnButtonClick_ExitGame()
     {
         Application.Quit();
     }
 
+    /// <summary>
+    /// Navigates back to the main menu screen from any other submenu.
+    /// </summary>
     public void OnButtonClick_GoBack()
     {
         screenMainMenu.SetActive(true);
@@ -104,6 +127,9 @@ public class MainMenuUI : MonoBehaviour
         btnGoBack.gameObject.SetActive(false);
     }
 
+    /// <summary>
+    /// Increases the graphical quality of the game by one level.
+    /// </summary>
     public void OnButtonClick_IncreaseQuality()
     {
         QualitySettings.IncreaseLevel(true);
@@ -111,6 +137,9 @@ public class MainMenuUI : MonoBehaviour
         UpdateQualitySettingWidgets();
     }
 
+    /// <summary>
+    /// Decreases the graphical quality of the game by one level.
+    /// </summary>
     public void OnButtonClick_DecreaseQuality()
     {
         QualitySettings.DecreaseLevel(true);
@@ -118,6 +147,9 @@ public class MainMenuUI : MonoBehaviour
         UpdateQualitySettingWidgets();
     }
 
+    /// <summary>
+    /// Sets the graphical quality of the game to default settings based on <see cref="StaticVariables.DefaultQualitySetting"/>.
+    /// </summary>
     public void OnButtonClick_SetDefaultQuality()
     {
         QualitySettings.SetQualityLevel(StaticVariables.DefaultQualitySetting, true);
@@ -125,6 +157,9 @@ public class MainMenuUI : MonoBehaviour
         UpdateQualitySettingWidgets();
     }
 
+    /// <summary>
+    /// Updates the UI elements regarding the quality settings of the game.
+    /// </summary>
     void UpdateQualitySettingWidgets()
     {
         int index = QualitySettings.GetQualityLevel();
@@ -135,6 +170,10 @@ public class MainMenuUI : MonoBehaviour
         txtChosenQuality.text = QualitySettings.names[index];
     }
 
+    /// <summary>
+    /// Callback method when the mouse sensitivity slider's value has been changed.
+    /// It updates the player's mouse sensitivity value by changing <see cref="StaticVariables.PlayerCameraRotationSpeed"/>.
+    /// </summary>
     public void OnSliderValueChanged_MouseSensitivity()
     {
         int val = Convert.ToInt32(sliderMouseSensitivity.value);
@@ -142,6 +181,10 @@ public class MainMenuUI : MonoBehaviour
         StaticVariables.PlayerCameraRotationSpeed = val;
     }
 
+    /// <summary>
+    /// Callback method when the field of view slider's value has been changed.
+    /// It updates the camera's field of view value by changing <see cref="StaticVariables.PlayerCameraFieldOfView"/>.
+    /// </summary>
     public void OnSliderValueChanged_FieldOfView()
     {
         int val = Convert.ToInt32(sliderFieldOfView.value);
@@ -151,6 +194,10 @@ public class MainMenuUI : MonoBehaviour
         Camera.main.fieldOfView = StaticVariables.PlayerCameraFieldOfView;
     }
 
+    /// <summary>
+    /// Unity's Start method.
+    /// It invokes <see cref="InitMainMenuUI"/>.
+    /// </summary>
     void Start()
     {
         InitMainMenuUI();

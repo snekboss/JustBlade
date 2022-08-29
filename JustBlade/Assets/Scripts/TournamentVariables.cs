@@ -133,4 +133,12 @@ public static class TournamentVariables
 
     public static int TotalOpponentsBeatenByPlayer;
     public static bool PlayerWasBestedInThisMelee;
+
+    public static void StartNewTournament()
+    {
+        IsPlayerEliminated = false;
+        PlayerWasBestedInThisMelee = false;
+        TotalOpponentsBeatenByPlayer = 0;
+        CurrentRoundNumber = 1;
+    }
 }

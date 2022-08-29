@@ -6,6 +6,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/// <summary>
+/// A script which designates the attached game object as Gear Selection UI.
+/// It contains the logic of the controls of the Gear Selection UI.
+/// </summary>
 public class GearSelectionUI : MonoBehaviour
 {
     public float mannequinAgentSize;
@@ -38,76 +42,116 @@ public class GearSelectionUI : MonoBehaviour
 
     MannequinAgent mannequinAgent;
 
+    /// <summary>
+    /// Increments the selected weapon index.
+    /// </summary>
     public void OnButtonClick_NextWeapon()
     {
         TournamentVariables.PlayerChosenWeaponIndex++;
         OnMannequinEquipmentChanged();
     }
 
+    /// <summary>
+    /// Increments the selected head armor index.
+    /// </summary>
     public void OnButtonClick_NextHeadArmor()
     {
         TournamentVariables.PlayerChosenHeadArmorIndex++;
         OnMannequinEquipmentChanged();
     }
 
+    /// <summary>
+    /// Increments the selected torso armor index.
+    /// </summary>
     public void OnButtonClick_NextTorsoArmor()
     {
         TournamentVariables.PlayerChosenTorsoArmorIndex++;
         OnMannequinEquipmentChanged();
     }
 
+    /// <summary>
+    /// Increments the selected hand armor index.
+    /// </summary>
     public void OnButtonClick_NextHandArmor()
     {
         TournamentVariables.PlayerChosenHandArmorIndex++;
         OnMannequinEquipmentChanged();
     }
 
+    /// <summary>
+    /// Increments the selected leg armor index.
+    /// </summary>
     public void OnButtonClick_NextLegArmor()
     {
         TournamentVariables.PlayerChosenLegArmorIndex++;
         OnMannequinEquipmentChanged();
     }
 
+    /// <summary>
+    /// Decrements the selected weapon index.
+    /// </summary>
     public void OnButtonClick_PrevWeapon()
     {
         TournamentVariables.PlayerChosenWeaponIndex--;
         OnMannequinEquipmentChanged();
     }
 
+    /// <summary>
+    /// Decrements the selected head armor index.
+    /// </summary>
     public void OnButtonClick_PrevHeadArmor()
     {
         TournamentVariables.PlayerChosenHeadArmorIndex--;
         OnMannequinEquipmentChanged();
     }
 
+    /// <summary>
+    /// Decrements the selected torso armor index.
+    /// </summary>
     public void OnButtonClick_PrevTorsoArmor()
     {
         TournamentVariables.PlayerChosenTorsoArmorIndex--;
         OnMannequinEquipmentChanged();
     }
 
+    /// <summary>
+    /// Decrements the selected hand armor index.
+    /// </summary>
     public void OnButtonClick_PrevHandArmor()
     {
         TournamentVariables.PlayerChosenHandArmorIndex--;
         OnMannequinEquipmentChanged();
     }
 
+    /// <summary>
+    /// Decrements the selected leg armor index.
+    /// </summary>
     public void OnButtonClick_PrevLegArmor()
     {
         TournamentVariables.PlayerChosenLegArmorIndex--;
         OnMannequinEquipmentChanged();
     }
 
+    /// <summary>
+    /// Loads the TournamentInfoMenuScene.
+    /// </summary>
     public void OnButtonClick_Back()
     {
         SceneManager.LoadScene("TournamentInfoMenuScene");
     }
 
+    /// <summary>
+    /// Loads the arena scene.
+    /// </summary>
     public void OnButtonClick_Fight()
     {
         SceneManager.LoadScene("ArenaScene");
     }
 
+    /// <summary>
+    /// Unity's Start method.
+    /// In this case, it sets the cursor visible and initializes the mannequin agent.
+    /// </summary>
     void Start()
     {
         Cursor.visible = true;
@@ -115,6 +159,9 @@ public class GearSelectionUI : MonoBehaviour
         OnMannequinEquipmentChanged();
     }
 
+    /// <summary>
+    /// Updates the text widgets.
+    /// </summary>
     void UpdateTexts()
     {
         Weapon chosenWeapon = PrefabManager.Weapons[TournamentVariables.PlayerChosenWeaponIndex];
@@ -163,6 +210,9 @@ public class GearSelectionUI : MonoBehaviour
             + "Movement speed: " + movSpeedMultiInt + "%";
     }
 
+    /// <summary>
+    /// Callback for when the mannequin agent's equipment is changed.
+    /// </summary>
     void OnMannequinEquipmentChanged()
     {
         UpdateTexts();
@@ -170,6 +220,9 @@ public class GearSelectionUI : MonoBehaviour
         RespawnMannequinAgent();
     }
 
+    /// <summary>
+    /// Destroys the existing mannequin agent (if exists), and respawns it.
+    /// </summary>
     void RespawnMannequinAgent()
     {
         if (mannequinAgent != null)

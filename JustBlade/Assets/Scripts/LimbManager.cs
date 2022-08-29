@@ -3,6 +3,11 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A class which must be attached to the game objects which are also <see cref="Agent"/>.
+/// It governs the <see cref="Limb"/>s of the attached <see cref="Agent"/>.
+/// See <see cref="Limb"/> on more info about what they are.
+/// </summary>
 public class LimbManager : MonoBehaviour
 {
     public Transform rootBone;
@@ -19,11 +24,13 @@ public class LimbManager : MonoBehaviour
     static readonly float LegsDepth = 0.35f;
 
     public Agent ownerAgent { get; private set; }
-
     public Limb limbHead { get; private set; }
     public Limb limbTorso { get; private set; }
     public Limb limbLegs { get; private set; }
 
+    /// <summary>
+    /// Initializes all <see cref="Limb"/>s.
+    /// </summary>
     void InitializeLimbs()
     {
         InitializeLegsLimb();
@@ -31,6 +38,9 @@ public class LimbManager : MonoBehaviour
         InitializeHeadLimb();
     }
 
+    /// <summary>
+    /// Initializes leg <see cref="Limb"/> by generating its hitbox.
+    /// </summary>
     void InitializeLegsLimb()
     {
         float rootToSpineHeight = spineBone.transform.position.y - rootBone.transform.position.y;
@@ -55,6 +65,9 @@ public class LimbManager : MonoBehaviour
         limbLegs.InitializeOwnerAgent(ownerAgent);
     }
 
+    /// <summary>
+    /// Initializes torso <see cref="Limb"/> by generating its hitbox.
+    /// </summary>
     void InitializeTorsoLimb()
     {
         float spineToNeckHeight = neckBone.transform.position.y - spineBone.transform.position.y;
@@ -79,6 +92,9 @@ public class LimbManager : MonoBehaviour
         limbTorso.InitializeOwnerAgent(ownerAgent);
     }
 
+    /// <summary>
+    /// Initializes head <see cref="Limb"/> by generating its hitbox.
+    /// </summary>
     void InitializeHeadLimb()
     {
         // We call it "head limb", but it's a child of the neckBone.
@@ -103,6 +119,10 @@ public class LimbManager : MonoBehaviour
         limbHead.InitializeOwnerAgent(ownerAgent);
     }
 
+    /// <summary>
+    /// Unity's Awake method.
+    /// In this case, it gets the reference of its <see cref="ownerAgent"/>, and invokes <see cref="InitializeLimbs"/>.
+    /// </summary>
     void Awake()
     {
         ownerAgent = GetComponent<Agent>();

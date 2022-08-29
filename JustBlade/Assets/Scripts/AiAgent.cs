@@ -7,6 +7,10 @@ using UnityEngine.AI;
 /// A class which designates the attached game object as an AiAgent.
 /// AiAgents are <see cref="Agent"/> object which are controlled by the state machine written in this class.
 /// These agents are not controlled by the player.
+/// An AiAgent also requires:
+/// - <see cref="AnimationManager"/>.
+/// - <see cref="EquipmentManager"/>.
+/// - <see cref="LimbManager"/>.
 /// </summary>
 public class AiAgent : Agent
 {

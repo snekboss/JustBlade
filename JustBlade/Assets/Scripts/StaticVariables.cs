@@ -1,5 +1,11 @@
 using UnityEngine;
 
+/// <summary>
+/// A singleton class that contains some static variables which can be accessed throughout the game.
+/// The main behind using a singleton approach is to ensure that Unity's <see cref="LayerMask.NameToLayer(string)"/> method does not complain.
+/// It also contains constant names of some strings, as well as some of user options which are meant to be
+/// kept in memory until the application is terminated.
+/// </summary>
 public class StaticVariables
 {
     static StaticVariables instance;

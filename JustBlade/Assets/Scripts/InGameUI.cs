@@ -6,6 +6,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
 
+/// <summary>
+/// A script which designates the attached game object as In Game UI.
+/// It contains the logic of the controls of the In Game UI.
+/// </summary>
 public class InGameUI : MonoBehaviour
 {
     PlayerAgent playerAgent;
@@ -22,6 +26,12 @@ public class InGameUI : MonoBehaviour
 
     public Button btnReturnToMainMenu;
 
+    /// <summary>
+    /// Initializes the In Game UI.
+    /// It also pauses the game, in case it was paused.
+    /// It also initialies the slider values based on values like <see cref="StaticVariables.PlayerCameraRotationSpeed"/>
+    /// and <see cref="StaticVariables.PlayerCameraFieldOfView"/>.
+    /// </summary>
     void InitInGameUI()
     {
         StaticVariables.IsGamePaused = false;
@@ -38,6 +48,10 @@ public class InGameUI : MonoBehaviour
         OnSliderValueChanged_FieldOfView();
     }
 
+    /// <summary>
+    /// Callback method when the mouse sensitivity slider's value has been changed.
+    /// It updates the player's mouse sensitivity value by changing <see cref="StaticVariables.PlayerCameraRotationSpeed"/>.
+    /// </summary>
     public void OnSliderValueChanged_MouseSensitivity()
     {
         int val = Convert.ToInt32(sliderMouseSensitivity.value);
@@ -45,6 +59,10 @@ public class InGameUI : MonoBehaviour
         StaticVariables.PlayerCameraRotationSpeed = val;
     }
 
+    /// <summary>
+    /// Callback method when the field of view slider's value has been changed.
+    /// It updates the camera's field of view value by changing <see cref="StaticVariables.PlayerCameraFieldOfView"/>.
+    /// </summary>
     public void OnSliderValueChanged_FieldOfView()
     {
         int val = Convert.ToInt32(sliderFieldOfView.value);
@@ -54,16 +72,30 @@ public class InGameUI : MonoBehaviour
         Camera.main.fieldOfView = StaticVariables.PlayerCameraFieldOfView;
     }
 
+    /// <summary>
+    /// Quits the tournament, and loads the MainMenuScene.
+    /// Does not ask for confirmation.
+    /// </summary>
     public void OnButtonClick_ReturnToMainMenu()
     {
         SceneManager.LoadScene("MainMenuScene");
     }
 
+    /// <summary>
+    /// Unity's Start method.
+    /// In this case, it is used to invoke <see cref="InitInGameUI"/>.
+    /// </summary>
     void Start()
     {
         InitInGameUI();
     }
 
+    /// <summary>
+    /// Handles the pausing of the game. It does this by:
+    /// - Showing/hiding the pause menu UI,
+    /// - Showing/hiding the mouse cursor,
+    /// - Setting the <see cref="Time.timeScale"/> to 0 (when paused) and 1 (when unpaused).
+    /// </summary>
     void HandlePausingTheGame()
     {
         if (Input.GetKeyDown(KeyCode.M))
@@ -85,6 +117,12 @@ public class InGameUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// In order to update the UI elements which involve the <see cref="playerAgent"/>'s health, it needs a reference to it first.
+    /// Since the player agent may not spawn immediately, it needs to check every frame until it can find the player agent.
+    /// Once the player is found, the In Game UI logic script is activated.
+    /// This method handles that logic.
+    /// </summary>
     void FindPlayerAgentInScene()
     {
         if (playerAgent != null)
@@ -100,6 +138,9 @@ public class InGameUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Updates the UI elements based on the <see cref="PlayerAgent"/>'s health value by keeping track of it.
+    /// </summary>
     void UpdateHealthBar()
     {
         if (playerAgent == null)
@@ -113,6 +154,10 @@ public class InGameUI : MonoBehaviour
         healthBar.transform.localScale = new Vector3(healthRatio, y, z);
     }
 
+    /// <summary>
+    /// Unity's Update method.
+    /// In this case, it handles the logic of the In Game UI.
+    /// </summary>
     void Update()
     {
         HandlePausingTheGame();
