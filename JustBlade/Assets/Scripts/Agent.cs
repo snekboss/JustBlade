@@ -188,11 +188,6 @@ public abstract class Agent : MonoBehaviour
     /// </summary>
     protected virtual void LateUpdate()
     {
-        if (StaticVariables.IsGamePaused)
-        {
-            return;
-        }
-
         animMgr.LateUpdateAnimations();
     }
 

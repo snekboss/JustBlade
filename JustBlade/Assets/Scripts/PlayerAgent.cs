@@ -503,11 +503,6 @@ public class PlayerAgent : Agent
     /// </summary>
     protected override void LateUpdate()
     {
-        if (StaticVariables.IsGamePaused)
-        {
-            return;
-        }
-
         base.LateUpdate(); // let the spine be rotated
 
         // Move the camera to the position after the spine has been rotated.
