@@ -3,9 +3,21 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// A class which designates the attached game object as a Player Agent.
+/// There is only meant to be one Player Agent at any given moment, since they also control the main camera.
+/// The Player Agent is controlled by the user (player).
+/// A PlayerAgent also requires:
+/// - <see cref="AnimationManager"/>.
+/// - <see cref="EquipmentManager"/>.
+/// - <see cref="LimbManager"/>.
+/// </summary>
 public class PlayerAgent : Agent
 {
-    // TODO: Remove[SerializeField]. It is for debugging purposes only.
+    #region Camera related fields
+    // The camera is governed by the player agent, because the position has to be set AFTER player's LateUpate is run.
+    // The only way to ensure that is by letting the player govern camera completely.
+    // The other option is to write a custom system which updates all game objects on the scene *manually*.
     const float ThirdPersonCameraOffsetYmin = -1.0f;
     const float ThirdPersonCameraOffsetYmax = 0.5f;
     const float ThirdPersonCameraOffsetYchangeSpeed = 3.0f;
@@ -19,11 +31,24 @@ public class PlayerAgent : Agent
 
     Transform chosenCameraTrackingPoint;
     public Transform thirdPersonViewTrackingPoint;
-    public Transform firstPersonViewTrackingPoint;
+    public Transform firstPersonViewTrackingPoint; 
+    #endregion
+
     public Transform groundednessCheckerTransform; // used for checking if the player is grounded
 
-    CapsuleCollider playerMovementCollider;
-    Rigidbody playerMovementRigidbody;
+    #region Player collision related fields
+    CapsuleCollider movementCollider;
+    Rigidbody movementRbody;
+
+    /// <summary>
+    /// Make the player agent an obstance, to make sure that AiAgents don't go through the player agent.
+    /// This makes them try to avoid the player as they come closer, but it is not too conspicous,
+    /// since they just stop when they come close enough.
+    /// The alternative to this is to make the player agent a NavMeshAgent, but this snaps the player
+    /// on to the NavMesh, which is not good at all.
+    /// </summary>
+    NavMeshObstacle nmo; 
+    #endregion
 
     #region Foot movement fields
     // Foot movement fields
@@ -35,7 +60,7 @@ public class PlayerAgent : Agent
     float jumpPower = 4.0f;
     float jumpCooldownTimer;
     float jumpCooldownTimerMax = 1.0f;
-    public float groundDistance = 0.3f;
+    static readonly float GroundDistance = 0.3f;
     bool isGrounded;
     #endregion
 
@@ -49,14 +74,9 @@ public class PlayerAgent : Agent
 
     static readonly float TargetLookDirSlerpRate = 0.1f;
     Vector3 targetLookDir;
-
     #endregion
 
-    NavMeshObstacle nmo;
-
-    CombatDirection lastCombatDir;
-    CombatDirection combatDir;
-
+    #region Combat inputs
     // Combat inputs
     bool btnAtkPressed;
     bool btnAtkHeld;
@@ -66,25 +86,18 @@ public class PlayerAgent : Agent
     bool btnJumpPressed;
     bool btnShiftHeld; // toggle editing camera offset Y or Z
     bool btnRpressed; // toggle first/third person view
-    bool btnTpressed; // toggle orbital camera
+    bool btnTpressed; // toggle orbital camera 
+    #endregion
 
+    #region Fields that are determined by Combat inputs.
     // Below are not inputs, but they depend on inputs.
     bool isAtk;
     bool isDef;
     float isDefTimer;
     float isDefTimerThreshold = 0.5f;
-
-    public override void Awake()
-    {
-        base.Awake();
-        isFriendOfPlayer = true;
-        IsPlayerAgent = true;
-
-        isDefTimer = 2 * isDefTimerThreshold; // set it far above the threshold, so that the condition is not satisfied at the start.
-
-        InitializeMovementCollider();
-        InitializeMovementRigidbody();
-    }
+    CombatDirection lastCombatDir;
+    CombatDirection combatDir; 
+    #endregion
 
     public override void RequestEquipmentSet(out Weapon weaponPrefab
         , out Armor headArmorPrefab
@@ -100,27 +113,56 @@ public class PlayerAgent : Agent
         legArmorPrefab = PrefabManager.LegArmors[TournamentVariables.PlayerChosenLegArmorIndex];
     }
 
+    /// <summary>
+    /// Initializes the values of the movement collider of the player.
+    /// It sets the height, radius, position, etc.
+    /// It also initializes the <see cref="NavMeshObstacle"/>.
+    /// <seealso cref="nmo"/>.
+    /// </summary>
     void InitializeMovementCollider()
     {
-        playerMovementCollider = gameObject.AddComponent<CapsuleCollider>();
-        playerMovementCollider.height = AgentHeight;
-        playerMovementCollider.center = Vector3.up * AgentHeight / 2;
-        playerMovementCollider.radius = AgentRadius;
+        movementCollider = gameObject.AddComponent<CapsuleCollider>();
+        movementCollider.height = AgentHeight;
+        movementCollider.center = Vector3.up * AgentHeight / 2;
+        movementCollider.radius = AgentRadius;
 
         nmo = gameObject.AddComponent<NavMeshObstacle>();
-        nmo.height = playerMovementCollider.height;
-        nmo.center = playerMovementCollider.center;
-        nmo.radius = playerMovementCollider.radius;
+        nmo.height = movementCollider.height;
+        nmo.center = movementCollider.center;
+        nmo.radius = movementCollider.radius;
         nmo.carving = false;
     }
 
+    /// <summary>
+    /// Initializes the values of the movement rigidbody of the player.
+    /// </summary>
     void InitializeMovementRigidbody()
     {
-        playerMovementRigidbody = gameObject.AddComponent<Rigidbody>();
-        playerMovementRigidbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-        playerMovementRigidbody.mass = AgentMass;
+        movementRbody = gameObject.AddComponent<Rigidbody>();
+        movementRbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
+        movementRbody.mass = AgentMass;
     }
 
+    /// <summary>
+    /// Handles the death of the player agent.
+    /// It sets values like:
+    /// - mouseX, mouseY to zero.
+    /// - Movement velocity related vectors to the zero vector.
+    /// This is done so that the player doesn't glide around after death.
+    /// </summary>
+    void HandleDeath()
+    {
+        movementRbody.velocity = Vector3.zero;
+        movementRbody.angularVelocity = Vector3.zero;
+        // playerMovementRigidbody.isKinematic = true;
+        worldVelocityXZ = Vector2.zero;
+        mouseX = 0;
+        mouseY = 0;
+    }
+
+    /// <summary>
+    /// Reads the mouse and keyboard inputs which govern the player's movement, rotation and combat.
+    /// </summary>
     void ReadInputs()
     {
         // Foot movement
@@ -146,6 +188,9 @@ public class PlayerAgent : Agent
         btnTpressed = Input.GetKeyDown(KeyCode.T);
     }
 
+    /// <summary>
+    /// Spawns the main camera, if it is null.
+    /// </summary>
     void SpawnMainCamera()
     {
         if (Camera.main == null)
@@ -154,7 +199,11 @@ public class PlayerAgent : Agent
         }
     }
 
-    void HandleCameraMode()
+    /// <summary>
+    /// Sets the <see cref="chosenCameraTrackingPoint"/> depending on whether or not the camera is in first or third person mode.
+    /// It also sets the visibility of the helmet.
+    /// </summary>
+    void SetCameraTrackingPoint()
     {
         if (StaticVariables.IsCameraModeFirstPerson)
         {
@@ -168,13 +217,17 @@ public class PlayerAgent : Agent
         }
     }
 
+    /// <summary>
+    /// Manages the switching between first person and third person views by calling <see cref="SetCameraTrackingPoint"/>.
+    /// It also toggles between orbital camera mode based on <see cref="IsCameraModeOrbital"/>.
+    /// </summary>
     void HandleCameraViewMode()
     {
         if (btnRpressed)
         {
             StaticVariables.IsCameraModeFirstPerson = !StaticVariables.IsCameraModeFirstPerson;
 
-            HandleCameraMode();
+            SetCameraTrackingPoint();
         }
 
         if (btnTpressed)
@@ -183,6 +236,9 @@ public class PlayerAgent : Agent
         }
     }
 
+    /// <summary>
+    /// Handles the rotation of the camera based on mouse input.
+    /// </summary>
     void HandleCameraRotation()
     {
         cameraYaw += StaticVariables.PlayerCameraRotationSpeed * mouseX * Time.deltaTime;
@@ -200,6 +256,10 @@ public class PlayerAgent : Agent
         Camera.main.transform.Rotate(Vector3.right, LookAngleX);
     }
 
+    /// <summary>
+    /// Handles the rotation of the player agent based on the camera's rotation.
+    /// <seealso cref="HandleCameraRotation"/>.
+    /// </summary>
     void HandleAgentRotation()
     {
         if (IsCameraModeOrbital == false)
@@ -214,11 +274,17 @@ public class PlayerAgent : Agent
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, TargetLookDirSlerpRate);
     }
 
+    /// <summary>
+    /// Handles the player agent's foot movement based on keyboard input.
+    /// This method also manages the jumping of the player.
+    /// This method is called in Update, despite the fact that jumping is also done in this method.
+    /// This is because jumping is done instantly, so I don't think it matters whether it is done in FixedUpdate or not.
+    /// </summary>
     void HandleFootMovement()
     {
         // Movement related
         LayerMask walkableLayerMask = 1 << StaticVariables.Instance.DefaultLayer.value;
-        isGrounded = Physics.CheckSphere(groundednessCheckerTransform.position, groundDistance, walkableLayerMask, QueryTriggerInteraction.Ignore);
+        isGrounded = Physics.CheckSphere(groundednessCheckerTransform.position, GroundDistance, walkableLayerMask, QueryTriggerInteraction.Ignore);
 
         if (isGrounded)
         {
@@ -253,10 +319,14 @@ public class PlayerAgent : Agent
         {
             jumpCooldownTimer = 0;
             AnimMgr.SetJump(true);
-            playerMovementRigidbody.AddForce(Vector3.up * jumpPower, ForceMode.VelocityChange);
+            movementRbody.AddForce(Vector3.up * jumpPower, ForceMode.VelocityChange);
         }
     }
 
+    /// <summary>
+    /// Sets the combat related fields such as <see cref="isAtk"/>, <see cref="isDef"/> etc. based on 
+    /// the inputs which were read in <see cref="ReadInputs"/>.
+    /// </summary>
     void HandleCombatInputs()
     {
         // Handle attacking
@@ -284,6 +354,10 @@ public class PlayerAgent : Agent
         }
     }
 
+    /// <summary>
+    /// Handles the choosing of a <see cref="Agent.CombatDirection"/> based on the mouse movement of the player.
+    /// The chosen combat direction is also reported to the <see cref="AnimationManager"/> by this method.
+    /// </summary>
     void HandleCombatDirection()
     {
         // Assume combatDir hasn't changed.
@@ -291,7 +365,7 @@ public class PlayerAgent : Agent
 
         if (Mathf.Abs(mouseX) > Mathf.Abs(mouseY))
         {
-            //it has to be left or right
+            // it has to be left or right
             if (mouseX > 0)
             {
                 combatDir = CombatDirection.Right;
@@ -303,7 +377,7 @@ public class PlayerAgent : Agent
         }
         else if (Mathf.Abs(mouseX) < Mathf.Abs(mouseY))
         {
-            //it has to be up or down
+            // it has to be up or down
             if (mouseY > 0)
             {
                 combatDir = CombatDirection.Up;
@@ -314,7 +388,7 @@ public class PlayerAgent : Agent
             }
         }
 
-        bool wantToDefend = btnDefPressed; // def has higher precedence than atk
+        bool wantToDefend = btnDefPressed; // def has higher precedence than atk, hence fewer conditions.
         bool wantToAttack = btnAtkPressed && !isDef && !btnDefPressed && !btnDefHeld;
 
         if (wantToDefend || wantToAttack)
@@ -325,6 +399,12 @@ public class PlayerAgent : Agent
         lastCombatDir = combatDir;
     }
 
+    /// <summary>
+    /// Handles the position of the camera.
+    /// This method is best called from <see cref="LateUpdate"/> method.
+    /// This is because, if the camera is in first person view mode, then we want the spine bone to be rotated
+    /// before we place the camera in the agent's eye.
+    /// </summary>
     void HandleCameraPosition()
     {
         // Assume the camera is in first person view mode.
@@ -357,12 +437,38 @@ public class PlayerAgent : Agent
         Camera.main.transform.position = destination;
     }
 
+    /// <summary>
+    /// Unity's Awake method.
+    /// In this case, it is used to initialize a few fields about the player.
+    /// It is also used to initialize the movement collider and rigidbody of the player.
+    /// </summary>
+    public override void Awake()
+    {
+        base.Awake();
+        isFriendOfPlayer = true;
+        IsPlayerAgent = true;
+
+        isDefTimer = 2 * isDefTimerThreshold; // set it far above the threshold, so that the condition is not satisfied at the start.
+
+        InitializeMovementCollider();
+        InitializeMovementRigidbody();
+    }
+
+    /// <summary>
+    /// Unity's Start method.
+    /// In this case, it is used to spawn the camera (if it is null), and set the <see cref="chosenCameraTrackingPoint"/>.
+    /// </summary>
     void Start()
     {
         SpawnMainCamera();
-        HandleCameraMode();
+        SetCameraTrackingPoint();
     }
 
+    /// <summary>
+    /// Unity's Update method.
+    /// This is where most of the other methods are invoked every frame.
+    /// It is also the place where <see cref="AnimationManager.UpdateAnimations(Vector2, float, bool, bool, bool)"/> is invoked.
+    /// </summary>
     void Update()
     {
         if (StaticVariables.IsGamePaused)
@@ -372,13 +478,7 @@ public class PlayerAgent : Agent
 
         if (IsDead)
         {
-            playerMovementRigidbody.velocity = Vector3.zero;
-            playerMovementRigidbody.angularVelocity = Vector3.zero;
-            // playerMovementRigidbody.isKinematic = true;
-            worldVelocityXZ = Vector2.zero;
-            mouseX = 0;
-            mouseY = 0;
-
+            HandleDeath();
             return;
         }
 
@@ -395,6 +495,12 @@ public class PlayerAgent : Agent
         AnimMgr.UpdateAnimations(localMoveDirXZ, currentMovementSpeed, isGrounded, isAtk, isDef);
     }
 
+    /// <summary>
+    /// Unity's LateUpdate method.
+    /// It is also an override of <see cref="Agent.LateUpdate"/>.
+    /// On top of what <see cref="Agent.LateUpdate"/> does, it also sets the position of the camera.
+    /// See <see cref="HandleCameraPosition"/> for more information.
+    /// </summary>
     protected override void LateUpdate()
     {
         if (StaticVariables.IsGamePaused)
@@ -408,6 +514,11 @@ public class PlayerAgent : Agent
         HandleCameraPosition();
     }
 
+    /// <summary>
+    /// Unity's FixedUpdate method.
+    /// In this case, since the player agent is moved via a <see cref="Rigidbody"/>, the movement has to be done in FixedUpdate.
+    /// The movement is based on <see cref="worldVelocityXZ"/>, which is calculated during <see cref="Update"/>.
+    /// </summary>
     void FixedUpdate()
     {
         if (StaticVariables.IsGamePaused)
@@ -416,6 +527,6 @@ public class PlayerAgent : Agent
         }
 
         Vector3 worldVelocity3D = new Vector3(worldVelocityXZ.x, 0, worldVelocityXZ.y);
-        playerMovementRigidbody.MovePosition(playerMovementRigidbody.position + worldVelocity3D * Time.fixedDeltaTime);
+        movementRbody.MovePosition(movementRbody.position + worldVelocity3D * Time.fixedDeltaTime);
     }
 }

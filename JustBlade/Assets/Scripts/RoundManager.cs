@@ -3,8 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+/// <summary>
+/// A script which designates the attached game object as a Round Manager.
+/// It contains the logic of a tournament round.
+/// </summary>
 public class RoundManager : MonoBehaviour
 {
+    /// <summary>
+    /// Determines direction in which the agents are spawned.
+    /// <seealso cref="playerTeamSpawnPoint"/>.
+    /// <seealso cref="enemyTeamSpawnPoint"/>.
+    /// </summary>
     public enum SpawnDirection { Left, Right }
 
     public Transform playerTeamSpawnPoint;
@@ -16,6 +25,10 @@ public class RoundManager : MonoBehaviour
     public PlayerAgent playerAgentPrefab;
     public AiAgent aiAgentPrefab;
 
+    /// <summary>
+    /// An event which is called when any agent dies in the tournament round.
+    /// All agents are subscribed to this method when they are spawned by this Round Manager.
+    /// </summary>
     public event Agent.AgentDeathEvent OnAnyAgentDeath;
 
     float distanceBetweenAgents = 3.0f; // 3.0f seems ok
@@ -27,8 +40,15 @@ public class RoundManager : MonoBehaviour
     List<Agent> playerTeamAgents;
     List<Agent> enemyTeamAgents;
 
+    /// <summary>
+    /// The number of enemies beaten by player in this round.
+    /// At the end of every round, these are added to <see cref="TournamentVariables.TotalOpponentsBeatenByPlayer"/>.
+    /// </summary>
     int numEnemiesBeatenByPlayer;
 
+    /// <summary>
+    /// Spawns the <see cref="PlayerAgent"/> as well as his allied <see cref="AiAgent"/>s.
+    /// </summary>
     void SpawnPlayerTeamAgents()
     {
         playerTeamAgents = new List<Agent>();
@@ -66,6 +86,9 @@ public class RoundManager : MonoBehaviour
 
     }
 
+    /// <summary>
+    /// Spawns the enemy team of <see cref="AiAgent"/>s.
+    /// </summary>
     void SpawnEnemyTeamAgents()
     {
         enemyTeamAgents = new List<Agent>();
@@ -89,6 +112,13 @@ public class RoundManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// A method to which every <see cref="AiAgent"/> spawned by the <see cref="RoundManager"/> is subscribed to.
+    /// The subscribers of this method are reported the death of an Agent in the tournament round.
+    /// This method also invokes <see cref="EndRound"/> if the victim agent is the player.
+    /// </summary>
+    /// <param name="victim">The agent who died.</param>
+    /// <param name="killer">The agent who killed the victim.</param>
     void OnAgentDeath(Agent victim, Agent killer)
     {
         if (OnAnyAgentDeath != null)
@@ -124,6 +154,15 @@ public class RoundManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// A method to which every <see cref="AiAgent"/> spawned by the <see cref="RoundManager"/> is subscribed.
+    /// It provides an enemy agent to the calling <see cref="AiAgent"/>.
+    /// If the calling agent has no enemies left, it retuns null.
+    /// It also returns the number of friends the calling <see cref="AiAgent"/> has left by an out parameter.
+    /// </summary>
+    /// <param name="caller">The <see cref="AiAgent"/> who is searching for an enemy.</param>
+    /// <param name="numRemainingFriends">Out parameter, which denotes the number friends the calling agent has left.</param>
+    /// <returns></returns>
     Agent OnAiAgentSearchForEnemy(AiAgent caller, out int numRemainingFriends)
     {
         Agent ret = null;
@@ -153,6 +192,10 @@ public class RoundManager : MonoBehaviour
         return ret;
     }
 
+    /// <summary>
+    /// Ends this tournament round, and invokes the <see cref="RoundEndTimer"/> coroutine.
+    /// It also sets the necessary tournament variables based on whatever happened this round.
+    /// </summary>
     void EndRound()
     {
         isRoundEnded = true;
@@ -170,18 +213,29 @@ public class RoundManager : MonoBehaviour
         StartCoroutine("RoundEndTimer");
     }
 
+    /// <summary>
+    /// A coroutine which is used to end the round based on <see cref="roundEndTime"/>.
+    /// </summary>
+    /// <returns>Some kind of Unity coroutine magic thing.</returns>
     IEnumerator RoundEndTimer()
     {
         yield return new WaitForSeconds(roundEndTime);
         SceneManager.LoadScene("TournamentInfoMenuScene");
     }
 
+    /// <summary>
+    /// Spawns agents in all teams by calling <see cref="SpawnPlayerTeamAgents"/> and <see cref="SpawnEnemyTeamAgents"/>.
+    /// </summary>
     void SpawnAgents()
     {
         SpawnPlayerTeamAgents();
         SpawnEnemyTeamAgents();
     }
 
+    /// <summary>
+    /// Unity's Start method.
+    /// In this case, it mainly spawns the agents which are meant to compete in this tournament round.
+    /// </summary>
     void Start()
     {
         TournamentVariables.PlayerWasBestedInThisMelee = false;
