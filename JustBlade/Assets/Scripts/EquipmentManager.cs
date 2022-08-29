@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A class which must be attached to the game objects which are also <see cref="Agent"/>s.
+/// It governs the equipment of the attached <see cref="Agent"/>.
+/// </summary>
 public class EquipmentManager : MonoBehaviour
 {
-    //public float DEBUG_movSpeedMulti;
-    //public float DEBUG_newSpeedLimit;
-
     static readonly float DefaultHandArmorMovementSpeedPenalty = 0.01f;
     static readonly float DefaultHeadArmorMovementSpeedPenalty = 0.02f;
     static readonly float DefaultLegArmorMovementSpeedPenalty = 0.03f;
@@ -17,7 +18,6 @@ public class EquipmentManager : MonoBehaviour
 
     public Agent ownerAgent { get; private set; }
     public AnimationManager animMgr { get; set; }
-
 
     public Transform weaponBone;
 
@@ -94,6 +94,11 @@ public class EquipmentManager : MonoBehaviour
     Armor equippedTorsoArmor;
     Armor equippedHandArmor;
     Armor equippedLegArmor;
+
+    /// <summary>
+    /// Initializes the fields of the EquipmentManager.
+    /// This is done by getting the references to the fields and components.
+    /// </summary>
     void Initialize()
     {
         ownerAgent = GetComponent<Agent>();
@@ -104,9 +109,14 @@ public class EquipmentManager : MonoBehaviour
         agentHandsSMR = ownerAgent.transform.Find(StaticVariables.HumanHandsName).GetComponent<SkinnedMeshRenderer>();
         agentLegsSMR = ownerAgent.transform.Find(StaticVariables.HumanLegsName).GetComponent<SkinnedMeshRenderer>();
 
-        agentBones = agentHeadSMR.bones; // TODO: TEMP?
+        agentBones = agentHeadSMR.bones;
     }
 
+    /// <summary>
+    /// Spawns the equipment for this agent, and updates values like movement speed multiplier.
+    /// This is done by requesting equipment set from <see cref="Agent.RequestEquipmentSet(out Weapon, out Armor, out Armor, out Armor, out Armor)"/>.
+    /// The details are found in the corresponding overridden methods.
+    /// </summary>
     void SpawnEquipment()
     {
         Weapon weaponPrefab;
@@ -133,6 +143,10 @@ public class EquipmentManager : MonoBehaviour
         SetSkinnedMeshVisibility();
     }
 
+    /// <summary>
+    /// Spawns the equipped weapon based on the given weapon prefab.
+    /// </summary>
+    /// <param name="weaponPrefab">The weapon prefab.</param>
     void SpawnWeapon(Weapon weaponPrefab)
     {
         // Let Unity complain if weaponPrefab is null. Meaning, disallow spawning without weapons.
@@ -147,6 +161,11 @@ public class EquipmentManager : MonoBehaviour
         equippedWeapon.InitializeOwnerAgent(ownerAgent);
     }
 
+    /// <summary>
+    /// Spawns the equipped head armor based on the given head armor prefab.
+    /// If the prefab reference is null, then nothing is equipped, and the corresponding body part of the agent remains naked.
+    /// </summary>
+    /// <param name="headArmorPrefab">The head armor prefab.</param>
     void SpawnHeadArmor(Armor headArmorPrefab)
     {
         if (headArmorPrefab != null && headArmorPrefab.armorType == Armor.ArmorType.Head)
@@ -167,6 +186,11 @@ public class EquipmentManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Spawns the equipped torso armor based on the given torso armor prefab.
+    /// If the prefab reference is null, then nothing is equipped, and the corresponding body part of the agent remains naked.
+    /// </summary>
+    /// <param name="headArmorPrefab">The torso armor prefab.</param>
     void SpawnTorsoArmor(Armor torsoArmorPrefab)
     {
         if (torsoArmorPrefab != null && torsoArmorPrefab.armorType == Armor.ArmorType.Torso)
@@ -187,6 +211,11 @@ public class EquipmentManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Spawns the equipped hand armor based on the given hand armor prefab.
+    /// If the prefab reference is null, then nothing is equipped, and the corresponding body part of the agent remains naked.
+    /// </summary>
+    /// <param name="headArmorPrefab">The hand armor prefab.</param>
     void SpawnHandArmor(Armor handArmorPrefab)
     {
         if (handArmorPrefab != null && handArmorPrefab.armorType == Armor.ArmorType.Hand)
@@ -205,11 +234,17 @@ public class EquipmentManager : MonoBehaviour
                 // IMPORTANT: Always allows at least one original SMR to be active in the scene.
                 // Because if all of them are turned off, then Unity decides not to play the animations, and the character remains in T-pose.
                 // We'll allow hands to be always visible, since clipping issues won't be too conspicuous.
+
                 // agentHandsSMR.gameObject.SetActive(false);
             }
         }
     }
 
+    /// <summary>
+    /// Spawns the equipped leg armor based on the given leg armor prefab.
+    /// If the prefab reference is null, then nothing is equipped, and the corresponding body part of the agent remains naked.
+    /// </summary>
+    /// <param name="headArmorPrefab">The leg armor prefab.</param>
     void SpawnLegArmor(Armor legArmorPrefab)
     {
         if (legArmorPrefab != null && legArmorPrefab.armorType == Armor.ArmorType.Leg)
@@ -230,6 +265,11 @@ public class EquipmentManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets the visibility of the helmet (and the head) meshes.
+    /// Mainly used for the <see cref="PlayerAgent"/>'s character when the camera is in first person view mode.
+    /// </summary>
+    /// <param name="isVisible"></param>
     public void ToggleHelmetVisibility(bool isVisible)
     {
         if (isVisible)
@@ -250,6 +290,10 @@ public class EquipmentManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Sets the <see cref="SkinnedMeshRenderer.updateWhenOffscreen"/> values of all armor, as well as the body parts of the agent.
+    /// This is so that the player is still able to see the animations of his <see cref="PlayerAgent"/> character in first person view mode.
+    /// </summary>
     void SetSkinnedMeshVisibility()
     {
         if (ownerAgent.IsPlayerAgent)
@@ -283,6 +327,15 @@ public class EquipmentManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Calculates the movement speed multiplier based on the given armor levels.
+    /// The heavier the armor level, the slower the movement speed becomes.
+    /// </summary>
+    /// <param name="HeadArmorLevel">The head armor level.</param>
+    /// <param name="TorsoArmorLevel">The torso armor level.</param>
+    /// <param name="HandArmorLevel">The hand armor level.</param>
+    /// <param name="LegArmorLevel">The leg armor level.</param>
+    /// <returns></returns>
     public static float CalculateMovementSpeedMultiplier(Armor.ArmorLevel HeadArmorLevel
         , Armor.ArmorLevel TorsoArmorLevel
         , Armor.ArmorLevel HandArmorLevel
@@ -300,6 +353,10 @@ public class EquipmentManager : MonoBehaviour
         return movementSpeedMultiplier;
     }
 
+    /// <summary>
+    /// Updates the movement speed of the owner agent based on the equipped armor.
+    /// This is done by first calculating the movement speed multiplier, and then calculating the new movement speed limit of the agent.
+    /// </summary>
     void UpdateMovementSpeedMultiplier()
     {
         float movementSpeedMultiplier = CalculateMovementSpeedMultiplier(HeadArmorLevel, TorsoArmorLevel, HandArmorLevel, LegArmorLevel);
@@ -311,6 +368,10 @@ public class EquipmentManager : MonoBehaviour
         ownerAgent.InitializeMovementSpeedLimit(newSpeedLimit);
     }
 
+    /// <summary>
+    /// Unity's Awake method.
+    /// In this case, it is used to initialize some fields of the script, and then spawn the equipment of the agent.
+    /// </summary>
     void Awake()
     {
         Initialize();
