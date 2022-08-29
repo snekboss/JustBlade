@@ -884,13 +884,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFriendOfPlayer: 0
-  IsCameraModeFirstPerson: 0
-  IsCameraModeOrbital: 0
   mainCameraPrefab: {fileID: 1653163678436621986, guid: 5b6f703cc6d723443af9ab43ce870845, type: 3}
   thirdPersonViewTrackingPoint: {fileID: 1724222695684689829}
   firstPersonViewTrackingPoint: {fileID: 9083436578199529652}
   groundednessCheckerTransform: {fileID: 5907487306699349195}
-  groundDistance: 0.3
 --- !u!114 &2011178560111457975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -917,95 +914,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7023280a05db37942b51cf63bc922f41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poleAOC: {fileID: 22100000, guid: 885cf256419dbce4e9870b2f8e7c39e9, type: 2}
   spineBone: {fileID: 8178811115471198695}
   pelvisBone: {fileID: 966297118327077086}
-  poleAOC: {fileID: 22100000, guid: 885cf256419dbce4e9870b2f8e7c39e9, type: 2}
-  idleTimer: 0
-  isState_Idle: 0
-  isState_AtkHoldUp: 0
-  isState_AtkHoldRight: 0
-  isState_AtkHoldDown: 0
-  isState_AtkHoldLeft: 0
-  isState_AtkReleaseUp: 0
-  isState_AtkReleaseRight: 0
-  isState_AtkReleaseDown: 0
-  isState_AtkReleaseLeft: 0
-  isState_AtkBounceUp: 0
-  isState_AtkBounceRight: 0
-  isState_AtkBounceDown: 0
-  isState_AtkBounceLeft: 0
-  isState_DefHoldUp: 0
-  isState_DefHoldRight: 0
-  isState_DefHoldDown: 0
-  isState_DefHoldLeft: 0
-  isState_DefBlockedUp: 0
-  isState_DefBlockedRight: 0
-  isState_DefBlockedDown: 0
-  isState_DefBlockedLeft: 0
-  isTrans_IdleToAtkUpHold: 0
-  isTrans_IdleToAtkRightHold: 0
-  isTrans_IdleToAtkDownHold: 0
-  isTrans_IdleToAtkLeftHold: 0
-  isTrans_AtkUpHoldToRelease: 0
-  isTrans_AtkRightHoldToRelease: 0
-  isTrans_AtkDownHoldToRelease: 0
-  isTrans_AtkLeftHoldToRelease: 0
-  isTrans_AtkUpReleaseToBounce: 0
-  isTrans_AtkRightReleaseToBounce: 0
-  isTrans_AtkDownReleaseToBounce: 0
-  isTrans_AtkLeftReleaseToBounce: 0
-  isTrans_AtkUpReleaseToIdle: 0
-  isTrans_AtkRightReleaseToIdle: 0
-  isTrans_AtkDownReleaseToIdle: 0
-  isTrans_AtkLeftReleaseToIdle: 0
-  isTrans_AtkUpBounceToIdle: 0
-  isTrans_AtkRightBounceToIdle: 0
-  isTrans_AtkDownBounceToIdle: 0
-  isTrans_AtkLeftBounceToIdle: 0
-  isTrans_AtkUpHoldToDefUpHold: 0
-  isTrans_AtkUpHoldToDefRightHold: 0
-  isTrans_AtkUpHoldToDefDownHold: 0
-  isTrans_AtkUpHoldToDefLeftHold: 0
-  isTrans_AtkRightHoldToDefUpHold: 0
-  isTrans_AtkRightHoldToDefRightHold: 0
-  isTrans_AtkRightHoldToDefDownHold: 0
-  isTrans_AtkRightHoldToDefLeftHold: 0
-  isTrans_AtkDownHoldToDefUpHold: 0
-  isTrans_AtkDownHoldToDefRightHold: 0
-  isTrans_AtkDownHoldToDefDownHold: 0
-  isTrans_AtkDownHoldToDefLeftHold: 0
-  isTrans_AtkLeftHoldToDefUpHold: 0
-  isTrans_AtkLeftHoldToDefRightHold: 0
-  isTrans_AtkLeftHoldToDefDownHold: 0
-  isTrans_AtkLeftHoldToDefLeftHold: 0
-  isTrans_IdleToDefUpHold: 0
-  isTrans_IdleToDefRightHold: 0
-  isTrans_IdleToDefDownHold: 0
-  isTrans_IdleToDefLeftHold: 0
-  isTrans_DefUpHoldToBlocked: 0
-  isTrans_DefRightHoldToBlocked: 0
-  isTrans_DefDownHoldToBlocked: 0
-  isTrans_DefLeftHoldToBlocked: 0
-  isTrans_DefUpBlockedToHold: 0
-  isTrans_DefRightBlockedToHold: 0
-  isTrans_DefDownBlockedToHold: 0
-  isTrans_DefLeftBlockedToHold: 0
-  isTrans_DefUpHoldToAtkUpHold: 0
-  isTrans_DefUpHoldToAtkRightHold: 0
-  isTrans_DefUpHoldToAtkDownHold: 0
-  isTrans_DefUpHoldToAtkLeftHold: 0
-  isTrans_DefRightHoldToAtkUpHold: 0
-  isTrans_DefRightHoldToAtkRightHold: 0
-  isTrans_DefRightHoldToAtkDownHold: 0
-  isTrans_DefRightHoldToAtkLeftHold: 0
-  isTrans_DefDownHoldToAtkUpHold: 0
-  isTrans_DefDownHoldToAtkRightHold: 0
-  isTrans_DefDownHoldToAtkDownHold: 0
-  isTrans_DefDownHoldToAtkLeftHold: 0
-  isTrans_DefLeftHoldToAtkUpHold: 0
-  isTrans_DefLeftHoldToAtkRightHold: 0
-  isTrans_DefLeftHoldToAtkDownHold: 0
-  isTrans_DefLeftHoldToAtkLeftHold: 0
 --- !u!114 &922571951
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1868,7 +1779,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 8346741902680653717}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.1, y: 0, z: 0}
+  m_LocalPosition: {x: -0.105, y: -0, z: 0.06}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
