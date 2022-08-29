@@ -19,9 +19,9 @@ public class EquipmentManager : MonoBehaviour
     public Agent ownerAgent { get; private set; }
     public AnimationManager animMgr { get; set; }
 
-    public Transform weaponBone;
+    public Transform weaponBone; // item bone of the agent which is used to parent the weapon game object.
 
-    Transform[] agentBones;
+    Transform[] agentBones; // bones of the skeleton rig of my character model
     SkinnedMeshRenderer agentHeadSMR;
     SkinnedMeshRenderer agentTorsoSMR;
     SkinnedMeshRenderer agentHandsSMR;
