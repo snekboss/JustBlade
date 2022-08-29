@@ -332,10 +332,10 @@ public class AnimationManager : MonoBehaviour
         // The scale depends on speedRatio.
         // However, the absolute value of both moveX and moveY must never be above 1.0f.
         Vector2 moveXY = localMoveDir.normalized;
-        float moveXYmulti = Mathf.Clamp01(speedRatio);
+        float moveXYmulti = speedRatio;
 
-        moveX = moveXY.x * moveXYmulti;
-        moveY = moveXY.y * moveXYmulti;
+        moveX = Mathf.Clamp(moveXY.x * moveXYmulti, -1.0f, 1.0f);
+        moveY = Mathf.Clamp(moveXY.y * moveXYmulti, -1.0f, 1.0f);
 
         // This multiplier is allowed to be greater than 1.0f, but it can never be less than 1.0f.
         float moveAnimSpeedMulti = 1.0f;
