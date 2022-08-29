@@ -72,7 +72,7 @@ public class PlayerAgent : Agent
     bool isAtk;
     bool isDef;
     float isDefTimer;
-    float isDefTimerThreshold = 0.1f;
+    float isDefTimerThreshold = 0.5f;
 
     public override void Awake()
     {
@@ -269,6 +269,12 @@ public class PlayerAgent : Agent
         if (btnDefReleased)
         {
             isDefTimer = 0;
+        }
+
+        // Cancel the the above if btnAtk was pressed.
+        if (btnAtkPressed)
+        {
+            isDefTimer = isDefTimerThreshold;
         }
 
         if (isDefTimer < isDefTimerThreshold && !isAtk)
