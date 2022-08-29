@@ -1,11 +1,25 @@
-//using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.AI;
 
+/// <summary>
+/// A class which designates the attached game object as an AiAgent.
+/// AiAgents are <see cref="Agent"/> object which are controlled by the state machine written in this class.
+/// These agents are not controlled by the player.
+/// </summary>
 public class AiAgent : Agent
 {
+    /// <summary>
+    /// An enum for the combat state of the AiAgent.
+    /// </summary>
+    public enum AiCombatState
+    {
+        Idling,
+        Attacking,
+        Defending,
+    }
+
     static readonly float HeadLookPercentPosY = 0.55f;
     static readonly float TorsoLookPercentPosY = 0.75f;
     static readonly float LegsLookPercentPosY = 0.5f;
@@ -22,17 +36,22 @@ public class AiAgent : Agent
     //static readonly float TooCloseBorderLowerBound = 0.9f;
     static readonly float TooFarBorderLowerBound = 1.2f;
     static readonly float AttackDistanceMultiplier = 2f;
-    static readonly float ChanceToChooseNonSideCombatDirection = 0.75f; // chance to choose up or down as combat dir.
+    static readonly float ChanceToChooseVerticalCombatDirection = 0.75f; // chance to choose up or down as combat dir.
     static readonly float ChanceToChooseLegAsTargetLimbType = 0.1f;
     public static readonly float NavMeshAgentBaseAcceleration = 4.0f;
 
+    #region Friendliness indicator related fields
     public GameObject friendlinessIndicator;
     public Material friendlyColorMat;
     public Material enemyColorMat;
+    #endregion
 
+    #region Distance to enemy related fields
+    // These are meant to be initialized once when the weapon is equipped.
     float TooCloseBorder;
     float TooFarBorder;
-    float AttackDistanceBorder;
+    float AttackDistanceBorder; 
+    #endregion
 
     bool isAtk;
     bool isDef;
@@ -51,31 +70,39 @@ public class AiAgent : Agent
     float distanceFromEnemy;
     Limb.LimbType targetLimbType;
 
+    #region Fields regarding the attempt of smoothing out the stopping of the agent.
     // Unity's NavMeshAgent stops very abruptly. Below fields are to smooth out the Agent's animation.
     Vector3 lastNonZeroVelocity;
     float lastNonZeroSpeed;
     float lastNonZeroSpeedDecreaseLerpRate;
-    // Unity's NavMeshAgent stops very abruptly. Above fields are to smooth out the Agent's animation.
+    // Unity's NavMeshAgent stops very abruptly. Above fields are to smooth out the Agent's animation. 
+    #endregion
 
     Vector3 desiredMoveDestination;
 
     int numRemainingFriends;
+
     float attackTimer;
     float defendTimer;
     float searchForEnemyTimer;
 
-    public enum AiCombatState
-    {
-        Idling,
-        Attacking,
-        Defending,
-    }
-
     AiCombatState combatState;
 
+    /// <summary>
+    /// A delegate for when the AiAgent wants to search for an enemy.
+    /// </summary>
+    /// <param name="caller">The AiAgent who wants to search for an enemy.</param>
+    /// <param name="numRemainingFriends">An out parameter, which also reports how many friends the caller agent has remaining.</param>
+    /// <returns></returns>
     public delegate Agent AiAgentSearchForEnemyEvent(AiAgent caller, out int numRemainingFriends);
     public virtual event AiAgentSearchForEnemyEvent OnSearchForEnemyAgent;
 
+    /// <summary>
+    /// An override of <see cref="Agent.InitializeMovementSpeedLimit(float)"/>.
+    /// It also initializes some values which are used for smoothing out the animation of the agent,
+    /// which are caused by the sudden stopping of Unity's NavMeshAgent.
+    /// </summary>
+    /// <param name="movementSpeedLimit">The maximum achievable movement speed of this agent.</param>
     public override void InitializeMovementSpeedLimit(float movementSpeedLimit)
     {
         base.InitializeMovementSpeedLimit(movementSpeedLimit);
@@ -87,6 +114,11 @@ public class AiAgent : Agent
         InitializeNavMeshAgent();
     }
 
+    /// <summary>
+    /// An override of <see cref="Agent.OnGearInitialized"/>.
+    /// It is used to initialize some values regarding the distance from enemy.
+    /// Meaning, values regarding things like "how close should I be to the enemy?" are initialized here.
+    /// </summary>
     public override void OnGearInitialized()
     {
         TooFarBorder = EqMgr.equippedWeapon.weaponLength * TooFarMultiplier;
@@ -105,6 +137,15 @@ public class AiAgent : Agent
         AttackDistanceBorder = EqMgr.equippedWeapon.weaponLength * AttackDistanceMultiplier;
     }
 
+    /// <summary>
+    /// An override of <see cref="Agent.RequestEquipmentSet(out Weapon, out Armor, out Armor, out Armor, out Armor)"/>.
+    /// AiAgents request random equipment.
+    /// </summary>
+    /// <param name="weaponPrefab">The prefab reference of the weapon.</param>
+    /// <param name="headArmorPrefab">The prefab reference of the head armor.</param>
+    /// <param name="torsoArmorPrefab">The prefab reference of the torso armor.</param>
+    /// <param name="handArmorPrefab">The prefab reference of the hand armor.</param>
+    /// <param name="legArmorPrefab">The prefab reference of the leg armor.</param>
     public override void RequestEquipmentSet(out Weapon weaponPrefab
         , out Armor headArmorPrefab
         , out Armor torsoArmorPrefab
@@ -119,6 +160,11 @@ public class AiAgent : Agent
         legArmorPrefab = PrefabManager.LegArmors[Random.Range(0, PrefabManager.LegArmors.Count)];
     }
 
+    /// <summary>
+    /// Initializes the values of Unity's <see cref="NavMeshAgent"/>.
+    /// It's also used to initialize the rigidbody attached to this agent.
+    /// The rigidbody was attached so that the AiAgents don't walk through one another.
+    /// </summary>
     void InitializeNavMeshAgent()
     {
         nma = GetComponent<NavMeshAgent>();
@@ -144,6 +190,13 @@ public class AiAgent : Agent
         rBody.mass = AgentMass;
     }
 
+    /// <summary>
+    /// An override of <see cref="Agent.OnDamaged(Agent, int)"/>.
+    /// When damaged, AiAgents focus on the agent who damaged them.
+    /// They also attack or defend based on the flip of a coin.
+    /// </summary>
+    /// <param name="attacker"></param>
+    /// <param name="amount"></param>
     protected override void OnDamaged(Agent attacker, int amount)
     {
         enemyAgent = attacker;
@@ -157,9 +210,14 @@ public class AiAgent : Agent
             combatState = AiCombatState.Defending;
             combatDir = GetBiasedRandomCombatDirection();
         }
-        
     }
 
+    /// <summary>
+    /// An override of <see cref="Agent.OnOtherAgentDeath(Agent, Agent)"/>.
+    /// It is used to update the number of friendlies this agent has left.
+    /// </summary>
+    /// <param name="victim">The agent who died.</param>
+    /// <param name="killer">The agent who killed the victim.</param>
     public override void OnOtherAgentDeath(Agent victim, Agent killer)
     {
         bool isLostFriendly =
@@ -172,6 +230,12 @@ public class AiAgent : Agent
         }
     }
 
+    /// <summary>
+    /// Returns the position in world coordinates based on the <see cref="targetLimbType"/>.
+    /// Meaning, if the agent is currently meant to be looking at the <see cref="Limb.LimbType.Torso"/>,
+    /// then this method returns the correct position in world coordinates of where he is meant to look at.
+    /// </summary>
+    /// <returns></returns>
     Vector3 GetLookPosition()
     {
         if (enemyAgent == null)
@@ -217,6 +281,11 @@ public class AiAgent : Agent
         }
     }
 
+    /// <summary>
+    /// Sets the <see cref="Agent.LookAngleX"/> angle value of the AiAgent.
+    /// If this AiAgent has no <see cref="enemyAgent"/>, then he AiAgent simply looks forward.
+    /// If he does have an enemy, then based on <see cref="GetLookPosition"/>, it sets the <see cref="Agent.LookAngleX"/> value.
+    /// </summary>
     void SetLookAngleX()
     {
         Quaternion targetlookRot = Quaternion.identity;
@@ -234,6 +303,11 @@ public class AiAgent : Agent
         //LookAngleX = Mathf.LerpAngle(LookAngleX, targetLookAngleX, LerpRatelookAngleX);
     }
 
+    /// <summary>
+    /// Sets the yaw angle (left/right) of this AiAgent.
+    /// If this AiAgent has no enemy, then the existing yaw angle is kept.
+    /// If he does have an enemy, then the yaw angle is recalculated based on the position of the enemy.
+    /// </summary>
     void SetYawAngle()
     {
         yawAngle = transform.eulerAngles.y;
@@ -262,6 +336,10 @@ public class AiAgent : Agent
         transform.Rotate(Vector3.up, yawAngle);
     }
 
+    /// <summary>
+    /// Determines the desired move destination which is used by <see cref="NavMeshAgent.SetDestination(Vector3)"/>..
+    /// The desired move destination is calculated via values like <see cref="TooCloseBorder"/> and <see cref="TooFarBorder"/>.
+    /// </summary>
     void DetermineDesiredDestination()
     {
         Vector3 enemyToSelfDir = (transform.position - enemyAgent.transform.position).normalized;
@@ -272,6 +350,15 @@ public class AiAgent : Agent
         desiredMoveDestination = Vector3.Lerp(tooClosePos, tooFarPos, CloseEnoughPercent);
     }
 
+    /// <summary>
+    /// Returns a combat direction which can be used to attack or defend.
+    /// The method returns a biased combat direction. The meaning of the "bias" is the following:
+    /// If the AiAgent has no friends left, then any combat direction can be given equally likely.
+    /// If the AiAgent still has friends left, then up/down directions are more preferred.
+    /// This is because we'd like to avoid swinging wildly left/right while we still have friends, lest we hit them.
+    /// The bias depends on <see cref="ChanceToChooseVerticalCombatDirection"/>.
+    /// </summary>
+    /// <returns></returns>
     CombatDirection GetBiasedRandomCombatDirection()
     {
         CombatDirection ret;
@@ -287,7 +374,7 @@ public class AiAgent : Agent
             float flip = Random.Range(0.0f, 1.0f);
             int flipInt = System.Convert.ToInt32(flip * 100.0f);
 
-            if (flip < ChanceToChooseNonSideCombatDirection)
+            if (flip < ChanceToChooseVerticalCombatDirection)
             {
                 // We rolled to choose a non-side direction (ie, we rolled "up" or "down").
                 // So choose one of them based on whether or not randInt is even or odd.
@@ -303,6 +390,14 @@ public class AiAgent : Agent
         return ret;
     }
 
+    /// <summary>
+    /// Returns a target <see cref="Limb.LimbType"/>>, which this AiAgent can look at.
+    /// The method returns a biased target limb type.
+    /// The "bias" means that, we prefer not to choose <see cref="Limb.LimbType.Legs"/> as often.
+    /// Meaning, we prefer to attack <see cref="Limb.LimbType.Head"/> or <see cref="Limb.LimbType.Torso"/>.
+    /// The bias depends on <see cref="ChanceToChooseLegAsTargetLimbType"/>.
+    /// </summary>
+    /// <returns></returns>
     Limb.LimbType GetBiasedRandomTargetLimbType()
     {
         // Be less likely to choose legs as the target limb type.
@@ -321,6 +416,14 @@ public class AiAgent : Agent
         }
     }
 
+    /// <summary>
+    /// Returns the localMoveDir which is used by <see cref="AnimationManager.UpdateAnimations(Vector2, float, bool, bool, bool)"/>.
+    /// It also returns the current movement speed as an out parameter.
+    /// The reason for this method is to fight the abrupt stopping of Unity's <see cref="NavMeshAgent"/>.
+    /// It tries to smooth out the foot movement of the AiAgent, despite the abrupt stop.
+    /// </summary>
+    /// <param name="outSpeed">An out parameter of the current speed of the AiAgent.</param>
+    /// <returns>The move direction vector in local coordinates with respect to the AiAgent.</returns>
     Vector2 GetLocalMoveDir(out float outSpeed)
     {
         Vector3 chosenVelocity = Vector3.zero;
@@ -343,6 +446,11 @@ public class AiAgent : Agent
         return chosenVelocityLocalXZ;
     }
 
+    /// <summary>
+    /// Moves to the desired destination.
+    /// Currently, the desired destination is directly towards where the enemy is.
+    /// If there is no enemy, then the agent simply stops.
+    /// </summary>
     void ThinkMovement()
     {
         if (enemyAgent == null)
@@ -358,6 +466,12 @@ public class AiAgent : Agent
         }
     }
 
+    /// <summary>
+    /// If the agent has no enemy, then he doesn't do anything.
+    /// If the agent has an enemy, then this method governs the combat state.
+    /// If the agent is close enough to his target, then he can attack (unless he's currently defending).
+    /// If the agent is too far from his target, then he doesn't do anything.
+    /// </summary>
     void ThinkCombat()
     {
         if (enemyAgent == null)
@@ -420,6 +534,12 @@ public class AiAgent : Agent
         }
     }
 
+    /// <summary>
+    /// It is used to set the <see cref="Agent.currentMovementSpeed"/>.
+    /// It is also used to set <see cref="lastNonZeroSpeed"/> and <see cref="lastNonZeroVelocity"/>.
+    /// The last two values are used to smooth out the foot movement animation
+    /// to fight against the sudden stopping of Unity's <see cref="NavMeshAgent"/>.
+    /// </summary>
     void SetMovementParameters()
     {
         currentMovementSpeed = nma.velocity.magnitude;
@@ -430,7 +550,12 @@ public class AiAgent : Agent
             lastNonZeroVelocity = nma.velocity;
         }
     }
-
+    /// <summary>
+    /// If this agent has an enemy, then this method doesn't do anything.
+    /// If this agent has no enemy, then this method searches for a new enemy agent.
+    /// The actual searching is done by calling <see cref="OnSearchForEnemyAgent"/>.
+    /// Currently, the only subscriber to this event is <see cref="RoundManager.OnAiAgentSearchForEnemy(AiAgent, out int)"/>.
+    /// </summary>
     void HandleSearchForEnemyAgent()
     {
         if (enemyAgent != null)
@@ -465,21 +590,12 @@ public class AiAgent : Agent
         }
     }
 
-    public override void Awake()
-    {
-        base.Awake();
-
-        agentEyes = transform.Find("AgentEyes");
-
-        yawAngle = transform.eulerAngles.y;
-        targetYawAngle = yawAngle;
-    }
-
-    void Start()
-    {
-        InitFriendlinessIndicator();
-    }
-
+    /// <summary>
+    /// Initializes the friendliness indicator of this agent.
+    /// If this agent is a friend of the player, then the friendly color is used.
+    /// If this agent is an enemy of the player, then the enmity color is used.
+    /// The colors are determined by <see cref="friendlyColorMat"/> and <see cref="enemyColorMat"/>.
+    /// </summary>
     void InitFriendlinessIndicator()
     {
         MeshRenderer mr = friendlinessIndicator.GetComponent<MeshRenderer>();
@@ -493,6 +609,37 @@ public class AiAgent : Agent
         }
     }
 
+    /// <summary>
+    /// Unity's Awake method.
+    /// An override of the <see cref="Agent.Awake"/> method.
+    /// After calling the parent's Awake method, it initializes some fields, including the ones related to angle values.
+    /// </summary>
+    public override void Awake()
+    {
+        base.Awake();
+
+        agentEyes = transform.Find("AgentEyes");
+
+        yawAngle = transform.eulerAngles.y;
+        targetYawAngle = yawAngle;
+    }
+
+    /// <summary>
+    /// Unity's Start method.
+    /// In this case, it is used to initialize the friendliness indicator.
+    /// It is done in Start rather than Awake, because we must ensure that the <see cref="Agent.isFriendOfPlayer"/> value
+    /// is initialized before the <see cref="InitFriendlinessIndicator"/> is called.
+    /// There is no way to initialize <see cref="Agent.isFriendOfPlayer"/> before Awake is called, hence Start is used.
+    /// </summary>
+    void Start()
+    {
+        InitFriendlinessIndicator();
+    }
+
+    /// <summary>
+    /// Unity's Update method.
+    /// It governs the logic of this AiAgent.
+    /// </summary>
     void Update()
     {
         if (StaticVariables.IsGamePaused)

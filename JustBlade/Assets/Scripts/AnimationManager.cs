@@ -2,10 +2,14 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A class which must be attached to the game objects which are also <see cref="Agent"/>s.
+/// It governs the animations of the attached <see cref="Agent"/>.
+/// </summary>
 public class AnimationManager : MonoBehaviour
 {
     /// <summary>
-    /// No, this is not the same as CombatDirection.
+    /// No, this is not the same as <see cref="Agent.CombatDirection"/>.
     /// The fact that there are 4 "getting hurt" directions doesn't mean they should be combined.
     /// There are 4 animations because making all the specific animations I would want to have would be very time consuming.
     /// </summary>
@@ -258,6 +262,10 @@ public class AnimationManager : MonoBehaviour
     public bool IsIdling { get; private set; }
     #endregion
 
+    /// <summary>
+    /// Unity's Awake method.
+    /// It is used to initialize some of the fields of this script.
+    /// </summary>
     void Awake()
     {
         ownerAgent = GetComponent<Agent>();
@@ -273,6 +281,11 @@ public class AnimationManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Reports <see cref="Weapon.WeaponType"/> of the equipped weapon of this agent.
+    /// It is mainly used by <see cref="EquipmentManager"/>.
+    /// </summary>
+    /// <param name="equippedWeaponType"></param>
     public void ReportEquippedWeaponType(Weapon.WeaponType equippedWeaponType)
     {
         if (equippedWeaponType == Weapon.WeaponType.TwoHanded)
@@ -285,32 +298,56 @@ public class AnimationManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Updates the <see cref="Agent.CombatDirection"/> of the agent.
+    /// Meaning, when ever the agent changes the chosen combat direction, they should update the animations accordingly via this method.
+    /// </summary>
+    /// <param name="combatDir">The chosen combat direction.</param>
     public void UpdateCombatDirection(Agent.CombatDirection combatDir)
     {
         Animat.SetInteger(AHD.Hash_combatDir, (int)combatDir);
     }
 
+    /// <summary>
+    /// Plays the jumping animation.
+    /// </summary>
+    /// <param name="isJumping">True if the agent is jumping; false otherwise</param>
     public void SetJump(bool isJumping)
     {
         trigger_jump = isJumping;
     }
 
+    /// <summary>
+    /// Plays the "attack is bounced" animation.
+    /// </summary>
+    /// <param name="isAtkBounced">True if the agent's attack is bounced; false otherwise.</param>
     public void SetIsAttackBounced(bool isAtkBounced)
     {
         trigger_isAtkBounced = isAtkBounced;
     }
 
+    /// <summary>
+    /// Plays the "defend is blocked" animation.
+    /// </summary>
+    /// <param name="isDefBlocked">True if the agent's defend was blocked; false otherwise.</param>
     public void SetIsDefBlocked(bool isDefBlocked)
     {
         trigger_isDefBlocked = isDefBlocked;
     }
 
+    /// <summary>
+    /// Plays the corresponding "getting hurt" animation.
+    /// </summary>
+    /// <param name="gettingHurtDirection">The getting hurt animation to play.</param>
     public void SetGettingHurt(GettingHurtDirection gettingHurtDirection)
     {
         trigger_isHurt = true;
         Animat.SetInteger(AHD.Hash_isHurtDir, (int)gettingHurtDirection);
     }
 
+    /// <summary>
+    /// Plays the death animation.
+    /// </summary>
     public void PlayDeathAnimation()
     {
         Animat.SetBool(AHD.Hash_isDead, true);
@@ -324,6 +361,16 @@ public class AnimationManager : MonoBehaviour
         ownerAgent.EqMgr.equippedWeapon.SetCollisionAbility(false);
     }
 
+    /// <summary>
+    /// Works out the out parameters moveX and moveY based on the local move direction and the current movement speed of the agent.
+    /// Then, it sets the movement animation speed and updates the animator.
+    /// The movement animation of faster agents play out faster.
+    /// The movement animation of slower agents play at default speed, but they "walk" rather than "run".
+    /// </summary>
+    /// <param name="localMoveDir">Move direction local to the agent.</param>
+    /// <param name="curMoveSpeed">Current movement speed of the agent.</param>
+    /// <param name="moveX">Out parameter moveX, which is to be updated for the animator.</param>
+    /// <param name="moveY">Out parameter moveY, which is to be updated for the animator.</param>
     void HandleMovementAnimationParameters(Vector2 localMoveDir, float curMoveSpeed, out float moveX, out float moveY)
     {
         float speedRatio = curMoveSpeed / Agent.DefaultMovementSpeedLimit;
@@ -369,6 +416,9 @@ public class AnimationManager : MonoBehaviour
         Animat.SetFloat(AHD.Hash_moveAnimSpeedMulti, moveAnimSpeedMulti);
     }
 
+    /// <summary>
+    /// Reads which state the animator is currently in.
+    /// </summary>
     void ReadStateInfo()
     {
         attackAndBlockLayerStateInfo = Animat.GetCurrentAnimatorStateInfo(LayerIdAttackAndBlock);
@@ -401,6 +451,9 @@ public class AnimationManager : MonoBehaviour
         isState_DefBlockedLeft = attackAndBlockLayerStateInfo.tagHash == AHD.Hash_StateTag_def_left_blocked;
     }
 
+    /// <summary>
+    /// Reads which transition the animator is currently in.
+    /// </summary>
     void ReadTransitionInfo()
     {
         attackAndBlockLayerTransitionInfo = Animat.GetAnimatorTransitionInfo(LayerIdAttackAndBlock);
@@ -510,6 +563,9 @@ public class AnimationManager : MonoBehaviour
         isTrans_DefLeftHoldToAtkLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_left_hold_to_atk_left_hold;
     }
 
+    /// <summary>
+    /// Determines whether the agent is currently attacking or defending in a particular combat direction.
+    /// </summary>
     void SetCombatParameters()
     {
         // Setting values based on state and transition info
@@ -524,11 +580,20 @@ public class AnimationManager : MonoBehaviour
         IsDefendingFromLeft = isState_DefHoldLeft || isState_DefBlockedLeft || isTrans_DefLeftHoldToBlocked || isTrans_DefLeftBlockedToHold;
     }
 
+    /// <summary>
+    /// Activates the collision hitbox of the equipped weapon based on whether the agent is currently attacking.
+    /// </summary>
     void DecideIfWeaponHitboxShouldBeActive()
     {
         ownerAgent.EqMgr.equippedWeapon.SetCollisionAbility(IsAttacking);
     }
 
+    /// <summary>
+    /// Decides if the spine bone should be rotated.
+    /// The spine bone is rotated mainly while attacking, and never while blocking.
+    /// It also sets the rotation limit for overhead swings, (since the rotation of overhead swings should be limited).
+    /// The overhead swing rotation limit is determined via <see cref="TargetSpineAngleMaxForOverheadSwings"/>.
+    /// </summary>
     void DecideIfSpineShouldBeRotated()
     {
         bool upStates = isState_AtkHoldUp || isState_AtkReleaseUp || isState_AtkBounceUp;
@@ -609,6 +674,9 @@ public class AnimationManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Changes the weights of layers based on whether the agent is currently idling or not.
+    /// </summary>
     void SetLayerWeights()
     {
         // When you are transitioning from the a source state to a target state, Unity still considers you to be in that source state.
@@ -663,6 +731,11 @@ public class AnimationManager : MonoBehaviour
         Animat.SetLayerWeight(LayerIdIdle, idleLayerWeight);
     }
 
+    /// <summary>
+    /// Updates the manually managed trigger parameters of the animator.
+    /// The actual triggers of the Unity's Mecanim are not used, since they're very unreliable.
+    /// Instead, we're manually managing our own triggers, which are just booleans set to false in the next frame.
+    /// </summary>
     void SetTriggerParameters()
     {
         Animat.SetBool(AHD.Hash_isAtkBounced, trigger_isAtkBounced);
@@ -671,6 +744,11 @@ public class AnimationManager : MonoBehaviour
         Animat.SetBool(AHD.Hash_isHurt, trigger_isHurt);
     }
 
+    /// <summary>
+    /// Resets the values of the manually managed trigger parameters of the animator.
+    /// The actual triggers of the Unity's Mecanim are not used, since they're very unreliable.
+    /// Instead, we're manually managing our own triggers, which are just booleans set to false in the next frame.
+    /// </summary>
     void ResetTriggerParameters()
     {
         trigger_isAtkBounced = false;
@@ -679,6 +757,15 @@ public class AnimationManager : MonoBehaviour
         trigger_isHurt = false;
     }
 
+    /// <summary>
+    /// Updates the animations of the agent every frame.
+    /// This is mainly an extension of the agent's Update method, since this is called at the end of their Update method.
+    /// </summary>
+    /// <param name="localMoveDir">Local move direction relative to the agent.</param>
+    /// <param name="curMoveSpeed">The current movement speed of the agent.</param>
+    /// <param name="isGrounded">Whether or not the agent is grounded.</param>
+    /// <param name="isAtk">Whether or not the agent wants to attack.</param>
+    /// <param name="isDef">Whether or not the agent wants to defend.</param>
     public void UpdateAnimations(Vector2 localMoveDir, float curMoveSpeed, bool isGrounded, bool isAtk, bool isDef)
     {
         // Every update frame, assume that the target is zero degrees.
@@ -709,12 +796,26 @@ public class AnimationManager : MonoBehaviour
         ResetTriggerParameters();
     }
 
+    /// <summary>
+    /// Post processing of the animations after they have played for this frame.
+    /// Mainly used to rotate and position the spine bone of the agent.
+    /// </summary>
     public void LateUpdateAnimations()
     {
         ConnectSpineToPelvis();
         RotateSpineByLookDirectionAngleX();
     }
 
+    /// <summary>
+    /// Manually connects the spine bone to the pelvis bone (with the necessary offsets).
+    /// Normally, the pelvis bone should be the parent of the spine bone.
+    /// However, this is not the case in our character model.
+    /// This is because we want to be able to attack while moving.
+    /// If the pelvis bone was the parent of the spine bone, then we wouldn't be able to look
+    /// at the direction we're attacking. Rather, the movement would have full control over the upper body, hence it would also affect
+    /// where the agent is looking at while attacking.
+    /// My solution was to manage the spine and pelvis bones separately, and connect them via code manually.
+    /// </summary>
     void ConnectSpineToPelvis()
     {
         Quaternion finalPelvisRotation = pelvisBone.rotation;
@@ -734,6 +835,12 @@ public class AnimationManager : MonoBehaviour
         spineBone.position = pelvisBone.position + offset;
         //Debug.DrawRay(pelvis.position, finalPelvisToSpineOffset, Color.red);
     }
+
+    /// <summary>
+    /// Rotates the spine bone based on where the agent is looking at.
+    /// This is done after all animations have played for this frame.
+    /// See the explanation of <see cref="ConnectSpineToPelvis"/> method for more info.
+    /// </summary>
     void RotateSpineByLookDirectionAngleX()
     {
         if (ownerAgent.IsDead)

@@ -2,6 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// A static class which contains the methods that are used in combat.
+/// </summary>
 public static class CombatMechanics
 {
     enum AttackerRelativePosition
@@ -12,7 +15,7 @@ public static class CombatMechanics
         OnTheLeftSideOfTheDefender
     }
 
-    // Angle values for defender's local sphere. Zero degrees is considered straight up.
+    // Angle values for defender's local circle. Zero degrees is considered straight up.
     const float ForwardAreaMinAngle = -60;
     const float ForwardAreaMaxAngle = 60;
 
@@ -26,6 +29,12 @@ public static class CombatMechanics
     const float HandArmorDmgReductionPercentMed = 0.04f;
     const float HandArmorDmgReductionPercentHeavy = 0.08f;
 
+    /// <summary>
+    /// Determines whether the defender agent is able to block the attack of the attacker agent.
+    /// </summary>
+    /// <param name="attacker">The attacking agent.</param>
+    /// <param name="defender">The defending agent.</param>
+    /// <returns></returns>
     public static bool IsDefenderAbleToBlock(Agent attacker, Agent defender)
     {
         if (defender.AnimMgr.IsDefending == false)
@@ -133,6 +142,12 @@ public static class CombatMechanics
         return defenderIsAbleToBlock;
     }
 
+    /// <summary>
+    /// Calculates and applies the damage value to the defender agent, inflicted by the attacker agent, based on the attacked limb type.
+    /// </summary>
+    /// <param name="attacker">The attacking agent.</param>
+    /// <param name="defender">The defending agent.</param>
+    /// <param name="limbType">The limb type that was struck.</param>
     public static void ApplyDamageToDefender(Agent attacker, Agent defender, Limb.LimbType limbType)
     {
         bool attackerIsStabbing = attacker.AnimMgr.IsAttackingFromDown;
@@ -296,6 +311,12 @@ public static class CombatMechanics
         defender.AnimMgr.SetGettingHurt(defGetHurtDir);
     }
 
+    /// <summary>
+    /// Returns the relative position of the attacker with respect to the defender.
+    /// </summary>
+    /// <param name="attacker">The attacking agent.</param>
+    /// <param name="defender">The defending agent.</param>
+    /// <returns></returns>
     static AttackerRelativePosition GetAttackerRelativePosition(Agent attacker, Agent defender)
     {
         Vector2 defenderForwardVector = new Vector2(defender.gameObject.transform.forward.x, defender.gameObject.transform.forward.z);
@@ -308,8 +329,8 @@ public static class CombatMechanics
 
         float attackerDisplacementAngle = Mathf.Atan2(attackerAndDefenderDisplacement.y, attackerAndDefenderDisplacement.x) * Mathf.Rad2Deg;
 
-        #region Transforming angles in order to create the defender's local sphere.
-        // This code transforms both angles as if they were the angles relative to the local 2D sphere of the defender
+        #region Transforming angles in order to create the defender's local circle.
+        // This code transforms both angles as if they were the angles relative to the local 2D circle of the defender
         // In other words, after the transformation, the defenderForwardAngle is always considered 0 (and 0 degrees is straight up).
         attackerDisplacementAngle -= defenderForwardAngle;
 
@@ -327,7 +348,7 @@ public static class CombatMechanics
 
         AttackerRelativePosition attackerRelativePosition;
 
-        // Checking angles of the defender's local sphere.
+        // Checking angles of the defender's local circle.
         if (((attackerDisplacementAngle >= defenderForwardAngle) && (attackerDisplacementAngle < ForwardAreaMaxAngle))
             || ((attackerDisplacementAngle < defenderForwardAngle) && (attackerDisplacementAngle > ForwardAreaMinAngle)))
         {
@@ -349,6 +370,17 @@ public static class CombatMechanics
         return attackerRelativePosition;
     }
 
+    /// <summary>
+    /// Returns the direction in which the defender is hurt based on:
+    /// 1) The relative position of the attacker.
+    /// 2) The combat direction in which the attacker is attacking.
+    /// 3) The limb type that was struck.
+    /// This direction is then used to determine which "getting hurt" animation is to be played.
+    /// </summary>
+    /// <param name="attacker">The attacking agent.</param>
+    /// <param name="defender">The defending agent.</param>
+    /// <param name="limbType">The limb type that was struck.</param>
+    /// <returns></returns>
     static AnimationManager.GettingHurtDirection GetDefenderHurtAnimation(Agent attacker, Agent defender, Limb.LimbType limbType)
     {
         // Again, CombatDirection and GettingHurtDirection enums have the same values, but aren't the same things.
