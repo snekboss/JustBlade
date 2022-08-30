@@ -186,8 +186,8 @@ MonoBehaviour:
     y: 0
     width: 291
     height: 504
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 201, y: 221}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 6}
   m_Panes:
   - {fileID: 6}
@@ -224,9 +224,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: c4130000
+      m_SelectedIDs: 6c5c0000
       m_LastClickedID: 0
-      m_ExpandedIDs: f6f9ffff205f0000365f0000445f0000485f00005a5f0000665f00007c5f0000b45f0000
+      m_ExpandedIDs: ecf5ffff68f9fffff6f9ffff30fbffffac5a0000e45a0000165b00007c5c00008a5c00009e5c0000d45c0000205f0000365f0000445f0000485f00005a5f0000665f00007c5f0000b45f0000
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -269,8 +269,8 @@ MonoBehaviour:
     y: 0
     width: 1174
     height: 504
-  m_MinSize: {x: 200, y: 200}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 202, y: 221}
+  m_MaxSize: {x: 4002, y: 4021}
   m_ActualView: {fileID: 2}
   m_Panes:
   - {fileID: 2}
@@ -345,21 +345,21 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Scripts
+    - Assets/Scenes
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Scripts
+  - Assets/Scenes
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\Users\i7\source\repos\JustBlade\JustBlade
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
-    scrollPos: {x: 0, y: 85}
-    m_SelectedIDs: 405c0000
-    m_LastClickedID: 23616
+    scrollPos: {x: 0, y: 101}
+    m_SelectedIDs: 125c0000
+    m_LastClickedID: 23570
     m_ExpandedIDs: 00000000045c0000065c0000085c00000a5c00000c5c00000e5c0000105c0000125c000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -413,8 +413,8 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: c4130000
-    m_LastClickedInstanceID: 5060
+    m_SelectedInstanceIDs: 6c5c0000
+    m_LastClickedInstanceID: 23660
     m_HadKeyboardFocusLastEvent: 1
     m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:
@@ -692,14 +692,14 @@ MonoBehaviour:
   m_OverrideSceneCullingMask: 6917529027641081856
   m_SceneIsLit: 1
   m_SceneLighting: 1
-  m_2DMode: 0
+  m_2DMode: 1
   m_isRotationLocked: 0
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: -10.70565, y: 0.28723156, z: -15.916182}
+    m_Target: {x: 472.65015, y: 306.19104, z: 0.06591797}
     speed: 2
-    m_Value: {x: -10.70565, y: 0.28723156, z: -15.916182}
+    m_Value: {x: 472.65015, y: 306.19104, z: 0.06591797}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -728,7 +728,7 @@ MonoBehaviour:
       m_Size: {x: 0, y: 0}
     yGrid:
       m_Fade:
-        m_Target: 1
+        m_Target: 0
         speed: 2
         m_Value: 1
       m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.4}
@@ -736,9 +736,9 @@ MonoBehaviour:
       m_Size: {x: 1, y: 1}
     zGrid:
       m_Fade:
-        m_Target: 0
+        m_Target: 1
         speed: 2
-        m_Value: 0
+        m_Value: 1
       m_Color: {r: 0.5, g: 0.5, b: 0.5, a: 0.4}
       m_Pivot: {x: 0, y: 0, z: 0}
       m_Size: {x: 1, y: 1}
@@ -746,17 +746,17 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: -0.035636093, y: 0.93995905, z: -0.10363325, w: -0.32321897}
+    m_Target: {x: 0, y: 0, z: 0, w: 1}
     speed: 2
-    m_Value: {x: -0.035636034, y: 0.9399575, z: -0.103633076, w: -0.32321844}
+    m_Value: {x: -0.00000006518559, y: -0.00000021900927, z: 0.00000003822679, w: -0.9999999}
   m_Size:
-    m_Target: 1.6836482
+    m_Target: 206.23369
     speed: 2
-    m_Value: 1.6836482
+    m_Value: 206.23369
   m_Ortho:
-    m_Target: 0
+    m_Target: 1
     speed: 2
-    m_Value: 0
+    m_Value: 1
   m_CameraSettings:
     m_Speed: 1
     m_SpeedNormalized: 0.5
@@ -770,7 +770,7 @@ MonoBehaviour:
     m_FarClip: 10000
     m_DynamicClip: 1
     m_OcclusionCulling: 0
-  m_LastSceneViewRotation: {x: -0.08717229, y: 0.89959055, z: -0.21045254, w: -0.3726226}
+  m_LastSceneViewRotation: {x: -0.1483277, y: -0.49834847, z: 0.08698382, w: -0.84975845}
   m_LastSceneViewOrtho: 0
   m_ReplacementShader: {fileID: 0}
   m_ReplacementString: 
@@ -796,8 +796,8 @@ MonoBehaviour:
     y: 0
     width: 455
     height: 944
-  m_MinSize: {x: 275, y: 50}
-  m_MaxSize: {x: 4000, y: 4000}
+  m_MinSize: {x: 276, y: 71}
+  m_MaxSize: {x: 4001, y: 4021}
   m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}

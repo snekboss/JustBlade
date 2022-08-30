@@ -812,7 +812,7 @@ MonoBehaviour:
     A -> Strafe left
 
     D
-    -> Strafe righ
+    -> Strafe right
 
     Spacebar -> Jump
 
