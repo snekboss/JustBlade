@@ -30,6 +30,12 @@ The following convention will be used for all directions:
 => IMPORTANT: The playback speed of all animations is 60 frames per second.
 
 
+******************** Getting Hurt ********************
+=> All "getting_hurt" animations will get a speed multiplier of 2.
+Normally, every "getting_hurt" animation has 40 frames, so that means 0.66 seconds.
+However, with the speed multiplier, they will last 0.33 seconds.
+
+
 
 ******************** Attack ********************
 => Any transition which goes to any kind of "atk_hold" animation is considered to be "Attack Windup".
@@ -40,9 +46,15 @@ The following convention will be used for all directions:
 
 ----- Attack Transitions -----
 => Attack Windup transition times are 0.66 for swings, and 1.0 for stabs.
-=> Both of the Attack Release Recovery and Attack Bounced Recovery times are the same for swings and stabs:
-	- For swings, the times are 0.66.
-	- For stabs, the times are 0.33. This is to account for the slower windup time for stab attacks.
+=> Attack Release Recovery times are:
+	- For swings, the times are 0.33.
+	- For stabs, the times are 0.165. This is to account for the slower windup time for stab attacks.
+
+=> Attack Bounced Recovery times are 0.66 for both swings and stabs.
+The bounced recovery time for stabs is also 0.66 (rather than 0.33).
+This is because the Attack Release Recovery time for stabs is already very quick (0.165),
+so I think this should help balance that.
+
 
 
 ----- Attack Animations -----
