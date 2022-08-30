@@ -288,13 +288,19 @@ public class PlayerAgent : Agent
 
         if (isGrounded)
         {
-            localMoveDirXZ = Vector2.ClampMagnitude(new Vector2(moveInputX, moveInputY), 1.0f);
+            localMoveDirXZ = new Vector2(moveInputX, moveInputY);
 
             Vector3 localMoveDir3D = new Vector3(localMoveDirXZ.x, 0, localMoveDirXZ.y);
 
             Vector3 worldMoveDir3D = transform.TransformDirection(localMoveDir3D);
 
             Vector3 worldVelocity3D = worldMoveDir3D * MovementSpeedLimit;
+
+            if (worldMoveDir3D.sqrMagnitude > 1)
+            {
+                // This is in order to avoid the movement speed increase caused by diagonal movement.
+                worldVelocity3D /= worldMoveDir3D.magnitude;
+            }
 
             worldVelocityXZ = new Vector2(worldVelocity3D.x, worldVelocity3D.z);
 

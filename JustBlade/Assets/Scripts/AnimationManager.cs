@@ -379,7 +379,10 @@ public class AnimationManager : MonoBehaviour
         // Initialize moveX and moveY based on localMoveDir.
         // The scale depends on speedRatio.
         // However, the absolute value of both moveX and moveY must never be above 1.0f.
-        Vector2 moveXY = localMoveDir.normalized;
+
+        // Not normalizing the localMoveDir vector anymore, because otherwise it causes slowdown in moveX moveY values
+        // during diagonal movement for agents whose movement speed multiplier is 1.0f.
+        Vector2 moveXY = localMoveDir; 
         float moveXYmulti = speedRatio;
 
         moveX = Mathf.Clamp(moveXY.x * moveXYmulti, -1.0f, 1.0f);
