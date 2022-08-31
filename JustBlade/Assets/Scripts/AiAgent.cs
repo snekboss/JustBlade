@@ -124,8 +124,8 @@ public class AiAgent : Agent
     /// </summary>
     public override void OnGearInitialized()
     {
-        TooFarBorder = EqMgr.equippedWeapon.weaponLength * TooFarMultiplier;
-        TooCloseBorder = EqMgr.equippedWeapon.weaponLength * TooCloseMultiplier;
+        TooFarBorder = AgentRadius + EqMgr.equippedWeapon.weaponLength * TooFarMultiplier;
+        TooCloseBorder = AgentRadius + EqMgr.equippedWeapon.weaponLength * TooCloseMultiplier;
 
         if (TooFarBorder < TooFarBorderLowerBound)
         {
@@ -137,7 +137,7 @@ public class AiAgent : Agent
         //    TooCloseBorder = TooCloseBorderLowerBound;
         //}
 
-        AttackDistanceBorder = EqMgr.equippedWeapon.weaponLength * AttackDistanceMultiplier;
+        AttackDistanceBorder = AgentRadius + EqMgr.equippedWeapon.weaponLength * AttackDistanceMultiplier;
     }
 
     /// <summary>
