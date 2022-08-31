@@ -70,7 +70,7 @@ public class PlayerAgent : Agent
     float cameraYaw; // left right about Y axis
     const float CameraPitchThreshold = 89.0f;
 
-    static readonly float TargetLookDirSlerpRate = 0.1f;
+    const float TargetLookDirSlerpRate = 0.1f;
     Vector3 targetLookDir;
     #endregion
 

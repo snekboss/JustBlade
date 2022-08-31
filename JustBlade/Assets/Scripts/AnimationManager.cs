@@ -21,7 +21,7 @@ public class AnimationManager : MonoBehaviour
         Left,
     }
 
-    static readonly float SlowAgentSpeedRatioExponentForMoveXY = 1.85f;
+    const float SlowAgentSpeedRatioExponentForMoveXY = 1.85f;
 
     #region Animator Controller related fields
     Animator animat;
@@ -66,7 +66,7 @@ public class AnimationManager : MonoBehaviour
 
     float targetSpineAngle;
 
-    static readonly float TargetSpineAngleMaxForOverheadSwings = 30f;
+    const float TargetSpineAngleMaxForOverheadSwings = 30f;
 
     float spineCurAngle;
     float SpineRotationLerpRate = 0.2f;
@@ -85,7 +85,7 @@ public class AnimationManager : MonoBehaviour
     const int LayerIdIdle = 2;
 
     float idleTimer;
-    static readonly float IdleTimerMax = 0.1f; // wait for a while before shifting layer weights
+    const float IdleTimerMax = 0.1f; // wait for a while before shifting layer weights
     float attackAndBlockLayerWeight;
     float idleLayerWeight;
 

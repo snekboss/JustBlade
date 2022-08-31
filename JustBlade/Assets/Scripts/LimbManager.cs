@@ -13,15 +13,15 @@ public class LimbManager : MonoBehaviour
     public Transform rootBone;
     public Transform spineBone;
     public Transform neckBone;
-    
+
     // height means "up-down"; width means "left-right"; depth means "forward-backward".
-    static readonly float HeadHeight = 0.25f; 
-    static readonly float HeadWidth = 0.2f;
-    static readonly float HeadDepth = 0.2f;
-    static readonly float TorsoWidth = 0.45f;
-    static readonly float TorsoDepth = 0.35f;
-    static readonly float LegsWidth = 0.45f;
-    static readonly float LegsDepth = 0.35f;
+    const float HeadHeight = 0.25f; 
+    const float HeadWidth = 0.2f;
+    const float HeadDepth = 0.2f;
+    const float TorsoWidth = 0.45f;
+    const float TorsoDepth = 0.35f;
+    const float LegsWidth = 0.45f;
+    const float LegsDepth = 0.35f;
 
     public Agent ownerAgent { get; private set; }
     public Limb limbHead { get; private set; }

@@ -24,25 +24,25 @@ public class AiAgent : Agent
         Defending,
     }
 
-    static readonly float HeadLookPercentPosY = 0.55f;
-    static readonly float TorsoLookPercentPosY = 0.75f;
-    static readonly float LegsLookPercentPosY = 0.5f;
-    static readonly float SlerpRateLookDirection = 0.2f;
-    static readonly float LerpRateYawAngle = 0.1f;
+    const float HeadLookPercentPosY = 0.55f;
+    const float TorsoLookPercentPosY = 0.75f;
+    const float LegsLookPercentPosY = 0.5f;
+    const float SlerpRateLookDirection = 0.2f;
+    const float LerpRateYawAngle = 0.1f;
 
-    static readonly float AttackTimeMax = 0.5f;
-    static readonly float DefendTimeMax = 2.0f;
-    static readonly float SearchForEnemyTimeMax = 0.5f;
+    const float AttackTimeMax = 0.5f;
+    const float DefendTimeMax = 2.0f;
+    const float SearchForEnemyTimeMax = 0.5f;
 
-    static readonly float TooCloseMultiplier = 0.75f;
-    static readonly float TooFarMultiplier = 1.0f;
-    static readonly float CloseEnoughPercent = 0.5f; // Percentage between TooClose and TooFar.
-    //static readonly float TooCloseBorderLowerBound = 0.9f;
-    static readonly float TooFarBorderLowerBound = 1.2f;
-    static readonly float AttackDistanceMultiplier = 2f;
-    static readonly float ChanceToChooseVerticalCombatDirection = 0.75f; // chance to choose up or down as combat dir.
-    static readonly float ChanceToChooseLegAsTargetLimbType = 0.1f;
-    public static readonly float NavMeshAgentBaseAcceleration = 4.0f;
+    const float TooCloseMultiplier = 0.75f;
+    const float TooFarMultiplier = 1.0f;
+    const float CloseEnoughPercent = 0.5f; // Percentage between TooClose and TooFar.
+    //const float TooCloseBorderLowerBound = 0.9f;
+    const float TooFarBorderLowerBound = 1.2f;
+    const float AttackDistanceMultiplier = 2f;
+    const float ChanceToChooseVerticalCombatDirection = 0.75f; // chance to choose up or down as combat dir.
+    const float ChanceToChooseLegAsTargetLimbType = 0.1f;
+    const float NavMeshAgentBaseAcceleration = 4.0f;
 
     #region Friendliness indicator related fields
     public GameObject friendlinessIndicator;

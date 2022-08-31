@@ -8,13 +8,13 @@ using UnityEngine;
 /// </summary>
 public class EquipmentManager : MonoBehaviour
 {
-    static readonly float DefaultHandArmorMovementSpeedPenalty = 0.01f;
-    static readonly float DefaultHeadArmorMovementSpeedPenalty = 0.02f;
-    static readonly float DefaultLegArmorMovementSpeedPenalty = 0.03f;
-    static readonly float DefaultTorsoArmorMovementSpeedPenalty = 0.04f;
-    static readonly float FinalMovementSpeedPenaltyMultiplier = 3.0f;
+    const float DefaultHandArmorMovementSpeedPenalty = 0.01f;
+    const float DefaultHeadArmorMovementSpeedPenalty = 0.02f;
+    const float DefaultLegArmorMovementSpeedPenalty = 0.03f;
+    const float DefaultTorsoArmorMovementSpeedPenalty = 0.04f;
+    const float FinalMovementSpeedPenaltyMultiplier = 3.0f;
 
-    static readonly float DefaultMovementSpeedMultiplier = 1.6f;
+    const float DefaultMovementSpeedMultiplier = 1.6f;
 
     public Agent ownerAgent { get; private set; }
     public AnimationManager animMgr { get; set; }
