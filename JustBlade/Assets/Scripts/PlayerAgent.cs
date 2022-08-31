@@ -114,7 +114,6 @@ public class PlayerAgent : Agent
     /// <summary>
     /// Initializes the values of the character controller of the player.
     /// It sets the height, radius, position, etc.
-    /// <seealso cref="nmo"/>.
     /// </summary>
     void InitializeCharacterController()
     {
