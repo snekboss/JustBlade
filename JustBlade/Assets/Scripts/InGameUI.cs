@@ -41,11 +41,28 @@ public class InGameUI : MonoBehaviour
         screenPauseMenu.SetActive(false);
         screenPlayerInfo.SetActive(false);
 
-        sliderMouseSensitivity.value = StaticVariables.PlayerCameraRotationSpeed;
-        sliderFieldOfView.value = StaticVariables.PlayerCameraFieldOfView;
+        InitializeSliders();
+    }
 
-        OnSliderValueChanged_MouseSensitivity();
-        OnSliderValueChanged_FieldOfView();
+    /// <summary>
+    /// Initializes the slider values.
+    /// </summary>
+    void InitializeSliders()
+    {
+        // Set the values in this order or there will be bugs, because Unity invokes the callback method when you set value:
+        // - minValue
+        // - value
+        // - maxValue
+
+        sliderMouseSensitivity.wholeNumbers = false;
+        sliderMouseSensitivity.minValue = StaticVariables.PlayerCameraRotationSpeedMin;
+        sliderMouseSensitivity.value = StaticVariables.PlayerCameraRotationSpeed;
+        sliderMouseSensitivity.maxValue = StaticVariables.PlayerCameraRotationSpeedMax;
+
+        sliderFieldOfView.wholeNumbers = true;
+        sliderFieldOfView.minValue = StaticVariables.PlayerCameraFieldOfViewMin;
+        sliderFieldOfView.value = StaticVariables.PlayerCameraFieldOfView;
+        sliderFieldOfView.maxValue = StaticVariables.PlayerCameraFieldOfViewMax;
     }
 
     /// <summary>
@@ -54,8 +71,8 @@ public class InGameUI : MonoBehaviour
     /// </summary>
     public void OnSliderValueChanged_MouseSensitivity()
     {
-        int val = Convert.ToInt32(sliderMouseSensitivity.value);
-        txtMouseSensitivity.text = "Mouse Sensitivity: " + val;
+        float val = sliderMouseSensitivity.value;
+        txtMouseSensitivity.text = "Mouse Sensitivity: " + val.ToString("0.00");
         StaticVariables.PlayerCameraRotationSpeed = val;
     }
 

@@ -52,8 +52,12 @@ public class StaticVariables
         Ultra,
     }
 
-    public static float PlayerCameraRotationSpeed = 45.0f;
-    public static float PlayerCameraFieldOfView = 60.0f;
+    public const float PlayerCameraRotationSpeedMin = 0.02f;
+    public const float PlayerCameraRotationSpeedMax = 5.0f;
+    public static float PlayerCameraRotationSpeed = 1.0f;
+    public const int PlayerCameraFieldOfViewMin = 45;
+    public const int PlayerCameraFieldOfViewMax = 110;
+    public static int PlayerCameraFieldOfView = 60;
     public static float ThirdPersonCameraOffsetYcur = 0.3f;
     public static float ThirdPersonCameraOffsetZcur = 1.0f;
     public static bool IsCameraModeFirstPerson = false;

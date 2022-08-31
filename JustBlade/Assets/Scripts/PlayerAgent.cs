@@ -20,9 +20,9 @@ public class PlayerAgent : Agent
     // The other option is to write a custom system which updates all game objects on the scene *manually*.
     const float ThirdPersonCameraOffsetYmin = -1.0f;
     const float ThirdPersonCameraOffsetYmax = 0.5f;
-    const float ThirdPersonCameraOffsetYchangeSpeed = 3.0f;
+    const float ThirdPersonCameraOffsetYchangeSpeed = 0.1f;
 
-    const float ThirdPersonCameraOffsetZchangeSpeed = 3.0f;
+    const float ThirdPersonCameraOffsetZchangeSpeed = 0.1f;
     const float ThirdPersonCameraOffsetZmin = 0.75f;
     const float ThirdPersonCameraOffsetZmax = 2.5f;
     bool IsCameraModeOrbital;
@@ -231,10 +231,10 @@ public class PlayerAgent : Agent
     /// </summary>
     void HandleCameraRotation()
     {
-        cameraYaw += StaticVariables.PlayerCameraRotationSpeed * mouseX * Time.deltaTime;
+        cameraYaw += StaticVariables.PlayerCameraRotationSpeed * mouseX;
 
         // Subtracting, because negative angle about X axis means "up".
-        LookAngleX -= StaticVariables.PlayerCameraRotationSpeed * mouseY * Time.deltaTime; 
+        LookAngleX -= StaticVariables.PlayerCameraRotationSpeed * mouseY; 
 
         LookAngleX = Mathf.Clamp(LookAngleX, -CameraPitchThreshold, CameraPitchThreshold);
 
@@ -459,13 +459,13 @@ public class PlayerAgent : Agent
 
             if (btnShiftHeld == false)
             {
-                StaticVariables.ThirdPersonCameraOffsetZcur -= Input.mouseScrollDelta.y * Time.deltaTime * ThirdPersonCameraOffsetZchangeSpeed;
+                StaticVariables.ThirdPersonCameraOffsetZcur -= Input.mouseScrollDelta.y * ThirdPersonCameraOffsetZchangeSpeed;
                 StaticVariables.ThirdPersonCameraOffsetZcur 
                     = Mathf.Clamp(StaticVariables.ThirdPersonCameraOffsetZcur, ThirdPersonCameraOffsetZmin, ThirdPersonCameraOffsetZmax);
             }
             else
             {
-                StaticVariables.ThirdPersonCameraOffsetYcur += Input.mouseScrollDelta.y * Time.deltaTime * ThirdPersonCameraOffsetYchangeSpeed;
+                StaticVariables.ThirdPersonCameraOffsetYcur += Input.mouseScrollDelta.y * ThirdPersonCameraOffsetYchangeSpeed;
                 StaticVariables.ThirdPersonCameraOffsetYcur 
                     = Mathf.Clamp(StaticVariables.ThirdPersonCameraOffsetYcur, ThirdPersonCameraOffsetYmin, ThirdPersonCameraOffsetYmax);
             }
