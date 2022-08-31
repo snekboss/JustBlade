@@ -63,7 +63,6 @@ public class AiAgent : Agent
     CombatDirection combatDir;
 
     NavMeshAgent nma;
-    Rigidbody rBody;
 
     Transform agentEyes;
 
@@ -182,16 +181,6 @@ public class AiAgent : Agent
         // While moving to position, don't let the AI code rotate the agent transform.
         // Just, go where you're told, and don't do any rotations...
         nma.angularSpeed = 0;
-
-        rBody = GetComponent<Rigidbody>();
-        if (rBody == null)
-        {
-            rBody = gameObject.AddComponent<Rigidbody>();
-        }
-        //rBody.isKinematic = true;
-        rBody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-        rBody.useGravity = false;
-        rBody.mass = AgentMass;
     }
 
     /// <summary>
@@ -653,10 +642,6 @@ public class AiAgent : Agent
 
         if (IsDead)
         {
-            rBody.velocity = Vector3.zero;
-            rBody.angularVelocity = Vector3.zero;
-            rBody.isKinematic = false;
-            rBody.useGravity = false;
             nma.enabled = false;
             friendlinessIndicator.SetActive(false);
             return;

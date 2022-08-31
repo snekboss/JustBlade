@@ -34,20 +34,13 @@ public class PlayerAgent : Agent
     public Transform firstPersonViewTrackingPoint; 
     #endregion
 
-    public Transform groundednessCheckerTransform; // used for checking if the player is grounded
-
-    #region Player collision related fields
-    CapsuleCollider movementCollider;
-    Rigidbody movementRbody;
+    #region Player movement related fields
+    CharacterController charCont;
 
     /// <summary>
-    /// Make the player agent an obstance, to make sure that AiAgents don't go through the player agent.
-    /// This makes them try to avoid the player as they come closer, but it is not too conspicous,
-    /// since they just stop when they come close enough.
-    /// The alternative to this is to make the player agent a NavMeshAgent, but this snaps the player
-    /// on to the NavMesh, which is not good at all.
+    /// Make the player agent a NavMeshAgent, to make sure that AiAgents don't go through the player agent.
     /// </summary>
-    NavMeshObstacle nmo; 
+    NavMeshAgent nma; 
     #endregion
 
     #region Foot movement fields
@@ -55,13 +48,11 @@ public class PlayerAgent : Agent
     float moveInputX;
     float moveInputY;
     Vector2 localMoveDirXZ;
-    Vector2 worldVelocityXZ;
+    Vector3 worldVelocity;
 
     float jumpPower = 4.0f;
     float jumpCooldownTimer;
     float jumpCooldownTimerMax = 1.0f;
-    static readonly float GroundDistance = 0.3f;
-    bool isGrounded;
     #endregion
 
     #region Agent rotation fields
@@ -114,33 +105,25 @@ public class PlayerAgent : Agent
     }
 
     /// <summary>
-    /// Initializes the values of the movement collider of the player.
+    /// Initializes the values of the character controller of the player.
     /// It sets the height, radius, position, etc.
-    /// It also initializes the <see cref="NavMeshObstacle"/>.
+    /// It also initializes the <see cref="NavMeshAgent"/>, so that the other <see cref="NavMeshAgent"/>s can avoid the player.
     /// <seealso cref="nmo"/>.
     /// </summary>
-    void InitializeMovementCollider()
+    void InitializeCharacterController()
     {
-        movementCollider = gameObject.AddComponent<CapsuleCollider>();
-        movementCollider.height = AgentHeight;
-        movementCollider.center = Vector3.up * AgentHeight / 2;
-        movementCollider.radius = AgentRadius;
+        charCont = gameObject.AddComponent<CharacterController>();
+        charCont.height = AgentHeight;
+        charCont.center = Vector3.up * AgentHeight / 2;
+        charCont.radius = AgentRadius;
+        charCont.minMoveDistance = 0;
 
-        nmo = gameObject.AddComponent<NavMeshObstacle>();
-        nmo.height = movementCollider.height;
-        nmo.center = movementCollider.center;
-        nmo.radius = movementCollider.radius;
-        nmo.carving = false;
-    }
-
-    /// <summary>
-    /// Initializes the values of the movement rigidbody of the player.
-    /// </summary>
-    void InitializeMovementRigidbody()
-    {
-        movementRbody = gameObject.AddComponent<Rigidbody>();
-        movementRbody.constraints = RigidbodyConstraints.FreezeRotationX | RigidbodyConstraints.FreezeRotationZ;
-        movementRbody.mass = AgentMass;
+        nma = gameObject.AddComponent<NavMeshAgent>();
+        nma.height = AgentHeight;
+        nma.radius = AgentRadius;
+        nma.updatePosition = false;
+        nma.updateRotation = false;
+        nma.nextPosition = transform.position;
     }
 
     /// <summary>
@@ -152,10 +135,9 @@ public class PlayerAgent : Agent
     /// </summary>
     void HandleDeath()
     {
-        movementRbody.velocity = Vector3.zero;
-        movementRbody.angularVelocity = Vector3.zero;
-        // playerMovementRigidbody.isKinematic = true;
-        worldVelocityXZ = Vector2.zero;
+        worldVelocity = Vector3.zero;
+        localMoveDirXZ = Vector2.zero;
+        charCont.SimpleMove(worldVelocity);
         mouseX = 0;
         mouseY = 0;
     }
@@ -282,35 +264,53 @@ public class PlayerAgent : Agent
     /// </summary>
     void HandleFootMovement()
     {
-        // Movement related
-        LayerMask walkableLayerMask = 1 << StaticVariables.Instance.DefaultLayer.value;
-        isGrounded = Physics.CheckSphere(groundednessCheckerTransform.position, GroundDistance, walkableLayerMask, QueryTriggerInteraction.Ignore);
+        // Save the velocity in y axis, in case the player is currently falling/jumping.
+        // This is because the "isGrounded" code below might edit the y value.
+        float existingY = worldVelocity.y;
 
-        if (isGrounded)
+        if (charCont.isGrounded)
         {
+            // This part of the code is about handling non-vertical movement (ie, X and Z axes).
+
+            // localMoveDirXZ is for animation (moveX, moveY); as well as for initializing non-vertical movement.
             localMoveDirXZ = new Vector2(moveInputX, moveInputY);
 
+            // Notice that the y value of this vector is 0.
+            // This is because we don't want the y value to take any part in the calculation of the movement speed.
             Vector3 localMoveDir3D = new Vector3(localMoveDirXZ.x, 0, localMoveDirXZ.y);
 
+            // Transform the moveDir from local space to world space.
             Vector3 worldMoveDir3D = transform.TransformDirection(localMoveDir3D);
 
-            Vector3 worldVelocity3D = worldMoveDir3D * MovementSpeedLimit;
+            // Calculate world velocity (using only the horizontal directions).
+            worldVelocity = worldMoveDir3D * MovementSpeedLimit;
 
             if (worldMoveDir3D.sqrMagnitude > 1)
             {
                 // This is in order to avoid the movement speed increase caused by diagonal movement.
-                worldVelocity3D /= worldMoveDir3D.magnitude;
+                worldVelocity /= worldMoveDir3D.magnitude;
             }
 
-            worldVelocityXZ = new Vector2(worldVelocity3D.x, worldVelocity3D.z);
+            // Now, update the value of currentMovementSpeed by taking ONLY the horizontal directions into account.
+            Vector2 worldVelocityXZ = new Vector2(worldVelocity.x, worldVelocity.z);
 
+            // Update its value only as long as the player is grounded.
             currentMovementSpeed = worldVelocityXZ.magnitude;
+        }
+
+        // Restore worldVelocity's vertical component, in case it was changed above.
+        worldVelocity.y = existingY;
+
+        if (charCont.isGrounded && worldVelocity.y < 0)
+        {
+            // This is to avoid having very negative y values due to gravity.
+            worldVelocity.y = 0;
         }
 
         // Jump related
         bool canJump = true;
 
-        if (!isGrounded)
+        if (!charCont.isGrounded)
         {
             jumpCooldownTimer = 0;
         }
@@ -321,12 +321,24 @@ public class PlayerAgent : Agent
             jumpCooldownTimer += Time.deltaTime;
         }
 
-        if (btnJumpPressed && isGrounded && canJump)
+        if (btnJumpPressed && charCont.isGrounded && canJump)
         {
             jumpCooldownTimer = 0;
             AnimMgr.SetJump(true);
-            movementRbody.AddForce(Vector3.up * jumpPower, ForceMode.VelocityChange);
+
+            worldVelocity += Vector3.up * jumpPower;
         }
+
+        // Apply gravity, and then finally use Move with worldVelocity.
+        // NOTE: I know I'm already multiplying the worldVelocity by Time.deltaTime below.
+        // However, if I don't also do it onto Physics.gravity, then gravity becomes ridiculously large.
+        // This worked, so I'm keeping it...
+        worldVelocity += Physics.gravity * Time.deltaTime;
+
+        charCont.Move(worldVelocity * Time.deltaTime);
+
+        // Update NavMeshAgent's position, so that the other AiAgents know where the player is.
+        nma.nextPosition = transform.position; 
     }
 
     /// <summary>
@@ -456,8 +468,7 @@ public class PlayerAgent : Agent
 
         isDefTimer = 2 * isDefTimerThreshold; // set it far above the threshold, so that the condition is not satisfied at the start.
 
-        InitializeMovementCollider();
-        InitializeMovementRigidbody();
+        InitializeCharacterController();
     }
 
     /// <summary>
@@ -498,7 +509,7 @@ public class PlayerAgent : Agent
         HandleCombatInputs();
         HandleCombatDirection();
 
-        AnimMgr.UpdateAnimations(localMoveDirXZ, currentMovementSpeed, isGrounded, isAtk, isDef);
+        AnimMgr.UpdateAnimations(localMoveDirXZ, currentMovementSpeed, charCont.isGrounded, isAtk, isDef);
     }
 
     /// <summary>
@@ -513,21 +524,5 @@ public class PlayerAgent : Agent
 
         // Move the camera to the position after the spine has been rotated.
         HandleCameraPosition();
-    }
-
-    /// <summary>
-    /// Unity's FixedUpdate method.
-    /// In this case, since the player agent is moved via a <see cref="Rigidbody"/>, the movement has to be done in FixedUpdate.
-    /// The movement is based on <see cref="worldVelocityXZ"/>, which is calculated during <see cref="Update"/>.
-    /// </summary>
-    void FixedUpdate()
-    {
-        if (StaticVariables.IsGamePaused)
-        {
-            return;
-        }
-
-        Vector3 worldVelocity3D = new Vector3(worldVelocityXZ.x, 0, worldVelocityXZ.y);
-        movementRbody.MovePosition(movementRbody.position + worldVelocity3D * Time.fixedDeltaTime);
     }
 }
