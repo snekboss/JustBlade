@@ -31,16 +31,21 @@ public class PlayerAgent : Agent
 
     Transform chosenCameraTrackingPoint;
     public Transform thirdPersonViewTrackingPoint;
-    public Transform firstPersonViewTrackingPoint; 
+    public Transform firstPersonViewTrackingPoint;
     #endregion
 
     #region Player movement related fields
+    public Transform groundednessCheckerTransform; // used for checking if the player is grounded
+    const float GroundDistance = 0.3f;
+    bool isGrounded; // value based on CharacterController.isGrounded AND Physics.SphereCast.
+
     CharacterController charCont;
+    const float AgentSkinWidthMultiplier = 0.1f; 
 
     /// <summary>
     /// Make the player agent a NavMeshAgent, to make sure that AiAgents don't go through the player agent.
     /// </summary>
-    NavMeshAgent nma; 
+    NavMeshAgent nma;
     #endregion
 
     #region Foot movement fields
@@ -117,6 +122,9 @@ public class PlayerAgent : Agent
         charCont.center = Vector3.up * AgentHeight / 2;
         charCont.radius = AgentRadius;
         charCont.minMoveDistance = 0;
+        // From Unity Docs:
+        // It's good practice to keep your Skin Width at least greater than 0.01 and more than 10% of the Radius.
+        charCont.skinWidth = AgentRadius * AgentSkinWidthMultiplier;
 
         nma = gameObject.AddComponent<NavMeshAgent>();
         nma.height = AgentHeight;
@@ -239,6 +247,23 @@ public class PlayerAgent : Agent
     }
 
     /// <summary>
+    /// Performs a two step verification as to whether the player is grounded or not.
+    /// The reason is because, when the game is unpaused by setting Time.timeScale to 0,
+    /// the isGrounded property of the CharacterController becomes unreliable for a short time.
+    /// This method uses Physics.CheckSphere to perform a second check.
+    /// </summary>
+    void HandleGroundednessCheck()
+    {
+        LayerMask walkableLayerMask = 1 << StaticVariables.Instance.DefaultLayer.value;
+        bool isGroundedPhysics = Physics.CheckSphere(groundednessCheckerTransform.position, GroundDistance, walkableLayerMask, QueryTriggerInteraction.Ignore);
+
+        // We perform a two step verification as to whether the player is grounded.
+        // This is because, when the game is unpaused by setting Time.timeScale to 0,
+        // the isGrounded property of the CharacterController becomes unreliable for a short time.
+        isGrounded = charCont.isGrounded || isGroundedPhysics;
+    }
+
+    /// <summary>
     /// Handles the rotation of the player agent based on the camera's rotation.
     /// <seealso cref="HandleCameraRotation"/>.
     /// </summary>
@@ -268,7 +293,7 @@ public class PlayerAgent : Agent
         // This is because the "isGrounded" code below might edit the y value.
         float existingY = worldVelocity.y;
 
-        if (charCont.isGrounded)
+        if (isGrounded)
         {
             // This part of the code is about handling non-vertical movement (ie, X and Z axes).
 
@@ -301,7 +326,7 @@ public class PlayerAgent : Agent
         // Restore worldVelocity's vertical component, in case it was changed above.
         worldVelocity.y = existingY;
 
-        if (charCont.isGrounded && worldVelocity.y < 0)
+        if (isGrounded && worldVelocity.y < 0)
         {
             // This is to avoid having very negative y values due to gravity.
             worldVelocity.y = 0;
@@ -310,7 +335,7 @@ public class PlayerAgent : Agent
         // Jump related
         bool canJump = true;
 
-        if (!charCont.isGrounded)
+        if (!isGrounded)
         {
             jumpCooldownTimer = 0;
         }
@@ -321,7 +346,7 @@ public class PlayerAgent : Agent
             jumpCooldownTimer += Time.deltaTime;
         }
 
-        if (btnJumpPressed && charCont.isGrounded && canJump)
+        if (btnJumpPressed && isGrounded && canJump)
         {
             jumpCooldownTimer = 0;
             AnimMgr.SetJump(true);
@@ -504,12 +529,13 @@ public class PlayerAgent : Agent
         HandleCameraViewMode();
         HandleCameraRotation();
         HandleAgentRotation();
+        HandleGroundednessCheck();
         HandleFootMovement();
 
         HandleCombatInputs();
         HandleCombatDirection();
 
-        AnimMgr.UpdateAnimations(localMoveDirXZ, currentMovementSpeed, charCont.isGrounded, isAtk, isDef);
+        AnimMgr.UpdateAnimations(localMoveDirXZ, currentMovementSpeed, isGrounded, isAtk, isDef);
     }
 
     /// <summary>

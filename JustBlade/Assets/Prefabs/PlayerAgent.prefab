@@ -32,6 +32,37 @@ Transform:
   m_Father: {fileID: 3108489807904994295}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &518570330951598468
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 495923429132351219}
+  m_Layer: 0
+  m_Name: groundednessCheckerTransform
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &495923429132351219
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 518570330951598468}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 2681063993493225354}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &804267855465641483
 GameObject:
   m_ObjectHideFlags: 0
@@ -190,7 +221,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2681063993493225354}
-  m_RootOrder: 5
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &1478387445428257022
 SkinnedMeshRenderer:
@@ -310,7 +341,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2681063993493225354}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &6836013663230403576
 SkinnedMeshRenderer:
@@ -687,7 +718,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2681063993493225354}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &7189080968462571828
 SkinnedMeshRenderer:
@@ -811,6 +842,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1724222695684689829}
+  - {fileID: 495923429132351219}
   - {fileID: 6450799732266315540}
   - {fileID: 8523472658095550667}
   - {fileID: 7875208899582353005}
@@ -855,6 +887,7 @@ MonoBehaviour:
   mainCameraPrefab: {fileID: 1653163678436621986, guid: 5b6f703cc6d723443af9ab43ce870845, type: 3}
   thirdPersonViewTrackingPoint: {fileID: 1724222695684689829}
   firstPersonViewTrackingPoint: {fileID: 9083436578199529652}
+  groundednessCheckerTransform: {fileID: 495923429132351219}
 --- !u!114 &2011178560111457975
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1183,7 +1216,7 @@ Transform:
   - {fileID: 1382400116066858198}
   - {fileID: 8178811115471198695}
   m_Father: {fileID: 2681063993493225354}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5076547232679330903
 GameObject:
@@ -1341,7 +1374,7 @@ Transform:
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2681063993493225354}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!137 &6752414122474219937
 SkinnedMeshRenderer:
