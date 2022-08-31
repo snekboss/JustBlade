@@ -23,12 +23,12 @@ public abstract class Agent : MonoBehaviour
         Left
     }
 
-    public static readonly int MaximumHealth = 100;
-    public static readonly float AgentDespawnTime = 5;
-    public static readonly float DefaultMovementSpeedLimit = 2.5f;
-    public static readonly float AgentHeight = 1.85f;
-    public static readonly float AgentRadius = 0.25f;
-    public static readonly float AgentMass = 70.0f;
+    public const int MaximumHealth = 100;
+    public const float AgentDespawnTime = 5;
+    public const float DefaultMovementSpeedLimit = 2.5f;
+    public const float AgentHeight = 1.85f;
+    public const float AgentRadius = 0.25f;
+    public const float AgentMass = 70.0f;
 
     public int Health { get; protected set; } = MaximumHealth;
     public bool IsDead { get; protected set; } = false;

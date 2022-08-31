@@ -36,11 +36,11 @@ public class PlayerAgent : Agent
 
     #region Player movement related fields
     public Transform groundednessCheckerTransform; // used for checking if the player is grounded
-    const float GroundDistance = 0.3f;
-    bool isGrounded; // value based on CharacterController.isGrounded AND Physics.SphereCast.
+    bool isGrounded; // value based on CharacterController.isGrounded AND Physics.CheckSphere.
 
     CharacterController charCont;
-    const float AgentSkinWidthMultiplier = 0.1f; 
+    const float AgentSkinWidthMultiplier = 0.1f;
+    const float AgentSkinWidth = AgentRadius * AgentSkinWidthMultiplier;
 
     /// <summary>
     /// Make the player agent a NavMeshAgent, to make sure that AiAgents don't go through the player agent.
@@ -112,7 +112,6 @@ public class PlayerAgent : Agent
     /// <summary>
     /// Initializes the values of the character controller of the player.
     /// It sets the height, radius, position, etc.
-    /// It also initializes the <see cref="NavMeshAgent"/>, so that the other <see cref="NavMeshAgent"/>s can avoid the player.
     /// <seealso cref="nmo"/>.
     /// </summary>
     void InitializeCharacterController()
@@ -125,13 +124,20 @@ public class PlayerAgent : Agent
         // From Unity Docs:
         // It's good practice to keep your Skin Width at least greater than 0.01 and more than 10% of the Radius.
         charCont.skinWidth = AgentRadius * AgentSkinWidthMultiplier;
+    }
 
+    /// <summary>
+    /// Initializes the <see cref="NavMeshAgent"/>, so that the other <see cref="NavMeshAgent"/>s can avoid the player.
+    /// </summary>
+    void InitializeNavMeshAgent()
+    {
         nma = gameObject.AddComponent<NavMeshAgent>();
         nma.height = AgentHeight;
         nma.radius = AgentRadius;
         nma.updatePosition = false;
         nma.updateRotation = false;
         nma.nextPosition = transform.position;
+        nma.avoidancePriority = 0;
     }
 
     /// <summary>
@@ -255,7 +261,8 @@ public class PlayerAgent : Agent
     void HandleGroundednessCheck()
     {
         LayerMask walkableLayerMask = 1 << StaticVariables.Instance.DefaultLayer.value;
-        bool isGroundedPhysics = Physics.CheckSphere(groundednessCheckerTransform.position, GroundDistance, walkableLayerMask, QueryTriggerInteraction.Ignore);
+        bool isGroundedPhysics =
+            Physics.CheckSphere(groundednessCheckerTransform.position, AgentSkinWidth, walkableLayerMask, QueryTriggerInteraction.Ignore);
 
         // We perform a two step verification as to whether the player is grounded.
         // This is because, when the game is unpaused by setting Time.timeScale to 0,
@@ -363,7 +370,10 @@ public class PlayerAgent : Agent
         charCont.Move(worldVelocity * Time.deltaTime);
 
         // Update NavMeshAgent's position, so that the other AiAgents know where the player is.
-        nma.nextPosition = transform.position; 
+        if (nma != null && nma.isActiveAndEnabled)
+        {
+            nma.nextPosition = transform.position;
+        }
     }
 
     /// <summary>
@@ -494,6 +504,7 @@ public class PlayerAgent : Agent
         isDefTimer = 2 * isDefTimerThreshold; // set it far above the threshold, so that the condition is not satisfied at the start.
 
         InitializeCharacterController();
+       InitializeNavMeshAgent();
     }
 
     /// <summary>
