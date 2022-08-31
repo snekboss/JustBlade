@@ -41,6 +41,8 @@ public class PlayerAgent : Agent
     CharacterController charCont;
     const float AgentSkinWidthMultiplier = 0.1f;
     const float AgentSkinWidth = AgentRadius * AgentSkinWidthMultiplier;
+    const float GroundedDistanceMultiplier = 2.0f;
+    const float GroundedDistance = AgentSkinWidth * GroundedDistanceMultiplier;
 
     /// <summary>
     /// Make the player agent a NavMeshAgent, to make sure that AiAgents don't go through the player agent.
@@ -262,7 +264,7 @@ public class PlayerAgent : Agent
     {
         LayerMask walkableLayerMask = 1 << StaticVariables.Instance.DefaultLayer.value;
         bool isGroundedPhysics =
-            Physics.CheckSphere(groundednessCheckerTransform.position, AgentSkinWidth, walkableLayerMask, QueryTriggerInteraction.Ignore);
+            Physics.CheckSphere(groundednessCheckerTransform.position, GroundedDistance, walkableLayerMask, QueryTriggerInteraction.Ignore);
 
         // We perform a two step verification as to whether the player is grounded.
         // This is because, when the game is unpaused by setting Time.timeScale to 0,
@@ -493,7 +495,6 @@ public class PlayerAgent : Agent
     /// <summary>
     /// Unity's Awake method.
     /// In this case, it is used to initialize a few fields about the player.
-    /// It is also used to initialize the movement collider and rigidbody of the player.
     /// </summary>
     public override void Awake()
     {
@@ -502,19 +503,20 @@ public class PlayerAgent : Agent
         IsPlayerAgent = true;
 
         isDefTimer = 2 * isDefTimerThreshold; // set it far above the threshold, so that the condition is not satisfied at the start.
-
-        InitializeCharacterController();
-       InitializeNavMeshAgent();
     }
 
     /// <summary>
     /// Unity's Start method.
     /// In this case, it is used to spawn the camera (if it is null), and set the <see cref="chosenCameraTrackingPoint"/>.
+    /// It is also used to initialize the movement related components of the player.
     /// </summary>
     void Start()
     {
         SpawnMainCamera();
         SetCameraTrackingPoint();
+
+        InitializeCharacterController();
+        InitializeNavMeshAgent();
     }
 
     /// <summary>
