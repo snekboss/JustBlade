@@ -155,7 +155,7 @@ public static class TournamentVariables
         get { return NumBasicMercenaries + NumLightMercenaries + NumMediumMercenaries + NumHeavyMercenaries; }
     }
 
-    public static int PlayerGold = 99999;
+    public static int PlayerGold = 10000;
     public static int DefaultPlayerGold;
 
     public static void StartNewTournament()
@@ -169,7 +169,7 @@ public static class TournamentVariables
     public static void BuyEquippableItem(EquippableItem item)
     {
         PlayerGold -= item.purchaseCost;
-        item.isPurchasedByPlayer = true;
+        item.BePurchasedByPlayer();
     }
 
     public static void BuyChosenWeapon()

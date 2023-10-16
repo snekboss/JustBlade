@@ -392,7 +392,51 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     void ManageButtons()
     {
-        // TODO: 
+        Weapon chosenWeapon = PrefabManager.Weapons[TournamentVariables.PlayerChosenWeaponIndex];
+        Armor chosenHeadArmor = PrefabManager.HeadArmors[TournamentVariables.PlayerChosenHeadArmorIndex];
+        Armor chosenTorsoArmor = PrefabManager.TorsoArmors[TournamentVariables.PlayerChosenTorsoArmorIndex];
+        Armor chosenHandArmor = PrefabManager.HandArmors[TournamentVariables.PlayerChosenHandArmorIndex];
+        Armor chosenLegArmor = PrefabManager.LegArmors[TournamentVariables.PlayerChosenLegArmorIndex];
+
+        bool allItemsArePurchased = chosenWeapon.IsPurchasedByPlayer()
+            && chosenHeadArmor.IsPurchasedByPlayer()
+            && chosenTorsoArmor.IsPurchasedByPlayer()
+            && chosenHandArmor.IsPurchasedByPlayer()
+            && chosenLegArmor.IsPurchasedByPlayer();
+
+        // --- Buttons to gray out ---
+        btnFight.interactable = allItemsArePurchased;
+
+        btnBuyWeapon.interactable = (TournamentVariables.PlayerGold >= chosenWeapon.purchaseCost);
+        btnBuyHeadArmor.interactable = (TournamentVariables.PlayerGold >= chosenHeadArmor.purchaseCost);
+        btnBuyTorsoArmor.interactable = (TournamentVariables.PlayerGold >= chosenTorsoArmor.purchaseCost);
+        btnBuyHandArmor.interactable = (TournamentVariables.PlayerGold >= chosenHandArmor.purchaseCost);
+        btnBuyLegArmor.interactable = (TournamentVariables.PlayerGold >= chosenLegArmor.purchaseCost);
+
+        bool canHireMoreMercs = (TournamentVariables.NumTotalMercenaries < TournamentVariables.MaxNumberOfMercenaries);
+
+        btnHireBasicMerc.interactable = canHireMoreMercs 
+            && (TournamentVariables.PlayerGold >= TournamentVariables.BasicMercenaryHireCost);
+        btnHireLightMerc.interactable = canHireMoreMercs 
+            && (TournamentVariables.PlayerGold >= TournamentVariables.LightMercenaryHireCost);
+        btnHireMediumMerc.interactable = canHireMoreMercs 
+            && (TournamentVariables.PlayerGold >= TournamentVariables.MediumMercenaryHireCost);
+        btnHireHeavyMerc.interactable = canHireMoreMercs 
+            && (TournamentVariables.PlayerGold >= TournamentVariables.HeavyMercenaryHireCost);
+
+        btnUpgradeBasicMerc.interactable = (TournamentVariables.NumBasicMercenaries > 0) 
+            && (TournamentVariables.PlayerGold >= TournamentVariables.BasicMercenaryUpgradeCost);
+        btnUpgradeLightMerc.interactable = (TournamentVariables.NumLightMercenaries > 0)
+            && (TournamentVariables.PlayerGold >= TournamentVariables.LightMercenaryUpgradeCost);
+        btnUpgradeMediumMerc.interactable = (TournamentVariables.NumMediumMercenaries > 0)
+            && (TournamentVariables.PlayerGold >= TournamentVariables.MediumMercenaryUpgradeCost);
+
+        // --- Buttons to hide (ie, disable) --- leleley
+        //btnBuyWeapon.gameObject.SetActive(!chosenWeapon.isPurchasedByPlayer);
+        //btnBuyHeadArmor.gameObject.SetActive(!chosenHeadArmor.isPurchasedByPlayer);
+        //btnBuyTorsoArmor.gameObject.SetActive(!chosenTorsoArmor.isPurchasedByPlayer);
+        //btnBuyHandArmor.gameObject.SetActive(!chosenHandArmor.isPurchasedByPlayer);
+        //btnBuyLegArmor.gameObject.SetActive(!chosenLegArmor.isPurchasedByPlayer);
     }
 
     /// <summary>
@@ -401,6 +445,7 @@ public class GearSelectionUI : MonoBehaviour
     void OnMannequinEquipmentChanged()
     {
         UpdateTexts();
+        ManageButtons();
 
         RespawnMannequinAgent();
     }

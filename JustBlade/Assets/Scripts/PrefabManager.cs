@@ -93,6 +93,10 @@ public static class PrefabManager
         {
             GameObject armorGO = objs[i] as GameObject;
             Armor armor = armorGO.GetComponent<Armor>();
+            if (armor.isStarterItem)
+            {
+                armor.BePurchasedByPlayer();
+            }
             ret.Add(armor);
         }
 
@@ -113,6 +117,10 @@ public static class PrefabManager
         {
             GameObject weaponGO = objs[i] as GameObject;
             Weapon weapon = weaponGO.GetComponent<Weapon>();
+            if (weapon.isStarterItem)
+            {
+                weapon.BePurchasedByPlayer();
+            }
             ret.Add(weapon);
         }
 

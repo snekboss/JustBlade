@@ -933,6 +933,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: None
+  purchaseCost: 0
+  isStarterItem: 1
   skinnedMeshRenderer: {fileID: 2166475228454449725}
   armorType: 2
   armorLevel: 0
