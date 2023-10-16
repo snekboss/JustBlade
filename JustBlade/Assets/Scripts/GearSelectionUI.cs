@@ -184,11 +184,11 @@ public class GearSelectionUI : MonoBehaviour
          */
         string NL = Environment.NewLine;
         string typeStr = chosenWeapon.weaponType == Weapon.WeaponType.TwoHanded ? "Two handed" : "Polearm";
-        int lengthInt = Convert.ToInt32(chosenWeapon.weaponLength * 100);
+        //int lengthInt = Convert.ToInt32(chosenWeapon.weaponLength * 100);
         txtWeaponInfoBody.text =
             "Name: " + chosenWeapon.shownName + NL
             + "Type: " + typeStr + NL
-            + "Length: " + lengthInt.ToString() + NL
+            //+ "Length: " + lengthInt.ToString() + NL
             + "Average swing damage: " + chosenWeapon.AverageSwingDamage.ToString() + NL
             + "Average stab damage: " + chosenWeapon.AverageStabDamage.ToString();
 
