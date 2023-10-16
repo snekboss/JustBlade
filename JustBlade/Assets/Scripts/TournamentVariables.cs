@@ -134,6 +134,30 @@ public static class TournamentVariables
     public static int TotalOpponentsBeatenByPlayer;
     public static bool PlayerWasBestedInThisMelee;
 
+    public static readonly int BasicMercenaryHireCost = 500;
+    public static readonly int LightMercenaryHireCost = 1000;
+    public static readonly int MediumMercenaryHireCost = 2000;
+    public static readonly int HeavyMercenaryHireCost = 3000;
+
+    public static readonly int BasicMercenaryUpgradeCost = 500;
+    public static readonly int LightMercenaryUpgradeCost = 1000;
+    public static readonly int MediumMercenaryUpgradeCost = 1000;
+
+    public static int NumBasicMercenaries;
+    public static int NumLightMercenaries;
+    public static int NumMediumMercenaries;
+    public static int NumHeavyMercenaries;
+
+    public static readonly int MaxNumberOfMercenaries = 10;
+
+    public static int NumTotalMercenaries
+    {
+        get { return NumBasicMercenaries + NumLightMercenaries + NumMediumMercenaries + NumHeavyMercenaries; }
+    }
+
+    public static int PlayerGold = 99999;
+    public static int DefaultPlayerGold;
+
     public static void StartNewTournament()
     {
         IsPlayerEliminated = false;

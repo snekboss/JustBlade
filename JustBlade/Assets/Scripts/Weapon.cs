@@ -12,7 +12,7 @@ using UnityEngine;
 /// If another data structure were used to save the damage information, it would have required some serializing in order to show them
 /// in the Inpsector menu (that is, if it worked as nicely as the current solution in the first place...).
 /// </summary>
-public class Weapon : MonoBehaviour
+public class Weapon : EquippableItem
 {
     /// <summary>
     /// This is a switch which is only used in the Inspector Menu of the Unity Editor.
@@ -40,8 +40,6 @@ public class Weapon : MonoBehaviour
         TwoHanded = 0,
         Polearm = 1,
     }
-
-    public string shownName; // The shown name in the game, such as menus etc.
 
     public GameObject weaponVisual; // the mesh of the weapon
     [Range(0.01f, 20.0f)]

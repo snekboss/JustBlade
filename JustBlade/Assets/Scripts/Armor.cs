@@ -5,7 +5,7 @@ using UnityEngine;
 /// The game object to which this is attached is required to have a <see cref="SkinnedMeshRenderer"/>,
 /// which also needs to be compatible with the skeleton rig of the character model which I made.
 /// </summary>
-public class Armor : MonoBehaviour
+public class Armor : EquippableItem
 {
     /// <summary>
     /// The type of armor.
@@ -32,7 +32,6 @@ public class Armor : MonoBehaviour
         Heavy,
     }
 
-    public string shownName; // The shown name in the game, such as menus etc.
     public SkinnedMeshRenderer skinnedMeshRenderer;
     public ArmorType armorType;
     public ArmorLevel armorLevel;
