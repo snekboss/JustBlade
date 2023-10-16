@@ -4,12 +4,12 @@ public class EquippableItem : MonoBehaviour
 {
     public string shownName; // The shown name in the game, such as menus etc.
     public int purchaseCost;
-    bool isPurchasedByPlayer;
+    bool isPurchasedByPlayer = false;
     public bool isStarterItem;
 
-    public void BePurchasedByPlayer()
+    public void SetPurchasedByPlayer(bool value)
     {
-        isPurchasedByPlayer = true;
+        isPurchasedByPlayer = value;
     }
 
     public bool IsPurchasedByPlayer() { return isPurchasedByPlayer; }

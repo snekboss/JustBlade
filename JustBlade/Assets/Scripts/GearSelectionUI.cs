@@ -431,12 +431,12 @@ public class GearSelectionUI : MonoBehaviour
         btnUpgradeMediumMerc.interactable = (TournamentVariables.NumMediumMercenaries > 0)
             && (TournamentVariables.PlayerGold >= TournamentVariables.MediumMercenaryUpgradeCost);
 
-        // --- Buttons to hide (ie, disable) --- leleley
-        //btnBuyWeapon.gameObject.SetActive(!chosenWeapon.isPurchasedByPlayer);
-        //btnBuyHeadArmor.gameObject.SetActive(!chosenHeadArmor.isPurchasedByPlayer);
-        //btnBuyTorsoArmor.gameObject.SetActive(!chosenTorsoArmor.isPurchasedByPlayer);
-        //btnBuyHandArmor.gameObject.SetActive(!chosenHandArmor.isPurchasedByPlayer);
-        //btnBuyLegArmor.gameObject.SetActive(!chosenLegArmor.isPurchasedByPlayer);
+        // --- Buttons to hide (ie, disable) ---
+        btnBuyWeapon.gameObject.SetActive(!chosenWeapon.IsPurchasedByPlayer());
+        btnBuyHeadArmor.gameObject.SetActive(!chosenHeadArmor.IsPurchasedByPlayer());
+        btnBuyTorsoArmor.gameObject.SetActive(!chosenTorsoArmor.IsPurchasedByPlayer());
+        btnBuyHandArmor.gameObject.SetActive(!chosenHandArmor.IsPurchasedByPlayer());
+        btnBuyLegArmor.gameObject.SetActive(!chosenLegArmor.IsPurchasedByPlayer());
     }
 
     /// <summary>

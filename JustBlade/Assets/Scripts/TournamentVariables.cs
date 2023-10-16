@@ -169,7 +169,7 @@ public static class TournamentVariables
     public static void BuyEquippableItem(EquippableItem item)
     {
         PlayerGold -= item.purchaseCost;
-        item.BePurchasedByPlayer();
+        item.SetPurchasedByPlayer(true);
     }
 
     public static void BuyChosenWeapon()
