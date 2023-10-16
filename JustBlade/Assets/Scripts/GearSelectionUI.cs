@@ -189,221 +189,83 @@ public class GearSelectionUI : MonoBehaviour
         SceneManager.LoadScene("ArenaScene");
     }
 
-    void MakeItemPurchase(EquippableItem item)
+    void ConfirmAndPurchase(TextMeshProUGUI textToConfirm, Action purchaseAction)
     {
-        TournamentVariables.PlayerGold -= item.purchaseCost;
-        item.isPurchasedByPlayer = true;
+        if (isInPurchaseConfirmationPhase == false)
+        {
+            isInPurchaseConfirmationPhase = true;
 
-        isInPurchaseConfirmationPhase = false;
+            textToConfirm.text = purchaseConfirmText;
+        }
+        else
+        {
+            purchaseAction();
 
-        UpdateTexts();
-        ManageButtons();
+            UpdateTexts();
+            ManageButtons();
+
+            isInPurchaseConfirmationPhase = false;
+        }
     }
 
     public void OnButtonClick_BuyWeapon()
     {
-        if (isInPurchaseConfirmationPhase == false)
-        {
-            isInPurchaseConfirmationPhase = true;
-
-            txtBtnBuyWeapon.text = purchaseConfirmText;
-        }
-        else
-        {
-            MakeItemPurchase(PrefabManager.Weapons[TournamentVariables.PlayerChosenWeaponIndex]);
-        }
+        ConfirmAndPurchase(txtBtnBuyWeapon, TournamentVariables.BuyChosenWeapon);
     }
 
     public void OnButtonClick_BuyHeadArmor()
     {
-        if (isInPurchaseConfirmationPhase == false)
-        {
-            isInPurchaseConfirmationPhase = true;
-
-            txtBtnBuyHeadArmor.text = purchaseConfirmText;
-        }
-        else
-        {
-            MakeItemPurchase(PrefabManager.HeadArmors[TournamentVariables.PlayerChosenHeadArmorIndex]);
-        }
+        ConfirmAndPurchase(txtBtnBuyHeadArmor, TournamentVariables.BuyChosenHeadArmor);
     }
 
     public void OnButtonClick_BuyTorsoArmor()
     {
-        if (isInPurchaseConfirmationPhase == false)
-        {
-            isInPurchaseConfirmationPhase = true;
-
-            txtBtnBuyTorsoArmor.text = purchaseConfirmText;
-        }
-        else
-        {
-            MakeItemPurchase(PrefabManager.TorsoArmors[TournamentVariables.PlayerChosenTorsoArmorIndex]);
-        }
+        ConfirmAndPurchase(txtBtnBuyTorsoArmor, TournamentVariables.BuyChosenTorsoArmor);
     }
 
     public void OnButtonClick_BuyHandArmor()
     {
-        if (isInPurchaseConfirmationPhase == false)
-        {
-            isInPurchaseConfirmationPhase = true;
-
-            txtBtnBuyHandArmor.text = purchaseConfirmText;
-        }
-        else
-        {
-            MakeItemPurchase(PrefabManager.HandArmors[TournamentVariables.PlayerChosenHandArmorIndex]);
-        }
+        ConfirmAndPurchase(txtBtnBuyHandArmor, TournamentVariables.BuyChosenHandArmor);
     }
 
     public void OnButtonClick_BuyLegArmor()
     {
-        if (isInPurchaseConfirmationPhase == false)
-        {
-            isInPurchaseConfirmationPhase = true;
-
-            txtBtnBuyLegArmor.text = purchaseConfirmText;
-        }
-        else
-        {
-            MakeItemPurchase(PrefabManager.LegArmors[TournamentVariables.PlayerChosenLegArmorIndex]);
-        }
+        ConfirmAndPurchase(txtBtnBuyLegArmor, TournamentVariables.BuyChosenLegArmor);
     }
 
     public void OnButtonClick_HireBasicMercenary()
     {
-        if (isInPurchaseConfirmationPhase == false)
-        {
-            isInPurchaseConfirmationPhase = true;
-
-            txtBtnHireBasicMerc.text = purchaseConfirmText;
-        }
-        else
-        {
-            TournamentVariables.PlayerGold -= TournamentVariables.BasicMercenaryHireCost;
-            TournamentVariables.NumBasicMercenaries++;
-            UpdateTexts();
-            ManageButtons();
-
-            isInPurchaseConfirmationPhase = false;
-        }
+        ConfirmAndPurchase(txtBtnHireBasicMerc, TournamentVariables.HireBasicMercenary);
     }
 
     public void OnButtonClick_HireLightMercenary()
     {
-        if (isInPurchaseConfirmationPhase == false)
-        {
-            isInPurchaseConfirmationPhase = true;
-
-            txtBtnHireLightMerc.text = purchaseConfirmText;
-        }
-        else
-        {
-            TournamentVariables.PlayerGold -= TournamentVariables.LightMercenaryHireCost;
-            TournamentVariables.NumLightMercenaries++;
-            UpdateTexts();
-            ManageButtons();
-
-            isInPurchaseConfirmationPhase = false;
-        }
+        ConfirmAndPurchase(txtBtnHireLightMerc, TournamentVariables.HireLightMercenary);
     }
 
     public void OnButtonClick_HireMediumMercenary()
     {
-        if (isInPurchaseConfirmationPhase == false)
-        {
-            isInPurchaseConfirmationPhase = true;
-
-            txtBtnHireMediumMerc.text = purchaseConfirmText;
-        }
-        else
-        {
-            TournamentVariables.PlayerGold -= TournamentVariables.MediumMercenaryHireCost;
-            TournamentVariables.NumMediumMercenaries++;
-            UpdateTexts();
-            ManageButtons();
-
-            isInPurchaseConfirmationPhase = false;
-        }
+        ConfirmAndPurchase(txtBtnHireMediumMerc, TournamentVariables.HireMediumMercenary);
     }
 
     public void OnButtonClick_HireHeavyMercenary()
     {
-        if (isInPurchaseConfirmationPhase == false)
-        {
-            isInPurchaseConfirmationPhase = true;
-
-            txtBtnHireHeavyMerc.text = purchaseConfirmText;
-        }
-        else
-        {
-            TournamentVariables.PlayerGold -= TournamentVariables.HeavyMercenaryHireCost;
-            TournamentVariables.NumHeavyMercenaries++;
-            UpdateTexts();
-            ManageButtons();
-
-            isInPurchaseConfirmationPhase = false;
-        }
+        ConfirmAndPurchase(txtBtnHireHeavyMerc, TournamentVariables.HireHeavyMercenary);
     }
 
     public void OnButtonClick_UpgradeBasicMercenary()
     {
-        if (isInPurchaseConfirmationPhase == false)
-        {
-            isInPurchaseConfirmationPhase = true;
-
-            txtBtnUpgradeBasicMerc.text = purchaseConfirmText;
-        }
-        else
-        {
-            TournamentVariables.PlayerGold -= TournamentVariables.BasicMercenaryUpgradeCost;
-            TournamentVariables.NumBasicMercenaries--;
-            TournamentVariables.NumLightMercenaries++;
-            UpdateTexts();
-            ManageButtons();
-
-            isInPurchaseConfirmationPhase = false;
-        }
+        ConfirmAndPurchase(txtBtnUpgradeBasicMerc, TournamentVariables.UpgradeBasicMercenary);
     }
 
     public void OnButtonClick_UpgradeLightMercenary()
     {
-        if (isInPurchaseConfirmationPhase == false)
-        {
-            isInPurchaseConfirmationPhase = true;
-
-            txtBtnUpgradeLightMerc.text = purchaseConfirmText;
-        }
-        else
-        {
-            TournamentVariables.PlayerGold -= TournamentVariables.LightMercenaryUpgradeCost;
-            TournamentVariables.NumLightMercenaries--;
-            TournamentVariables.NumMediumMercenaries++;
-            UpdateTexts();
-            ManageButtons();
-
-            isInPurchaseConfirmationPhase = false;
-        }
+        ConfirmAndPurchase(txtBtnUpgradeLightMerc, TournamentVariables.UpgradeLightMercenary);
     }
 
     public void OnButtonClick_UpgradeMediumMercenary()
     {
-        if (isInPurchaseConfirmationPhase == false)
-        {
-            isInPurchaseConfirmationPhase = true;
-
-            txtBtnUpgradeMediumMerc.text = purchaseConfirmText;
-        }
-        else
-        {
-            TournamentVariables.PlayerGold -= TournamentVariables.MediumMercenaryUpgradeCost;
-            TournamentVariables.NumMediumMercenaries--;
-            TournamentVariables.NumHeavyMercenaries++;
-            UpdateTexts();
-            ManageButtons();
-
-            isInPurchaseConfirmationPhase = false;
-        }
+        ConfirmAndPurchase(txtBtnUpgradeMediumMerc, TournamentVariables.UpgradeMediumMercenary);
     }
 
     /// <summary>

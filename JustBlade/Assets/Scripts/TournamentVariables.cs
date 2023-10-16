@@ -165,4 +165,76 @@ public static class TournamentVariables
         TotalOpponentsBeatenByPlayer = 0;
         CurrentRoundNumber = 1;
     }
+
+    public static void BuyEquippableItem(EquippableItem item)
+    {
+        PlayerGold -= item.purchaseCost;
+        item.isPurchasedByPlayer = true;
+    }
+
+    public static void BuyChosenWeapon()
+    {
+        BuyEquippableItem(PrefabManager.Weapons[PlayerChosenWeaponIndex]);
+    }
+
+    public static void BuyChosenHeadArmor()
+    {
+        BuyEquippableItem(PrefabManager.HeadArmors[PlayerChosenHeadArmorIndex]);
+    }
+
+    public static void BuyChosenTorsoArmor()
+    {
+        BuyEquippableItem(PrefabManager.TorsoArmors[PlayerChosenTorsoArmorIndex]);
+    }
+
+    public static void BuyChosenHandArmor()
+    {
+        BuyEquippableItem(PrefabManager.HandArmors[PlayerChosenHandArmorIndex]);
+    }
+    public static void BuyChosenLegArmor()
+    {
+        BuyEquippableItem(PrefabManager.LegArmors[playerChosenLegArmorIndex]);
+    }
+
+    public static void HireBasicMercenary() 
+    {
+        PlayerGold -= BasicMercenaryHireCost;
+        NumBasicMercenaries++;
+    }
+    public static void HireLightMercenary() 
+    {
+        PlayerGold -= LightMercenaryHireCost;
+        NumLightMercenaries++;
+    }
+    public static void HireMediumMercenary()
+    {
+        PlayerGold -= MediumMercenaryHireCost;
+        NumMediumMercenaries++;
+    }
+
+    public static void HireHeavyMercenary()
+    {
+        PlayerGold -= HeavyMercenaryHireCost;
+        NumHeavyMercenaries++;
+    }
+
+    public static void UpgradeBasicMercenary() 
+    {
+        PlayerGold -= BasicMercenaryUpgradeCost;
+        NumBasicMercenaries--;
+        NumLightMercenaries++;
+    }
+    public static void UpgradeLightMercenary() 
+    {
+        PlayerGold -= LightMercenaryUpgradeCost;
+        NumLightMercenaries--;
+        NumMediumMercenaries++;
+    }
+    public static void UpgradeMediumMercenary()
+    {
+        PlayerGold -= MediumMercenaryUpgradeCost;
+        NumMediumMercenaries--;
+        NumHeavyMercenaries++;
+    }
+
 }
