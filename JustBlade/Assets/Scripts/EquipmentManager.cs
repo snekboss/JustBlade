@@ -139,9 +139,7 @@ public class EquipmentManager : MonoBehaviour
         SpawnHandArmor(handArmorPrefab);
         SpawnLegArmor(legArmorPrefab);
 
-        CalculateMovementSpeedMultiplierFromArmor();
-
-        ownerAgent.OnGearInitialized();
+        ownerAgent.ReinitializeParameters();
 
         SetSkinnedMeshVisibility();
     }

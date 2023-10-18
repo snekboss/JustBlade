@@ -112,22 +112,12 @@ public class AiAgent : Agent
     {
         base.ReinitializeParameters();
 
-        lastNonZeroSpeedDecreaseLerpRate = DefaultMovementSpeedLimit / MovementSpeedLimit;
-        lastNonZeroSpeedDecreaseLerpRate *= lastNonZeroSpeedDecreaseLerpRate;
-        lastNonZeroSpeedDecreaseLerpRate = Mathf.Clamp01(lastNonZeroSpeedDecreaseLerpRate);
+        // --- Combat distance related parameters ---
+        // Must check if weapon is null in case EquipmentManager hasn't received its equipment yet.
+        float weaponLength = (EqMgr.equippedWeapon == null) ? 0f : EqMgr.equippedWeapon.weaponLength;
 
-        InitializeNavMeshAgent();
-    }
-
-    /// <summary>
-    /// An override of <see cref="Agent.OnGearInitialized"/>.
-    /// It is used to initialize some values regarding the distance from enemy.
-    /// Meaning, values regarding things like "how close should I be to the enemy?" are initialized here.
-    /// </summary>
-    public override void OnGearInitialized()
-    {
-        TooFarBorder = AgentRadius + EqMgr.equippedWeapon.weaponLength * TooFarMultiplier;
-        TooCloseBorder = AgentRadius + EqMgr.equippedWeapon.weaponLength * TooCloseMultiplier;
+        TooFarBorder = AgentRadius + weaponLength * TooFarMultiplier;
+        TooCloseBorder = AgentRadius + weaponLength * TooCloseMultiplier;
 
         if (TooFarBorder < TooFarBorderLowerBound)
         {
@@ -139,7 +129,14 @@ public class AiAgent : Agent
         //    TooCloseBorder = TooCloseBorderLowerBound;
         //}
 
-        AttackDistanceBorder = AgentRadius + EqMgr.equippedWeapon.weaponLength * AttackDistanceMultiplier;
+        AttackDistanceBorder = AgentRadius + weaponLength * AttackDistanceMultiplier;
+
+        // --- NavMesh movement related parameters ---
+        lastNonZeroSpeedDecreaseLerpRate = DefaultMovementSpeedLimit / MovementSpeedLimit;
+        lastNonZeroSpeedDecreaseLerpRate *= lastNonZeroSpeedDecreaseLerpRate;
+        lastNonZeroSpeedDecreaseLerpRate = Mathf.Clamp01(lastNonZeroSpeedDecreaseLerpRate);
+
+        InitializeNavMeshAgent();
     }
 
     /// <summary>

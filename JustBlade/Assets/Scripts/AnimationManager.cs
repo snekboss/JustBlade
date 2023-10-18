@@ -75,7 +75,7 @@ public class AnimationManager : MonoBehaviour
 
     #region Animator state and transition info related fields
     AnimatorStateInfo attackAndBlockLayerStateInfo;
-    AnimatorTransitionInfo attackAndBlockLayerTransitionInfo; 
+    AnimatorTransitionInfo attackAndBlockLayerTransitionInfo;
     #endregion
 
     #region Layer and layer weight related fields
@@ -359,7 +359,10 @@ public class AnimationManager : MonoBehaviour
         Animat.SetLayerWeight(LayerIdAttackAndBlock, attackAndBlockLayerWeight);
         Animat.SetLayerWeight(LayerIdIdle, idleLayerWeight);
 
-        ownerAgent.EqMgr.equippedWeapon.SetCollisionAbility(false);
+        if (ownerAgent.EqMgr.equippedWeapon != null)
+        {
+            ownerAgent.EqMgr.equippedWeapon.SetCollisionAbility(false);
+        }
     }
 
     /// <summary>
@@ -382,7 +385,7 @@ public class AnimationManager : MonoBehaviour
 
         // Not normalizing the localMoveDir vector anymore, because otherwise it causes slowdown in moveX moveY values
         // during diagonal movement for agents whose movement speed multiplier is 1.0f.
-        Vector2 moveXY = localMoveDir; 
+        Vector2 moveXY = localMoveDir;
         float moveXYmulti = speedRatio;
 
         moveX = Mathf.Clamp(moveXY.x * moveXYmulti, -1.0f, 1.0f);
@@ -589,7 +592,10 @@ public class AnimationManager : MonoBehaviour
     /// </summary>
     void DecideIfWeaponHitboxShouldBeActive()
     {
-        ownerAgent.EqMgr.equippedWeapon.SetCollisionAbility(IsAttacking);
+        if (ownerAgent.EqMgr.equippedWeapon != null)
+        {
+            ownerAgent.EqMgr.equippedWeapon.SetCollisionAbility(IsAttacking);
+        }
     }
 
     /// <summary>

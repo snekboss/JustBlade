@@ -251,10 +251,6 @@ public abstract class Agent : MonoBehaviour
     /// <param name="amount">The amount by which the health was damaged.</param>
     protected virtual void OnDamaged(Agent attacker, int amount) { }
 
-    /// <summary>
-    /// Callback method for when <see cref="EquipmentManager"/> initializes all of the equipment (aka: gear), of this agent.
-    /// </summary>
-    public virtual void OnGearInitialized() { }
 
     /// <summary>
     /// Callback method for when any agent dies.
