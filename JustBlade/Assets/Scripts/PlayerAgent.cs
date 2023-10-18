@@ -40,9 +40,9 @@ public class PlayerAgent : Agent
 
     CharacterController charCont;
     const float AgentSkinWidthMultiplier = 0.1f;
-    const float AgentSkinWidth = AgentRadius * AgentSkinWidthMultiplier;
     const float GroundedDistanceMultiplier = 2.0f;
-    const float GroundedDistance = AgentSkinWidth * GroundedDistanceMultiplier;
+    float AgentSkinWidth { get { return AgentRadius * AgentSkinWidthMultiplier; } }
+    float GroundedDistance { get { return AgentSkinWidth * GroundedDistanceMultiplier; } }
 
     /// <summary>
     /// Make the player agent a NavMeshAgent, to make sure that AiAgents don't go through the player agent.
@@ -94,7 +94,7 @@ public class PlayerAgent : Agent
     float isDefTimer;
     float isDefTimerThreshold = 0.5f;
     CombatDirection lastCombatDir;
-    CombatDirection combatDir; 
+    CombatDirection combatDir;
     #endregion
 
     public override void RequestEquipmentSet(out Weapon weaponPrefab
@@ -241,7 +241,7 @@ public class PlayerAgent : Agent
         cameraYaw += StaticVariables.PlayerCameraRotationSpeed * mouseX;
 
         // Subtracting, because negative angle about X axis means "up".
-        LookAngleX -= StaticVariables.PlayerCameraRotationSpeed * mouseY; 
+        LookAngleX -= StaticVariables.PlayerCameraRotationSpeed * mouseY;
 
         LookAngleX = Mathf.Clamp(LookAngleX, -CameraPitchThreshold, CameraPitchThreshold);
 
@@ -471,13 +471,13 @@ public class PlayerAgent : Agent
             if (btnShiftHeld == false)
             {
                 StaticVariables.ThirdPersonCameraOffsetZcur -= Input.mouseScrollDelta.y * ThirdPersonCameraOffsetZchangeSpeed;
-                StaticVariables.ThirdPersonCameraOffsetZcur 
+                StaticVariables.ThirdPersonCameraOffsetZcur
                     = Mathf.Clamp(StaticVariables.ThirdPersonCameraOffsetZcur, ThirdPersonCameraOffsetZmin, ThirdPersonCameraOffsetZmax);
             }
             else
             {
                 StaticVariables.ThirdPersonCameraOffsetYcur += Input.mouseScrollDelta.y * ThirdPersonCameraOffsetYchangeSpeed;
-                StaticVariables.ThirdPersonCameraOffsetYcur 
+                StaticVariables.ThirdPersonCameraOffsetYcur
                     = Mathf.Clamp(StaticVariables.ThirdPersonCameraOffsetYcur, ThirdPersonCameraOffsetYmin, ThirdPersonCameraOffsetYmax);
             }
 
@@ -485,7 +485,7 @@ public class PlayerAgent : Agent
             Vector3 offsetY = Vector3.up * StaticVariables.ThirdPersonCameraOffsetYcur;
             offset = offsetZ + offsetY;
         }
-        
+
         Vector3 destination = chosenCameraTrackingPoint.position + offset;
 
         Camera.main.transform.position = destination;

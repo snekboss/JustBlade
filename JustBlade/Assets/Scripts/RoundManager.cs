@@ -51,11 +51,17 @@ public class RoundManager : MonoBehaviour
     /// </summary>
     void SpawnPlayerTeamAgents()
     {
+        // TODO !!!
+
+        Debug.LogWarning("TODO");
+        return;
+
+
         playerTeamAgents = new List<Agent>();
 
         Vector3 spawnPos = playerTeamSpawnPoint.position;
         Vector3 dir = playerTeamSpawnDirection == SpawnDirection.Right ? Vector3.right : Vector3.left;
-        Vector3 nextAgentSpawnOffset = dir * (2 * Agent.AgentRadius + distanceBetweenAgents);
+
 
         int numMaxAgents = TournamentVariables.MaxNumAgentsInEachTeam;
         int playerSpawnIndex = Random.Range(0, numMaxAgents);
@@ -74,6 +80,8 @@ public class RoundManager : MonoBehaviour
                 a = ai;
             }
 
+            Vector3 nextAgentSpawnOffset = dir * (2 * a.AgentRadius + distanceBetweenAgents);
+
             a.isFriendOfPlayer = true;
             a.OnDeath += OnAgentDeath;
             OnAnyAgentDeath += a.OnOtherAgentDeath;
@@ -89,27 +97,58 @@ public class RoundManager : MonoBehaviour
     /// <summary>
     /// Spawns the enemy team of <see cref="AiAgent"/>s.
     /// </summary>
-    void SpawnEnemyTeamAgents()
+    void SpawnCurrentWave()
     {
+        WaveSet waveSet = waveSets[iCurWaveSet];
+        Wave curWave = waveSet.waves[iCurWave];
+        List<InvaderData> invaderDataList = curWave.invaderDataList;
+
         enemyTeamAgents = new List<Agent>();
 
         Vector3 spawnPos = enemyTeamSpawnPoint.position;
-        Vector3 dir = enemyTeamSpawnDirection == SpawnDirection.Right ? Vector3.right : Vector3.left;
-        Vector3 nextAgentSpawnOffset = dir * (2 * Agent.AgentRadius + distanceBetweenAgents);
+        Vector3 dir = (enemyTeamSpawnDirection == SpawnDirection.Right) ? Vector3.right : Vector3.left;
 
-        for (int i = 0; i < TournamentVariables.MaxNumAgentsInEachTeam; i++)
+        for (int i = 0; i < invaderDataList.Count; i++)
+        {
+            InvaderData invaderData = invaderDataList[i];
+            SpawnInvadersFromData(invaderData, ref spawnPos, dir);
+        }
+    }
+
+    void SpawnInvadersFromData(InvaderData invaderData, ref Vector3 spawnPos, Vector3 dir)
+    {
+        for (int i = 0; i < invaderData.invaderCount; i++)
         {
             AiAgent a = Instantiate(aiAgentPrefab);
+            Vector3 nextAgentSpawnOffset = dir * (2 * a.AgentRadius + distanceBetweenAgents);
+
             a.OnSearchForEnemyAgent += OnAiAgentSearchForEnemy;
             a.isFriendOfPlayer = false;
             a.OnDeath += OnAgentDeath;
             OnAnyAgentDeath += a.OnOtherAgentDeath;
+
+            a.ArmorSetRequest += invaderData.invaderArmorSetPrefab.ProvideRequestedArmorSet;
+            a.WeaponRequest += invaderData.invaderWeaponSetPrefab.ProvideRequestedWeapon;
+
+            SetAgentCharacteristicFromData(a, invaderData.invaderCharacteristicSetPrefab);
+
+            HordeRewardData hrd = a.gameObject.AddComponent<HordeRewardData>();
+            hrd.CopyDataFromPrefab(invaderData.invaderRewardDataPrefab);
 
             a.transform.position = spawnPos;
             enemyTeamAgents.Add(a);
 
             spawnPos = spawnPos + nextAgentSpawnOffset;
         }
+    }
+
+    void SetAgentCharacteristicFromData(Agent agent, HordeCharacteristicSet charSetPrefab)
+    {
+        agent.Health = charSetPrefab.MaximumHealth;
+        agent.AgentScale = charSetPrefab.ModelSizeMultiplier;
+        agent.ExtraMovementSpeedLimitMultiplier = charSetPrefab.ExtraMovementSpeedLimitMultiplier;
+        agent.ExtraDamageMultiplier = charSetPrefab.ExtraDamageMultiplier;
+        agent.ExtraDamageResistanceMultiplier = charSetPrefab.ExtraDamageResistanceMultiplier;
     }
 
     /// <summary>
@@ -224,12 +263,13 @@ public class RoundManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Spawns agents in all teams by calling <see cref="SpawnPlayerTeamAgents"/> and <see cref="SpawnEnemyTeamAgents"/>.
+    /// Spawns agents in all teams by calling <see cref="SpawnPlayerTeamAgents"/> and <see cref="SpawnCurrentWave"/>.
     /// </summary>
     void SpawnAgents()
     {
         SpawnPlayerTeamAgents();
-        SpawnEnemyTeamAgents();
+
+        SpawnCurrentWave();
     }
 
     /// <summary>
@@ -241,5 +281,32 @@ public class RoundManager : MonoBehaviour
         TournamentVariables.PlayerWasBestedInThisMelee = false;
 
         SpawnAgents();
+    }
+
+    static int iCurWaveSet = 0;
+    int iCurWave;
+
+    public List<WaveSet> waveSets;
+
+    [System.Serializable]
+    public class WaveSet
+    {
+        public List<Wave> waves;
+    }
+
+    [System.Serializable]
+    public class Wave
+    {
+        public List<InvaderData> invaderDataList;
+    }
+
+    [System.Serializable]
+    public class InvaderData
+    {
+        public HordeCharacteristicSet invaderCharacteristicSetPrefab;
+        public HordeArmorSet invaderArmorSetPrefab;
+        public HordeWeaponSet invaderWeaponSetPrefab;
+        public HordeRewardData invaderRewardDataPrefab;
+        public int invaderCount;
     }
 }

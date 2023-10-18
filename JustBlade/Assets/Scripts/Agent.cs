@@ -23,18 +23,129 @@ public abstract class Agent : MonoBehaviour
         Left
     }
 
-    public const int MaximumHealth = 100;
+    public const int DefaultMaximumHealth = 100;
     public const float AgentDespawnTime = 5;
     public const float DefaultMovementSpeedLimit = 2.5f;
-    public const float AgentHeight = 1.85f;
-    public const float AgentRadius = 0.25f;
-    public const float AgentMass = 70.0f;
+    public const float DefaultAgentHeight = 1.85f;
+    public const float DefaultAgentRadius = 0.25f;
+    public const float DefaultAgentMass = 70.0f;
+    public const float DefaultAgentScale = 1f;
+    public const float DefaultExtraMovementSpeedLimitMultiplier = 1f;
+    public const float DefaultExtraDamageMultiplier = 1f;
+    public const float DefaultExtraDamageResistanceMultiplier = 1f;
+    public const int DefaultMaximumPoise = 0;
 
-    public int Health { get; protected set; } = MaximumHealth;
+
+    public float AgentHeight { get { return DefaultAgentHeight * AgentScale; } }
+    public float AgentRadius { get { return DefaultAgentRadius * AgentScale; } }
+    public float AgentMass   { get { return DefaultAgentMass * AgentScale; } }
+
+    /// <summary>
+    /// Scales the model size of the agent.
+    /// Note roviding a new value to this property causes the agent to invoke <see cref="ReinitializeParameters"/>.
+    /// </summary>
+    public float AgentScale
+    { 
+        get { return agentScale; } 
+        set
+        {
+            agentScale = value;
+
+            transform.localScale = Vector3.one * agentScale;
+
+            ReinitializeParameters();
+        }
+    }
+    float agentScale = DefaultAgentScale;
+
+    /// <summary>
+    /// Sets the health value of the given agent.
+    /// Note that this property ignores <see cref="Agent.DefaultMaximumHealth"/>,
+    /// and sets the current health to the provided value.
+    /// Maximum health information is not stored in Agents, because they do not recover health.
+    /// </summary>
+    public int Health 
+    {
+        get { return health; }
+        set 
+        {
+            health = value;
+        }
+    }
+    int health = DefaultMaximumHealth;
+
     public bool IsDead { get; protected set; } = false;
 
+    /// <summary>
+    /// Movement speed limit multiplier of this agent after all calculations have been taken into account.
+    /// </summary>
+    public float MovementSpeedLimit
+    { 
+        get { return DefaultMovementSpeedLimit 
+                * EqMgr.MovementSpeedMultiplierFromArmor 
+                * ExtraMovementSpeedLimitMultiplier; }
+    }
     protected float currentMovementSpeed;
-    public float MovementSpeedLimit { get; protected set; }
+
+    /// <summary>
+    /// Sets the extra movement speed limit multiplier for this agent.
+    /// Note 1: Use <see cref="MovementSpeedLimit"/> to get the final movement speed limit.
+    /// Note 2: Providing a new value to this property causes the agent to invoke <see cref="ReinitializeParameters"/>.
+    /// </summary>
+    public float ExtraMovementSpeedLimitMultiplier 
+    { 
+        get { return extraMovementSpeedLimitMultiplier; }
+        set
+        {
+            extraMovementSpeedLimitMultiplier = value;
+
+            ReinitializeParameters();
+        }
+    }
+    float extraMovementSpeedLimitMultiplier = DefaultExtraMovementSpeedLimitMultiplier;
+
+    public float ExtraDamageMultiplier { get; set; } = DefaultExtraDamageMultiplier;
+    public float ExtraDamageResistanceMultiplier { get; set; } = DefaultExtraDamageResistanceMultiplier;
+
+    /// <summary>
+    /// Maximum amount of poise of the agent.
+    /// Each point of poise determines if a single enemy attack can be withstood without flinching.
+    /// </summary>
+    public int MaximumPoise 
+    { 
+        get { return maximumPoise; }
+        set
+        {
+            maximumPoise = value;
+            currentPoise = maximumPoise;
+        }
+    }
+    int maximumPoise = DefaultMaximumPoise;
+    int currentPoise = DefaultMaximumPoise;
+
+    /// <summary>
+    /// Determines if the agent is capable of withstanding a single incoming attack without flinching.
+    /// </summary>
+    /// <returns>True if the agent can withstand an attack without flinching; false otherwise.</returns>
+    public bool CanPoiseThroughAttack()
+    {
+        return currentPoise > 0;
+    }
+
+    /// <summary>
+    /// Reduces poise by one point.
+    /// Also resets poise back to <see cref="MaximumPoise"/> if all poise is depleted.
+    /// </summary>
+    public void DecrementPoise()
+    {
+        currentPoise--;
+        if (currentPoise < 0)
+        {
+            currentPoise = MaximumPoise;
+        }
+    }
+
+
     public bool IsPlayerAgent { get; protected set; }
     public bool isFriendOfPlayer;
 
@@ -52,6 +163,15 @@ public abstract class Agent : MonoBehaviour
     /// The event of this agent's death.
     /// </summary>
     public event AgentDeathEvent OnDeath;
+
+    public delegate void ArmorSetRequestEvent(out Armor headArmorPrefab
+        , out Armor torsoArmorPrefab
+        , out Armor handArmorPrefab
+        , out Armor legArmorPrefab);
+    public event ArmorSetRequestEvent ArmorSetRequest;
+
+    public delegate void WeaponRequestEvent(out Weapon weaponPrefab);
+    public event WeaponRequestEvent WeaponRequest;
 
     public EquipmentManager EqMgr
     {
@@ -144,14 +264,14 @@ public abstract class Agent : MonoBehaviour
     public virtual void OnOtherAgentDeath(Agent victim, Agent killer) { }
 
     /// <summary>
-    /// A method for the <see cref="EquipmentManager"/> to initialize the movement speed of this agent.
-    /// It must be done via the <see cref="EquipmentManager"/>
-    /// because there's no way to know whether or not the equipment was initialized beforehand.
+    /// A method to reinitialize parameters, if needed.
+    /// Due Unity's de-centralized scripting system, there is no way to know which script will be invoked when.
+    /// This method is used to recalculate <see cref="EquipmentManager.MovementSpeedMultiplierFromArmor"/>,
+    /// and it can be further overloaded by <see cref="Agent"/>'s descendants to recalculate other parameters.
     /// </summary>
-    /// <param name="movementSpeedLimit">The maximum achievable movement speed of this agent.</param>
-    public virtual void InitializeMovementSpeedLimit(float movementSpeedLimit)
+    public virtual void ReinitializeParameters()
     {
-        MovementSpeedLimit = movementSpeedLimit;
+        EqMgr.CalculateMovementSpeedMultiplierFromArmor();
     }
 
     /// <summary>

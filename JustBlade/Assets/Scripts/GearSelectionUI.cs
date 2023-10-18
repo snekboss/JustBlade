@@ -359,7 +359,7 @@ public class GearSelectionUI : MonoBehaviour
             "Basic mercenaries: " + TournamentVariables.NumBasicMercenaries.ToString() + NL
             + "Light mercenaries: " + TournamentVariables.NumLightMercenaries.ToString() + NL
             + "Medium mercenaries: " + TournamentVariables.NumMediumMercenaries.ToString() + NL
-            + "Medium mercenaries: " + TournamentVariables.NumHeavyMercenaries.ToString() + NL
+            + "Heavy mercenaries: " + TournamentVariables.NumHeavyMercenaries.ToString() + NL
             + "Total party size: " + TournamentVariables.NumTotalMercenaries.ToString() 
             + "/" + TournamentVariables.MaxNumberOfMercenaries.ToString();
 

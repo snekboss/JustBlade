@@ -14,7 +14,8 @@ public class EquipmentManager : MonoBehaviour
     const float DefaultTorsoArmorMovementSpeedPenalty = 0.04f;
     const float FinalMovementSpeedPenaltyMultiplier = 3.0f;
 
-    const float DefaultMovementSpeedMultiplier = 1.6f;
+    const float DefaultMovementSpeedMultiplierFromArmor = 1.6f;
+    public float MovementSpeedMultiplierFromArmor { get; protected set; }
 
     public Agent ownerAgent { get; private set; }
     public AnimationManager animMgr { get; set; }
@@ -132,12 +133,14 @@ public class EquipmentManager : MonoBehaviour
             , out legArmorPrefab);
 
         SpawnWeapon(weaponPrefab);
+
         SpawnHeadArmor(headArmorPrefab);
         SpawnTorsoArmor(torsoArmorPrefab);
         SpawnHandArmor(handArmorPrefab);
         SpawnLegArmor(legArmorPrefab);
 
-        UpdateMovementSpeedMultiplier();
+        CalculateMovementSpeedMultiplierFromArmor();
+
         ownerAgent.OnGearInitialized();
 
         SetSkinnedMeshVisibility();
@@ -145,6 +148,7 @@ public class EquipmentManager : MonoBehaviour
 
     /// <summary>
     /// Spawns the equipped weapon based on the given weapon prefab.
+    /// Method's argument cannot be null, or it will cause an error.
     /// </summary>
     /// <param name="weaponPrefab">The weapon prefab.</param>
     void SpawnWeapon(Weapon weaponPrefab)
@@ -349,23 +353,26 @@ public class EquipmentManager : MonoBehaviour
 
         float finalPenalty = sumPenalty * FinalMovementSpeedPenaltyMultiplier;
 
-        float movementSpeedMultiplier = DefaultMovementSpeedMultiplier - finalPenalty;
+        float movementSpeedMultiplier = DefaultMovementSpeedMultiplierFromArmor - finalPenalty;
         return movementSpeedMultiplier;
     }
 
+
     /// <summary>
-    /// Updates the movement speed of the owner agent based on the equipped armor.
-    /// This is done by first calculating the movement speed multiplier, and then calculating the new movement speed limit of the agent.
+    /// Same as <see cref="CalculateMovementSpeedMultiplier(Armor.ArmorLevel, Armor.ArmorLevel, Armor.ArmorLevel, Armor.ArmorLevel)"/>,
+    /// but it does so on the current agent instance, based on its currently equipped armor.
+    /// The calculation returns the same value as <see cref="DefaultMovementSpeedMultiplierFromArmor"/> if the agent isn't wearing anything,
+    /// even though the calculation is still performed.
+    /// It is sometimes necessary to force an agent to recalculate its movement speed multiplier from armor.
+    /// This is because the the agent's equipment might not have been initialized at the time.
     /// </summary>
-    void UpdateMovementSpeedMultiplier()
+    public void CalculateMovementSpeedMultiplierFromArmor()
     {
-        float movementSpeedMultiplier = CalculateMovementSpeedMultiplier(HeadArmorLevel, TorsoArmorLevel, HandArmorLevel, LegArmorLevel);
-        float newSpeedLimit = Agent.DefaultMovementSpeedLimit * movementSpeedMultiplier;
-
-        //DEBUG_movSpeedMulti = movementSpeedMultiplier;
-        //DEBUG_newSpeedLimit = newSpeedLimit;
-
-        ownerAgent.InitializeMovementSpeedLimit(newSpeedLimit);
+        MovementSpeedMultiplierFromArmor = 
+            CalculateMovementSpeedMultiplier(HeadArmorLevel
+            , TorsoArmorLevel
+            , HandArmorLevel
+            , LegArmorLevel);
     }
 
     /// <summary>

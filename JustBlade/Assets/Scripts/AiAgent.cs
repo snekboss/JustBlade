@@ -101,14 +101,16 @@ public class AiAgent : Agent
     public virtual event AiAgentSearchForEnemyEvent OnSearchForEnemyAgent;
 
     /// <summary>
-    /// An override of <see cref="Agent.InitializeMovementSpeedLimit(float)"/>.
+    /// An override of <see cref="Agent.ReinitializeParameters()"/>.
+    /// Reinitializes movement speed related variables for AiAgent,
     /// It also initializes some values which are used for smoothing out the animation of the agent,
     /// which are caused by the sudden stopping of Unity's NavMeshAgent.
+    /// Sometimes it is necessary to reinitialize values. This is due to Unity's de-centralized scripting system.
+    /// There is no way to know which script will get invoked unless the programmer writes up a centralized system.
     /// </summary>
-    /// <param name="movementSpeedLimit">The maximum achievable movement speed of this agent.</param>
-    public override void InitializeMovementSpeedLimit(float movementSpeedLimit)
+    public override void ReinitializeParameters()
     {
-        base.InitializeMovementSpeedLimit(movementSpeedLimit);
+        base.ReinitializeParameters();
 
         lastNonZeroSpeedDecreaseLerpRate = DefaultMovementSpeedLimit / MovementSpeedLimit;
         lastNonZeroSpeedDecreaseLerpRate *= lastNonZeroSpeedDecreaseLerpRate;
@@ -168,8 +170,12 @@ public class AiAgent : Agent
     /// It's also used to initialize the rigidbody attached to this agent.
     /// The rigidbody was attached so that the AiAgents don't walk through one another.
     /// </summary>
-    void InitializeNavMeshAgent()
+    public void InitializeNavMeshAgent()
     {
+        lastNonZeroSpeedDecreaseLerpRate = DefaultMovementSpeedLimit / MovementSpeedLimit;
+        lastNonZeroSpeedDecreaseLerpRate *= lastNonZeroSpeedDecreaseLerpRate;
+        lastNonZeroSpeedDecreaseLerpRate = Mathf.Clamp01(lastNonZeroSpeedDecreaseLerpRate);
+
         nma = GetComponent<NavMeshAgent>();
 
         nma.height = AgentHeight;
