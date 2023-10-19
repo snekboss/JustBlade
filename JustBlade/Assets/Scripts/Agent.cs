@@ -36,9 +36,18 @@ public abstract class Agent : MonoBehaviour
     public const int DefaultMaximumPoise = 0;
 
 
-    public float AgentHeight { get { return DefaultAgentHeight * AgentScale; } }
-    public float AgentRadius { get { return DefaultAgentRadius * AgentScale; } }
-    public float AgentMass   { get { return DefaultAgentMass * AgentScale; } }
+    /// <summary>
+    /// Height of the agent in world space, which takes <see cref="AgentScale"/> into account.
+    /// </summary>
+    public float AgentWorldHeight { get { return DefaultAgentHeight * AgentScale; } }
+    /// <summary>
+    /// Radius of the agent in world space, which takes <see cref="AgentScale"/> into account.
+    /// </summary>
+    public float AgentWorldRadius { get { return DefaultAgentRadius * AgentScale; } }
+    /// <summary>
+    /// Mass of the agent in world space, which takes <see cref="AgentScale"/> into account.
+    /// </summary>
+    public float AgentWorldMass   { get { return DefaultAgentMass * AgentScale; } }
 
     /// <summary>
     /// Scales the model size of the agent.

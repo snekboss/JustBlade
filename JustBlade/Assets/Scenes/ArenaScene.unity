@@ -15169,7 +15169,21 @@ MonoBehaviour:
   enemyTeamSpawnDirection: 0
   playerAgentPrefab: {fileID: 8209919147568450872, guid: 7bb4698197bfc0c4d96a458e73365778, type: 3}
   aiAgentPrefab: {fileID: 1748176825034016795, guid: dcef08d3e0dc6bf4e9ef62251f520387, type: 3}
-  waveSets: []
+  waveSets:
+  - waves:
+    - invaderDataList:
+      - invaderCharacteristicSetPrefab: {fileID: 355912043890575888, guid: 543eaaef40db4684880d3db7c4333d13, type: 3}
+        invaderArmorSetPrefab: {fileID: 3553881959374592891, guid: 8f9e03e9cbcb9a8419650b98759b3611, type: 3}
+        invaderWeaponSetPrefab: {fileID: 9057827144491753304, guid: 8713ccce2a9daa149bf2d19f580f87a4, type: 3}
+        invaderRewardDataPrefab: {fileID: 8915443490411079926, guid: 9c638a5c270ed6d4f887765c14bd6db8, type: 3}
+        invaderCount: 5
+  - waves:
+    - invaderDataList:
+      - invaderCharacteristicSetPrefab: {fileID: 355912043890575888, guid: 543eaaef40db4684880d3db7c4333d13, type: 3}
+        invaderArmorSetPrefab: {fileID: 3553881959374592891, guid: 8f9e03e9cbcb9a8419650b98759b3611, type: 3}
+        invaderWeaponSetPrefab: {fileID: 9057827144491753304, guid: 8713ccce2a9daa149bf2d19f580f87a4, type: 3}
+        invaderRewardDataPrefab: {fileID: 8915443490411079926, guid: 9c638a5c270ed6d4f887765c14bd6db8, type: 3}
+        invaderCount: 1
 --- !u!4 &1893990462
 Transform:
   m_ObjectHideFlags: 0

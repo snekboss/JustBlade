@@ -117,8 +117,8 @@ public class AiAgent : Agent
         float weaponLength = (EqMgr.equippedWeapon == null) ? 0f : EqMgr.equippedWeapon.weaponLength;
         weaponLength *= AgentScale;
 
-        TooFarBorder = AgentRadius + weaponLength * TooFarMultiplier;
-        TooCloseBorder = AgentRadius + weaponLength * TooCloseMultiplier;
+        TooFarBorder = AgentWorldRadius + weaponLength * TooFarMultiplier;
+        TooCloseBorder = AgentWorldRadius + weaponLength * TooCloseMultiplier;
 
         if (TooFarBorder < TooFarBorderLowerBound)
         {
@@ -130,7 +130,7 @@ public class AiAgent : Agent
         //    TooCloseBorder = TooCloseBorderLowerBound;
         //}
 
-        AttackDistanceBorder = AgentRadius + weaponLength * AttackDistanceMultiplier;
+        AttackDistanceBorder = AgentWorldRadius + weaponLength * AttackDistanceMultiplier;
 
         // --- NavMesh movement related parameters ---
         lastNonZeroSpeedDecreaseLerpRate = DefaultMovementSpeedLimit / MovementSpeedLimit;
@@ -200,8 +200,10 @@ public class AiAgent : Agent
 
         nma = GetComponent<NavMeshAgent>();
 
-        nma.height = AgentHeight;
-        nma.radius = AgentRadius;
+        // Use default agent values here, as NavMeshAgent makes up for the change in scale automatically.
+        nma.height = DefaultAgentHeight;
+        nma.radius = DefaultAgentRadius;
+
         nma.speed = MovementSpeedLimit;
         nma.acceleration = NavMeshAgentBaseAcceleration * (MovementSpeedLimit / DefaultMovementSpeedLimit);
         nma.stoppingDistance = 0;
@@ -266,7 +268,7 @@ public class AiAgent : Agent
         if (targetLimbType == Limb.LimbType.Head)
         {
             float headStartPosY = enemyAgent.LimbMgr.limbHead.transform.position.y;
-            float headEndPosY = AgentHeight;
+            float headEndPosY = AgentWorldHeight;
 
             float chosenPosY = Mathf.Lerp(headStartPosY, headEndPosY, HeadLookPercentPosY);
 
@@ -574,7 +576,7 @@ public class AiAgent : Agent
     /// If this agent has an enemy, then this method doesn't do anything.
     /// If this agent has no enemy, then this method searches for a new enemy agent.
     /// The actual searching is done by calling <see cref="OnSearchForEnemyAgent"/>.
-    /// Currently, the only subscriber to this event is <see cref="RoundManager.OnAiAgentSearchForEnemy(AiAgent, out int)"/>.
+    /// Currently, the only subscriber to this event is <see cref="WaveManager.OnAiAgentSearchForEnemy(AiAgent, out int)"/>.
     /// </summary>
     void HandleSearchForEnemyAgent()
     {

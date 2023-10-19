@@ -41,7 +41,7 @@ public class PlayerAgent : Agent
     CharacterController charCont;
     const float AgentSkinWidthMultiplier = 0.1f;
     const float GroundedDistanceMultiplier = 2.0f;
-    float AgentSkinWidth { get { return AgentRadius * AgentSkinWidthMultiplier; } }
+    float AgentSkinWidth { get { return AgentWorldRadius * AgentSkinWidthMultiplier; } }
     float GroundedDistance { get { return AgentSkinWidth * GroundedDistanceMultiplier; } }
 
     /// <summary>
@@ -130,13 +130,13 @@ public class PlayerAgent : Agent
             charCont = gameObject.AddComponent<CharacterController>();
         }
         
-        charCont.height = AgentHeight;
-        charCont.center = Vector3.up * AgentHeight / 2;
-        charCont.radius = AgentRadius;
+        charCont.height = DefaultAgentHeight;
+        charCont.center = Vector3.up * DefaultAgentHeight / 2;
+        charCont.radius = DefaultAgentRadius;
         charCont.minMoveDistance = 0;
         // From Unity Docs:
         // It's good practice to keep your Skin Width at least greater than 0.01 and more than 10% of the Radius.
-        charCont.skinWidth = AgentRadius * AgentSkinWidthMultiplier;
+        charCont.skinWidth = DefaultAgentRadius * AgentSkinWidthMultiplier;
     }
 
     /// <summary>
@@ -145,8 +145,8 @@ public class PlayerAgent : Agent
     void InitializeNavMeshAgent()
     {
         nma = gameObject.AddComponent<NavMeshAgent>();
-        nma.height = AgentHeight;
-        nma.radius = AgentRadius;
+        nma.height = DefaultAgentHeight;
+        nma.radius = DefaultAgentRadius;
         nma.updatePosition = false;
         nma.updateRotation = false;
         nma.nextPosition = transform.position;

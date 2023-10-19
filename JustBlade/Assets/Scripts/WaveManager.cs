@@ -4,11 +4,33 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// A script which designates the attached game object as a Round Manager.
-/// It contains the logic of a tournament round.
+/// A script which designates the attached game object as a Wave Manager.
+/// It contains the logic the horde game mode.
 /// </summary>
-public class RoundManager : MonoBehaviour
+public class WaveManager : MonoBehaviour
 {
+    [System.Serializable]
+    public class WaveSet
+    {
+        public List<Wave> waves;
+    }
+
+    [System.Serializable]
+    public class Wave
+    {
+        public List<InvaderData> invaderDataList;
+    }
+
+    [System.Serializable]
+    public class InvaderData
+    {
+        public HordeCharacteristicSet invaderCharacteristicSetPrefab;
+        public HordeArmorSet invaderArmorSetPrefab;
+        public HordeWeaponSet invaderWeaponSetPrefab;
+        public HordeRewardData invaderRewardDataPrefab;
+        public int invaderCount;
+    }
+
     /// <summary>
     /// Determines direction in which the agents are spawned.
     /// <seealso cref="playerTeamSpawnPoint"/>.
@@ -25,6 +47,11 @@ public class RoundManager : MonoBehaviour
     public PlayerAgent playerAgentPrefab;
     public AiAgent aiAgentPrefab;
 
+    static int iCurWaveSet = 0;
+    int iCurWave = -1;
+
+    public List<WaveSet> waveSets;
+
     /// <summary>
     /// An event which is called when any agent dies in the tournament round.
     /// All agents are subscribed to this method when they are spawned by this Round Manager.
@@ -33,9 +60,7 @@ public class RoundManager : MonoBehaviour
 
     float distanceBetweenAgents = 3.0f; // 3.0f seems ok
 
-    readonly float roundEndTime = 3.0f;
-
-    bool isRoundEnded;
+    readonly float sceneTransitionTime = 3.0f;
 
     List<Agent> playerTeamAgents;
     List<Agent> enemyTeamAgents;
@@ -46,87 +71,12 @@ public class RoundManager : MonoBehaviour
     /// </summary>
     int numEnemiesBeatenByPlayer;
 
-    /// <summary>
-    /// Spawns the <see cref="PlayerAgent"/> as well as his allied <see cref="AiAgent"/>s.
-    /// </summary>
-    void SpawnPlayerTeamAgents()
-    {
-        // TODO !!!
-
-        Debug.LogWarning("TODO");
-        //return;
-
-
-        playerTeamAgents = new List<Agent>();
-
-        Vector3 spawnPos = playerTeamSpawnPoint.position;
-        Vector3 dir = playerTeamSpawnDirection == SpawnDirection.Right ? Vector3.right : Vector3.left;
-
-
-        int numMaxAgents = TournamentVariables.MaxNumAgentsInEachTeam;
-        int playerSpawnIndex = Random.Range(0, numMaxAgents);
-        for (int i = 0; i < numMaxAgents; i++)
-        {
-            Agent a = null;
-
-            if (i == playerSpawnIndex)
-            {
-                a = Instantiate(playerAgentPrefab);
-            }
-            else
-            {
-                AiAgent ai = Instantiate(aiAgentPrefab);
-                ai.OnSearchForEnemyAgent += OnAiAgentSearchForEnemy;
-                a = ai;
-            }
-
-            Vector3 nextAgentSpawnOffset = dir * (2 * a.AgentRadius + distanceBetweenAgents);
-
-            a.isFriendOfPlayer = true;
-            a.OnDeath += OnAgentDeath;
-            OnAnyAgentDeath += a.OnOtherAgentDeath;
-
-            a.transform.position = spawnPos;
-            playerTeamAgents.Add(a);
-
-            spawnPos = spawnPos + nextAgentSpawnOffset;
-        }
-
-    }
-
-    /// <summary>
-    /// Spawns the enemy team of <see cref="AiAgent"/>s.
-    /// </summary>
-    void SpawnCurrentWave()
-    {
-        enemyTeamAgents = new List<Agent>();
-        if (waveSets == null || waveSets.Count == 0)
-        {
-            // THIS IS TEMPORARY
-            return;
-        }
-
-        WaveSet waveSet = waveSets[iCurWaveSet];
-        Wave curWave = waveSet.waves[iCurWave];
-        List<InvaderData> invaderDataList = curWave.invaderDataList;
-
-
-        Vector3 spawnPos = enemyTeamSpawnPoint.position;
-        Vector3 dir = (enemyTeamSpawnDirection == SpawnDirection.Right) ? Vector3.right : Vector3.left;
-
-        for (int i = 0; i < invaderDataList.Count; i++)
-        {
-            InvaderData invaderData = invaderDataList[i];
-            SpawnInvadersFromData(invaderData, ref spawnPos, dir);
-        }
-    }
-
     void SpawnInvadersFromData(InvaderData invaderData, ref Vector3 spawnPos, Vector3 dir)
     {
         for (int i = 0; i < invaderData.invaderCount; i++)
         {
             AiAgent a = Instantiate(aiAgentPrefab);
-            Vector3 nextAgentSpawnOffset = dir * (2 * a.AgentRadius + distanceBetweenAgents);
+            Vector3 nextAgentSpawnOffset = dir * (2 * a.AgentWorldRadius + distanceBetweenAgents);
 
             a.OnSearchForEnemyAgent += OnAiAgentSearchForEnemy;
             a.isFriendOfPlayer = false;
@@ -158,9 +108,9 @@ public class RoundManager : MonoBehaviour
     }
 
     /// <summary>
-    /// A method to which every <see cref="AiAgent"/> spawned by the <see cref="RoundManager"/> is subscribed to.
+    /// A method to which every <see cref="AiAgent"/> spawned by the <see cref="WaveManager"/> is subscribed to.
     /// The subscribers of this method are reported the death of an Agent in the tournament round.
-    /// This method also invokes <see cref="EndRound"/> if the victim agent is the player.
+    /// This method also invokes <see cref="ConcludeWaveSet"/> if the victim agent is the player.
     /// </summary>
     /// <param name="victim">The agent who died.</param>
     /// <param name="killer">The agent who killed the victim.</param>
@@ -190,17 +140,19 @@ public class RoundManager : MonoBehaviour
             enemyTeamAgents.Remove(victim);
         }
 
-        if (playerTeamAgents.Count == 0 || enemyTeamAgents.Count == 0 || victim.IsPlayerAgent)
+        if (playerTeamAgents.Count == 0 || victim.IsPlayerAgent)
         {
-            if (isRoundEnded == false)
-            {
-                EndRound();
-            }
+            ConcludeWaveSet();
+        }
+
+        if (enemyTeamAgents.Count == 0)
+        {
+            SpawnNextWave();
         }
     }
 
     /// <summary>
-    /// A method to which every <see cref="AiAgent"/> spawned by the <see cref="RoundManager"/> is subscribed.
+    /// A method to which every <see cref="AiAgent"/> spawned by the <see cref="WaveManager"/> is subscribed.
     /// It provides an enemy agent to the calling <see cref="AiAgent"/>.
     /// If the calling agent has no enemies left, it retuns null.
     /// It also returns the number of friends the calling <see cref="AiAgent"/> has left by an out parameter.
@@ -238,15 +190,107 @@ public class RoundManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Ends this tournament round, and invokes the <see cref="RoundEndTimer"/> coroutine.
-    /// It also sets the necessary tournament variables based on whatever happened this round.
+    /// Starts current wave set by calling <see cref="SpawnPlayerTeamAgents"/> and <see cref="SpawnNextWave"/>.
     /// </summary>
-    void EndRound()
+    void StartWaveSet()
     {
-        isRoundEnded = true;
+        SpawnPlayerTeamAgents();
+
+        SpawnNextWave();
+    }
+
+    /// <summary>
+    /// Spawns the <see cref="PlayerAgent"/> as well as his allied <see cref="AiAgent"/>s.
+    /// </summary>
+    void SpawnPlayerTeamAgents()
+    {
+        // TODO !!!
+
+        Debug.LogWarning("TODO");
+
+        playerTeamAgents = new List<Agent>();
+
+        Vector3 spawnPos = playerTeamSpawnPoint.position;
+        Vector3 dir = playerTeamSpawnDirection == SpawnDirection.Right ? Vector3.right : Vector3.left;
+
+
+        int numMaxAgents = TournamentVariables.MaxNumAgentsInEachTeam;
+        int playerSpawnIndex = Random.Range(0, numMaxAgents);
+        for (int i = 0; i < numMaxAgents; i++)
+        {
+            Agent a = null;
+
+            if (i == playerSpawnIndex)
+            {
+                a = Instantiate(playerAgentPrefab);
+            }
+            else
+            {
+                AiAgent ai = Instantiate(aiAgentPrefab);
+                ai.OnSearchForEnemyAgent += OnAiAgentSearchForEnemy;
+                a = ai;
+            }
+
+            Vector3 nextAgentSpawnOffset = dir * (2 * a.AgentWorldRadius + distanceBetweenAgents);
+
+            a.isFriendOfPlayer = true;
+            a.OnDeath += OnAgentDeath;
+            OnAnyAgentDeath += a.OnOtherAgentDeath;
+
+            a.transform.position = spawnPos;
+            playerTeamAgents.Add(a);
+
+            spawnPos = spawnPos + nextAgentSpawnOffset;
+        }
+
+    }
+
+    /// <summary>
+    /// Spawns the enemy team of <see cref="AiAgent"/>s.
+    /// </summary>
+    void SpawnNextWave()
+    {
+        iCurWave++;
+
+        enemyTeamAgents = new List<Agent>();
+        if (waveSets == null || waveSets.Count == 0)
+        {
+            ConcludeWaveSet();
+            return;
+        }
+
+        WaveSet waveSet = waveSets[iCurWaveSet];
+
+        if (iCurWave == waveSet.waves.Count)
+        {
+            ConcludeWaveSet();
+            return;
+        }
+
+        Wave curWave = waveSet.waves[iCurWave];
+        List<InvaderData> invaderDataList = curWave.invaderDataList;
+
+        Vector3 spawnPos = enemyTeamSpawnPoint.position;
+        Vector3 dir = (enemyTeamSpawnDirection == SpawnDirection.Right) ? Vector3.right : Vector3.left;
+
+        for (int i = 0; i < invaderDataList.Count; i++)
+        {
+            InvaderData invaderData = invaderDataList[i];
+            SpawnInvadersFromData(invaderData, ref spawnPos, dir);
+        }
+    }
+
+    /// <summary>
+    /// Concludes this waveset, and invokes the <see cref="ConcludeWaveSetCoroutine"/> coroutine.
+    /// It also sets the necessary variables based on whatever happened in this waveset.
+    /// </summary>
+    void ConcludeWaveSet()
+    {
+        iCurWaveSet++;
 
         TournamentVariables.TotalOpponentsBeatenByPlayer += numEnemiesBeatenByPlayer;
 
+        // TODO: This is not how the game works anymore. Remove this.
         if (TournamentVariables.PlayerWasBestedInThisMelee && numEnemiesBeatenByPlayer < TournamentVariables.CurrentRoundNumber)
         {
             // The player was bested in melee, and was not able to beat enough opponents to proceed to the next round.
@@ -255,27 +299,17 @@ public class RoundManager : MonoBehaviour
 
         TournamentVariables.CurrentRoundNumber++;
 
-        StartCoroutine("RoundEndTimer");
+        StartCoroutine("ConcludeWaveSetCoroutine");
     }
 
     /// <summary>
-    /// A coroutine which is used to end the round based on <see cref="roundEndTime"/>.
+    /// A coroutine which is used to conclude the waveset based on <see cref="sceneTransitionTime"/>.
     /// </summary>
     /// <returns>Some kind of Unity coroutine magic thing.</returns>
-    IEnumerator RoundEndTimer()
+    IEnumerator ConcludeWaveSetCoroutine()
     {
-        yield return new WaitForSeconds(roundEndTime);
+        yield return new WaitForSeconds(sceneTransitionTime);
         SceneManager.LoadScene("TournamentInfoMenuScene");
-    }
-
-    /// <summary>
-    /// Spawns agents in all teams by calling <see cref="SpawnPlayerTeamAgents"/> and <see cref="SpawnCurrentWave"/>.
-    /// </summary>
-    void SpawnAgents()
-    {
-        SpawnPlayerTeamAgents();
-
-        SpawnCurrentWave();
     }
 
     /// <summary>
@@ -286,33 +320,6 @@ public class RoundManager : MonoBehaviour
     {
         TournamentVariables.PlayerWasBestedInThisMelee = false;
 
-        SpawnAgents();
-    }
-
-    static int iCurWaveSet = 0;
-    int iCurWave;
-
-    public List<WaveSet> waveSets;
-
-    [System.Serializable]
-    public class WaveSet
-    {
-        public List<Wave> waves;
-    }
-
-    [System.Serializable]
-    public class Wave
-    {
-        public List<InvaderData> invaderDataList;
-    }
-
-    [System.Serializable]
-    public class InvaderData
-    {
-        public HordeCharacteristicSet invaderCharacteristicSetPrefab;
-        public HordeArmorSet invaderArmorSetPrefab;
-        public HordeWeaponSet invaderWeaponSetPrefab;
-        public HordeRewardData invaderRewardDataPrefab;
-        public int invaderCount;
+        StartWaveSet();
     }
 }
