@@ -157,6 +157,7 @@ public class EquipmentManager : MonoBehaviour
         equippedWeapon.transform.parent = weaponBone.transform;
         equippedWeapon.transform.localPosition = Vector3.zero;
         equippedWeapon.transform.localRotation = Quaternion.identity;
+        equippedWeapon.transform.localScale = Vector3.one;
 
         ownerAgent.AnimMgr.ReportEquippedWeaponType(equippedWeapon.weaponType);
 

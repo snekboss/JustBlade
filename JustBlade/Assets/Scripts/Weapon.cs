@@ -168,7 +168,6 @@ public class Weapon : EquippableItem
     public void InitializeOwnerAgent(Agent ownerAgent)
     {
         this.ownerAgent = ownerAgent;
-        transform.localScale = Vector3.one * ownerAgent.AgentScale;
     }
 
     /// <summary>
