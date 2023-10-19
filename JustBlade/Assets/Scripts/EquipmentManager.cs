@@ -274,6 +274,11 @@ public class EquipmentManager : MonoBehaviour
     /// <param name="isVisible"></param>
     public void ToggleHelmetVisibility(bool isVisible)
     {
+        if (agentHeadSMR == null)
+        {
+            return;
+        }
+
         if (isVisible)
         {
             agentHeadSMR.shadowCastingMode = UnityEngine.Rendering.ShadowCastingMode.On;
@@ -374,10 +379,10 @@ public class EquipmentManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Unity's Awake method.
+    /// Unity's Start method.
     /// In this case, it is used to initialize some fields of the script, and then spawn the equipment of the agent.
     /// </summary>
-    void Awake()
+    void Start()
     {
         Initialize();
 

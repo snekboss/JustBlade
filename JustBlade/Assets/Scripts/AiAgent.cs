@@ -54,7 +54,7 @@ public class AiAgent : Agent
     // These are meant to be initialized once when the weapon is equipped.
     float TooCloseBorder;
     float TooFarBorder;
-    float AttackDistanceBorder; 
+    float AttackDistanceBorder;
     #endregion
 
     bool isAtk;
@@ -98,7 +98,7 @@ public class AiAgent : Agent
     /// <param name="numRemainingFriends">An out parameter, which also reports how many friends the caller agent has remaining.</param>
     /// <returns></returns>
     public delegate Agent AiAgentSearchForEnemyEvent(AiAgent caller, out int numRemainingFriends);
-    public virtual event AiAgentSearchForEnemyEvent OnSearchForEnemyAgent;
+    public event AiAgentSearchForEnemyEvent OnSearchForEnemyAgent;
 
     /// <summary>
     /// An override of <see cref="Agent.ReinitializeParameters()"/>.
@@ -115,6 +115,7 @@ public class AiAgent : Agent
         // --- Combat distance related parameters ---
         // Must check if weapon is null in case EquipmentManager hasn't received its equipment yet.
         float weaponLength = (EqMgr.equippedWeapon == null) ? 0f : EqMgr.equippedWeapon.weaponLength;
+        weaponLength *= AgentScale;
 
         TooFarBorder = AgentRadius + weaponLength * TooFarMultiplier;
         TooCloseBorder = AgentRadius + weaponLength * TooCloseMultiplier;
@@ -154,12 +155,36 @@ public class AiAgent : Agent
         , out Armor handArmorPrefab
         , out Armor legArmorPrefab)
     {
-        weaponPrefab = PrefabManager.Weapons[Random.Range(0, PrefabManager.Weapons.Count)];
+        base.RequestEquipmentSet(out weaponPrefab
+            , out headArmorPrefab
+            , out torsoArmorPrefab
+            , out handArmorPrefab
+            , out legArmorPrefab);
 
-        headArmorPrefab = PrefabManager.HeadArmors[Random.Range(0, PrefabManager.HeadArmors.Count)];
-        torsoArmorPrefab = PrefabManager.TorsoArmors[Random.Range(0, PrefabManager.TorsoArmors.Count)];
-        handArmorPrefab = PrefabManager.HandArmors[Random.Range(0, PrefabManager.HandArmors.Count)];
-        legArmorPrefab = PrefabManager.LegArmors[Random.Range(0, PrefabManager.LegArmors.Count)];
+        // The base class will already invoke the necessary events to request and receive an equipment set.
+        // However, in case things fail, I'll make it so that the agent spawns with at least something.
+
+        if (weaponPrefab == null)
+        {
+            weaponPrefab = PrefabManager.Weapons[Random.Range(0, PrefabManager.Weapons.Count)];
+        }
+
+        if (headArmorPrefab == null)
+        {
+            headArmorPrefab = PrefabManager.HeadArmors[Random.Range(0, PrefabManager.HeadArmors.Count)];
+        }
+        if (torsoArmorPrefab == null)
+        {
+            torsoArmorPrefab = PrefabManager.TorsoArmors[Random.Range(0, PrefabManager.TorsoArmors.Count)];
+        }
+        if (handArmorPrefab == null)
+        {
+            handArmorPrefab = PrefabManager.HandArmors[Random.Range(0, PrefabManager.HandArmors.Count)];
+        }
+        if (legArmorPrefab == null)
+        {
+            legArmorPrefab = PrefabManager.LegArmors[Random.Range(0, PrefabManager.LegArmors.Count)];
+        }
     }
 
     /// <summary>
@@ -559,7 +584,7 @@ public class AiAgent : Agent
             {
                 enemyAgent = null;
             }
-            
+
             searchForEnemyTimer = 0;
         }
 

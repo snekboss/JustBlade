@@ -54,7 +54,7 @@ public class RoundManager : MonoBehaviour
         // TODO !!!
 
         Debug.LogWarning("TODO");
-        return;
+        //return;
 
 
         playerTeamAgents = new List<Agent>();
@@ -99,11 +99,17 @@ public class RoundManager : MonoBehaviour
     /// </summary>
     void SpawnCurrentWave()
     {
+        enemyTeamAgents = new List<Agent>();
+        if (waveSets == null || waveSets.Count == 0)
+        {
+            // THIS IS TEMPORARY
+            return;
+        }
+
         WaveSet waveSet = waveSets[iCurWaveSet];
         Wave curWave = waveSet.waves[iCurWave];
         List<InvaderData> invaderDataList = curWave.invaderDataList;
 
-        enemyTeamAgents = new List<Agent>();
 
         Vector3 spawnPos = enemyTeamSpawnPoint.position;
         Vector3 dir = (enemyTeamSpawnDirection == SpawnDirection.Right) ? Vector3.right : Vector3.left;

@@ -111,13 +111,25 @@ public class PlayerAgent : Agent
         legArmorPrefab = PrefabManager.LegArmors[TournamentVariables.PlayerChosenLegArmorIndex];
     }
 
+    public override void ReinitializeParameters()
+    {
+        base.ReinitializeParameters();
+
+        InitializeCharacterController();
+        SetCameraTrackingPoint();
+    }
+
     /// <summary>
     /// Initializes the values of the character controller of the player.
     /// It sets the height, radius, position, etc.
     /// </summary>
     void InitializeCharacterController()
     {
-        charCont = gameObject.AddComponent<CharacterController>();
+        if (charCont == null)
+        {
+            charCont = gameObject.AddComponent<CharacterController>();
+        }
+        
         charCont.height = AgentHeight;
         charCont.center = Vector3.up * AgentHeight / 2;
         charCont.radius = AgentRadius;

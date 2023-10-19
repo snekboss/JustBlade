@@ -271,19 +271,39 @@ public abstract class Agent : MonoBehaviour
     }
 
     /// <summary>
-    /// An abstract method which is used mostly by <see cref="EquipmentManager"/> to request a full set of gear.
-    /// Every agent requests gear in a different way, hence the abstractness.
+    /// A virtual method which is used mostly by <see cref="EquipmentManager"/> to request a full set of gear.
+    /// It is used to invoke <see cref="ArmorSetRequestEvent"/> and <see cref="WeaponRequestEvent"/>.
+    /// Descendants of <see cref="Agent"/> are free to override this method, of course.
     /// </summary>
     /// <param name="weaponPrefab">The prefab reference of the weapon.</param>
     /// <param name="headArmorPrefab">The prefab reference of the head armor.</param>
     /// <param name="torsoArmorPrefab">The prefab reference of the torso armor.</param>
     /// <param name="handArmorPrefab">The prefab reference of the hand armor.</param>
     /// <param name="legArmorPrefab">The prefab reference of the leg armor.</param>
-    public abstract void RequestEquipmentSet(out Weapon weaponPrefab
+    public virtual void RequestEquipmentSet(out Weapon weaponPrefab
         , out Armor headArmorPrefab
         , out Armor torsoArmorPrefab
         , out Armor handArmorPrefab
-        , out Armor legArmorPrefab);
+        , out Armor legArmorPrefab)
+    {
+        weaponPrefab = null;
+        headArmorPrefab = null;
+        torsoArmorPrefab = null;
+        handArmorPrefab = null;
+        legArmorPrefab = null;
+        if (ArmorSetRequest != null)
+        {
+            ArmorSetRequest(out headArmorPrefab
+                        , out torsoArmorPrefab
+                        , out handArmorPrefab
+                        , out legArmorPrefab);
+        }
+
+        if (WeaponRequest != null)
+        {
+            WeaponRequest(out weaponPrefab);
+        }
+    }
 
     /// <summary>
     /// Unity's Awake method.
