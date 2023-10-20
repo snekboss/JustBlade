@@ -27,7 +27,7 @@ public class MannequinAgent : Agent
 
     /// <summary>
     /// An override of <see cref="Agent.RequestEquipmentSet(out Weapon, out Armor, out Armor, out Armor, out Armor)"/>.
-    /// It requests the equipment set based on player chosen equipment indices which reside in <see cref="TournamentVariables"/>.
+    /// It requests the equipment set based on player chosen equipment indices which reside in <see cref="ItemShop"/>.
     /// </summary>
     /// <param name="weaponPrefab"></param>
     /// <param name="headArmorPrefab"></param>
@@ -40,12 +40,12 @@ public class MannequinAgent : Agent
         , out Armor handArmorPrefab
         , out Armor legArmorPrefab)
     {
-        weaponPrefab = PrefabManager.Weapons[TournamentVariables.PlayerChosenWeaponIndex];
+        weaponPrefab = PrefabManager.Weapons[ItemShop.PlayerChosenWeaponIndex];
 
-        headArmorPrefab = PrefabManager.HeadArmors[TournamentVariables.PlayerChosenHeadArmorIndex];
-        torsoArmorPrefab = PrefabManager.TorsoArmors[TournamentVariables.PlayerChosenTorsoArmorIndex];
-        handArmorPrefab = PrefabManager.HandArmors[TournamentVariables.PlayerChosenHandArmorIndex];
-        legArmorPrefab = PrefabManager.LegArmors[TournamentVariables.PlayerChosenLegArmorIndex];
+        headArmorPrefab = PrefabManager.HeadArmors[ItemShop.PlayerChosenHeadArmorIndex];
+        torsoArmorPrefab = PrefabManager.TorsoArmors[ItemShop.PlayerChosenTorsoArmorIndex];
+        handArmorPrefab = PrefabManager.HandArmors[ItemShop.PlayerChosenHandArmorIndex];
+        legArmorPrefab = PrefabManager.LegArmors[ItemShop.PlayerChosenLegArmorIndex];
     }
 
     /// <summary>

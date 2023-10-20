@@ -95,7 +95,7 @@ public class MainMenuUI : MonoBehaviour
     {
         Time.timeScale = 1;
 
-        TournamentVariables.StartNewTournament();
+        ItemShop.StartNewTournament();
 
         SceneManager.LoadScene("TournamentInfoMenuScene");
     }

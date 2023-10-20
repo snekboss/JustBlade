@@ -67,7 +67,7 @@ public class WaveManager : MonoBehaviour
 
     /// <summary>
     /// The number of enemies beaten by player in this round.
-    /// At the end of every round, these are added to <see cref="TournamentVariables.TotalOpponentsBeatenByPlayer"/>.
+    /// At the end of every round, these are added to <see cref="ItemShop.TotalOpponentsBeatenByPlayer"/>.
     /// </summary>
     int numEnemiesBeatenByPlayer;
 
@@ -128,7 +128,7 @@ public class WaveManager : MonoBehaviour
 
         if (victim.IsPlayerAgent)
         {
-            TournamentVariables.PlayerWasBestedInThisMelee = true;
+            ItemShop.PlayerWasBestedInThisMelee = true;
         }
 
         if (victim.isFriendOfPlayer)
@@ -204,41 +204,61 @@ public class WaveManager : MonoBehaviour
     /// </summary>
     void SpawnPlayerTeamAgents()
     {
-        // TODO !!!
-
-        Debug.LogWarning("TODO");
-
         playerTeamAgents = new List<Agent>();
 
         Vector3 spawnPos = playerTeamSpawnPoint.position;
         Vector3 dir = playerTeamSpawnDirection == SpawnDirection.Right ? Vector3.right : Vector3.left;
 
+        SpawnPlayer(ref spawnPos, dir);
+        SpawnPlayerMercenaries(ref spawnPos, dir);
+    }
 
-        int numMaxAgents = TournamentVariables.MaxNumAgentsInEachTeam;
-        int playerSpawnIndex = Random.Range(0, numMaxAgents);
-        for (int i = 0; i < numMaxAgents; i++)
+    void SpawnPlayer(ref Vector3 spawnPos, Vector3 dir)
+    {
+        Agent player = Instantiate(playerAgentPrefab);
+
+        player.isFriendOfPlayer = true;
+        player.OnDeath += OnAgentDeath;
+        OnAnyAgentDeath += player.OnOtherAgentDeath;
+
+        player.transform.position = spawnPos;
+        playerTeamAgents.Add(player);
+
+        Vector3 nextAgentSpawnOffset = dir * (2 * player.AgentWorldRadius + distanceBetweenAgents);
+        spawnPos = spawnPos + nextAgentSpawnOffset;
+    }
+
+    void SpawnPlayerMercenaries(ref Vector3 spawnPos, Vector3 dir)
+    {
+        SpawnPlayerMercenaryFromData(PrefabManager.BasicMercenaryData, ItemShop.NumBasicMercenaries, ref spawnPos, dir);
+        SpawnPlayerMercenaryFromData(PrefabManager.LightMercenaryData, ItemShop.NumLightMercenaries, ref spawnPos, dir);
+        SpawnPlayerMercenaryFromData(PrefabManager.MediumMercenaryData, ItemShop.NumMediumMercenaries, ref spawnPos, dir);
+        SpawnPlayerMercenaryFromData(PrefabManager.HeavyMercenaryData, ItemShop.NumHeavyMercenaries, ref spawnPos, dir);
+    }
+
+    void SpawnPlayerMercenaryFromData(MercenaryData mercData, int count, ref Vector3 spawnPos, Vector3 dir)
+    {
+        for (int i = 0; i < count; i++)
         {
-            Agent a = null;
+            AiAgent merc = Instantiate(aiAgentPrefab);
+            merc.OnSearchForEnemyAgent += OnAiAgentSearchForEnemy;
 
-            if (i == playerSpawnIndex)
-            {
-                a = Instantiate(playerAgentPrefab);
-            }
-            else
-            {
-                AiAgent ai = Instantiate(aiAgentPrefab);
-                ai.OnSearchForEnemyAgent += OnAiAgentSearchForEnemy;
-                a = ai;
-            }
+            merc.isFriendOfPlayer = true;
+            merc.OnDeath += OnAgentDeath;
+            OnAnyAgentDeath += merc.OnOtherAgentDeath;
 
-            Vector3 nextAgentSpawnOffset = dir * (2 * a.AgentWorldRadius + distanceBetweenAgents);
+            merc.ArmorSetRequest += mercData.mercArmorSetPrefab.ProvideRequestedArmorSet;
+            merc.WeaponRequest += mercData.mercWeaponSetPrefab.ProvideRequestedWeapon;
 
-            a.isFriendOfPlayer = true;
-            a.OnDeath += OnAgentDeath;
-            OnAnyAgentDeath += a.OnOtherAgentDeath;
+            SetAgentCharacteristicFromData(merc, mercData.mercCharSetPrefab);
 
-            a.transform.position = spawnPos;
-            playerTeamAgents.Add(a);
+            MercenaryDescriptionData mdd = merc.gameObject.AddComponent<MercenaryDescriptionData>();
+            mdd.InitializeFromMercenaryData(mercData);
+
+            merc.transform.position = spawnPos;
+            playerTeamAgents.Add(merc);
+
+            Vector3 nextAgentSpawnOffset = dir * (2 * merc.AgentWorldRadius + distanceBetweenAgents);
 
             spawnPos = spawnPos + nextAgentSpawnOffset;
         }
@@ -288,16 +308,16 @@ public class WaveManager : MonoBehaviour
     {
         iCurWaveSet++;
 
-        TournamentVariables.TotalOpponentsBeatenByPlayer += numEnemiesBeatenByPlayer;
+        ItemShop.TotalOpponentsBeatenByPlayer += numEnemiesBeatenByPlayer;
 
         // TODO: This is not how the game works anymore. Remove this.
-        if (TournamentVariables.PlayerWasBestedInThisMelee && numEnemiesBeatenByPlayer < TournamentVariables.CurrentRoundNumber)
+        if (ItemShop.PlayerWasBestedInThisMelee && numEnemiesBeatenByPlayer < ItemShop.CurrentRoundNumber)
         {
             // The player was bested in melee, and was not able to beat enough opponents to proceed to the next round.
-            TournamentVariables.IsPlayerEliminated = true;
+            ItemShop.IsPlayerEliminated = true;
         }
 
-        TournamentVariables.CurrentRoundNumber++;
+        ItemShop.CurrentRoundNumber++;
 
         StartCoroutine("ConcludeWaveSetCoroutine");
     }
@@ -318,7 +338,7 @@ public class WaveManager : MonoBehaviour
     /// </summary>
     void Start()
     {
-        TournamentVariables.PlayerWasBestedInThisMelee = false;
+        ItemShop.PlayerWasBestedInThisMelee = false;
 
         StartWaveSet();
     }

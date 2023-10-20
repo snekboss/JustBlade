@@ -79,6 +79,62 @@ public static class PrefabManager
         }
     }
 
+    static MercenaryData basicMercenaryData;
+    public static MercenaryData BasicMercenaryData
+    {
+        get
+        {
+            if (basicMercenaryData == null)
+            {
+                basicMercenaryData = LoadMercenaryData("BasicMercenaryData");
+            }
+
+            return basicMercenaryData;
+        }
+    }
+
+    static MercenaryData lightMercenaryData;
+    public static MercenaryData LightMercenaryData
+    {
+        get
+        {
+            if (lightMercenaryData == null)
+            {
+                lightMercenaryData = LoadMercenaryData("LightMercenaryData");
+            }
+
+            return lightMercenaryData;
+        }
+    }
+
+    static MercenaryData mediumMercenaryData;
+    public static MercenaryData MediumMercenaryData
+    {
+        get
+        {
+            if (mediumMercenaryData == null)
+            {
+                mediumMercenaryData = LoadMercenaryData("MediumMercenaryData");
+            }
+
+            return mediumMercenaryData;
+        }
+    }
+
+    static MercenaryData heavyMercenaryData;
+    public static MercenaryData HeavyMercenaryData
+    {
+        get
+        {
+            if (heavyMercenaryData == null)
+            {
+                heavyMercenaryData = LoadMercenaryData("HeavyMercenaryData");
+            }
+
+            return heavyMercenaryData;
+        }
+    }
+
     /// <summary>
     /// Loads armors based on a given path, under "Resources" folder of this project.
     /// </summary>
@@ -119,5 +175,24 @@ public static class PrefabManager
         }
 
         return ret;
+    }
+
+    /// <summary>
+    /// Loads a <see cref="MercenaryData"/> on a given path, under "Resources" folder of this project.
+    /// Note that <see cref="MercenaryData"/> related code are hardcoded, and therefore
+    /// there must be only one item within the folder of the given path.
+    /// </summary>
+    /// <param name="path"></param>
+    /// <returns></returns>
+    static MercenaryData LoadMercenaryData(string path)
+    {
+        UnityEngine.Object[] objs = Resources.LoadAll(path);
+
+        Debug.Assert(objs.Length == 1);
+
+        GameObject dataGO = objs[0] as GameObject;
+        MercenaryData mercData = dataGO.GetComponent<MercenaryData>();
+
+        return mercData;
     }
 }

@@ -103,12 +103,12 @@ public class PlayerAgent : Agent
         , out Armor handArmorPrefab
         , out Armor legArmorPrefab)
     {
-        weaponPrefab = PrefabManager.Weapons[TournamentVariables.PlayerChosenWeaponIndex];
+        weaponPrefab = PrefabManager.Weapons[ItemShop.PlayerChosenWeaponIndex];
 
-        headArmorPrefab = PrefabManager.HeadArmors[TournamentVariables.PlayerChosenHeadArmorIndex];
-        torsoArmorPrefab = PrefabManager.TorsoArmors[TournamentVariables.PlayerChosenTorsoArmorIndex];
-        handArmorPrefab = PrefabManager.HandArmors[TournamentVariables.PlayerChosenHandArmorIndex];
-        legArmorPrefab = PrefabManager.LegArmors[TournamentVariables.PlayerChosenLegArmorIndex];
+        headArmorPrefab = PrefabManager.HeadArmors[ItemShop.PlayerChosenHeadArmorIndex];
+        torsoArmorPrefab = PrefabManager.TorsoArmors[ItemShop.PlayerChosenTorsoArmorIndex];
+        handArmorPrefab = PrefabManager.HandArmors[ItemShop.PlayerChosenHandArmorIndex];
+        legArmorPrefab = PrefabManager.LegArmors[ItemShop.PlayerChosenLegArmorIndex];
     }
 
     public override void ReinitializeParameters()

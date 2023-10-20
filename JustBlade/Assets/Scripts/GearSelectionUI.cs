@@ -88,7 +88,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_NextWeapon()
     {
-        TournamentVariables.PlayerChosenWeaponIndex++;
+        ItemShop.PlayerChosenWeaponIndex++;
         OnMannequinEquipmentChanged();
     }
 
@@ -97,7 +97,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_NextHeadArmor()
     {
-        TournamentVariables.PlayerChosenHeadArmorIndex++;
+        ItemShop.PlayerChosenHeadArmorIndex++;
         OnMannequinEquipmentChanged();
     }
 
@@ -106,7 +106,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_NextTorsoArmor()
     {
-        TournamentVariables.PlayerChosenTorsoArmorIndex++;
+        ItemShop.PlayerChosenTorsoArmorIndex++;
         OnMannequinEquipmentChanged();
     }
 
@@ -115,7 +115,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_NextHandArmor()
     {
-        TournamentVariables.PlayerChosenHandArmorIndex++;
+        ItemShop.PlayerChosenHandArmorIndex++;
         OnMannequinEquipmentChanged();
     }
 
@@ -124,7 +124,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_NextLegArmor()
     {
-        TournamentVariables.PlayerChosenLegArmorIndex++;
+        ItemShop.PlayerChosenLegArmorIndex++;
         OnMannequinEquipmentChanged();
     }
 
@@ -133,7 +133,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_PrevWeapon()
     {
-        TournamentVariables.PlayerChosenWeaponIndex--;
+        ItemShop.PlayerChosenWeaponIndex--;
         OnMannequinEquipmentChanged();
     }
 
@@ -142,7 +142,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_PrevHeadArmor()
     {
-        TournamentVariables.PlayerChosenHeadArmorIndex--;
+        ItemShop.PlayerChosenHeadArmorIndex--;
         OnMannequinEquipmentChanged();
     }
 
@@ -151,7 +151,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_PrevTorsoArmor()
     {
-        TournamentVariables.PlayerChosenTorsoArmorIndex--;
+        ItemShop.PlayerChosenTorsoArmorIndex--;
         OnMannequinEquipmentChanged();
     }
 
@@ -160,7 +160,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_PrevHandArmor()
     {
-        TournamentVariables.PlayerChosenHandArmorIndex--;
+        ItemShop.PlayerChosenHandArmorIndex--;
         OnMannequinEquipmentChanged();
     }
 
@@ -169,7 +169,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_PrevLegArmor()
     {
-        TournamentVariables.PlayerChosenLegArmorIndex--;
+        ItemShop.PlayerChosenLegArmorIndex--;
         OnMannequinEquipmentChanged();
     }
 
@@ -210,62 +210,62 @@ public class GearSelectionUI : MonoBehaviour
 
     public void OnButtonClick_BuyWeapon()
     {
-        ConfirmAndPurchase(txtBtnBuyWeapon, TournamentVariables.BuyChosenWeapon);
+        ConfirmAndPurchase(txtBtnBuyWeapon, ItemShop.BuyChosenWeapon);
     }
 
     public void OnButtonClick_BuyHeadArmor()
     {
-        ConfirmAndPurchase(txtBtnBuyHeadArmor, TournamentVariables.BuyChosenHeadArmor);
+        ConfirmAndPurchase(txtBtnBuyHeadArmor, ItemShop.BuyChosenHeadArmor);
     }
 
     public void OnButtonClick_BuyTorsoArmor()
     {
-        ConfirmAndPurchase(txtBtnBuyTorsoArmor, TournamentVariables.BuyChosenTorsoArmor);
+        ConfirmAndPurchase(txtBtnBuyTorsoArmor, ItemShop.BuyChosenTorsoArmor);
     }
 
     public void OnButtonClick_BuyHandArmor()
     {
-        ConfirmAndPurchase(txtBtnBuyHandArmor, TournamentVariables.BuyChosenHandArmor);
+        ConfirmAndPurchase(txtBtnBuyHandArmor, ItemShop.BuyChosenHandArmor);
     }
 
     public void OnButtonClick_BuyLegArmor()
     {
-        ConfirmAndPurchase(txtBtnBuyLegArmor, TournamentVariables.BuyChosenLegArmor);
+        ConfirmAndPurchase(txtBtnBuyLegArmor, ItemShop.BuyChosenLegArmor);
     }
 
     public void OnButtonClick_HireBasicMercenary()
     {
-        ConfirmAndPurchase(txtBtnHireBasicMerc, TournamentVariables.HireBasicMercenary);
+        ConfirmAndPurchase(txtBtnHireBasicMerc, ItemShop.HireBasicMercenary);
     }
 
     public void OnButtonClick_HireLightMercenary()
     {
-        ConfirmAndPurchase(txtBtnHireLightMerc, TournamentVariables.HireLightMercenary);
+        ConfirmAndPurchase(txtBtnHireLightMerc, ItemShop.HireLightMercenary);
     }
 
     public void OnButtonClick_HireMediumMercenary()
     {
-        ConfirmAndPurchase(txtBtnHireMediumMerc, TournamentVariables.HireMediumMercenary);
+        ConfirmAndPurchase(txtBtnHireMediumMerc, ItemShop.HireMediumMercenary);
     }
 
     public void OnButtonClick_HireHeavyMercenary()
     {
-        ConfirmAndPurchase(txtBtnHireHeavyMerc, TournamentVariables.HireHeavyMercenary);
+        ConfirmAndPurchase(txtBtnHireHeavyMerc, ItemShop.HireHeavyMercenary);
     }
 
     public void OnButtonClick_UpgradeBasicMercenary()
     {
-        ConfirmAndPurchase(txtBtnUpgradeBasicMerc, TournamentVariables.UpgradeBasicMercenary);
+        ConfirmAndPurchase(txtBtnUpgradeBasicMerc, ItemShop.UpgradeBasicMercenary);
     }
 
     public void OnButtonClick_UpgradeLightMercenary()
     {
-        ConfirmAndPurchase(txtBtnUpgradeLightMerc, TournamentVariables.UpgradeLightMercenary);
+        ConfirmAndPurchase(txtBtnUpgradeLightMerc, ItemShop.UpgradeLightMercenary);
     }
 
     public void OnButtonClick_UpgradeMediumMercenary()
     {
-        ConfirmAndPurchase(txtBtnUpgradeMediumMerc, TournamentVariables.UpgradeMediumMercenary);
+        ConfirmAndPurchase(txtBtnUpgradeMediumMerc, ItemShop.UpgradeMediumMercenary);
     }
 
     /// <summary>
@@ -303,11 +303,11 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     void UpdateTexts()
     {
-        Weapon chosenWeapon = PrefabManager.Weapons[TournamentVariables.PlayerChosenWeaponIndex];
-        Armor chosenHeadArmor = PrefabManager.HeadArmors[TournamentVariables.PlayerChosenHeadArmorIndex];
-        Armor chosenTorsoArmor = PrefabManager.TorsoArmors[TournamentVariables.PlayerChosenTorsoArmorIndex];
-        Armor chosenHandArmor = PrefabManager.HandArmors[TournamentVariables.PlayerChosenHandArmorIndex];
-        Armor chosenLegArmor = PrefabManager.LegArmors[TournamentVariables.PlayerChosenLegArmorIndex];
+        Weapon chosenWeapon = PrefabManager.Weapons[ItemShop.PlayerChosenWeaponIndex];
+        Armor chosenHeadArmor = PrefabManager.HeadArmors[ItemShop.PlayerChosenHeadArmorIndex];
+        Armor chosenTorsoArmor = PrefabManager.TorsoArmors[ItemShop.PlayerChosenTorsoArmorIndex];
+        Armor chosenHandArmor = PrefabManager.HandArmors[ItemShop.PlayerChosenHandArmorIndex];
+        Armor chosenLegArmor = PrefabManager.LegArmors[ItemShop.PlayerChosenLegArmorIndex];
 
         txtSelectedWeapon.text = chosenWeapon.shownName;
         txtSelectedHeadArmor.text = chosenHeadArmor.shownName;
@@ -356,14 +356,14 @@ public class GearSelectionUI : MonoBehaviour
         Total party size: 8/10
          */
         txtMercInfoBody.text =
-            "Basic mercenaries: " + TournamentVariables.NumBasicMercenaries.ToString() + NL
-            + "Light mercenaries: " + TournamentVariables.NumLightMercenaries.ToString() + NL
-            + "Medium mercenaries: " + TournamentVariables.NumMediumMercenaries.ToString() + NL
-            + "Heavy mercenaries: " + TournamentVariables.NumHeavyMercenaries.ToString() + NL
-            + "Total party size: " + TournamentVariables.NumTotalMercenaries.ToString() 
-            + "/" + TournamentVariables.MaxNumberOfMercenaries.ToString();
+            "Basic mercenaries: " + ItemShop.NumBasicMercenaries.ToString() + NL
+            + "Light mercenaries: " + ItemShop.NumLightMercenaries.ToString() + NL
+            + "Medium mercenaries: " + ItemShop.NumMediumMercenaries.ToString() + NL
+            + "Heavy mercenaries: " + ItemShop.NumHeavyMercenaries.ToString() + NL
+            + "Total party size: " + ItemShop.NumTotalMercenaries.ToString() 
+            + "/" + ItemShop.MaxNumberOfMercenaries.ToString();
 
-        txtPlayerGold.text = "Gold: " + TournamentVariables.PlayerGold.ToString();
+        txtPlayerGold.text = "Gold: " + ItemShop.PlayerGold.ToString();
 
         // Button texts
         string buyString = "Buy for {0} gold";
@@ -377,14 +377,14 @@ public class GearSelectionUI : MonoBehaviour
         txtBtnBuyHandArmor.text = string.Format(buyString, chosenHandArmor.purchaseCost);
         txtBtnBuyLegArmor.text = string.Format(buyString, chosenLegArmor.purchaseCost);
 
-        txtBtnHireBasicMerc.text = string.Format(hireString, TournamentVariables.BasicMercenaryHireCost);
-        txtBtnHireLightMerc.text = string.Format(hireString, TournamentVariables.LightMercenaryHireCost);
-        txtBtnHireMediumMerc.text = string.Format(hireString, TournamentVariables.MediumMercenaryHireCost);
-        txtBtnHireHeavyMerc.text = string.Format(hireString, TournamentVariables.HeavyMercenaryHireCost);
+        txtBtnHireBasicMerc.text = string.Format(hireString, ItemShop.BasicMercenaryHireCost);
+        txtBtnHireLightMerc.text = string.Format(hireString, ItemShop.LightMercenaryHireCost);
+        txtBtnHireMediumMerc.text = string.Format(hireString, ItemShop.MediumMercenaryHireCost);
+        txtBtnHireHeavyMerc.text = string.Format(hireString, ItemShop.HeavyMercenaryHireCost);
 
-        txtBtnUpgradeBasicMerc.text = string.Format(upgradeString, TournamentVariables.BasicMercenaryUpgradeCost);
-        txtBtnUpgradeLightMerc.text = string.Format(upgradeString, TournamentVariables.LightMercenaryUpgradeCost);
-        txtBtnUpgradeMediumMerc.text = string.Format(upgradeString, TournamentVariables.MediumMercenaryUpgradeCost);
+        txtBtnUpgradeBasicMerc.text = string.Format(upgradeString, ItemShop.BasicMercenaryUpgradeCost);
+        txtBtnUpgradeLightMerc.text = string.Format(upgradeString, ItemShop.LightMercenaryUpgradeCost);
+        txtBtnUpgradeMediumMerc.text = string.Format(upgradeString, ItemShop.MediumMercenaryUpgradeCost);
     }
 
     /// <summary>
@@ -392,11 +392,11 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     void ManageButtons()
     {
-        Weapon chosenWeapon = PrefabManager.Weapons[TournamentVariables.PlayerChosenWeaponIndex];
-        Armor chosenHeadArmor = PrefabManager.HeadArmors[TournamentVariables.PlayerChosenHeadArmorIndex];
-        Armor chosenTorsoArmor = PrefabManager.TorsoArmors[TournamentVariables.PlayerChosenTorsoArmorIndex];
-        Armor chosenHandArmor = PrefabManager.HandArmors[TournamentVariables.PlayerChosenHandArmorIndex];
-        Armor chosenLegArmor = PrefabManager.LegArmors[TournamentVariables.PlayerChosenLegArmorIndex];
+        Weapon chosenWeapon = PrefabManager.Weapons[ItemShop.PlayerChosenWeaponIndex];
+        Armor chosenHeadArmor = PrefabManager.HeadArmors[ItemShop.PlayerChosenHeadArmorIndex];
+        Armor chosenTorsoArmor = PrefabManager.TorsoArmors[ItemShop.PlayerChosenTorsoArmorIndex];
+        Armor chosenHandArmor = PrefabManager.HandArmors[ItemShop.PlayerChosenHandArmorIndex];
+        Armor chosenLegArmor = PrefabManager.LegArmors[ItemShop.PlayerChosenLegArmorIndex];
 
         bool allItemsArePurchased = chosenWeapon.IsPurchasedByPlayer()
             && chosenHeadArmor.IsPurchasedByPlayer()
@@ -407,29 +407,20 @@ public class GearSelectionUI : MonoBehaviour
         // --- Buttons to gray out ---
         btnFight.interactable = allItemsArePurchased;
 
-        btnBuyWeapon.interactable = (TournamentVariables.PlayerGold >= chosenWeapon.purchaseCost);
-        btnBuyHeadArmor.interactable = (TournamentVariables.PlayerGold >= chosenHeadArmor.purchaseCost);
-        btnBuyTorsoArmor.interactable = (TournamentVariables.PlayerGold >= chosenTorsoArmor.purchaseCost);
-        btnBuyHandArmor.interactable = (TournamentVariables.PlayerGold >= chosenHandArmor.purchaseCost);
-        btnBuyLegArmor.interactable = (TournamentVariables.PlayerGold >= chosenLegArmor.purchaseCost);
+        btnBuyWeapon.interactable = ItemShop.CanBuyItem(chosenWeapon);
+        btnBuyHeadArmor.interactable = ItemShop.CanBuyItem(chosenHeadArmor);
+        btnBuyTorsoArmor.interactable = ItemShop.CanBuyItem(chosenTorsoArmor);
+        btnBuyHandArmor.interactable = ItemShop.CanBuyItem(chosenHandArmor);
+        btnBuyLegArmor.interactable = ItemShop.CanBuyItem(chosenLegArmor);
 
-        bool canHireMoreMercs = (TournamentVariables.NumTotalMercenaries < TournamentVariables.MaxNumberOfMercenaries);
+        btnHireBasicMerc.interactable = ItemShop.CanHireBasicMercenary();
+        btnHireLightMerc.interactable = ItemShop.CanHireLightMercenary();
+        btnHireMediumMerc.interactable = ItemShop.CanHireMediumMercenary();
+        btnHireHeavyMerc.interactable = ItemShop.CanHireHeavyMercenary();
 
-        btnHireBasicMerc.interactable = canHireMoreMercs 
-            && (TournamentVariables.PlayerGold >= TournamentVariables.BasicMercenaryHireCost);
-        btnHireLightMerc.interactable = canHireMoreMercs 
-            && (TournamentVariables.PlayerGold >= TournamentVariables.LightMercenaryHireCost);
-        btnHireMediumMerc.interactable = canHireMoreMercs 
-            && (TournamentVariables.PlayerGold >= TournamentVariables.MediumMercenaryHireCost);
-        btnHireHeavyMerc.interactable = canHireMoreMercs 
-            && (TournamentVariables.PlayerGold >= TournamentVariables.HeavyMercenaryHireCost);
-
-        btnUpgradeBasicMerc.interactable = (TournamentVariables.NumBasicMercenaries > 0) 
-            && (TournamentVariables.PlayerGold >= TournamentVariables.BasicMercenaryUpgradeCost);
-        btnUpgradeLightMerc.interactable = (TournamentVariables.NumLightMercenaries > 0)
-            && (TournamentVariables.PlayerGold >= TournamentVariables.LightMercenaryUpgradeCost);
-        btnUpgradeMediumMerc.interactable = (TournamentVariables.NumMediumMercenaries > 0)
-            && (TournamentVariables.PlayerGold >= TournamentVariables.MediumMercenaryUpgradeCost);
+        btnUpgradeBasicMerc.interactable = ItemShop.CanUpgradeBasicMercenary();
+        btnUpgradeLightMerc.interactable = ItemShop.CanUpgradeLightMercenary();
+        btnUpgradeMediumMerc.interactable = ItemShop.CanUpgradeMediumMercenary();
 
         // --- Buttons to hide (ie, disable) ---
         btnBuyWeapon.gameObject.SetActive(!chosenWeapon.IsPurchasedByPlayer());

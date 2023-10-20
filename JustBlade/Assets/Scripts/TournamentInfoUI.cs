@@ -60,15 +60,15 @@ public class TournamentInfoUI : MonoBehaviour
     /// </summary>
     void UpdateGameOverScreenTexts()
     {
-        screenGameOver.SetActive(TournamentVariables.IsTournamentEnded);
+        screenGameOver.SetActive(ItemShop.IsTournamentEnded);
 
         string gameOverHeaderStr = "";
         string gameOverBodyStr = "";
         string NL = Environment.NewLine;
 
-        string playerStats = "Total number of opponents beaten: " + TournamentVariables.TotalOpponentsBeatenByPlayer;
+        string playerStats = "Total number of opponents beaten: " + ItemShop.TotalOpponentsBeatenByPlayer;
 
-        if (TournamentVariables.IsPlayerEliminated)
+        if (ItemShop.IsPlayerEliminated)
         {
             gameOverHeaderStr = "Game Over";
 
@@ -92,27 +92,27 @@ public class TournamentInfoUI : MonoBehaviour
     /// </summary>
     void UpdateRoundInfoScreenTexts()
     {
-        screenRoundInfo.SetActive(!TournamentVariables.IsTournamentEnded);
+        screenRoundInfo.SetActive(!ItemShop.IsTournamentEnded);
 
         string infoStr = "";
 
-        if (TournamentVariables.CurrentRoundNumber == 1)
+        if (ItemShop.CurrentRoundNumber == 1)
         {
             infoStr += "Welcome to the Melee Tournament. ";
         }
 
         string bestedStr = "";
-        if (TournamentVariables.PlayerWasBestedInThisMelee)
+        if (ItemShop.PlayerWasBestedInThisMelee)
         {
             bestedStr = "You were bested in this melee, but since you managed to beat enough opponents, the master of ceremonies allowed you to proceed to the next round. ";
         }
 
-        string participantStr = TournamentVariables.IsFinalRound ? "participant" : "participants";
+        string participantStr = ItemShop.IsFinalRound ? "participant" : "participants";
         infoStr +=
             string.Format("You are at around {0} of {1}. There will be {2} {3} in each team. Click Next to proceed to the gear selection menu."
-            , TournamentVariables.CurrentRoundNumber
-            , TournamentVariables.MaximumRoundNumber
-            , TournamentVariables.MaxNumAgentsInEachTeam
+            , ItemShop.CurrentRoundNumber
+            , ItemShop.MaximumRoundNumber
+            , ItemShop.MaxNumAgentsInEachTeam
             , participantStr);
 
         txtRoundInfoBody.text = bestedStr + infoStr;
