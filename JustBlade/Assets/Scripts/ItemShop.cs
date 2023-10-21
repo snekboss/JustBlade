@@ -185,134 +185,139 @@ public static class ItemShop
 
 
     // TODO: move below to TroopShop
-    public static int BasicMercenaryHireCost { get { return PrefabManager.BasicMercenaryData.hireCost; } }
-    public static int LightMercenaryHireCost { get { return PrefabManager.LightMercenaryData.hireCost; } }
-    public static int MediumMercenaryHireCost { get { return PrefabManager.MediumMercenaryData.hireCost; } }
-    public static int HeavyMercenaryHireCost { get { return PrefabManager.HeavyMercenaryData.hireCost; } }
 
-    public static int BasicMercenaryUpgradeCost { get { return PrefabManager.BasicMercenaryData.upgradeCost; } }
-    public static int LightMercenaryUpgradeCost { get { return PrefabManager.LightMercenaryData.upgradeCost; } }
-    public static int MediumMercenaryUpgradeCost { get { return PrefabManager.MediumMercenaryData.upgradeCost; } }
+    public static int GetMercenaryHireCost(Armor.ArmorLevel mercArmorLevel)
+    {
+        return PrefabManager.MercenaryDataByArmorLevel[mercArmorLevel].hireCost;
+    }
 
-    public static int NumBasicMercenaries { get { return numBasicMercenaries; } }
-    static int numBasicMercenaries;
-    public static int NumLightMercenaries { get { return numLightMercenaries; } }
-    static int numLightMercenaries;
-    public static int NumMediumMercenaries { get { return numMediumMercenaries; } }
-    static int numMediumMercenaries;
-    public static int NumHeavyMercenaries { get { return numHeavyMercenaries; } }
-    static int numHeavyMercenaries;
+    public static int GetMercenaryUpgradeCost(Armor.ArmorLevel mercArmorLevel)
+    {
+        return PrefabManager.MercenaryDataByArmorLevel[mercArmorLevel].upgradeCost;
+    }
+
+    static Dictionary<Armor.ArmorLevel, int> mercCountByArmorLevel;
+    static Dictionary<Armor.ArmorLevel, int> MercCountByArmorLevel
+    {
+        get
+        {
+            if (mercCountByArmorLevel == null)
+            {
+                mercCountByArmorLevel = new Dictionary<Armor.ArmorLevel, int>();
+                MercCountByArmorLevel.Add(Armor.ArmorLevel.None, 0);
+                MercCountByArmorLevel.Add(Armor.ArmorLevel.Light, 0);
+                MercCountByArmorLevel.Add(Armor.ArmorLevel.Medium, 0);
+                MercCountByArmorLevel.Add(Armor.ArmorLevel.Heavy, 0);
+            }
+
+            return mercCountByArmorLevel;
+        }
+    }
+
+    public static int GetMercenaryCount(Armor.ArmorLevel mercArmorLevel)
+    {
+        return MercCountByArmorLevel[mercArmorLevel];
+    }
+
+    public static void HireMercenary(Armor.ArmorLevel mercArmorLevel)
+    {
+        MercCountByArmorLevel[mercArmorLevel]++;
+        PlayerGold -= PrefabManager.MercenaryDataByArmorLevel[mercArmorLevel].hireCost;
+    }
+
+    public static void DisbandMercenary(Armor.ArmorLevel mercArmorLevel)
+    {
+        if (MercCountByArmorLevel[mercArmorLevel] > 0)
+        {
+            MercCountByArmorLevel[mercArmorLevel]--;
+        }
+    }
+
+    public static void UpgradeMercenary(Armor.ArmorLevel mercArmorLevel)
+    {
+        if (mercArmorLevel == Armor.ArmorLevel.Heavy)
+        {
+            // Do not upgrade, as Heavy is already the highest upgrade level.
+            return;
+        }
+
+        int mercToBeUpgradedInt = (int)mercArmorLevel;
+        int mercToBeUpgradedToInt = mercToBeUpgradedInt + 1;
+
+        Armor.ArmorLevel mercToBeUpgradedTo = (Armor.ArmorLevel)mercToBeUpgradedToInt;
+
+        DisbandMercenary(mercArmorLevel);
+
+        MercCountByArmorLevel[mercToBeUpgradedTo]++;
+        PlayerGold -= PrefabManager.MercenaryDataByArmorLevel[mercToBeUpgradedTo].upgradeCost;
+    }
+
+    public static bool CanHireMercenary(Armor.ArmorLevel mercArmorLevel)
+    {
+        return (PlayerPartyIsFull() == false)
+            && (PlayerGold >= PrefabManager.MercenaryDataByArmorLevel[mercArmorLevel].hireCost);
+    }
+
+    public static bool CanUpgradeMercenary(Armor.ArmorLevel mercArmorLevel)
+    {
+        if (mercArmorLevel == Armor.ArmorLevel.Heavy)
+        {
+            return false; // Heavy is the max upgrade level.
+        }
+
+        return (GetMercenaryCount(mercArmorLevel) > 0)
+            && (PlayerGold >= PrefabManager.MercenaryDataByArmorLevel[mercArmorLevel].upgradeCost);
+    }
+
+    public static void HireBasicMercenary()
+    {
+        HireMercenary(Armor.ArmorLevel.None);
+    }
+
+    public static void HireLightMercenary()
+    {
+        HireMercenary(Armor.ArmorLevel.Light);
+    }
+
+    public static void HireMediumMercenary()
+    {
+        HireMercenary(Armor.ArmorLevel.Medium);
+    }
+
+    public static void HireHeavyMercenary()
+    {
+        HireMercenary(Armor.ArmorLevel.Heavy);
+    }
+
+    public static void UpgradeBasicMercenary()
+    {
+        UpgradeMercenary(Armor.ArmorLevel.None);
+    }
+
+    public static void UpgradeLightMercenary()
+    {
+        UpgradeMercenary(Armor.ArmorLevel.Light);
+    }
+
+    public static void UpgradeMediumMercenary()
+    {
+        UpgradeMercenary(Armor.ArmorLevel.Medium);
+    }
 
     public static readonly int MaxNumberOfMercenaries = 10;
 
     public static int NumTotalMercenaries
     {
-        get { return NumBasicMercenaries + NumLightMercenaries + NumMediumMercenaries + NumHeavyMercenaries; }
-    }
-
-    public static void HireBasicMercenary()
-    {
-        PlayerGold -= PrefabManager.BasicMercenaryData.hireCost;
-        numBasicMercenaries++;
-    }
-    public static void HireLightMercenary()
-    {
-        PlayerGold -= PrefabManager.LightMercenaryData.hireCost;
-        numLightMercenaries++;
-    }
-    public static void HireMediumMercenary()
-    {
-        PlayerGold -= PrefabManager.MediumMercenaryData.hireCost;
-        numMediumMercenaries++;
-    }
-
-    public static void HireHeavyMercenary()
-    {
-        PlayerGold -= PrefabManager.HeavyMercenaryData.hireCost;
-        numHeavyMercenaries++;
-    }
-
-    public static void UpgradeBasicMercenary()
-    {
-        PlayerGold -= PrefabManager.BasicMercenaryData.upgradeCost;
-        numBasicMercenaries--;
-        numLightMercenaries++;
-    }
-    public static void UpgradeLightMercenary()
-    {
-        PlayerGold -= PrefabManager.LightMercenaryData.upgradeCost;
-        numLightMercenaries--;
-        numMediumMercenaries++;
-    }
-    public static void UpgradeMediumMercenary()
-    {
-        PlayerGold -= PrefabManager.MediumMercenaryData.upgradeCost;
-        numMediumMercenaries--;
-        numHeavyMercenaries++;
-    }
-    public static void DisbandBasicMercenary()
-    {
-        if (numBasicMercenaries > 0)
+        get
         {
-            numBasicMercenaries--;
-        }
-    }
-    public static void DisbandLightMercenary()
-    {
-        if (numLightMercenaries > 0)
-        {
-            numLightMercenaries--;
-        }
-    }
-    public static void DisbandMediumMercenary()
-    {
-        if (numMediumMercenaries > 0)
-        {
-            numMediumMercenaries--;
-        }
-    }
-    public static void DisbandHeavyMercenary()
-    {
-        if (numHeavyMercenaries > 0)
-        {
-            numHeavyMercenaries--;
+            return GetMercenaryCount(Armor.ArmorLevel.None)
+                + GetMercenaryCount(Armor.ArmorLevel.Light)
+                + GetMercenaryCount(Armor.ArmorLevel.Medium)
+                + GetMercenaryCount(Armor.ArmorLevel.Heavy);
         }
     }
 
     public static bool PlayerPartyIsFull() { return NumTotalMercenaries == MaxNumberOfMercenaries; }
-
-    public static bool CanHireBasicMercenary()
-    {
-        return !PlayerPartyIsFull() || PlayerGold >= BasicMercenaryHireCost;
-    }
-
-    public static bool CanHireLightMercenary()
-    {
-        return !PlayerPartyIsFull() || PlayerGold >= LightMercenaryHireCost;
-    }
-    public static bool CanHireMediumMercenary()
-    {
-        return !PlayerPartyIsFull() || PlayerGold >= MediumMercenaryHireCost;
-    }
-    public static bool CanHireHeavyMercenary()
-    {
-        return !PlayerPartyIsFull() || PlayerGold >= HeavyMercenaryHireCost;
-    }
-
-    public static bool CanUpgradeBasicMercenary()
-    {
-        return (NumBasicMercenaries > 0) && (PlayerGold >= BasicMercenaryUpgradeCost);
-    }
-
-    public static bool CanUpgradeLightMercenary()
-    {
-        return (NumLightMercenaries > 0) && (PlayerGold >= LightMercenaryUpgradeCost);
-    }
-
-    public static bool CanUpgradeMediumMercenary()
-    {
-        return (NumMediumMercenaries > 0) && (PlayerGold >= MediumMercenaryHireCost);
-    }
 
     // TODO: Move above to TroopShop
 }

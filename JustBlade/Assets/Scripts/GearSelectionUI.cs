@@ -215,7 +215,7 @@ public class GearSelectionUI : MonoBehaviour
 
     public void OnButtonClick_BuyHeadArmor()
     {
-        ConfirmAndPurchase(txtBtnBuyHeadArmor, ItemShop.BuyChosenHeadArmor);
+        ConfirmAndPurchase(txtBtnBuyWeapon, ItemShop.BuyChosenHeadArmor);
     }
 
     public void OnButtonClick_BuyTorsoArmor()
@@ -356,10 +356,10 @@ public class GearSelectionUI : MonoBehaviour
         Total party size: 8/10
          */
         txtMercInfoBody.text =
-            "Basic mercenaries: " + ItemShop.NumBasicMercenaries.ToString() + NL
-            + "Light mercenaries: " + ItemShop.NumLightMercenaries.ToString() + NL
-            + "Medium mercenaries: " + ItemShop.NumMediumMercenaries.ToString() + NL
-            + "Heavy mercenaries: " + ItemShop.NumHeavyMercenaries.ToString() + NL
+            "Basic mercenaries: " + ItemShop.GetMercenaryCount(Armor.ArmorLevel.None).ToString() + NL
+            + "Light mercenaries: " + ItemShop.GetMercenaryCount(Armor.ArmorLevel.Light).ToString() + NL
+            + "Medium mercenaries: " + ItemShop.GetMercenaryCount(Armor.ArmorLevel.Medium).ToString() + NL
+            + "Heavy mercenaries: " + ItemShop.GetMercenaryCount(Armor.ArmorLevel.Heavy).ToString() + NL
             + "Total party size: " + ItemShop.NumTotalMercenaries.ToString() 
             + "/" + ItemShop.MaxNumberOfMercenaries.ToString();
 
@@ -377,14 +377,14 @@ public class GearSelectionUI : MonoBehaviour
         txtBtnBuyHandArmor.text = string.Format(buyString, chosenHandArmor.purchaseCost);
         txtBtnBuyLegArmor.text = string.Format(buyString, chosenLegArmor.purchaseCost);
 
-        txtBtnHireBasicMerc.text = string.Format(hireString, ItemShop.BasicMercenaryHireCost);
-        txtBtnHireLightMerc.text = string.Format(hireString, ItemShop.LightMercenaryHireCost);
-        txtBtnHireMediumMerc.text = string.Format(hireString, ItemShop.MediumMercenaryHireCost);
-        txtBtnHireHeavyMerc.text = string.Format(hireString, ItemShop.HeavyMercenaryHireCost);
+        txtBtnHireBasicMerc.text = string.Format(hireString, ItemShop.GetMercenaryHireCost(Armor.ArmorLevel.None));
+        txtBtnHireLightMerc.text = string.Format(hireString, ItemShop.GetMercenaryHireCost(Armor.ArmorLevel.Light));
+        txtBtnHireMediumMerc.text = string.Format(hireString, ItemShop.GetMercenaryHireCost(Armor.ArmorLevel.Medium));
+        txtBtnHireHeavyMerc.text = string.Format(hireString, ItemShop.GetMercenaryHireCost(Armor.ArmorLevel.Heavy));
 
-        txtBtnUpgradeBasicMerc.text = string.Format(upgradeString, ItemShop.BasicMercenaryUpgradeCost);
-        txtBtnUpgradeLightMerc.text = string.Format(upgradeString, ItemShop.LightMercenaryUpgradeCost);
-        txtBtnUpgradeMediumMerc.text = string.Format(upgradeString, ItemShop.MediumMercenaryUpgradeCost);
+        txtBtnUpgradeBasicMerc.text = string.Format(upgradeString, ItemShop.GetMercenaryUpgradeCost(Armor.ArmorLevel.None));
+        txtBtnUpgradeLightMerc.text = string.Format(upgradeString, ItemShop.GetMercenaryUpgradeCost(Armor.ArmorLevel.Light));
+        txtBtnUpgradeMediumMerc.text = string.Format(upgradeString, ItemShop.GetMercenaryUpgradeCost(Armor.ArmorLevel.Medium));
     }
 
     /// <summary>
@@ -413,14 +413,14 @@ public class GearSelectionUI : MonoBehaviour
         btnBuyHandArmor.interactable = ItemShop.CanBuyItem(chosenHandArmor);
         btnBuyLegArmor.interactable = ItemShop.CanBuyItem(chosenLegArmor);
 
-        btnHireBasicMerc.interactable = ItemShop.CanHireBasicMercenary();
-        btnHireLightMerc.interactable = ItemShop.CanHireLightMercenary();
-        btnHireMediumMerc.interactable = ItemShop.CanHireMediumMercenary();
-        btnHireHeavyMerc.interactable = ItemShop.CanHireHeavyMercenary();
+        btnHireBasicMerc.interactable = ItemShop.CanHireMercenary(Armor.ArmorLevel.None);
+        btnHireLightMerc.interactable = ItemShop.CanHireMercenary(Armor.ArmorLevel.Light);
+        btnHireMediumMerc.interactable = ItemShop.CanHireMercenary(Armor.ArmorLevel.Medium);
+        btnHireHeavyMerc.interactable = ItemShop.CanHireMercenary(Armor.ArmorLevel.Heavy);
 
-        btnUpgradeBasicMerc.interactable = ItemShop.CanUpgradeBasicMercenary();
-        btnUpgradeLightMerc.interactable = ItemShop.CanUpgradeLightMercenary();
-        btnUpgradeMediumMerc.interactable = ItemShop.CanUpgradeMediumMercenary();
+        btnUpgradeBasicMerc.interactable = ItemShop.CanUpgradeMercenary(Armor.ArmorLevel.None);
+        btnUpgradeLightMerc.interactable = ItemShop.CanUpgradeMercenary(Armor.ArmorLevel.Light);
+        btnUpgradeMediumMerc.interactable = ItemShop.CanUpgradeMercenary(Armor.ArmorLevel.Medium);
 
         // --- Buttons to hide (ie, disable) ---
         btnBuyWeapon.gameObject.SetActive(!chosenWeapon.IsPurchasedByPlayer());

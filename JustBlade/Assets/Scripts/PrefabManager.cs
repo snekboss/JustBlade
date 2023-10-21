@@ -79,59 +79,18 @@ public static class PrefabManager
         }
     }
 
-    static MercenaryData basicMercenaryData;
-    public static MercenaryData BasicMercenaryData
+    static Dictionary<Armor.ArmorLevel, MercenaryData> mercenaryDataByArmorLevel;
+
+    public static Dictionary<Armor.ArmorLevel, MercenaryData> MercenaryDataByArmorLevel
     {
         get
         {
-            if (basicMercenaryData == null)
+            if (mercenaryDataByArmorLevel == null)
             {
-                basicMercenaryData = LoadMercenaryData("BasicMercenaryData");
+                mercenaryDataByArmorLevel = LoadMercenaryData("MercenaryData");
             }
 
-            return basicMercenaryData;
-        }
-    }
-
-    static MercenaryData lightMercenaryData;
-    public static MercenaryData LightMercenaryData
-    {
-        get
-        {
-            if (lightMercenaryData == null)
-            {
-                lightMercenaryData = LoadMercenaryData("LightMercenaryData");
-            }
-
-            return lightMercenaryData;
-        }
-    }
-
-    static MercenaryData mediumMercenaryData;
-    public static MercenaryData MediumMercenaryData
-    {
-        get
-        {
-            if (mediumMercenaryData == null)
-            {
-                mediumMercenaryData = LoadMercenaryData("MediumMercenaryData");
-            }
-
-            return mediumMercenaryData;
-        }
-    }
-
-    static MercenaryData heavyMercenaryData;
-    public static MercenaryData HeavyMercenaryData
-    {
-        get
-        {
-            if (heavyMercenaryData == null)
-            {
-                heavyMercenaryData = LoadMercenaryData("HeavyMercenaryData");
-            }
-
-            return heavyMercenaryData;
+            return mercenaryDataByArmorLevel;
         }
     }
 
@@ -178,21 +137,45 @@ public static class PrefabManager
     }
 
     /// <summary>
-    /// Loads a <see cref="MercenaryData"/> on a given path, under "Resources" folder of this project.
+    /// Loads all <see cref="MercenaryData"/> on a given path, under "Resources" folder of this project.
     /// Note that <see cref="MercenaryData"/> related code are hardcoded, and therefore
-    /// there must be only one item within the folder of the given path.
+    /// there must be exactly one <see cref="MercenaryData"/> loaded per <see cref="Armor.ArmorLevel"/>.
     /// </summary>
     /// <param name="path"></param>
     /// <returns></returns>
-    static MercenaryData LoadMercenaryData(string path)
+    static Dictionary<Armor.ArmorLevel, MercenaryData> LoadMercenaryData(string path)
     {
         UnityEngine.Object[] objs = Resources.LoadAll(path);
+        string nameOfArmorLevel = nameof(Armor.ArmorLevel);
+        string nameOfMercData = nameof(MercenaryData);
+        
+        // TODO: Remove this for build? Does it get loaded on release build? Does it need preprocessor guards?
+        Debug.Assert(objs.Length == 4, "There needs to be exactly 4 " + nameOfMercData + " under MercenaryData folder."); 
 
-        Debug.Assert(objs.Length == 1);
+        Dictionary<Armor.ArmorLevel, MercenaryData> ret = new Dictionary<Armor.ArmorLevel, MercenaryData>();
 
-        GameObject dataGO = objs[0] as GameObject;
-        MercenaryData mercData = dataGO.GetComponent<MercenaryData>();
+        for (int i = 0; i < objs.Length; i++)
+        {
+            GameObject dataGO = objs[i] as GameObject;
+            MercenaryData mercData = dataGO.GetComponent<MercenaryData>();
 
-        return mercData;
+            if (ret.ContainsKey(mercData.mercArmorLevel))
+            {
+                // TODO: Remove this for build? Does it get loaded on release build? Does it need preprocessor guards?
+
+                Debug.LogError(nameOfArmorLevel
+                    + " " 
+                    + mercData.mercArmorLevel.ToString() 
+                    + " has already been encountered. Please make sure that all " 
+                    + nameOfMercData + " are loaded exactly once, and correspond to exactly one "
+                    + nameOfArmorLevel + "."); 
+            }
+            else
+            {
+                ret.Add(mercData.mercArmorLevel, mercData);
+            }
+        }
+
+        return ret;
     }
 }

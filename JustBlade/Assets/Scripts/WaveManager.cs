@@ -230,10 +230,21 @@ public class WaveManager : MonoBehaviour
 
     void SpawnPlayerMercenaries(ref Vector3 spawnPos, Vector3 dir)
     {
-        SpawnPlayerMercenaryFromData(PrefabManager.BasicMercenaryData, ItemShop.NumBasicMercenaries, ref spawnPos, dir);
-        SpawnPlayerMercenaryFromData(PrefabManager.LightMercenaryData, ItemShop.NumLightMercenaries, ref spawnPos, dir);
-        SpawnPlayerMercenaryFromData(PrefabManager.MediumMercenaryData, ItemShop.NumMediumMercenaries, ref spawnPos, dir);
-        SpawnPlayerMercenaryFromData(PrefabManager.HeavyMercenaryData, ItemShop.NumHeavyMercenaries, ref spawnPos, dir);
+        SpawnPlayerMercenaryFromData(
+            PrefabManager.MercenaryDataByArmorLevel[Armor.ArmorLevel.None]
+            , ItemShop.GetMercenaryCount(Armor.ArmorLevel.None), ref spawnPos, dir);
+
+        SpawnPlayerMercenaryFromData(
+            PrefabManager.MercenaryDataByArmorLevel[Armor.ArmorLevel.Light]
+            , ItemShop.GetMercenaryCount(Armor.ArmorLevel.Light), ref spawnPos, dir);
+
+        SpawnPlayerMercenaryFromData(
+            PrefabManager.MercenaryDataByArmorLevel[Armor.ArmorLevel.Medium]
+            , ItemShop.GetMercenaryCount(Armor.ArmorLevel.Medium), ref spawnPos, dir);
+
+        SpawnPlayerMercenaryFromData(
+            PrefabManager.MercenaryDataByArmorLevel[Armor.ArmorLevel.Heavy]
+            , ItemShop.GetMercenaryCount(Armor.ArmorLevel.Heavy), ref spawnPos, dir);
     }
 
     void SpawnPlayerMercenaryFromData(MercenaryData mercData, int count, ref Vector3 spawnPos, Vector3 dir)
