@@ -4,10 +4,10 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 
 /// <summary>
-/// A script which designates the attached game object as a Wave Manager.
+/// A script which designates the attached game object as a Horde Game Logic.
 /// It contains the logic the horde game mode.
 /// </summary>
-public class WaveManager : MonoBehaviour
+public class HordeGameLogic : MonoBehaviour
 {
     [System.Serializable]
     public class WaveSet
@@ -108,7 +108,7 @@ public class WaveManager : MonoBehaviour
     }
 
     /// <summary>
-    /// A method to which every <see cref="AiAgent"/> spawned by the <see cref="WaveManager"/> is subscribed to.
+    /// A method to which every <see cref="AiAgent"/> spawned by the <see cref="HordeGameLogic"/> is subscribed to.
     /// The subscribers of this method are reported the death of an Agent in the tournament round.
     /// This method also invokes <see cref="ConcludeWaveSet"/> if the victim agent is the player.
     /// </summary>
@@ -152,7 +152,7 @@ public class WaveManager : MonoBehaviour
     }
 
     /// <summary>
-    /// A method to which every <see cref="AiAgent"/> spawned by the <see cref="WaveManager"/> is subscribed.
+    /// A method to which every <see cref="AiAgent"/> spawned by the <see cref="HordeGameLogic"/> is subscribed.
     /// It provides an enemy agent to the calling <see cref="AiAgent"/>.
     /// If the calling agent has no enemies left, it retuns null.
     /// It also returns the number of friends the calling <see cref="AiAgent"/> has left by an out parameter.

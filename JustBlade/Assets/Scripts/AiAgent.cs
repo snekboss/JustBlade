@@ -576,7 +576,7 @@ public class AiAgent : Agent
     /// If this agent has an enemy, then this method doesn't do anything.
     /// If this agent has no enemy, then this method searches for a new enemy agent.
     /// The actual searching is done by calling <see cref="OnSearchForEnemyAgent"/>.
-    /// Currently, the only subscriber to this event is <see cref="WaveManager.OnAiAgentSearchForEnemy(AiAgent, out int)"/>.
+    /// Currently, the only subscriber to this event is <see cref="HordeGameLogic.OnAiAgentSearchForEnemy(AiAgent, out int)"/>.
     /// </summary>
     void HandleSearchForEnemyAgent()
     {

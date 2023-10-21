@@ -843,7 +843,9 @@ public class AnimationManager : MonoBehaviour
         offset.z *= scaleRatioZ;
 
         spineBone.position = pelvisBone.position + offset;
+#if UNITY_EDITOR
         //Debug.DrawRay(pelvis.position, finalPelvisToSpineOffset, Color.red);
+#endif
     }
 
     /// <summary>

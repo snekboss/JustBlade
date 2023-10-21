@@ -10,9 +10,9 @@ using UnityEngine;
 public static class PrefabManager
 {
     static List<Armor> headArmors;
-    public static List<Armor> HeadArmors 
+    public static List<Armor> HeadArmors
     {
-        get 
+        get
         {
             if (headArmors == null)
             {
@@ -148,9 +148,10 @@ public static class PrefabManager
         UnityEngine.Object[] objs = Resources.LoadAll(path);
         string nameOfArmorLevel = nameof(Armor.ArmorLevel);
         string nameOfMercData = nameof(MercenaryData);
-        
-        // TODO: Remove this for build? Does it get loaded on release build? Does it need preprocessor guards?
-        Debug.Assert(objs.Length == 4, "There needs to be exactly 4 " + nameOfMercData + " under MercenaryData folder."); 
+
+#if UNITY_EDITOR
+        Debug.Assert(objs.Length == 4, "There needs to be exactly 4 " + nameOfMercData + " under MercenaryData folder.");
+#endif
 
         Dictionary<Armor.ArmorLevel, MercenaryData> ret = new Dictionary<Armor.ArmorLevel, MercenaryData>();
 
@@ -159,21 +160,16 @@ public static class PrefabManager
             GameObject dataGO = objs[i] as GameObject;
             MercenaryData mercData = dataGO.GetComponent<MercenaryData>();
 
-            if (ret.ContainsKey(mercData.mercArmorLevel))
-            {
-                // TODO: Remove this for build? Does it get loaded on release build? Does it need preprocessor guards?
-
-                Debug.LogError(nameOfArmorLevel
-                    + " " 
-                    + mercData.mercArmorLevel.ToString() 
-                    + " has already been encountered. Please make sure that all " 
+#if UNITY_EDITOR
+            Debug.Assert(ret.ContainsKey(mercData.mercArmorLevel) == false, nameOfArmorLevel
+                    + " "
+                    + mercData.mercArmorLevel.ToString()
+                    + " has already been encountered. Please make sure that all "
                     + nameOfMercData + " are loaded exactly once, and correspond to exactly one "
-                    + nameOfArmorLevel + "."); 
-            }
-            else
-            {
-                ret.Add(mercData.mercArmorLevel, mercData);
-            }
+                    + nameOfArmorLevel + ".");
+#endif
+
+            ret.Add(mercData.mercArmorLevel, mercData);
         }
 
         return ret;
