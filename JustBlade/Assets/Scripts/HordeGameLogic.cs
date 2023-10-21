@@ -105,6 +105,7 @@ public class HordeGameLogic : MonoBehaviour
         agent.ExtraMovementSpeedLimitMultiplier = charSetPrefab.ExtraMovementSpeedLimitMultiplier;
         agent.ExtraDamageMultiplier = charSetPrefab.ExtraDamageMultiplier;
         agent.ExtraDamageResistanceMultiplier = charSetPrefab.ExtraDamageResistanceMultiplier;
+        agent.MaximumPoise = charSetPrefab.MaximumPoise;
     }
 
     /// <summary>

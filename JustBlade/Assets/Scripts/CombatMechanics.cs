@@ -300,15 +300,23 @@ public static class CombatMechanics
             dmgReductionMulti = HandArmorDmgReductionPercentHeavy;
         }
 
-        float finalDamage = rawDamage * (1 - dmgReductionMulti);
+        float finalDamage = (rawDamage * attacker.ExtraDamageMultiplier) 
+            * (1 - dmgReductionMulti) 
+            * defender.ExtraDamageResistanceMultiplier;
+
         int finalDamageInt = System.Convert.ToInt32(finalDamage);
 
         // Apply damage here.
         defender.ApplyDamage(attacker, finalDamageInt);
 
-        // Then, set the correct getting_hurt animation.
-        AnimationManager.GettingHurtDirection defGetHurtDir = GetDefenderHurtAnimation(attacker, defender, limbType);
-        defender.AnimMgr.SetGettingHurt(defGetHurtDir);
+        if (defender.CanPoiseThroughAttack() == false)
+        {
+            // Then, set the correct getting_hurt animation.
+            AnimationManager.GettingHurtDirection defGetHurtDir = GetDefenderHurtAnimation(attacker, defender, limbType);
+            defender.AnimMgr.SetGettingHurt(defGetHurtDir);
+        }
+
+        defender.DecrementPoise();
     }
 
     /// <summary>
