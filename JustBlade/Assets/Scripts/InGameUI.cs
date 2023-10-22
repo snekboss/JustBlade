@@ -165,7 +165,8 @@ public class InGameUI : MonoBehaviour
             return;
         }
 
-        float healthRatio = Mathf.Clamp01((float)(playerAgent.Health) / (float)(Agent.DefaultMaximumHealth));
+        float healthRatio = 
+            Mathf.Clamp01((float)(playerAgent.CharMgr.Health) / (float)(CharacteristicManager.DefaultMaximumHealth));
         float y = healthBar.transform.localScale.y;
         float z = healthBar.transform.localScale.z;
         healthBar.transform.localScale = new Vector3(healthRatio, y, z);

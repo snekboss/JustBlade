@@ -822,6 +822,7 @@ GameObject:
   - component: {fileID: 2011178560111457975}
   - component: {fileID: 3303926268302588129}
   - component: {fileID: 922571951}
+  - component: {fileID: -7167919754140725662}
   m_Layer: 0
   m_Name: PlayerAgent
   m_TagString: Untagged
@@ -932,6 +933,18 @@ MonoBehaviour:
   rootBone: {fileID: 1382400116066858198}
   spineBone: {fileID: 8178811115471198695}
   neckBone: {fileID: 6655873323139167786}
+--- !u!114 &-7167919754140725662
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3350359074657051952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50e1bed47e2571741843123c9973dd91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3372166521353268467
 GameObject:
   m_ObjectHideFlags: 0

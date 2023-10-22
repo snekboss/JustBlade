@@ -1548,6 +1548,7 @@ GameObject:
   - component: {fileID: 8111178340955713037}
   - component: {fileID: 6721999397170714355}
   - component: {fileID: 1080316829}
+  - component: {fileID: -637937191252390872}
   m_Layer: 0
   m_Name: AiAgent
   m_TagString: Untagged
@@ -1614,8 +1615,6 @@ MonoBehaviour:
   friendlinessIndicator: {fileID: 8321640778244885349}
   friendlyColorMat: {fileID: 2100000, guid: 17c2acc9cde9ca0488577a500d0f6a8a, type: 2}
   enemyColorMat: {fileID: 2100000, guid: cf1fcb2a07751a746a06ab85e2290712, type: 2}
-  TooCloseBorder: 0
-  TooFarBorder: 0
 --- !u!114 &5089193923706036315
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1642,95 +1641,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7023280a05db37942b51cf63bc922f41, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  poleAOC: {fileID: 22100000, guid: 885cf256419dbce4e9870b2f8e7c39e9, type: 2}
   spineBone: {fileID: 3227303804717059851}
   pelvisBone: {fileID: 5774086182151286322}
-  poleAOC: {fileID: 22100000, guid: 885cf256419dbce4e9870b2f8e7c39e9, type: 2}
-  idleTimer: 0
-  isState_Idle: 0
-  isState_AtkHoldUp: 0
-  isState_AtkHoldRight: 0
-  isState_AtkHoldDown: 0
-  isState_AtkHoldLeft: 0
-  isState_AtkReleaseUp: 0
-  isState_AtkReleaseRight: 0
-  isState_AtkReleaseDown: 0
-  isState_AtkReleaseLeft: 0
-  isState_AtkBounceUp: 0
-  isState_AtkBounceRight: 0
-  isState_AtkBounceDown: 0
-  isState_AtkBounceLeft: 0
-  isState_DefHoldUp: 0
-  isState_DefHoldRight: 0
-  isState_DefHoldDown: 0
-  isState_DefHoldLeft: 0
-  isState_DefBlockedUp: 0
-  isState_DefBlockedRight: 0
-  isState_DefBlockedDown: 0
-  isState_DefBlockedLeft: 0
-  isTrans_IdleToAtkUpHold: 0
-  isTrans_IdleToAtkRightHold: 0
-  isTrans_IdleToAtkDownHold: 0
-  isTrans_IdleToAtkLeftHold: 0
-  isTrans_AtkUpHoldToRelease: 0
-  isTrans_AtkRightHoldToRelease: 0
-  isTrans_AtkDownHoldToRelease: 0
-  isTrans_AtkLeftHoldToRelease: 0
-  isTrans_AtkUpReleaseToBounce: 0
-  isTrans_AtkRightReleaseToBounce: 0
-  isTrans_AtkDownReleaseToBounce: 0
-  isTrans_AtkLeftReleaseToBounce: 0
-  isTrans_AtkUpReleaseToIdle: 0
-  isTrans_AtkRightReleaseToIdle: 0
-  isTrans_AtkDownReleaseToIdle: 0
-  isTrans_AtkLeftReleaseToIdle: 0
-  isTrans_AtkUpBounceToIdle: 0
-  isTrans_AtkRightBounceToIdle: 0
-  isTrans_AtkDownBounceToIdle: 0
-  isTrans_AtkLeftBounceToIdle: 0
-  isTrans_AtkUpHoldToDefUpHold: 0
-  isTrans_AtkUpHoldToDefRightHold: 0
-  isTrans_AtkUpHoldToDefDownHold: 0
-  isTrans_AtkUpHoldToDefLeftHold: 0
-  isTrans_AtkRightHoldToDefUpHold: 0
-  isTrans_AtkRightHoldToDefRightHold: 0
-  isTrans_AtkRightHoldToDefDownHold: 0
-  isTrans_AtkRightHoldToDefLeftHold: 0
-  isTrans_AtkDownHoldToDefUpHold: 0
-  isTrans_AtkDownHoldToDefRightHold: 0
-  isTrans_AtkDownHoldToDefDownHold: 0
-  isTrans_AtkDownHoldToDefLeftHold: 0
-  isTrans_AtkLeftHoldToDefUpHold: 0
-  isTrans_AtkLeftHoldToDefRightHold: 0
-  isTrans_AtkLeftHoldToDefDownHold: 0
-  isTrans_AtkLeftHoldToDefLeftHold: 0
-  isTrans_IdleToDefUpHold: 0
-  isTrans_IdleToDefRightHold: 0
-  isTrans_IdleToDefDownHold: 0
-  isTrans_IdleToDefLeftHold: 0
-  isTrans_DefUpHoldToBlocked: 0
-  isTrans_DefRightHoldToBlocked: 0
-  isTrans_DefDownHoldToBlocked: 0
-  isTrans_DefLeftHoldToBlocked: 0
-  isTrans_DefUpBlockedToHold: 0
-  isTrans_DefRightBlockedToHold: 0
-  isTrans_DefDownBlockedToHold: 0
-  isTrans_DefLeftBlockedToHold: 0
-  isTrans_DefUpHoldToAtkUpHold: 0
-  isTrans_DefUpHoldToAtkRightHold: 0
-  isTrans_DefUpHoldToAtkDownHold: 0
-  isTrans_DefUpHoldToAtkLeftHold: 0
-  isTrans_DefRightHoldToAtkUpHold: 0
-  isTrans_DefRightHoldToAtkRightHold: 0
-  isTrans_DefRightHoldToAtkDownHold: 0
-  isTrans_DefRightHoldToAtkLeftHold: 0
-  isTrans_DefDownHoldToAtkUpHold: 0
-  isTrans_DefDownHoldToAtkRightHold: 0
-  isTrans_DefDownHoldToAtkDownHold: 0
-  isTrans_DefDownHoldToAtkLeftHold: 0
-  isTrans_DefLeftHoldToAtkUpHold: 0
-  isTrans_DefLeftHoldToAtkRightHold: 0
-  isTrans_DefLeftHoldToAtkDownHold: 0
-  isTrans_DefLeftHoldToAtkLeftHold: 0
 --- !u!114 &6721999397170714355
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1768,6 +1681,18 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!114 &-637937191252390872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8302257294258779100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 50e1bed47e2571741843123c9973dd91, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8321640778244885349
 GameObject:
   m_ObjectHideFlags: 0

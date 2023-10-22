@@ -100,25 +100,27 @@ public class AiAgent : Agent
     public delegate Agent AiAgentSearchForEnemyEvent(AiAgent caller, out int numRemainingFriends);
     public event AiAgentSearchForEnemyEvent OnSearchForEnemyAgent;
 
-    /// <summary>
-    /// An override of <see cref="Agent.ReinitializeParameters()"/>.
-    /// Reinitializes movement speed related variables for AiAgent,
-    /// It also initializes some values which are used for smoothing out the animation of the agent,
-    /// which are caused by the sudden stopping of Unity's NavMeshAgent.
-    /// Sometimes it is necessary to reinitialize values. This is due to Unity's de-centralized scripting system.
-    /// There is no way to know which script will get invoked unless the programmer writes up a centralized system.
-    /// </summary>
-    public override void ReinitializeParameters()
+    public override void InitializeAgent(Weapon weaponPrefab
+        , Armor headArmorPrefab
+        , Armor torsoArmorPrefab
+        , Armor handArmorPrefab
+        , Armor legArmorPrefab
+        , CharacteristicSet characteristicPrefab)
     {
-        base.ReinitializeParameters();
+        base.InitializeAgent(weaponPrefab
+            , headArmorPrefab
+            , torsoArmorPrefab
+            , handArmorPrefab
+            , legArmorPrefab
+            , characteristicPrefab);
 
         // --- Combat distance related parameters ---
         // Must check if weapon is null in case EquipmentManager hasn't received its equipment yet.
         float weaponLength = (EqMgr.equippedWeapon == null) ? 0f : EqMgr.equippedWeapon.weaponLength;
-        weaponLength *= AgentScale;
+        weaponLength *= CharMgr.AgentSizeMultiplier;
 
-        TooFarBorder = AgentWorldRadius + weaponLength * TooFarMultiplier;
-        TooCloseBorder = AgentWorldRadius + weaponLength * TooCloseMultiplier;
+        TooFarBorder = CharMgr.AgentWorldRadius + weaponLength * TooFarMultiplier;
+        TooCloseBorder = CharMgr.AgentWorldRadius + weaponLength * TooCloseMultiplier;
 
         if (TooFarBorder < TooFarBorderLowerBound)
         {
@@ -130,10 +132,10 @@ public class AiAgent : Agent
         //    TooCloseBorder = TooCloseBorderLowerBound;
         //}
 
-        AttackDistanceBorder = AgentWorldRadius + weaponLength * AttackDistanceMultiplier;
+        AttackDistanceBorder = CharMgr.AgentWorldRadius + weaponLength * AttackDistanceMultiplier;
 
         // --- NavMesh movement related parameters ---
-        lastNonZeroSpeedDecreaseLerpRate = DefaultMovementSpeedLimit / MovementSpeedLimit;
+        lastNonZeroSpeedDecreaseLerpRate = CharacteristicManager.DefaultMovementSpeedLimit / CharMgr.MovementSpeedLimit;
         lastNonZeroSpeedDecreaseLerpRate *= lastNonZeroSpeedDecreaseLerpRate;
         lastNonZeroSpeedDecreaseLerpRate = Mathf.Clamp01(lastNonZeroSpeedDecreaseLerpRate);
 
@@ -141,71 +143,26 @@ public class AiAgent : Agent
     }
 
     /// <summary>
-    /// An override of <see cref="Agent.RequestEquipmentSet(out Weapon, out Armor, out Armor, out Armor, out Armor)"/>.
-    /// AiAgents request random equipment.
-    /// </summary>
-    /// <param name="weaponPrefab">The prefab reference of the weapon.</param>
-    /// <param name="headArmorPrefab">The prefab reference of the head armor.</param>
-    /// <param name="torsoArmorPrefab">The prefab reference of the torso armor.</param>
-    /// <param name="handArmorPrefab">The prefab reference of the hand armor.</param>
-    /// <param name="legArmorPrefab">The prefab reference of the leg armor.</param>
-    public override void RequestEquipmentSet(out Weapon weaponPrefab
-        , out Armor headArmorPrefab
-        , out Armor torsoArmorPrefab
-        , out Armor handArmorPrefab
-        , out Armor legArmorPrefab)
-    {
-        base.RequestEquipmentSet(out weaponPrefab
-            , out headArmorPrefab
-            , out torsoArmorPrefab
-            , out handArmorPrefab
-            , out legArmorPrefab);
-
-        // The base class will already invoke the necessary events to request and receive an equipment set.
-        // However, in case things fail, I'll make it so that the agent spawns with at least something.
-
-        if (weaponPrefab == null)
-        {
-            weaponPrefab = PrefabManager.Weapons[Random.Range(0, PrefabManager.Weapons.Count)];
-        }
-
-        if (headArmorPrefab == null)
-        {
-            headArmorPrefab = PrefabManager.HeadArmors[Random.Range(0, PrefabManager.HeadArmors.Count)];
-        }
-        if (torsoArmorPrefab == null)
-        {
-            torsoArmorPrefab = PrefabManager.TorsoArmors[Random.Range(0, PrefabManager.TorsoArmors.Count)];
-        }
-        if (handArmorPrefab == null)
-        {
-            handArmorPrefab = PrefabManager.HandArmors[Random.Range(0, PrefabManager.HandArmors.Count)];
-        }
-        if (legArmorPrefab == null)
-        {
-            legArmorPrefab = PrefabManager.LegArmors[Random.Range(0, PrefabManager.LegArmors.Count)];
-        }
-    }
-
-    /// <summary>
     /// Initializes the values of Unity's <see cref="NavMeshAgent"/>.
     /// It's also used to initialize the rigidbody attached to this agent.
     /// The rigidbody was attached so that the AiAgents don't walk through one another.
     /// </summary>
-    public void InitializeNavMeshAgent()
+    void InitializeNavMeshAgent()
     {
-        lastNonZeroSpeedDecreaseLerpRate = DefaultMovementSpeedLimit / MovementSpeedLimit;
+        lastNonZeroSpeedDecreaseLerpRate = CharacteristicManager.DefaultMovementSpeedLimit / CharMgr.MovementSpeedLimit;
         lastNonZeroSpeedDecreaseLerpRate *= lastNonZeroSpeedDecreaseLerpRate;
         lastNonZeroSpeedDecreaseLerpRate = Mathf.Clamp01(lastNonZeroSpeedDecreaseLerpRate);
 
         nma = GetComponent<NavMeshAgent>();
 
         // Use default agent values here, as NavMeshAgent makes up for the change in scale automatically.
-        nma.height = DefaultAgentHeight;
-        nma.radius = DefaultAgentRadius;
+        nma.height = CharacteristicManager.DefaultAgentHeight;
+        nma.radius = CharacteristicManager.DefaultAgentRadius;
 
-        nma.speed = MovementSpeedLimit;
-        nma.acceleration = NavMeshAgentBaseAcceleration * (MovementSpeedLimit / DefaultMovementSpeedLimit);
+        nma.speed = CharMgr.MovementSpeedLimit;
+        nma.acceleration = 
+            NavMeshAgentBaseAcceleration 
+            * (CharMgr.MovementSpeedLimit / CharacteristicManager.DefaultMovementSpeedLimit);
         nma.stoppingDistance = 0;
 
         // While moving to position, don't let the AI code rotate the agent transform.
@@ -214,13 +171,13 @@ public class AiAgent : Agent
     }
 
     /// <summary>
-    /// An override of <see cref="Agent.OnDamaged(Agent, int)"/>.
+    /// An override of <see cref="Agent.OnThisAgentDamaged(Agent, int)"/>.
     /// When damaged, AiAgents focus on the agent who damaged them.
     /// They also attack or defend based on the flip of a coin.
     /// </summary>
     /// <param name="attacker"></param>
     /// <param name="amount"></param>
-    protected override void OnDamaged(Agent attacker, int amount)
+    public override void OnThisAgentDamaged(Agent attacker, int amount)
     {
         enemyAgent = attacker;
 
@@ -243,8 +200,8 @@ public class AiAgent : Agent
     public override void OnOtherAgentDeath(Agent victim, Agent killer)
     {
         bool isLostFriendly =
-            (victim.isFriendOfPlayer == true && isFriendOfPlayer == true)
-            || (victim.isFriendOfPlayer == false && isFriendOfPlayer == false);
+            (victim.IsFriendOfPlayer == true && IsFriendOfPlayer == true)
+            || (victim.IsFriendOfPlayer == false && IsFriendOfPlayer == false);
 
         if (isLostFriendly)
         {
@@ -268,7 +225,7 @@ public class AiAgent : Agent
         if (targetLimbType == Limb.LimbType.Head)
         {
             float headStartPosY = enemyAgent.LimbMgr.limbHead.transform.position.y;
-            float headEndPosY = AgentWorldHeight;
+            float headEndPosY = CharMgr.AgentWorldHeight;
 
             float chosenPosY = Mathf.Lerp(headStartPosY, headEndPosY, HeadLookPercentPosY);
 
@@ -450,10 +407,10 @@ public class AiAgent : Agent
     {
         Vector3 chosenVelocity = Vector3.zero;
 
-        if (currentMovementSpeed > 0)
+        if (CharMgr.CurrentMovementSpeed > 0)
         {
             chosenVelocity = nma.velocity;
-            outSpeed = currentMovementSpeed;
+            outSpeed = CharMgr.CurrentMovementSpeed;
         }
         else
         {
@@ -564,11 +521,11 @@ public class AiAgent : Agent
     /// </summary>
     void SetMovementParameters()
     {
-        currentMovementSpeed = nma.velocity.magnitude;
+        CharMgr.CurrentMovementSpeed = nma.velocity.magnitude;
 
-        if (currentMovementSpeed > 0)
+        if (CharMgr.CurrentMovementSpeed > 0)
         {
-            lastNonZeroSpeed = currentMovementSpeed;
+            lastNonZeroSpeed = CharMgr.CurrentMovementSpeed;
             lastNonZeroVelocity = nma.velocity;
         }
     }
@@ -618,10 +575,10 @@ public class AiAgent : Agent
     /// If this agent is an enemy of the player, then the enmity color is used.
     /// The colors are determined by <see cref="friendlyColorMat"/> and <see cref="enemyColorMat"/>.
     /// </summary>
-    void InitFriendlinessIndicator()
+    protected override void InitializeFriendlinessIndicator()
     {
         MeshRenderer mr = friendlinessIndicator.GetComponent<MeshRenderer>();
-        if (isFriendOfPlayer)
+        if (IsFriendOfPlayer)
         {
             mr.material = friendlyColorMat;
         }
@@ -644,18 +601,6 @@ public class AiAgent : Agent
 
         yawAngle = transform.eulerAngles.y;
         targetYawAngle = yawAngle;
-    }
-
-    /// <summary>
-    /// Unity's Start method.
-    /// In this case, it is used to initialize the friendliness indicator.
-    /// It is done in Start rather than Awake, because we must ensure that the <see cref="Agent.isFriendOfPlayer"/> value
-    /// is initialized before the <see cref="InitFriendlinessIndicator"/> is called.
-    /// There is no way to initialize <see cref="Agent.isFriendOfPlayer"/> before Awake is called, hence Start is used.
-    /// </summary>
-    void Start()
-    {
-        InitFriendlinessIndicator();
     }
 
     /// <summary>

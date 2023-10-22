@@ -41,7 +41,7 @@ public class PlayerAgent : Agent
     CharacterController charCont;
     const float AgentSkinWidthMultiplier = 0.1f;
     const float GroundedDistanceMultiplier = 2.0f;
-    float AgentSkinWidth { get { return AgentWorldRadius * AgentSkinWidthMultiplier; } }
+    float AgentSkinWidth { get { return CharMgr.AgentWorldRadius * AgentSkinWidthMultiplier; } }
     float GroundedDistance { get { return AgentSkinWidth * GroundedDistanceMultiplier; } }
 
     /// <summary>
@@ -97,23 +97,19 @@ public class PlayerAgent : Agent
     CombatDirection combatDir;
     #endregion
 
-    public override void RequestEquipmentSet(out Weapon weaponPrefab
-        , out Armor headArmorPrefab
-        , out Armor torsoArmorPrefab
-        , out Armor handArmorPrefab
-        , out Armor legArmorPrefab)
+    public override void InitializeAgent(Weapon weaponPrefab
+        , Armor headArmorPrefab
+        , Armor torsoArmorPrefab
+        , Armor handArmorPrefab
+        , Armor legArmorPrefab
+        , CharacteristicSet characteristicPrefab)
     {
-        weaponPrefab = PrefabManager.Weapons[ItemShop.PlayerChosenWeaponIndex];
-
-        headArmorPrefab = PrefabManager.HeadArmors[ItemShop.PlayerChosenHeadArmorIndex];
-        torsoArmorPrefab = PrefabManager.TorsoArmors[ItemShop.PlayerChosenTorsoArmorIndex];
-        handArmorPrefab = PrefabManager.HandArmors[ItemShop.PlayerChosenHandArmorIndex];
-        legArmorPrefab = PrefabManager.LegArmors[ItemShop.PlayerChosenLegArmorIndex];
-    }
-
-    public override void ReinitializeParameters()
-    {
-        base.ReinitializeParameters();
+        base.InitializeAgent(weaponPrefab
+            , headArmorPrefab
+            , torsoArmorPrefab
+            , handArmorPrefab
+            , legArmorPrefab
+            , characteristicPrefab);
 
         InitializeCharacterController();
         SetCameraTrackingPoint();
@@ -130,13 +126,13 @@ public class PlayerAgent : Agent
             charCont = gameObject.AddComponent<CharacterController>();
         }
         
-        charCont.height = DefaultAgentHeight;
-        charCont.center = Vector3.up * DefaultAgentHeight / 2;
-        charCont.radius = DefaultAgentRadius;
+        charCont.height = CharacteristicManager.DefaultAgentHeight;
+        charCont.center = Vector3.up * CharacteristicManager.DefaultAgentHeight / 2;
+        charCont.radius = CharacteristicManager.DefaultAgentRadius;
         charCont.minMoveDistance = 0;
         // From Unity Docs:
         // It's good practice to keep your Skin Width at least greater than 0.01 and more than 10% of the Radius.
-        charCont.skinWidth = DefaultAgentRadius * AgentSkinWidthMultiplier;
+        charCont.skinWidth = CharacteristicManager.DefaultAgentRadius * AgentSkinWidthMultiplier;
     }
 
     /// <summary>
@@ -145,8 +141,8 @@ public class PlayerAgent : Agent
     void InitializeNavMeshAgent()
     {
         nma = gameObject.AddComponent<NavMeshAgent>();
-        nma.height = DefaultAgentHeight;
-        nma.radius = DefaultAgentRadius;
+        nma.height = CharacteristicManager.DefaultAgentHeight;
+        nma.radius = CharacteristicManager.DefaultAgentRadius;
         nma.updatePosition = false;
         nma.updateRotation = false;
         nma.nextPosition = transform.position;
@@ -328,7 +324,7 @@ public class PlayerAgent : Agent
             Vector3 worldMoveDir3D = transform.TransformDirection(localMoveDir3D);
 
             // Calculate world velocity (using only the horizontal directions).
-            worldVelocity = worldMoveDir3D * MovementSpeedLimit;
+            worldVelocity = worldMoveDir3D * CharMgr.MovementSpeedLimit;
 
             if (worldMoveDir3D.sqrMagnitude > 1)
             {
@@ -340,7 +336,7 @@ public class PlayerAgent : Agent
             Vector2 worldVelocityXZ = new Vector2(worldVelocity.x, worldVelocity.z);
 
             // Update its value only as long as the player is grounded.
-            currentMovementSpeed = worldVelocityXZ.magnitude;
+            CharMgr.CurrentMovementSpeed = worldVelocityXZ.magnitude;
         }
 
         // Restore worldVelocity's vertical component, in case it was changed above.
@@ -510,7 +506,7 @@ public class PlayerAgent : Agent
     public override void Awake()
     {
         base.Awake();
-        isFriendOfPlayer = true;
+        IsFriendOfPlayer = true;
         IsPlayerAgent = true;
 
         isDefTimer = 2 * isDefTimerThreshold; // set it far above the threshold, so that the condition is not satisfied at the start.
@@ -559,7 +555,7 @@ public class PlayerAgent : Agent
         HandleCombatInputs();
         HandleCombatDirection();
 
-        AnimMgr.UpdateAnimations(localMoveDirXZ, currentMovementSpeed, isGrounded, isAtk, isDef);
+        AnimMgr.UpdateAnimations(localMoveDirXZ, CharMgr.CurrentMovementSpeed, isGrounded, isAtk, isDef);
     }
 
     /// <summary>

@@ -96,12 +96,13 @@ public class EquipmentManager : MonoBehaviour
     Armor equippedHandArmor;
     Armor equippedLegArmor;
 
-    /// <summary>
-    /// Initializes the fields of the EquipmentManager.
-    /// This is done by getting the references to the fields and components.
-    /// </summary>
-    void Initialize()
+    public void InitializeEquipmentManager(Weapon weaponPrefab
+        , Armor headArmorPrefab
+        , Armor torsoArmorPrefab
+        , Armor handArmorPrefab
+        , Armor legArmorPrefab)
     {
+        // Initialize fields
         ownerAgent = GetComponent<Agent>();
         animMgr = GetComponent<AnimationManager>();
 
@@ -111,27 +112,8 @@ public class EquipmentManager : MonoBehaviour
         agentLegsSMR = ownerAgent.transform.Find(StaticVariables.HumanLegsName).GetComponent<SkinnedMeshRenderer>();
 
         agentBones = agentHeadSMR.bones;
-    }
 
-    /// <summary>
-    /// Spawns the equipment for this agent, and updates values like movement speed multiplier.
-    /// This is done by requesting equipment set from <see cref="Agent.RequestEquipmentSet(out Weapon, out Armor, out Armor, out Armor, out Armor)"/>.
-    /// The details are found in the corresponding overridden methods.
-    /// </summary>
-    void SpawnEquipment()
-    {
-        Weapon weaponPrefab;
-        Armor headArmorPrefab;
-        Armor torsoArmorPrefab;
-        Armor handArmorPrefab;
-        Armor legArmorPrefab;
-
-        ownerAgent.RequestEquipmentSet(out weaponPrefab
-            , out headArmorPrefab
-            , out torsoArmorPrefab
-            , out handArmorPrefab
-            , out legArmorPrefab);
-
+        // Spawn items
         SpawnWeapon(weaponPrefab);
 
         SpawnHeadArmor(headArmorPrefab);
@@ -139,7 +121,11 @@ public class EquipmentManager : MonoBehaviour
         SpawnHandArmor(handArmorPrefab);
         SpawnLegArmor(legArmorPrefab);
 
-        ownerAgent.ReinitializeParameters();
+        MovementSpeedMultiplierFromArmor =
+            CalculateMovementSpeedMultiplier(HeadArmorLevel
+            , TorsoArmorLevel
+            , HandArmorLevel
+            , LegArmorLevel);
 
         SetSkinnedMeshVisibility();
     }
@@ -359,34 +345,5 @@ public class EquipmentManager : MonoBehaviour
 
         float movementSpeedMultiplier = DefaultMovementSpeedMultiplierFromArmor - finalPenalty;
         return movementSpeedMultiplier;
-    }
-
-
-    /// <summary>
-    /// Same as <see cref="CalculateMovementSpeedMultiplier(Armor.ArmorLevel, Armor.ArmorLevel, Armor.ArmorLevel, Armor.ArmorLevel)"/>,
-    /// but it does so on the current agent instance, based on its currently equipped armor.
-    /// The calculation returns the same value as <see cref="DefaultMovementSpeedMultiplierFromArmor"/> if the agent isn't wearing anything,
-    /// even though the calculation is still performed.
-    /// It is sometimes necessary to force an agent to recalculate its movement speed multiplier from armor.
-    /// This is because the the agent's equipment might not have been initialized at the time.
-    /// </summary>
-    public void CalculateMovementSpeedMultiplierFromArmor()
-    {
-        MovementSpeedMultiplierFromArmor = 
-            CalculateMovementSpeedMultiplier(HeadArmorLevel
-            , TorsoArmorLevel
-            , HandArmorLevel
-            , LegArmorLevel);
-    }
-
-    /// <summary>
-    /// Unity's Start method.
-    /// In this case, it is used to initialize some fields of the script, and then spawn the equipment of the agent.
-    /// </summary>
-    void Start()
-    {
-        Initialize();
-
-        SpawnEquipment();
     }
 }

@@ -454,6 +454,13 @@ public class GearSelectionUI : MonoBehaviour
 
         GameObject mannequinGO = Instantiate(mannequinAgentPrefab);
         mannequinAgent = mannequinGO.GetComponent<MannequinAgent>();
+        mannequinAgent.InitializeAgent(
+            PrefabManager.Weapons[ItemShop.PlayerChosenWeaponIndex]
+          , PrefabManager.HeadArmors[ItemShop.PlayerChosenHeadArmorIndex]
+          , PrefabManager.TorsoArmors[ItemShop.PlayerChosenTorsoArmorIndex]
+          , PrefabManager.HandArmors[ItemShop.PlayerChosenHandArmorIndex]
+          , PrefabManager.LegArmors[ItemShop.PlayerChosenLegArmorIndex]);
+
         mannequinAgent.transform.parent = mannequinContainer;
         mannequinAgent.transform.localPosition = Vector3.zero;
         mannequinAgent.transform.localScale = Vector3.one * mannequinAgentSize;

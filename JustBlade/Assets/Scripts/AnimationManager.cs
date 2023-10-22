@@ -377,7 +377,7 @@ public class AnimationManager : MonoBehaviour
     /// <param name="moveY">Out parameter moveY, which is to be updated for the animator.</param>
     void HandleMovementAnimationParameters(Vector2 localMoveDir, float curMoveSpeed, out float moveX, out float moveY)
     {
-        float speedRatio = curMoveSpeed / Agent.DefaultMovementSpeedLimit;
+        float speedRatio = curMoveSpeed / CharacteristicManager.DefaultMovementSpeedLimit;
 
         // Initialize moveX and moveY based on localMoveDir.
         // The scale depends on speedRatio.
@@ -395,7 +395,7 @@ public class AnimationManager : MonoBehaviour
         float moveAnimSpeedMulti = 1.0f;
 
         // We compare the agent's curMoveSpeed to the Agent.DefaultMovementSpeedLimit. 
-        if (curMoveSpeed >= Agent.DefaultMovementSpeedLimit)
+        if (curMoveSpeed >= CharacteristicManager.DefaultMovementSpeedLimit)
         {
             // Here, we know that curMovSpeed is faster than the default.
             // The only kind of agent who can do this is a fast agent.
@@ -408,7 +408,7 @@ public class AnimationManager : MonoBehaviour
             // Here, we know that curMovSpeed is slower than the default.
             // However, we don't know if this is because the agent is a slow agent, or is just speeding up.
 
-            if (ownerAgent.MovementSpeedLimit < Agent.DefaultMovementSpeedLimit)
+            if (ownerAgent.CharMgr.MovementSpeedLimit < CharacteristicManager.DefaultMovementSpeedLimit)
             {
                 // Here, we know that agent is a slow guy, and can never reach the default speed.
 

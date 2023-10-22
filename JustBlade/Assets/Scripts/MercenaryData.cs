@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class MercenaryData : MonoBehaviour
 {
-	public HordeCharacteristicSet mercCharSetPrefab;
+	public CharacteristicSet mercCharSetPrefab;
 	public HordeArmorSet mercArmorSetPrefab;
 	public HordeWeaponSet mercWeaponSetPrefab;
 	public Armor.ArmorLevel mercArmorLevel;

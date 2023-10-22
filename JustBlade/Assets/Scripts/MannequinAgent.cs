@@ -26,29 +26,6 @@ public class MannequinAgent : Agent
     }
 
     /// <summary>
-    /// An override of <see cref="Agent.RequestEquipmentSet(out Weapon, out Armor, out Armor, out Armor, out Armor)"/>.
-    /// It requests the equipment set based on player chosen equipment indices which reside in <see cref="ItemShop"/>.
-    /// </summary>
-    /// <param name="weaponPrefab"></param>
-    /// <param name="headArmorPrefab"></param>
-    /// <param name="torsoArmorPrefab"></param>
-    /// <param name="handArmorPrefab"></param>
-    /// <param name="legArmorPrefab"></param>
-    public override void RequestEquipmentSet(out Weapon weaponPrefab
-        , out Armor headArmorPrefab
-        , out Armor torsoArmorPrefab
-        , out Armor handArmorPrefab
-        , out Armor legArmorPrefab)
-    {
-        weaponPrefab = PrefabManager.Weapons[ItemShop.PlayerChosenWeaponIndex];
-
-        headArmorPrefab = PrefabManager.HeadArmors[ItemShop.PlayerChosenHeadArmorIndex];
-        torsoArmorPrefab = PrefabManager.TorsoArmors[ItemShop.PlayerChosenTorsoArmorIndex];
-        handArmorPrefab = PrefabManager.HandArmors[ItemShop.PlayerChosenHandArmorIndex];
-        legArmorPrefab = PrefabManager.LegArmors[ItemShop.PlayerChosenLegArmorIndex];
-    }
-
-    /// <summary>
     /// Unity's Update method.
     /// In this case, it updates the animations on the mannequin agent.
     /// The "update" to the animations is rather simple, in the sense that the mannequin agent is just told to stand still.

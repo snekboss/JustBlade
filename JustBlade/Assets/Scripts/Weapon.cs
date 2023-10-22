@@ -311,8 +311,8 @@ public class Weapon : EquippableItem
 
             // Check if the defender is friendly. If so, don't damage the friend.
             bool isFriendly =
-                (attacker.isFriendOfPlayer == true && defender.isFriendOfPlayer == true) 
-             || (attacker.isFriendOfPlayer == false && defender.isFriendOfPlayer == false);
+                (attacker.IsFriendOfPlayer == true && defender.IsFriendOfPlayer == true) 
+             || (attacker.IsFriendOfPlayer == false && defender.IsFriendOfPlayer == false);
 
             if (isFriendly)
             {

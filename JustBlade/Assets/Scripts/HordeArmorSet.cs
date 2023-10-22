@@ -10,7 +10,7 @@ public class HordeArmorSet : MonoBehaviour
 	public List<Armor> handArmorPrefabs;
 	public List<Armor> legArmorPrefabs;
 
-	public Armor GetRandomArmorFromList(List<Armor> armorList)
+	Armor GetRandomArmorFromList(List<Armor> armorList)
     {
         if (armorList == null || armorList.Count == 0)
         {
@@ -21,14 +21,30 @@ public class HordeArmorSet : MonoBehaviour
 		return armorList[randomIndex];
     }
 
-	public void ProvideRequestedArmorSet(out Armor headArmorPrefab
-		, out Armor torsoArmorPrefab
-		, out Armor handArmorPrefab
-		, out Armor legArmorPrefab)
+	public Armor GetRandomArmor(Armor.ArmorType armorType)
     {
-		headArmorPrefab = GetRandomArmorFromList(headArmorPrefabs);
-		torsoArmorPrefab = GetRandomArmorFromList(torsoArmorPrefabs);
-		handArmorPrefab = GetRandomArmorFromList(handArmorPrefabs);
-		legArmorPrefab = GetRandomArmorFromList(legArmorPrefabs);
+		List<Armor> chosenList = null;
+        switch (armorType)
+        {
+            case Armor.ArmorType.Head:
+                chosenList = headArmorPrefabs;
+                break;
+            case Armor.ArmorType.Torso:
+                chosenList = torsoArmorPrefabs;
+                break;
+            case Armor.ArmorType.Hand:
+                chosenList = handArmorPrefabs;
+                break;
+            case Armor.ArmorType.Leg:
+                chosenList = legArmorPrefabs;
+                break;
+            default:
+#if UNITY_EDITOR
+                Debug.Log("Error.");
+#endif
+                break;
+        }
+
+        return GetRandomArmorFromList(chosenList);
 	}
 }

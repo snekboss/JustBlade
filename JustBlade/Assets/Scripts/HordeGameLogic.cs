@@ -24,7 +24,7 @@ public class HordeGameLogic : MonoBehaviour
     [System.Serializable]
     public class InvaderData
     {
-        public HordeCharacteristicSet invaderCharacteristicSetPrefab;
+        public CharacteristicSet invaderCharacteristicSetPrefab;
         public HordeArmorSet invaderArmorSetPrefab;
         public HordeWeaponSet invaderWeaponSetPrefab;
         public HordeRewardData invaderRewardDataPrefab;
@@ -76,17 +76,17 @@ public class HordeGameLogic : MonoBehaviour
         for (int i = 0; i < invaderData.invaderCount; i++)
         {
             AiAgent a = Instantiate(aiAgentPrefab);
-            Vector3 nextAgentSpawnOffset = dir * (2 * a.AgentWorldRadius + distanceBetweenAgents);
+            InitializeAgentFromHordeData(a
+                , invaderData.invaderWeaponSetPrefab
+                , invaderData.invaderArmorSetPrefab
+                , invaderData.invaderCharacteristicSetPrefab);
+
+            Vector3 nextAgentSpawnOffset = dir * (2 * a.CharMgr.AgentWorldRadius + distanceBetweenAgents);
 
             a.OnSearchForEnemyAgent += OnAiAgentSearchForEnemy;
-            a.isFriendOfPlayer = false;
+            a.IsFriendOfPlayer = false;
             a.OnDeath += OnAgentDeath;
             OnAnyAgentDeath += a.OnOtherAgentDeath;
-
-            a.ArmorSetRequest += invaderData.invaderArmorSetPrefab.ProvideRequestedArmorSet;
-            a.WeaponRequest += invaderData.invaderWeaponSetPrefab.ProvideRequestedWeapon;
-
-            SetAgentCharacteristicFromData(a, invaderData.invaderCharacteristicSetPrefab);
 
             HordeRewardData hrd = a.gameObject.AddComponent<HordeRewardData>();
             hrd.CopyDataFromPrefab(invaderData.invaderRewardDataPrefab);
@@ -98,14 +98,23 @@ public class HordeGameLogic : MonoBehaviour
         }
     }
 
-    void SetAgentCharacteristicFromData(Agent agent, HordeCharacteristicSet charSetPrefab)
+    void InitializeAgentFromHordeData(Agent agent
+        , HordeWeaponSet hordeWeaponSet
+        , HordeArmorSet hordeArmorSet
+        , CharacteristicSet characteristicSet)
     {
-        agent.Health = charSetPrefab.MaximumHealth;
-        agent.AgentScale = charSetPrefab.ModelSizeMultiplier;
-        agent.ExtraMovementSpeedLimitMultiplier = charSetPrefab.ExtraMovementSpeedLimitMultiplier;
-        agent.ExtraDamageMultiplier = charSetPrefab.ExtraDamageMultiplier;
-        agent.ExtraDamageResistanceMultiplier = charSetPrefab.ExtraDamageResistanceMultiplier;
-        agent.MaximumPoise = charSetPrefab.MaximumPoise;
+        Weapon weaponPrefab = hordeWeaponSet.GetRandomWeapon();
+        Armor headArmorPrefab = hordeArmorSet.GetRandomArmor(Armor.ArmorType.Head);
+        Armor torsoArmorPrefab = hordeArmorSet.GetRandomArmor(Armor.ArmorType.Torso);
+        Armor handArmorPrefab = hordeArmorSet.GetRandomArmor(Armor.ArmorType.Hand);
+        Armor legArmorPrefab = hordeArmorSet.GetRandomArmor(Armor.ArmorType.Leg);
+
+        agent.InitializeAgent(weaponPrefab
+            , headArmorPrefab
+            , torsoArmorPrefab
+            , handArmorPrefab
+            , legArmorPrefab
+            , characteristicSet);
     }
 
     /// <summary>
@@ -132,7 +141,7 @@ public class HordeGameLogic : MonoBehaviour
             ItemShop.PlayerWasBestedInThisMelee = true;
         }
 
-        if (victim.isFriendOfPlayer)
+        if (victim.IsFriendOfPlayer)
         {
             playerTeamAgents.Remove(victim);
         }
@@ -164,7 +173,7 @@ public class HordeGameLogic : MonoBehaviour
     Agent OnAiAgentSearchForEnemy(AiAgent caller, out int numRemainingFriends)
     {
         Agent ret = null;
-        if (caller.isFriendOfPlayer)
+        if (caller.IsFriendOfPlayer)
         {
             List<Agent> agents = enemyTeamAgents.FindAll(a => !a.IsDead);
 
@@ -211,25 +220,33 @@ public class HordeGameLogic : MonoBehaviour
         Vector3 dir = playerTeamSpawnDirection == SpawnDirection.Right ? Vector3.right : Vector3.left;
 
         SpawnPlayer(ref spawnPos, dir);
-        SpawnPlayerMercenaries(ref spawnPos, dir);
+        SpawnPlayerFriendlyAgents(ref spawnPos, dir);
     }
 
     void SpawnPlayer(ref Vector3 spawnPos, Vector3 dir)
     {
         Agent player = Instantiate(playerAgentPrefab);
 
-        player.isFriendOfPlayer = true;
+        // Player gets default Characteristics.
+        player.InitializeAgent(
+            PrefabManager.Weapons[ItemShop.PlayerChosenWeaponIndex]
+          , PrefabManager.HeadArmors[ItemShop.PlayerChosenHeadArmorIndex]
+          , PrefabManager.TorsoArmors[ItemShop.PlayerChosenTorsoArmorIndex]
+          , PrefabManager.HandArmors[ItemShop.PlayerChosenHandArmorIndex]
+          , PrefabManager.LegArmors[ItemShop.PlayerChosenLegArmorIndex]);
+
+        player.IsFriendOfPlayer = true;
         player.OnDeath += OnAgentDeath;
         OnAnyAgentDeath += player.OnOtherAgentDeath;
 
         player.transform.position = spawnPos;
         playerTeamAgents.Add(player);
 
-        Vector3 nextAgentSpawnOffset = dir * (2 * player.AgentWorldRadius + distanceBetweenAgents);
+        Vector3 nextAgentSpawnOffset = dir * (2 * player.CharMgr.AgentWorldRadius + distanceBetweenAgents);
         spawnPos = spawnPos + nextAgentSpawnOffset;
     }
 
-    void SpawnPlayerMercenaries(ref Vector3 spawnPos, Vector3 dir)
+    void SpawnPlayerFriendlyAgents(ref Vector3 spawnPos, Vector3 dir)
     {
         SpawnPlayerMercenaryFromData(
             PrefabManager.MercenaryDataByArmorLevel[Armor.ArmorLevel.None]
@@ -254,15 +271,14 @@ public class HordeGameLogic : MonoBehaviour
         {
             AiAgent merc = Instantiate(aiAgentPrefab);
             merc.OnSearchForEnemyAgent += OnAiAgentSearchForEnemy;
+            InitializeAgentFromHordeData(merc
+                , mercData.mercWeaponSetPrefab
+                , mercData.mercArmorSetPrefab
+                , mercData.mercCharSetPrefab);
 
-            merc.isFriendOfPlayer = true;
+            merc.IsFriendOfPlayer = true;
             merc.OnDeath += OnAgentDeath;
             OnAnyAgentDeath += merc.OnOtherAgentDeath;
-
-            merc.ArmorSetRequest += mercData.mercArmorSetPrefab.ProvideRequestedArmorSet;
-            merc.WeaponRequest += mercData.mercWeaponSetPrefab.ProvideRequestedWeapon;
-
-            SetAgentCharacteristicFromData(merc, mercData.mercCharSetPrefab);
 
             MercenaryDescriptionData mdd = merc.gameObject.AddComponent<MercenaryDescriptionData>();
             mdd.InitializeFromMercenaryData(mercData);
@@ -270,7 +286,7 @@ public class HordeGameLogic : MonoBehaviour
             merc.transform.position = spawnPos;
             playerTeamAgents.Add(merc);
 
-            Vector3 nextAgentSpawnOffset = dir * (2 * merc.AgentWorldRadius + distanceBetweenAgents);
+            Vector3 nextAgentSpawnOffset = dir * (2 * merc.CharMgr.AgentWorldRadius + distanceBetweenAgents);
 
             spawnPos = spawnPos + nextAgentSpawnOffset;
         }

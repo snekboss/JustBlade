@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class HordeCharacteristicSet : MonoBehaviour
+public class CharacteristicSet : MonoBehaviour
 {
 	public int MaximumHealth;
 	public float ModelSizeMultiplier;
