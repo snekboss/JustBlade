@@ -38,6 +38,41 @@ public class HordeGameLogic : MonoBehaviour
     /// </summary>
     public enum SpawnDirection { Left, Right }
 
+    // TODO: Below, remove unnecessary variables and rename necessary variables.
+    public static int CurrentRoundNumber = 1;
+    public static int MaximumRoundNumber = 6;
+
+    public static int MaxNumAgentsInEachTeamMultiplier = 2;
+    public static bool IsPlayerEliminated = false;
+    public static bool IsTournamentEnded { get { return IsPlayerEliminated || CurrentRoundNumber > MaximumRoundNumber; } }
+    public static bool IsFinalRound { get { return CurrentRoundNumber == MaximumRoundNumber; } }
+
+    public static int TotalOpponentsBeatenByPlayer;
+    public static bool PlayerWasBestedInThisMelee;
+    public static int MaxNumAgentsInEachTeam
+    {
+        get
+        {
+            if (CurrentRoundNumber == MaximumRoundNumber)
+            {
+                return 1;
+            }
+
+            return (MaximumRoundNumber - CurrentRoundNumber) * MaxNumAgentsInEachTeamMultiplier;
+        }
+    }
+
+    public static void StartNewTournament()
+    {
+        IsPlayerEliminated = false;
+        PlayerWasBestedInThisMelee = false;
+        TotalOpponentsBeatenByPlayer = 0;
+        CurrentRoundNumber = 1;
+    }
+    // TODO: Above, remove unnecessary variables and rename necessary variables.
+
+    // Item shop stuff below
+
     public Transform playerTeamSpawnPoint;
     public SpawnDirection playerTeamSpawnDirection;
 
@@ -67,7 +102,7 @@ public class HordeGameLogic : MonoBehaviour
 
     /// <summary>
     /// The number of enemies beaten by player in this round.
-    /// At the end of every round, these are added to <see cref="ItemShop.TotalOpponentsBeatenByPlayer"/>.
+    /// At the end of every round, these are added to <see cref="PlayerInventoryManager.TotalOpponentsBeatenByPlayer"/>.
     /// </summary>
     int numEnemiesBeatenByPlayer;
 
@@ -138,7 +173,7 @@ public class HordeGameLogic : MonoBehaviour
 
         if (victim.IsPlayerAgent)
         {
-            ItemShop.PlayerWasBestedInThisMelee = true;
+            HordeGameLogic.PlayerWasBestedInThisMelee = true;
         }
 
         if (victim.IsFriendOfPlayer)
@@ -229,11 +264,11 @@ public class HordeGameLogic : MonoBehaviour
 
         // Player gets default Characteristics.
         player.InitializeAgent(
-            PrefabManager.Weapons[ItemShop.PlayerChosenWeaponIndex]
-          , PrefabManager.HeadArmors[ItemShop.PlayerChosenHeadArmorIndex]
-          , PrefabManager.TorsoArmors[ItemShop.PlayerChosenTorsoArmorIndex]
-          , PrefabManager.HandArmors[ItemShop.PlayerChosenHandArmorIndex]
-          , PrefabManager.LegArmors[ItemShop.PlayerChosenLegArmorIndex]);
+            PrefabManager.Weapons[PlayerInventoryManager.PlayerChosenWeaponIndex]
+          , PrefabManager.HeadArmors[PlayerInventoryManager.PlayerChosenHeadArmorIndex]
+          , PrefabManager.TorsoArmors[PlayerInventoryManager.PlayerChosenTorsoArmorIndex]
+          , PrefabManager.HandArmors[PlayerInventoryManager.PlayerChosenHandArmorIndex]
+          , PrefabManager.LegArmors[PlayerInventoryManager.PlayerChosenLegArmorIndex]);
 
         player.IsFriendOfPlayer = true;
         player.OnDeath += OnAgentDeath;
@@ -250,19 +285,19 @@ public class HordeGameLogic : MonoBehaviour
     {
         SpawnPlayerMercenaryFromData(
             PrefabManager.MercenaryDataByArmorLevel[Armor.ArmorLevel.None]
-            , ItemShop.GetMercenaryCount(Armor.ArmorLevel.None), ref spawnPos, dir);
+            , PlayerPartyManager.GetMercenaryCount(Armor.ArmorLevel.None), ref spawnPos, dir);
 
         SpawnPlayerMercenaryFromData(
             PrefabManager.MercenaryDataByArmorLevel[Armor.ArmorLevel.Light]
-            , ItemShop.GetMercenaryCount(Armor.ArmorLevel.Light), ref spawnPos, dir);
+            , PlayerPartyManager.GetMercenaryCount(Armor.ArmorLevel.Light), ref spawnPos, dir);
 
         SpawnPlayerMercenaryFromData(
             PrefabManager.MercenaryDataByArmorLevel[Armor.ArmorLevel.Medium]
-            , ItemShop.GetMercenaryCount(Armor.ArmorLevel.Medium), ref spawnPos, dir);
+            , PlayerPartyManager.GetMercenaryCount(Armor.ArmorLevel.Medium), ref spawnPos, dir);
 
         SpawnPlayerMercenaryFromData(
             PrefabManager.MercenaryDataByArmorLevel[Armor.ArmorLevel.Heavy]
-            , ItemShop.GetMercenaryCount(Armor.ArmorLevel.Heavy), ref spawnPos, dir);
+            , PlayerPartyManager.GetMercenaryCount(Armor.ArmorLevel.Heavy), ref spawnPos, dir);
     }
 
     void SpawnPlayerMercenaryFromData(MercenaryData mercData, int count, ref Vector3 spawnPos, Vector3 dir)
@@ -336,16 +371,16 @@ public class HordeGameLogic : MonoBehaviour
     {
         iCurWaveSet++;
 
-        ItemShop.TotalOpponentsBeatenByPlayer += numEnemiesBeatenByPlayer;
+        HordeGameLogic.TotalOpponentsBeatenByPlayer += numEnemiesBeatenByPlayer;
 
         // TODO: This is not how the game works anymore. Remove this.
-        if (ItemShop.PlayerWasBestedInThisMelee && numEnemiesBeatenByPlayer < ItemShop.CurrentRoundNumber)
+        if (HordeGameLogic.PlayerWasBestedInThisMelee && numEnemiesBeatenByPlayer < HordeGameLogic.CurrentRoundNumber)
         {
             // The player was bested in melee, and was not able to beat enough opponents to proceed to the next round.
-            ItemShop.IsPlayerEliminated = true;
+            HordeGameLogic.IsPlayerEliminated = true;
         }
 
-        ItemShop.CurrentRoundNumber++;
+        HordeGameLogic.CurrentRoundNumber++;
 
         StartCoroutine("ConcludeWaveSetCoroutine");
     }
@@ -366,7 +401,7 @@ public class HordeGameLogic : MonoBehaviour
     /// </summary>
     void Start()
     {
-        ItemShop.PlayerWasBestedInThisMelee = false;
+        HordeGameLogic.PlayerWasBestedInThisMelee = false;
 
         StartWaveSet();
     }

@@ -88,7 +88,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_NextWeapon()
     {
-        ItemShop.PlayerChosenWeaponIndex++;
+        PlayerInventoryManager.PlayerChosenWeaponIndex++;
         OnMannequinEquipmentChanged();
     }
 
@@ -97,7 +97,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_NextHeadArmor()
     {
-        ItemShop.PlayerChosenHeadArmorIndex++;
+        PlayerInventoryManager.PlayerChosenHeadArmorIndex++;
         OnMannequinEquipmentChanged();
     }
 
@@ -106,7 +106,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_NextTorsoArmor()
     {
-        ItemShop.PlayerChosenTorsoArmorIndex++;
+        PlayerInventoryManager.PlayerChosenTorsoArmorIndex++;
         OnMannequinEquipmentChanged();
     }
 
@@ -115,7 +115,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_NextHandArmor()
     {
-        ItemShop.PlayerChosenHandArmorIndex++;
+        PlayerInventoryManager.PlayerChosenHandArmorIndex++;
         OnMannequinEquipmentChanged();
     }
 
@@ -124,7 +124,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_NextLegArmor()
     {
-        ItemShop.PlayerChosenLegArmorIndex++;
+        PlayerInventoryManager.PlayerChosenLegArmorIndex++;
         OnMannequinEquipmentChanged();
     }
 
@@ -133,7 +133,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_PrevWeapon()
     {
-        ItemShop.PlayerChosenWeaponIndex--;
+        PlayerInventoryManager.PlayerChosenWeaponIndex--;
         OnMannequinEquipmentChanged();
     }
 
@@ -142,7 +142,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_PrevHeadArmor()
     {
-        ItemShop.PlayerChosenHeadArmorIndex--;
+        PlayerInventoryManager.PlayerChosenHeadArmorIndex--;
         OnMannequinEquipmentChanged();
     }
 
@@ -151,7 +151,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_PrevTorsoArmor()
     {
-        ItemShop.PlayerChosenTorsoArmorIndex--;
+        PlayerInventoryManager.PlayerChosenTorsoArmorIndex--;
         OnMannequinEquipmentChanged();
     }
 
@@ -160,7 +160,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_PrevHandArmor()
     {
-        ItemShop.PlayerChosenHandArmorIndex--;
+        PlayerInventoryManager.PlayerChosenHandArmorIndex--;
         OnMannequinEquipmentChanged();
     }
 
@@ -169,7 +169,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_PrevLegArmor()
     {
-        ItemShop.PlayerChosenLegArmorIndex--;
+        PlayerInventoryManager.PlayerChosenLegArmorIndex--;
         OnMannequinEquipmentChanged();
     }
 
@@ -210,62 +210,62 @@ public class GearSelectionUI : MonoBehaviour
 
     public void OnButtonClick_BuyWeapon()
     {
-        ConfirmAndPurchase(txtBtnBuyWeapon, ItemShop.BuyChosenWeapon);
+        ConfirmAndPurchase(txtBtnBuyWeapon, PlayerInventoryManager.BuyChosenWeapon);
     }
 
     public void OnButtonClick_BuyHeadArmor()
     {
-        ConfirmAndPurchase(txtBtnBuyWeapon, ItemShop.BuyChosenHeadArmor);
+        ConfirmAndPurchase(txtBtnBuyWeapon, PlayerInventoryManager.BuyChosenHeadArmor);
     }
 
     public void OnButtonClick_BuyTorsoArmor()
     {
-        ConfirmAndPurchase(txtBtnBuyTorsoArmor, ItemShop.BuyChosenTorsoArmor);
+        ConfirmAndPurchase(txtBtnBuyTorsoArmor, PlayerInventoryManager.BuyChosenTorsoArmor);
     }
 
     public void OnButtonClick_BuyHandArmor()
     {
-        ConfirmAndPurchase(txtBtnBuyHandArmor, ItemShop.BuyChosenHandArmor);
+        ConfirmAndPurchase(txtBtnBuyHandArmor, PlayerInventoryManager.BuyChosenHandArmor);
     }
 
     public void OnButtonClick_BuyLegArmor()
     {
-        ConfirmAndPurchase(txtBtnBuyLegArmor, ItemShop.BuyChosenLegArmor);
+        ConfirmAndPurchase(txtBtnBuyLegArmor, PlayerInventoryManager.BuyChosenLegArmor);
     }
 
     public void OnButtonClick_HireBasicMercenary()
     {
-        ConfirmAndPurchase(txtBtnHireBasicMerc, ItemShop.HireBasicMercenary);
+        ConfirmAndPurchase(txtBtnHireBasicMerc, PlayerPartyManager.HireBasicMercenary);
     }
 
     public void OnButtonClick_HireLightMercenary()
     {
-        ConfirmAndPurchase(txtBtnHireLightMerc, ItemShop.HireLightMercenary);
+        ConfirmAndPurchase(txtBtnHireLightMerc, PlayerPartyManager.HireLightMercenary);
     }
 
     public void OnButtonClick_HireMediumMercenary()
     {
-        ConfirmAndPurchase(txtBtnHireMediumMerc, ItemShop.HireMediumMercenary);
+        ConfirmAndPurchase(txtBtnHireMediumMerc, PlayerPartyManager.HireMediumMercenary);
     }
 
     public void OnButtonClick_HireHeavyMercenary()
     {
-        ConfirmAndPurchase(txtBtnHireHeavyMerc, ItemShop.HireHeavyMercenary);
+        ConfirmAndPurchase(txtBtnHireHeavyMerc, PlayerPartyManager.HireHeavyMercenary);
     }
 
     public void OnButtonClick_UpgradeBasicMercenary()
     {
-        ConfirmAndPurchase(txtBtnUpgradeBasicMerc, ItemShop.UpgradeBasicMercenary);
+        ConfirmAndPurchase(txtBtnUpgradeBasicMerc, PlayerPartyManager.UpgradeBasicMercenary);
     }
 
     public void OnButtonClick_UpgradeLightMercenary()
     {
-        ConfirmAndPurchase(txtBtnUpgradeLightMerc, ItemShop.UpgradeLightMercenary);
+        ConfirmAndPurchase(txtBtnUpgradeLightMerc, PlayerPartyManager.UpgradeLightMercenary);
     }
 
     public void OnButtonClick_UpgradeMediumMercenary()
     {
-        ConfirmAndPurchase(txtBtnUpgradeMediumMerc, ItemShop.UpgradeMediumMercenary);
+        ConfirmAndPurchase(txtBtnUpgradeMediumMerc, PlayerPartyManager.UpgradeMediumMercenary);
     }
 
     /// <summary>
@@ -303,11 +303,11 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     void UpdateTexts()
     {
-        Weapon chosenWeapon = PrefabManager.Weapons[ItemShop.PlayerChosenWeaponIndex];
-        Armor chosenHeadArmor = PrefabManager.HeadArmors[ItemShop.PlayerChosenHeadArmorIndex];
-        Armor chosenTorsoArmor = PrefabManager.TorsoArmors[ItemShop.PlayerChosenTorsoArmorIndex];
-        Armor chosenHandArmor = PrefabManager.HandArmors[ItemShop.PlayerChosenHandArmorIndex];
-        Armor chosenLegArmor = PrefabManager.LegArmors[ItemShop.PlayerChosenLegArmorIndex];
+        Weapon chosenWeapon = PrefabManager.Weapons[PlayerInventoryManager.PlayerChosenWeaponIndex];
+        Armor chosenHeadArmor = PrefabManager.HeadArmors[PlayerInventoryManager.PlayerChosenHeadArmorIndex];
+        Armor chosenTorsoArmor = PrefabManager.TorsoArmors[PlayerInventoryManager.PlayerChosenTorsoArmorIndex];
+        Armor chosenHandArmor = PrefabManager.HandArmors[PlayerInventoryManager.PlayerChosenHandArmorIndex];
+        Armor chosenLegArmor = PrefabManager.LegArmors[PlayerInventoryManager.PlayerChosenLegArmorIndex];
 
         txtSelectedWeapon.text = chosenWeapon.shownName;
         txtSelectedHeadArmor.text = chosenHeadArmor.shownName;
@@ -356,14 +356,14 @@ public class GearSelectionUI : MonoBehaviour
         Total party size: 8/10
          */
         txtMercInfoBody.text =
-            "Basic mercenaries: " + ItemShop.GetMercenaryCount(Armor.ArmorLevel.None).ToString() + NL
-            + "Light mercenaries: " + ItemShop.GetMercenaryCount(Armor.ArmorLevel.Light).ToString() + NL
-            + "Medium mercenaries: " + ItemShop.GetMercenaryCount(Armor.ArmorLevel.Medium).ToString() + NL
-            + "Heavy mercenaries: " + ItemShop.GetMercenaryCount(Armor.ArmorLevel.Heavy).ToString() + NL
-            + "Total party size: " + ItemShop.NumTotalMercenaries.ToString() 
-            + "/" + ItemShop.MaxNumberOfMercenaries.ToString();
+            "Basic mercenaries: " + PlayerPartyManager.GetMercenaryCount(Armor.ArmorLevel.None).ToString() + NL
+            + "Light mercenaries: " + PlayerPartyManager.GetMercenaryCount(Armor.ArmorLevel.Light).ToString() + NL
+            + "Medium mercenaries: " + PlayerPartyManager.GetMercenaryCount(Armor.ArmorLevel.Medium).ToString() + NL
+            + "Heavy mercenaries: " + PlayerPartyManager.GetMercenaryCount(Armor.ArmorLevel.Heavy).ToString() + NL
+            + "Total party size: " + PlayerPartyManager.NumTotalMercenaries.ToString()
+            + "/" + PlayerPartyManager.MaxNumberOfMercenaries.ToString();
 
-        txtPlayerGold.text = "Gold: " + ItemShop.PlayerGold.ToString();
+        txtPlayerGold.text = "Gold: " + PlayerInventoryManager.PlayerGold.ToString();
 
         // Button texts
         string buyString = "Buy for {0} gold";
@@ -377,14 +377,14 @@ public class GearSelectionUI : MonoBehaviour
         txtBtnBuyHandArmor.text = string.Format(buyString, chosenHandArmor.purchaseCost);
         txtBtnBuyLegArmor.text = string.Format(buyString, chosenLegArmor.purchaseCost);
 
-        txtBtnHireBasicMerc.text = string.Format(hireString, ItemShop.GetMercenaryHireCost(Armor.ArmorLevel.None));
-        txtBtnHireLightMerc.text = string.Format(hireString, ItemShop.GetMercenaryHireCost(Armor.ArmorLevel.Light));
-        txtBtnHireMediumMerc.text = string.Format(hireString, ItemShop.GetMercenaryHireCost(Armor.ArmorLevel.Medium));
-        txtBtnHireHeavyMerc.text = string.Format(hireString, ItemShop.GetMercenaryHireCost(Armor.ArmorLevel.Heavy));
+        txtBtnHireBasicMerc.text = string.Format(hireString, PlayerPartyManager.GetMercenaryHireCost(Armor.ArmorLevel.None));
+        txtBtnHireLightMerc.text = string.Format(hireString, PlayerPartyManager.GetMercenaryHireCost(Armor.ArmorLevel.Light));
+        txtBtnHireMediumMerc.text = string.Format(hireString, PlayerPartyManager.GetMercenaryHireCost(Armor.ArmorLevel.Medium));
+        txtBtnHireHeavyMerc.text = string.Format(hireString, PlayerPartyManager.GetMercenaryHireCost(Armor.ArmorLevel.Heavy));
 
-        txtBtnUpgradeBasicMerc.text = string.Format(upgradeString, ItemShop.GetMercenaryUpgradeCost(Armor.ArmorLevel.None));
-        txtBtnUpgradeLightMerc.text = string.Format(upgradeString, ItemShop.GetMercenaryUpgradeCost(Armor.ArmorLevel.Light));
-        txtBtnUpgradeMediumMerc.text = string.Format(upgradeString, ItemShop.GetMercenaryUpgradeCost(Armor.ArmorLevel.Medium));
+        txtBtnUpgradeBasicMerc.text = string.Format(upgradeString, PlayerPartyManager.GetMercenaryUpgradeCost(Armor.ArmorLevel.None));
+        txtBtnUpgradeLightMerc.text = string.Format(upgradeString, PlayerPartyManager.GetMercenaryUpgradeCost(Armor.ArmorLevel.Light));
+        txtBtnUpgradeMediumMerc.text = string.Format(upgradeString, PlayerPartyManager.GetMercenaryUpgradeCost(Armor.ArmorLevel.Medium));
     }
 
     /// <summary>
@@ -392,11 +392,11 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     void ManageButtons()
     {
-        Weapon chosenWeapon = PrefabManager.Weapons[ItemShop.PlayerChosenWeaponIndex];
-        Armor chosenHeadArmor = PrefabManager.HeadArmors[ItemShop.PlayerChosenHeadArmorIndex];
-        Armor chosenTorsoArmor = PrefabManager.TorsoArmors[ItemShop.PlayerChosenTorsoArmorIndex];
-        Armor chosenHandArmor = PrefabManager.HandArmors[ItemShop.PlayerChosenHandArmorIndex];
-        Armor chosenLegArmor = PrefabManager.LegArmors[ItemShop.PlayerChosenLegArmorIndex];
+        Weapon chosenWeapon = PrefabManager.Weapons[PlayerInventoryManager.PlayerChosenWeaponIndex];
+        Armor chosenHeadArmor = PrefabManager.HeadArmors[PlayerInventoryManager.PlayerChosenHeadArmorIndex];
+        Armor chosenTorsoArmor = PrefabManager.TorsoArmors[PlayerInventoryManager.PlayerChosenTorsoArmorIndex];
+        Armor chosenHandArmor = PrefabManager.HandArmors[PlayerInventoryManager.PlayerChosenHandArmorIndex];
+        Armor chosenLegArmor = PrefabManager.LegArmors[PlayerInventoryManager.PlayerChosenLegArmorIndex];
 
         bool allItemsArePurchased = chosenWeapon.IsPurchasedByPlayer()
             && chosenHeadArmor.IsPurchasedByPlayer()
@@ -407,20 +407,20 @@ public class GearSelectionUI : MonoBehaviour
         // --- Buttons to gray out ---
         btnFight.interactable = allItemsArePurchased;
 
-        btnBuyWeapon.interactable = ItemShop.CanBuyItem(chosenWeapon);
-        btnBuyHeadArmor.interactable = ItemShop.CanBuyItem(chosenHeadArmor);
-        btnBuyTorsoArmor.interactable = ItemShop.CanBuyItem(chosenTorsoArmor);
-        btnBuyHandArmor.interactable = ItemShop.CanBuyItem(chosenHandArmor);
-        btnBuyLegArmor.interactable = ItemShop.CanBuyItem(chosenLegArmor);
+        btnBuyWeapon.interactable = PlayerInventoryManager.CanBuyItem(chosenWeapon);
+        btnBuyHeadArmor.interactable = PlayerInventoryManager.CanBuyItem(chosenHeadArmor);
+        btnBuyTorsoArmor.interactable = PlayerInventoryManager.CanBuyItem(chosenTorsoArmor);
+        btnBuyHandArmor.interactable = PlayerInventoryManager.CanBuyItem(chosenHandArmor);
+        btnBuyLegArmor.interactable = PlayerInventoryManager.CanBuyItem(chosenLegArmor);
 
-        btnHireBasicMerc.interactable = ItemShop.CanHireMercenary(Armor.ArmorLevel.None);
-        btnHireLightMerc.interactable = ItemShop.CanHireMercenary(Armor.ArmorLevel.Light);
-        btnHireMediumMerc.interactable = ItemShop.CanHireMercenary(Armor.ArmorLevel.Medium);
-        btnHireHeavyMerc.interactable = ItemShop.CanHireMercenary(Armor.ArmorLevel.Heavy);
+        btnHireBasicMerc.interactable = PlayerPartyManager.CanHireMercenary(Armor.ArmorLevel.None);
+        btnHireLightMerc.interactable = PlayerPartyManager.CanHireMercenary(Armor.ArmorLevel.Light);
+        btnHireMediumMerc.interactable = PlayerPartyManager.CanHireMercenary(Armor.ArmorLevel.Medium);
+        btnHireHeavyMerc.interactable = PlayerPartyManager.CanHireMercenary(Armor.ArmorLevel.Heavy);
 
-        btnUpgradeBasicMerc.interactable = ItemShop.CanUpgradeMercenary(Armor.ArmorLevel.None);
-        btnUpgradeLightMerc.interactable = ItemShop.CanUpgradeMercenary(Armor.ArmorLevel.Light);
-        btnUpgradeMediumMerc.interactable = ItemShop.CanUpgradeMercenary(Armor.ArmorLevel.Medium);
+        btnUpgradeBasicMerc.interactable = PlayerPartyManager.CanUpgradeMercenary(Armor.ArmorLevel.None);
+        btnUpgradeLightMerc.interactable = PlayerPartyManager.CanUpgradeMercenary(Armor.ArmorLevel.Light);
+        btnUpgradeMediumMerc.interactable = PlayerPartyManager.CanUpgradeMercenary(Armor.ArmorLevel.Medium);
 
         // --- Buttons to hide (ie, disable) ---
         btnBuyWeapon.gameObject.SetActive(!chosenWeapon.IsPurchasedByPlayer());
@@ -455,11 +455,11 @@ public class GearSelectionUI : MonoBehaviour
         GameObject mannequinGO = Instantiate(mannequinAgentPrefab);
         mannequinAgent = mannequinGO.GetComponent<MannequinAgent>();
         mannequinAgent.InitializeAgent(
-            PrefabManager.Weapons[ItemShop.PlayerChosenWeaponIndex]
-          , PrefabManager.HeadArmors[ItemShop.PlayerChosenHeadArmorIndex]
-          , PrefabManager.TorsoArmors[ItemShop.PlayerChosenTorsoArmorIndex]
-          , PrefabManager.HandArmors[ItemShop.PlayerChosenHandArmorIndex]
-          , PrefabManager.LegArmors[ItemShop.PlayerChosenLegArmorIndex]);
+            PrefabManager.Weapons[PlayerInventoryManager.PlayerChosenWeaponIndex]
+          , PrefabManager.HeadArmors[PlayerInventoryManager.PlayerChosenHeadArmorIndex]
+          , PrefabManager.TorsoArmors[PlayerInventoryManager.PlayerChosenTorsoArmorIndex]
+          , PrefabManager.HandArmors[PlayerInventoryManager.PlayerChosenHandArmorIndex]
+          , PrefabManager.LegArmors[PlayerInventoryManager.PlayerChosenLegArmorIndex]);
 
         mannequinAgent.transform.parent = mannequinContainer;
         mannequinAgent.transform.localPosition = Vector3.zero;

@@ -60,15 +60,15 @@ public class TournamentInfoUI : MonoBehaviour
     /// </summary>
     void UpdateGameOverScreenTexts()
     {
-        screenGameOver.SetActive(ItemShop.IsTournamentEnded);
+        screenGameOver.SetActive(HordeGameLogic.IsTournamentEnded);
 
         string gameOverHeaderStr = "";
         string gameOverBodyStr = "";
         string NL = Environment.NewLine;
 
-        string playerStats = "Total number of opponents beaten: " + ItemShop.TotalOpponentsBeatenByPlayer;
+        string playerStats = "Total number of opponents beaten: " + HordeGameLogic.TotalOpponentsBeatenByPlayer;
 
-        if (ItemShop.IsPlayerEliminated)
+        if (HordeGameLogic.IsPlayerEliminated)
         {
             gameOverHeaderStr = "Game Over";
 
@@ -92,27 +92,27 @@ public class TournamentInfoUI : MonoBehaviour
     /// </summary>
     void UpdateRoundInfoScreenTexts()
     {
-        screenRoundInfo.SetActive(!ItemShop.IsTournamentEnded);
+        screenRoundInfo.SetActive(!HordeGameLogic.IsTournamentEnded);
 
         string infoStr = "";
 
-        if (ItemShop.CurrentRoundNumber == 1)
+        if (HordeGameLogic.CurrentRoundNumber == 1)
         {
             infoStr += "Welcome to the Melee Tournament. ";
         }
 
         string bestedStr = "";
-        if (ItemShop.PlayerWasBestedInThisMelee)
+        if (HordeGameLogic.PlayerWasBestedInThisMelee)
         {
             bestedStr = "You were bested in this melee, but since you managed to beat enough opponents, the master of ceremonies allowed you to proceed to the next round. ";
         }
 
-        string participantStr = ItemShop.IsFinalRound ? "participant" : "participants";
+        string participantStr = HordeGameLogic.IsFinalRound ? "participant" : "participants";
         infoStr +=
             string.Format("You are at around {0} of {1}. There will be {2} {3} in each team. Click Next to proceed to the gear selection menu."
-            , ItemShop.CurrentRoundNumber
-            , ItemShop.MaximumRoundNumber
-            , ItemShop.MaxNumAgentsInEachTeam
+            , HordeGameLogic.CurrentRoundNumber
+            , HordeGameLogic.MaximumRoundNumber
+            , HordeGameLogic.MaxNumAgentsInEachTeam
             , participantStr);
 
         txtRoundInfoBody.text = bestedStr + infoStr;
