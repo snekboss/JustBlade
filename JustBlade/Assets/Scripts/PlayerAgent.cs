@@ -85,6 +85,7 @@ public class PlayerAgent : Agent
     bool btnShiftHeld; // toggle editing camera offset Y or Z
     bool btnRpressed; // toggle first/third person view
     bool btnTpressed; // toggle orbital camera 
+    bool btnQpressed; // toggle AI command
     #endregion
 
     #region Fields that are determined by Combat inputs.
@@ -97,12 +98,18 @@ public class PlayerAgent : Agent
     CombatDirection combatDir;
     #endregion
 
+
+    public bool IsPlayerOrderingToHoldPosition { get; protected set; } = false;
+
+    public delegate void PlayerOrderToggleEvent(PlayerAgent playerAgent, bool isPlayerOrderingToHoldPosition);
+    public event PlayerOrderToggleEvent PlayerOrderToggle;
+
     public override void InitializeAgent(Weapon weaponPrefab
         , Armor headArmorPrefab
         , Armor torsoArmorPrefab
         , Armor handArmorPrefab
         , Armor legArmorPrefab
-        , CharacteristicSet characteristicPrefab)
+        , CharacteristicSet characteristicPrefab = null)
     {
         base.InitializeAgent(weaponPrefab
             , headArmorPrefab
@@ -191,6 +198,7 @@ public class PlayerAgent : Agent
 
         btnRpressed = Input.GetKeyDown(KeyCode.R);
         btnTpressed = Input.GetKeyDown(KeyCode.T);
+        btnQpressed = Input.GetKeyDown(KeyCode.Q);
     }
 
     /// <summary>
@@ -219,6 +227,19 @@ public class PlayerAgent : Agent
         {
             chosenCameraTrackingPoint = thirdPersonViewTrackingPoint;
             EqMgr.ToggleHelmetVisibility(true);
+        }
+    }
+
+    void HandleOrders()
+    {
+        if (btnQpressed)
+        {
+            IsPlayerOrderingToHoldPosition = !IsPlayerOrderingToHoldPosition;
+
+            if (PlayerOrderToggle != null)
+            {
+                PlayerOrderToggle(this, IsPlayerOrderingToHoldPosition);
+            }
         }
     }
 
@@ -546,6 +567,7 @@ public class PlayerAgent : Agent
 
         ReadInputs();
 
+        HandleOrders();
         HandleCameraViewMode();
         HandleCameraRotation();
         HandleAgentRotation();

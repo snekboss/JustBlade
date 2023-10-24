@@ -89,6 +89,9 @@ public class AiAgent : Agent
     float defendTimer;
     float searchForEnemyTimer;
 
+    public bool IsOrderedToHoldPosition { get; protected set; }
+    Vector3 positionToHold;
+
     AiCombatState combatState;
 
     /// <summary>
@@ -206,6 +209,17 @@ public class AiAgent : Agent
         if (isLostFriendly)
         {
             numRemainingFriends--;
+        }
+    }
+
+    public void ToggleHoldPosition(bool isPlayerOrderingToHoldPosition, Vector3 positionToHold)
+    {
+        IsOrderedToHoldPosition = isPlayerOrderingToHoldPosition;
+        this.positionToHold = positionToHold;
+
+        if (IsOrderedToHoldPosition)
+        {
+            nma.SetDestination(positionToHold);
         }
     }
 
@@ -437,11 +451,15 @@ public class AiAgent : Agent
             return;
         }
 
-        DetermineDesiredDestination();
 
-        if ((distanceFromEnemy > TooFarBorder) || (distanceFromEnemy < TooCloseBorder))
+        if (IsOrderedToHoldPosition == false)
         {
-            nma.SetDestination(desiredMoveDestination); // TODO: Handle return value.
+            DetermineDesiredDestination();
+
+            if ((distanceFromEnemy > TooFarBorder) || (distanceFromEnemy < TooCloseBorder))
+            {
+                nma.SetDestination(desiredMoveDestination); // TODO: Handle return value.
+            }
         }
     }
 

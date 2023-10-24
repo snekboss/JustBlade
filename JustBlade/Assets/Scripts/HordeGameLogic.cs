@@ -234,6 +234,75 @@ public class HordeGameLogic : MonoBehaviour
         return ret;
     }
 
+    void OnPlayerToggleEvent(PlayerAgent playerAgent, bool isPlayerOrderingToHoldPosition)
+    {
+        if (isPlayerOrderingToHoldPosition == false)
+        {
+            for (int i = 0; i < playerTeamAgents.Count; i++)
+            {
+                if (playerTeamAgents[i].IsPlayerAgent)
+                {
+                    continue;
+                }
+
+                AiAgent ai = playerTeamAgents[i] as AiAgent;
+
+                if (ai != null)
+                {
+                    ai.ToggleHoldPosition(false, Vector3.zero);
+                }
+            }
+
+            return;
+        }
+
+        List<Agent> friendlyAiAgents = 
+            playerTeamAgents.FindAll(a => (a != null) && (a.IsPlayerAgent == false) && (a.IsDead == false));
+
+        // From now on, we assume that the order given is to "hold position".
+        Vector3 playerPos = playerAgent.transform.position;
+        float playerRadiusMulti = (1f + playerAgent.CharMgr.AgentWorldRadius);
+        Vector3 playerBack = (-playerAgent.transform.forward) * playerRadiusMulti;
+        Vector3 spawnPos = playerPos + playerBack;
+
+        List<Vector3> posList = new List<Vector3>();
+
+        for (int i = 0; i < friendlyAiAgents.Count; i++)
+        {
+            Vector3 offset = (playerAgent.transform.right) * (1f + (friendlyAiAgents[i].CharMgr.AgentWorldRadius * 2f));
+
+            posList.Add(spawnPos);
+
+            spawnPos += offset;
+        }
+
+        // If there are more than 1 friendly agents, then calculate the "spawn line length".
+        // Meaning, how far do these spawn positions go as a line? Then, what is the length of this line?
+        // Finally, move the spawn positions towards the direction of player's left by half of the spawn line length.
+        if (posList.Count > 1)
+        {
+            int lastIndex = posList.Count - 1;
+
+            Vector3 firstPos = posList[0];
+            Vector3 lastPos = posList[lastIndex];
+
+            float dist = Vector3.Distance(firstPos, lastPos);
+
+            // Move all positions towards player's left by half of distance.
+            for (int i = 0; i < friendlyAiAgents.Count; i++)
+            {
+                posList[i] += (-playerAgent.transform.right) * (dist / 2f);
+            }
+        }
+
+        // Now, give the order.
+        for (int i = 0; i < friendlyAiAgents.Count; i++)
+        {
+            AiAgent ai = friendlyAiAgents[i] as AiAgent;
+            ai.ToggleHoldPosition(true, posList[i]);
+        }
+    }
+
     /// <summary>
     /// Starts current wave set by calling <see cref="SpawnPlayerTeamAgents"/> and <see cref="SpawnNextWave"/>.
     /// </summary>
@@ -260,7 +329,7 @@ public class HordeGameLogic : MonoBehaviour
 
     void SpawnPlayer(ref Vector3 spawnPos, Vector3 dir)
     {
-        Agent player = Instantiate(playerAgentPrefab);
+        PlayerAgent player = Instantiate(playerAgentPrefab);
 
         // Player gets default Characteristics.
         player.InitializeAgent(
@@ -273,6 +342,8 @@ public class HordeGameLogic : MonoBehaviour
         player.IsFriendOfPlayer = true;
         player.OnDeath += OnAgentDeath;
         OnAnyAgentDeath += player.OnOtherAgentDeath;
+
+        player.PlayerOrderToggle += OnPlayerToggleEvent;
 
         player.transform.position = spawnPos;
         playerTeamAgents.Add(player);
