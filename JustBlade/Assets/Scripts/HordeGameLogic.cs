@@ -231,7 +231,7 @@ public class HordeGameLogic : MonoBehaviour
         return ret;
     }
 
-    void OnPlayerToggleEvent(PlayerAgent playerAgent, bool isPlayerOrderingToHoldPosition)
+    void OnPlayerOrderToggleEvent(PlayerAgent playerAgent, bool isPlayerOrderingToHoldPosition)
     {
         if (isPlayerOrderingToHoldPosition == false)
         {
@@ -339,7 +339,7 @@ public class HordeGameLogic : MonoBehaviour
         player.IsFriendOfPlayer = true;
         player.OnDeath += OnAgentDeath;
 
-        player.PlayerOrderToggle += OnPlayerToggleEvent;
+        player.PlayerOrderToggle += OnPlayerOrderToggleEvent;
 
         player.transform.position = spawnPos;
         playerTeamAgents.Add(player);
