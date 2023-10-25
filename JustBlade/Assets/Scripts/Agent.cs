@@ -156,10 +156,6 @@ public abstract class Agent : MonoBehaviour
         }
 
         float angle = Vector3.Angle(Vector3.right, localMoveDir);
-        if (IsPlayerAgent)
-        {
-            Debug.Log(angle);
-        }
 
         return (angle > CharacteristicManager.MovingBackwardsAngleMin) 
             && (angle < CharacteristicManager.MovingBackwardsAngleMax);

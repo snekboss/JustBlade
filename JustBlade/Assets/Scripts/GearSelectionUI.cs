@@ -43,6 +43,7 @@ public class GearSelectionUI : MonoBehaviour
     public TextMeshProUGUI txtBtnUpgradeMediumMerc;
 
     public TextMeshProUGUI txtPlayerGold;
+    public TextMeshProUGUI txtFightWarning;
 
     public Button btnNextWeapon;
     public Button btnNextHeadArmor;
@@ -314,6 +315,14 @@ public class GearSelectionUI : MonoBehaviour
         txtSelectedTorsoArmor.text = chosenTorsoArmor.shownName;
         txtSelectedHandArmor.text = chosenHandArmor.shownName;
         txtSelectedLegArmor.text = chosenLegArmor.shownName;
+
+        bool allItemsArePurchased = chosenWeapon.IsPurchasedByPlayer()
+                && chosenHeadArmor.IsPurchasedByPlayer()
+                && chosenTorsoArmor.IsPurchasedByPlayer()
+                && chosenHandArmor.IsPurchasedByPlayer()
+                && chosenLegArmor.IsPurchasedByPlayer();
+
+        txtFightWarning.gameObject.SetActive(allItemsArePurchased == false);
 
         /*
         Type: Two Handed
