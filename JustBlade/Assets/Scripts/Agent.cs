@@ -153,6 +153,8 @@ public abstract class Agent : MonoBehaviour
 
     protected virtual void InitializeFriendlinessIndicator() { }
 
+    public virtual void ToggleCombatDirectionPreference(float distanceToClosestFriend) { }
+
     public virtual void InitializeAgent(Weapon weaponPrefab
         , Armor headArmorPrefab
         , Armor torsoArmorPrefab

@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -100,7 +101,22 @@ public class HordeGameLogic : MonoBehaviour
     List<Agent> playerTeamAgents;
     List<Agent> enemyTeamAgents;
 
+    Queue<Agent> AgentCombatPrefQueue
+    {
+        get
+        {
+            if (agentCombatPrefQueue == null)
+            {
+                agentCombatPrefQueue = new Queue<Agent>();
+            }
+
+            return agentCombatPrefQueue;
+        }
+    }
+    Queue<Agent> agentCombatPrefQueue;
+
     /// <summary>
+    /// TODO: Remove this?
     /// The number of enemies beaten by player in this round.
     /// At the end of every round, these are added to <see cref="PlayerInventoryManager.TotalOpponentsBeatenByPlayer"/>.
     /// </summary>
@@ -130,6 +146,8 @@ public class HordeGameLogic : MonoBehaviour
             enemyTeamAgents.Add(a);
 
             spawnPos = spawnPos + nextAgentSpawnOffset;
+
+            AgentCombatPrefQueue.Enqueue(a);
         }
     }
 
@@ -200,35 +218,26 @@ public class HordeGameLogic : MonoBehaviour
     /// A method to which every <see cref="AiAgent"/> spawned by the <see cref="HordeGameLogic"/> is subscribed.
     /// It provides an enemy agent to the calling <see cref="AiAgent"/>.
     /// If the calling agent has no enemies left, it retuns null.
-    /// It also returns the number of friends the calling <see cref="AiAgent"/> has left by an out parameter.
     /// </summary>
     /// <param name="caller">The <see cref="AiAgent"/> who is searching for an enemy.</param>
-    /// <param name="numRemainingFriends">Out parameter, which denotes the number friends the calling agent has left.</param>
     /// <returns></returns>
-    Agent OnAiAgentSearchForEnemy(AiAgent caller, out int numRemainingFriends)
+    Agent OnAiAgentSearchForEnemy(AiAgent caller)
     {
         Agent ret = null;
-        if (caller.IsFriendOfPlayer)
+
+        // Assume that the caller is a friend of the player, thus needs an enemy from the enemy team.
+        List<Agent> listOfEnemies = enemyTeamAgents;
+        if (caller.isFriendOfPlayer == false)
         {
-            List<Agent> agents = enemyTeamAgents.FindAll(a => !a.IsDead);
-
-            if (agents.Count >= 1)
-            {
-                ret = agents[Random.Range(0, agents.Count)];
-            }
-
-            numRemainingFriends = playerTeamAgents.Count - 1;
+            // Turns out, the caller is an enemy of the player, thus needs an enemy from the player team.
+            listOfEnemies = playerTeamAgents;
         }
-        else
+
+        List<Agent> agents = listOfEnemies.FindAll(a => (a != null) && (a.IsDead == false));
+
+        if (agents.Count >= 1)
         {
-            List<Agent> agents = playerTeamAgents.FindAll(a => !a.IsDead);
-
-            if (agents.Count >= 1)
-            {
-                ret = agents[Random.Range(0, agents.Count)];
-            }
-
-            numRemainingFriends = enemyTeamAgents.Count - 1;
+            ret = agents[Random.Range(0, agents.Count)];
         }
 
         return ret;
@@ -256,7 +265,7 @@ public class HordeGameLogic : MonoBehaviour
             return;
         }
 
-        List<Agent> friendlyAiAgents = 
+        List<Agent> friendlyAiAgents =
             playerTeamAgents.FindAll(a => (a != null) && (a.IsPlayerAgent == false) && (a.IsDead == false));
 
         // From now on, we assume that the order given is to "hold position".
@@ -395,6 +404,8 @@ public class HordeGameLogic : MonoBehaviour
             Vector3 nextAgentSpawnOffset = dir * (2 * merc.CharMgr.AgentWorldRadius + distanceBetweenAgents);
 
             spawnPos = spawnPos + nextAgentSpawnOffset;
+
+            AgentCombatPrefQueue.Enqueue(merc);
         }
 
     }
@@ -456,6 +467,48 @@ public class HordeGameLogic : MonoBehaviour
         StartCoroutine("ConcludeWaveSetCoroutine");
     }
 
+    void ToggleAiCombatDirectionPreference()
+    {
+        Agent thisAgent = AgentCombatPrefQueue.Dequeue();
+        if (thisAgent == null || thisAgent.IsDead || thisAgent.IsPlayerAgent)
+        {
+            return;
+        }
+        else
+        {
+            AgentCombatPrefQueue.Enqueue(thisAgent);
+        }
+
+        // Assume that thisAgent is a friend of the player.
+        List<Agent> listToChoose = playerTeamAgents;
+        if (thisAgent.isFriendOfPlayer == false)
+        {
+            // Turns out, thisAgent is an enemy of the player.
+            listToChoose = enemyTeamAgents;
+        }
+
+        List<Agent> agentFriends = listToChoose.FindAll(otherAgent =>
+        (otherAgent != null) && (otherAgent.IsDead == false) && (otherAgent != thisAgent));
+
+        if (agentFriends.Count < 1)
+        {
+            thisAgent.ToggleCombatDirectionPreference(float.MaxValue);
+            return;
+        }
+
+        // Calculate squared distances.
+        List<float> squaredDists = new List<float>();
+        for (int i = 0; i < agentFriends.Count; i++)
+        {
+            Vector3 diff = thisAgent.transform.position - agentFriends[i].transform.position;
+            squaredDists.Add(diff.sqrMagnitude);
+        }
+
+        float minSquaredDist = squaredDists.Min();
+
+        thisAgent.ToggleCombatDirectionPreference(Mathf.Sqrt(minSquaredDist));
+    }
+
     /// <summary>
     /// A coroutine which is used to conclude the waveset based on <see cref="sceneTransitionTime"/>.
     /// </summary>
@@ -475,5 +528,10 @@ public class HordeGameLogic : MonoBehaviour
         HordeGameLogic.PlayerWasBestedInThisMelee = false;
 
         StartWaveSet();
+    }
+
+    void Update()
+    {
+        ToggleAiCombatDirectionPreference();
     }
 }

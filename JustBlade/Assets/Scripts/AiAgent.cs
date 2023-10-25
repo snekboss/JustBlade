@@ -83,7 +83,7 @@ public class AiAgent : Agent
 
     Vector3 desiredMoveDestination;
 
-    int numRemainingFriends;
+    bool isPreferringVerticalCombatDirs;
 
     float attackTimer;
     float defendTimer;
@@ -98,9 +98,8 @@ public class AiAgent : Agent
     /// A delegate for when the AiAgent wants to search for an enemy.
     /// </summary>
     /// <param name="caller">The AiAgent who wants to search for an enemy.</param>
-    /// <param name="numRemainingFriends">An out parameter, which also reports how many friends the caller agent has remaining.</param>
     /// <returns></returns>
-    public delegate Agent AiAgentSearchForEnemyEvent(AiAgent caller, out int numRemainingFriends);
+    public delegate Agent AiAgentSearchForEnemyEvent(AiAgent caller);
     public event AiAgentSearchForEnemyEvent OnSearchForEnemyAgent;
 
     public override void InitializeAgent(Weapon weaponPrefab
@@ -194,24 +193,6 @@ public class AiAgent : Agent
         }
     }
 
-    /// <summary>
-    /// An override of <see cref="Agent.OnOtherAgentDeath(Agent, Agent)"/>.
-    /// It is used to update the number of friendlies this agent has left.
-    /// </summary>
-    /// <param name="victim">The agent who died.</param>
-    /// <param name="killer">The agent who killed the victim.</param>
-    public override void OnOtherAgentDeath(Agent victim, Agent killer)
-    {
-        bool isLostFriendly =
-            (victim.IsFriendOfPlayer == true && IsFriendOfPlayer == true)
-            || (victim.IsFriendOfPlayer == false && IsFriendOfPlayer == false);
-
-        if (isLostFriendly)
-        {
-            numRemainingFriends--;
-        }
-    }
-
     public void ToggleHoldPosition(bool isPlayerOrderingToHoldPosition, Vector3 positionToHold)
     {
         IsOrderedToHoldPosition = isPlayerOrderingToHoldPosition;
@@ -221,6 +202,17 @@ public class AiAgent : Agent
         {
             nma.SetDestination(positionToHold);
         }
+    }
+
+    public override void ToggleCombatDirectionPreference(float distanceToClosestFriend)
+    {
+        float weaponLength = (EqMgr.equippedWeapon == null) ? 0f : EqMgr.equippedWeapon.weaponLength;
+        float border = weaponLength + (CharMgr.AgentWorldRadius);
+
+        // If distance to closest friend is less than the border,
+        // then we prefer up/down attacks more (in order to avoid teamhitting).
+        // If not, then we prefer all attacks equally likely, as there are no friendlies around.
+        isPreferringVerticalCombatDirs = distanceToClosestFriend < border;
     }
 
     /// <summary>
@@ -355,7 +347,7 @@ public class AiAgent : Agent
     CombatDirection GetBiasedRandomCombatDirection()
     {
         CombatDirection ret;
-        if (numRemainingFriends < 1)
+        if (isPreferringVerticalCombatDirs == false)
         {
             // There are no allies around, so feel free to choose any direction.
             ret = (CombatDirection)Random.Range(0, 4);
@@ -573,7 +565,7 @@ public class AiAgent : Agent
                 searchForEnemyTimer = 0;
                 if (OnSearchForEnemyAgent != null)
                 {
-                    enemyAgent = OnSearchForEnemyAgent(this, out numRemainingFriends);
+                    enemyAgent = OnSearchForEnemyAgent(this);
                     nma.isStopped = (enemyAgent == null);
                     if (enemyAgent == null)
                     {
