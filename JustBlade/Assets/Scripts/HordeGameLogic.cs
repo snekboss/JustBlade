@@ -88,12 +88,6 @@ public class HordeGameLogic : MonoBehaviour
 
     public List<WaveSet> waveSets;
 
-    /// <summary>
-    /// An event which is called when any agent dies in the tournament round.
-    /// All agents are subscribed to this method when they are spawned by this Round Manager.
-    /// </summary>
-    public event Agent.AgentDeathEvent OnAnyAgentDeath;
-
     float distanceBetweenAgents = 3.0f; // 3.0f seems ok
 
     readonly float sceneTransitionTime = 3.0f;
@@ -137,7 +131,6 @@ public class HordeGameLogic : MonoBehaviour
             a.OnSearchForEnemyAgent += OnAiAgentSearchForEnemy;
             a.IsFriendOfPlayer = false;
             a.OnDeath += OnAgentDeath;
-            OnAnyAgentDeath += a.OnOtherAgentDeath;
 
             HordeRewardData hrd = a.gameObject.AddComponent<HordeRewardData>();
             hrd.CopyDataFromPrefab(invaderData.invaderRewardDataPrefab);
@@ -179,11 +172,6 @@ public class HordeGameLogic : MonoBehaviour
     /// <param name="killer">The agent who killed the victim.</param>
     void OnAgentDeath(Agent victim, Agent killer)
     {
-        if (OnAnyAgentDeath != null)
-        {
-            OnAnyAgentDeath(victim, killer);
-        }
-
         if (killer.IsPlayerAgent)
         {
             numEnemiesBeatenByPlayer++;
@@ -350,7 +338,6 @@ public class HordeGameLogic : MonoBehaviour
 
         player.IsFriendOfPlayer = true;
         player.OnDeath += OnAgentDeath;
-        OnAnyAgentDeath += player.OnOtherAgentDeath;
 
         player.PlayerOrderToggle += OnPlayerToggleEvent;
 
@@ -393,7 +380,6 @@ public class HordeGameLogic : MonoBehaviour
 
             merc.IsFriendOfPlayer = true;
             merc.OnDeath += OnAgentDeath;
-            OnAnyAgentDeath += merc.OnOtherAgentDeath;
 
             MercenaryDescriptionData mdd = merc.gameObject.AddComponent<MercenaryDescriptionData>();
             mdd.InitializeFromMercenaryData(mercData);

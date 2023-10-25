@@ -144,13 +144,6 @@ public abstract class Agent : MonoBehaviour
     /// <param name="amount">The amount by which the health was damaged.</param>
     public virtual void OnThisAgentDamaged(Agent attacker, int amount) { }
 
-    /// <summary>
-    /// Callback method for when any agent dies.
-    /// </summary>
-    /// <param name="victim">The agent who died.</param>
-    /// <param name="killer">The agent who killed the victim agent.</param>
-    public virtual void OnOtherAgentDeath(Agent victim, Agent killer) { }
-
     protected virtual void InitializeFriendlinessIndicator() { }
 
     public virtual void ToggleCombatDirectionPreference(float distanceToClosestFriend) { }
