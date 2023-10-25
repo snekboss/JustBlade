@@ -347,6 +347,14 @@ public class PlayerAgent : Agent
             // Calculate world velocity (using only the horizontal directions).
             worldVelocity = worldMoveDir3D * CharMgr.MovementSpeedLimit;
 
+            // If moving backwards, apply speed penalty multiplier.
+            // This penalty is done only to the player (because player is intelligent).
+            // The AiAgents' speeds are governed by Unity's NavMeshAgent (also, they're stupid).
+            if (IsMovingBackwards(localMoveDir3D) && CharMgr.IsOverEncumbered == false)
+            {
+                worldVelocity *= CharacteristicManager.PlayerMovingBackwardsSpeedPenaltyMultiplier;
+            }
+
             if (worldMoveDir3D.sqrMagnitude > 1)
             {
                 // This is in order to avoid the movement speed increase caused by diagonal movement.

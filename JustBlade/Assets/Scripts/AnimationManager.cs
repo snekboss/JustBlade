@@ -408,7 +408,7 @@ public class AnimationManager : MonoBehaviour
             // Here, we know that curMovSpeed is slower than the default.
             // However, we don't know if this is because the agent is a slow agent, or is just speeding up.
 
-            if (ownerAgent.CharMgr.MovementSpeedLimit < CharacteristicManager.DefaultMovementSpeedLimit)
+            if (ownerAgent.CharMgr.IsOverEncumbered)
             {
                 // Here, we know that agent is a slow guy, and can never reach the default speed.
 

@@ -148,6 +148,23 @@ public abstract class Agent : MonoBehaviour
 
     public virtual void ToggleCombatDirectionPreference(float distanceToClosestFriend) { }
 
+    protected bool IsMovingBackwards(Vector3 localMoveDir)
+    {
+        if (localMoveDir.z > 0f)
+        {
+            return false;
+        }
+
+        float angle = Vector3.Angle(Vector3.right, localMoveDir);
+        if (IsPlayerAgent)
+        {
+            Debug.Log(angle);
+        }
+
+        return (angle > CharacteristicManager.MovingBackwardsAngleMin) 
+            && (angle < CharacteristicManager.MovingBackwardsAngleMax);
+    }
+
     public virtual void InitializeAgent(Weapon weaponPrefab
         , Armor headArmorPrefab
         , Armor torsoArmorPrefab

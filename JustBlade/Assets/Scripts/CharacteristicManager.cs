@@ -37,6 +37,10 @@ public class CharacteristicManager : MonoBehaviour
     public const float DefaultExtraDamageResistanceMultiplier = 1f;
     public const int DefaultMaximumPoise = 0;
 
+    public const float MovingBackwardsAngleMin = 40f;
+    public const float MovingBackwardsAngleMax = 140f;
+    public const float PlayerMovingBackwardsSpeedPenaltyMultiplier = 0.5f; // specifically for player only.
+
     Agent ownerAgent;
     public Agent OwnerAgent
     {
@@ -110,6 +114,8 @@ public class CharacteristicManager : MonoBehaviour
         }
     }
     public float CurrentMovementSpeed { get; set; }
+
+    public bool IsOverEncumbered { get { return MovementSpeedLimit < DefaultMovementSpeedLimit; } }
 
     /// <summary>
     /// Sets the extra movement speed limit multiplier for this agent.
