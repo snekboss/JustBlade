@@ -24,6 +24,9 @@ public class InGameUI : MonoBehaviour
     public Slider sliderFieldOfView;
     public TextMeshProUGUI txtFieldOfView;
 
+    public TextMeshProUGUI txtPlayerGold;
+    public TextMeshProUGUI txtToggleAiStatus;
+
     public Button btnReturnToMainMenu;
 
     /// <summary>
@@ -172,6 +175,19 @@ public class InGameUI : MonoBehaviour
         healthBar.transform.localScale = new Vector3(healthRatio, y, z);
     }
 
+    void UpdateTexts()
+    {
+        if (playerAgent == null)
+        {
+            return;
+        }
+
+        string NL = Environment.NewLine;
+        txtPlayerGold.text = "Gold: " + PlayerInventoryManager.PlayerGold.ToString();
+        string mercOrderText = playerAgent.IsPlayerOrderingToHoldPosition ? "Holding position" : "Attacking";
+        txtToggleAiStatus.text = string.Format("Mercenaries: {0}" + NL + "(Press Q to toggle)", mercOrderText);
+    }
+
     /// <summary>
     /// Unity's Update method.
     /// In this case, it handles the logic of the In Game UI.
@@ -182,5 +198,6 @@ public class InGameUI : MonoBehaviour
 
         FindPlayerAgentInScene();
         UpdateHealthBar();
+        UpdateTexts();
     }
 }

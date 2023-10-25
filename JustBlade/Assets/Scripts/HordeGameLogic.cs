@@ -455,6 +455,11 @@ public class HordeGameLogic : MonoBehaviour
 
     void ToggleAiCombatDirectionPreference()
     {
+        if (agentCombatPrefQueue.Count < 1)
+        {
+            return;
+        }
+
         Agent thisAgent = AgentCombatPrefQueue.Dequeue();
         if (thisAgent == null || thisAgent.IsDead || thisAgent.IsPlayerAgent)
         {
