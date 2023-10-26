@@ -329,6 +329,12 @@ public class Weapon : EquippableItem
                 attacker.AnimMgr.SetIsAttackBounced(true);
                 defender.AnimMgr.SetIsDefBlocked(true);
                 isDmgAlreadyApplied = true;
+
+                if (defender.IsPlayerAgent)
+                {
+                    PlayerStatisticsTracker.PlayerTotalSuccessfulBlocks++;
+                }
+
                 return;
             }
             else

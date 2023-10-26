@@ -8,9 +8,36 @@ using UnityEngine;
 /// </summary>
 public static class PlayerInventoryManager
 {
-    // TODO: Initialize these.
-    public static int DefaultPlayerGold; 
-    public static int PlayerGold = 10000;
+    public static int DefaultPlayerGold = 1000;
+    public static int PlayerGold { get; private set; }
+    public static void AddPlayerGold(int amount)
+    {
+        PlayerStatisticsTracker.PlayerTotalGoldEarned += amount;
+        PlayerGold += amount;
+    }
+
+    public static void RemovePlayerGold(int amount)
+    {
+        PlayerStatisticsTracker.PlayerTotalGoldSpent += amount;
+        PlayerGold -= amount;
+    }
+
+    public static void InitializePlayerInventory()
+    {
+        PlayerGold = DefaultPlayerGold;
+
+        PlayerChosenWeaponIndex = 0;
+        PlayerChosenHeadArmorIndex = 0;
+        PlayerChosenTorsoArmorIndex = 0;
+        PlayerChosenHandArmorIndex = 0;
+        PlayerChosenLegArmorIndex = 0;
+
+        ResetPurchaseStatus(PrefabManager.Weapons);
+        ResetPurchaseStatus(PrefabManager.HeadArmors);
+        ResetPurchaseStatus(PrefabManager.TorsoArmors);
+        ResetPurchaseStatus(PrefabManager.HandArmors);
+        ResetPurchaseStatus(PrefabManager.LegArmors);
+    }
 
     public static int PlayerChosenWeaponIndex
     {
@@ -119,7 +146,7 @@ public static class PlayerInventoryManager
 
     public static void BuyEquippableItem(EquippableItem item)
     {
-        PlayerGold -= item.purchaseCost;
+        RemovePlayerGold(item.purchaseCost);
         item.SetPurchasedByPlayer(true);
     }
     public static bool CanBuyItem(EquippableItem item)
@@ -148,5 +175,20 @@ public static class PlayerInventoryManager
     public static void BuyChosenLegArmor()
     {
         BuyEquippableItem(PrefabManager.LegArmors[playerChosenLegArmorIndex]);
+    }
+
+    /// <summary>
+    /// Resets the purchase status of a collection of <see cref="EquippableItem"/>.
+    /// It's mainly meant to be used for resetting the purchase status of the prefabs
+    /// in <see cref="PrefabManager"/> when starting a new game.
+    /// To make use of built-in covariance support, the argument is an <see cref="IEnumerable{EquippableItem}"/>.
+    /// </summary>
+    /// <param name="equippableItemCollection">A collection of <see cref="EquippableItem"/> prefabs. </param>
+    static void ResetPurchaseStatus(IEnumerable<EquippableItem> equippableItemCollection)
+    {
+        foreach (var eqItem in equippableItemCollection)
+        {
+            eqItem.SetPurchasedByPlayer(eqItem.isStarterItem);
+        }
     }
 }

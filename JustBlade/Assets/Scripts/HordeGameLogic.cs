@@ -40,35 +40,22 @@ public class HordeGameLogic : MonoBehaviour
     public enum SpawnDirection { Left, Right }
 
     // TODO: Below, remove unnecessary variables and rename necessary variables.
-    public static int CurrentRoundNumber = 1;
-    public static int MaximumRoundNumber = 6;
 
-    public static int MaxNumAgentsInEachTeamMultiplier = 2;
-    public static bool IsPlayerEliminated = false;
-    public static bool IsTournamentEnded { get { return IsPlayerEliminated || CurrentRoundNumber > MaximumRoundNumber; } }
-    public static bool IsFinalRound { get { return CurrentRoundNumber == MaximumRoundNumber; } }
+    public static bool IsPlayerDied;
+    public static bool IsPlayerBeatenTheGame;
+    public static bool IsGameEnded { get { return IsPlayerDied || IsPlayerBeatenTheGame; } }
+    public static bool IsGameHasJustBegun { get { return iCurWaveSet == 0; } }
 
-    public static int TotalOpponentsBeatenByPlayer;
-    public static bool PlayerWasBestedInThisMelee;
-    public static int MaxNumAgentsInEachTeam
+    public static void StartNewHordeGame()
     {
-        get
-        {
-            if (CurrentRoundNumber == MaximumRoundNumber)
-            {
-                return 1;
-            }
+        iCurWaveSet = 0;
 
-            return (MaximumRoundNumber - CurrentRoundNumber) * MaxNumAgentsInEachTeamMultiplier;
-        }
-    }
+        IsPlayerDied = false;
+        IsPlayerBeatenTheGame = false;
 
-    public static void StartNewTournament()
-    {
-        IsPlayerEliminated = false;
-        PlayerWasBestedInThisMelee = false;
-        TotalOpponentsBeatenByPlayer = 0;
-        CurrentRoundNumber = 1;
+        PlayerInventoryManager.InitializePlayerInventory();
+        PlayerPartyManager.InitializePlayerParty();
+        PlayerStatisticsTracker.Initialize();
     }
     // TODO: Above, remove unnecessary variables and rename necessary variables.
 
@@ -172,28 +159,46 @@ public class HordeGameLogic : MonoBehaviour
     /// <param name="killer">The agent who killed the victim.</param>
     void OnAgentDeath(Agent victim, Agent killer)
     {
-        if (killer.IsPlayerAgent)
-        {
-            numEnemiesBeatenByPlayer++;
-        }
-
         if (victim.IsPlayerAgent)
         {
-            HordeGameLogic.PlayerWasBestedInThisMelee = true;
+            IsPlayerDied = true;
+            ConcludeWaveSet();
+        }
+
+        if (IsPlayerDied)
+        {
+            // No point in doing anything else if the player is dead, since it's just game over.
+            return;
+        }
+
+        if (killer.IsPlayerAgent)
+        {
+            PlayerStatisticsTracker.PlayerTotalKillCount++;
+        }
+        else if (killer.IsFriendOfPlayer)
+        {
+            PlayerStatisticsTracker.MercenariesTotalKillCount++;
         }
 
         if (victim.IsFriendOfPlayer)
         {
             playerTeamAgents.Remove(victim);
+
+            MercenaryDescriptionData mdd = victim.GetComponent<MercenaryDescriptionData>();
+            if (mdd != null)
+            {
+                PlayerPartyManager.KillMercenary(mdd.mercArmorLevel);
+            }
         }
         else
         {
             enemyTeamAgents.Remove(victim);
-        }
 
-        if (playerTeamAgents.Count == 0 || victim.IsPlayerAgent)
-        {
-            ConcludeWaveSet();
+            HordeRewardData hrd = victim.GetComponent<HordeRewardData>();
+            if (hrd != null)
+            {
+                PlayerInventoryManager.AddPlayerGold(hrd.GetRandomGoldAmountWithinRange());
+            }
         }
 
         if (enemyTeamAgents.Count == 0)
@@ -439,16 +444,10 @@ public class HordeGameLogic : MonoBehaviour
     {
         iCurWaveSet++;
 
-        HordeGameLogic.TotalOpponentsBeatenByPlayer += numEnemiesBeatenByPlayer;
-
-        // TODO: This is not how the game works anymore. Remove this.
-        if (HordeGameLogic.PlayerWasBestedInThisMelee && numEnemiesBeatenByPlayer < HordeGameLogic.CurrentRoundNumber)
+        if (iCurWaveSet == waveSets.Count)
         {
-            // The player was bested in melee, and was not able to beat enough opponents to proceed to the next round.
-            HordeGameLogic.IsPlayerEliminated = true;
+            IsPlayerBeatenTheGame = true;
         }
-
-        HordeGameLogic.CurrentRoundNumber++;
 
         StartCoroutine("ConcludeWaveSetCoroutine");
     }
@@ -507,7 +506,7 @@ public class HordeGameLogic : MonoBehaviour
     IEnumerator ConcludeWaveSetCoroutine()
     {
         yield return new WaitForSeconds(sceneTransitionTime);
-        SceneManager.LoadScene("TournamentInfoMenuScene");
+        SceneManager.LoadScene("InformationMenuScene");
     }
 
     /// <summary>
@@ -516,8 +515,6 @@ public class HordeGameLogic : MonoBehaviour
     /// </summary>
     void Start()
     {
-        HordeGameLogic.PlayerWasBestedInThisMelee = false;
-
         StartWaveSet();
     }
 

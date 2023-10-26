@@ -179,7 +179,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_Back()
     {
-        SceneManager.LoadScene("TournamentInfoMenuScene");
+        SceneManager.LoadScene("InformationMenuScene");
     }
 
     /// <summary>

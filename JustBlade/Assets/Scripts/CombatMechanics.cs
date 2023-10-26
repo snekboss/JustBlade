@@ -309,6 +309,17 @@ public static class CombatMechanics
         // Apply damage here.
         defender.ApplyDamage(attacker, finalDamageInt);
 
+        // Track player stat
+        if (attacker.IsPlayerAgent)
+        {
+            PlayerStatisticsTracker.PlayerTotalDamageDealt += finalDamageInt;
+        }
+
+        if (defender.IsPlayerAgent)
+        {
+            PlayerStatisticsTracker.PlayerTotalDamageTaken += finalDamageInt;
+        }
+
         if (defender.CharMgr.CanPoiseThroughAttack() == false)
         {
             // Then, set the correct getting_hurt animation.

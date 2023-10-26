@@ -28,6 +28,14 @@ public static class PlayerPartyManager
     }
     static Dictionary<Armor.ArmorLevel, int> mercCountByArmorLevel;
 
+    public static void InitializePlayerParty()
+    {
+        MercCountByArmorLevel[Armor.ArmorLevel.None] = 0;
+        MercCountByArmorLevel[Armor.ArmorLevel.Light] = 0;
+        MercCountByArmorLevel[Armor.ArmorLevel.Medium] = 0;
+        MercCountByArmorLevel[Armor.ArmorLevel.Heavy] = 0;
+    }
+
     public static int NumTotalMercenaries
     {
         get
@@ -57,10 +65,19 @@ public static class PlayerPartyManager
     public static void HireMercenary(Armor.ArmorLevel mercArmorLevel)
     {
         MercCountByArmorLevel[mercArmorLevel]++;
-        PlayerInventoryManager.PlayerGold -= PrefabManager.MercenaryDataByArmorLevel[mercArmorLevel].hireCost;
+        PlayerInventoryManager.RemovePlayerGold(PrefabManager.MercenaryDataByArmorLevel[mercArmorLevel].hireCost);
+
+        PlayerStatisticsTracker.NumTotalMercenariesHired++;
     }
 
-    public static void DisbandMercenary(Armor.ArmorLevel mercArmorLevel)
+    public static void KillMercenary(Armor.ArmorLevel mercArmorLevel)
+    {
+        DisbandMercenary(mercArmorLevel);
+
+        PlayerStatisticsTracker.MercenariesTotalDeathCount++;
+    }
+
+    static void DisbandMercenary(Armor.ArmorLevel mercArmorLevel)
     {
         if (MercCountByArmorLevel[mercArmorLevel] > 0)
         {
@@ -68,24 +85,26 @@ public static class PlayerPartyManager
         }
     }
 
-    public static void UpgradeMercenary(Armor.ArmorLevel mercArmorLevel)
+    public static void UpgradeMercenary(Armor.ArmorLevel mercToBeUpgraded)
     {
-        if (mercArmorLevel == Armor.ArmorLevel.Heavy)
+        if (mercToBeUpgraded == Armor.ArmorLevel.Heavy)
         {
             // Do not upgrade, as Heavy is already the highest upgrade level.
             return;
         }
 
-        int mercToBeUpgradedInt = (int)mercArmorLevel;
+        int mercToBeUpgradedInt = (int)mercToBeUpgraded;
         int mercToBeUpgradedToInt = mercToBeUpgradedInt + 1;
 
         Armor.ArmorLevel mercToBeUpgradedTo = (Armor.ArmorLevel)mercToBeUpgradedToInt;
 
-        DisbandMercenary(mercArmorLevel);
+        DisbandMercenary(mercToBeUpgraded);
 
         MercCountByArmorLevel[mercToBeUpgradedTo]++;
-        PlayerInventoryManager.PlayerGold -= PrefabManager.MercenaryDataByArmorLevel[mercToBeUpgradedTo].upgradeCost;
-    }
+        PlayerInventoryManager.RemovePlayerGold(PrefabManager.MercenaryDataByArmorLevel[mercToBeUpgraded].upgradeCost);
+
+        PlayerStatisticsTracker.NumTotalMercenaryUpgrades++;
+  }
 
     public static bool CanHireMercenary(Armor.ArmorLevel mercArmorLevel)
     {

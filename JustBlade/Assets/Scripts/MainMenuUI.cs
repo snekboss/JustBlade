@@ -95,9 +95,9 @@ public class MainMenuUI : MonoBehaviour
     {
         Time.timeScale = 1;
 
-        HordeGameLogic.StartNewTournament();
+        HordeGameLogic.StartNewHordeGame();
 
-        SceneManager.LoadScene("TournamentInfoMenuScene");
+        SceneManager.LoadScene("InformationMenuScene");
     }
 
     /// <summary>
