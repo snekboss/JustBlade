@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -16,7 +17,7 @@ public static class PrefabManager
         {
             if (headArmors == null)
             {
-                headArmors = LoadArmors("Armors/Head Armors");
+                headArmors = SortByStarterItemness(LoadArmors("Armors/Head Armors"));
             }
 
             return headArmors;
@@ -30,7 +31,7 @@ public static class PrefabManager
         {
             if (torsoArmors == null)
             {
-                torsoArmors = LoadArmors("Armors/Torso Armors");
+                torsoArmors = SortByStarterItemness(LoadArmors("Armors/Torso Armors"));
             }
 
             return torsoArmors;
@@ -44,7 +45,7 @@ public static class PrefabManager
         {
             if (handArmors == null)
             {
-                handArmors = LoadArmors("Armors/Hand Armors");
+                handArmors = SortByStarterItemness(LoadArmors("Armors/Hand Armors"));
             }
 
             return handArmors;
@@ -58,7 +59,7 @@ public static class PrefabManager
         {
             if (legArmors == null)
             {
-                legArmors = LoadArmors("Armors/Leg Armors");
+                legArmors = SortByStarterItemness(LoadArmors("Armors/Leg Armors"));
             }
 
             return legArmors;
@@ -72,7 +73,7 @@ public static class PrefabManager
         {
             if (weapons == null)
             {
-                weapons = LoadWeapons("Weapons");
+                weapons = SortByStarterItemness(LoadWeapons("Weapons"));
             }
 
             return weapons;
@@ -173,5 +174,21 @@ public static class PrefabManager
         }
 
         return ret;
+    }
+
+    static List<Weapon> SortByStarterItemness(
+        IEnumerable<Weapon> weaponCollection)
+    {
+        return weaponCollection.OrderByDescending(item => item.isStarterItem)
+            .ThenBy(item => item.purchaseCost)
+            .ToList();
+    }
+
+    static List<Armor> SortByStarterItemness(
+        IEnumerable<Armor> armorCollection)
+    {
+        return armorCollection.OrderByDescending(item => item.isStarterItem)
+            .ThenBy(item => item.purchaseCost)
+            .ToList();
     }
 }

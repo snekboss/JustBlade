@@ -847,6 +847,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Great Helm
+  purchaseCost: 250
+  isStarterItem: 0
   skinnedMeshRenderer: {fileID: 3115202639641279050}
   armorType: 0
   armorLevel: 3

@@ -46,8 +46,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40c10ec7fcab36e4d9b9aa15387d3c67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EDIT_MODE: 0
   shownName: Short Spear
+  purchaseCost: 2
+  isStarterItem: 1
+  EDIT_MODE: 0
   weaponVisual: {fileID: 2430496146317283450}
   weaponLength: 1.18
   weaponRadius: 0.035
@@ -78,7 +80,6 @@ MonoBehaviour:
   StabDmgLegLight: 50
   StabDmgLegMed: 40
   StabDmgLegHeavy: 35
-  isDmgAlreadyApplied: 0
 --- !u!65 &3277409484419917664
 BoxCollider:
   m_ObjectHideFlags: 0

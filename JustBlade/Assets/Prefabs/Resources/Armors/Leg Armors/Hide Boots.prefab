@@ -1066,6 +1066,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Hide Boots
+  purchaseCost: 10
+  isStarterItem: 1
   skinnedMeshRenderer: {fileID: 2166163396115574084}
   armorType: 3
   armorLevel: 0

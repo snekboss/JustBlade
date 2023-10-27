@@ -847,6 +847,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Tabard
+  purchaseCost: 10
+  isStarterItem: 1
   skinnedMeshRenderer: {fileID: 7986603946719423423}
   armorType: 1
   armorLevel: 0

@@ -946,6 +946,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Mail Chausses
+  purchaseCost: 30
+  isStarterItem: 0
   skinnedMeshRenderer: {fileID: 6747538339943613059}
   armorType: 3
   armorLevel: 2

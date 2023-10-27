@@ -397,6 +397,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Light Armor
+  purchaseCost: 30
+  isStarterItem: 0
   skinnedMeshRenderer: {fileID: 5258049353329580819}
   armorType: 1
   armorLevel: 1

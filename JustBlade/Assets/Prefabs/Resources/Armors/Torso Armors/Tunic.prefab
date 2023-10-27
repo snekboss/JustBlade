@@ -912,6 +912,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Tunic
+  purchaseCost: 20
+  isStarterItem: 1
   skinnedMeshRenderer: {fileID: 1830215840176445826}
   armorType: 1
   armorLevel: 0

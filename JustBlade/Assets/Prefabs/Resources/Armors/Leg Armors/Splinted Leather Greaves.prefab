@@ -522,6 +522,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Splinted Leather Greaves
+  purchaseCost: 35
+  isStarterItem: 0
   skinnedMeshRenderer: {fileID: 1372220973073940283}
   armorType: 3
   armorLevel: 2

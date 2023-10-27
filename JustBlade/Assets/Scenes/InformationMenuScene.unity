@@ -240,7 +240,6 @@ MonoBehaviour:
     text to see if the text box is large enough.
 
 
-
     Player kill count: 111
 
     Player
@@ -269,7 +268,10 @@ MonoBehaviour:
 
     Total gold earned: 11111
 
-    Total gold spent: 22222'
+    Total gold spent: 22222
+
+    Remaining
+    gold: 33333'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}

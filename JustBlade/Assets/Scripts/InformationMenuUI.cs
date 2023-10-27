@@ -76,7 +76,8 @@ public class InformationMenuUI : MonoBehaviour
           + "Total number of attacks successfully blocked by player: {8}" + NL
           + NL
           + "Total gold earned: {9}" + NL
-          + "Total gold spent: {10}"
+          + "Total gold spent: {10}" + NL
+          + "Remaining gold: {11}"
           , PlayerStatisticsTracker.PlayerTotalKillCount
           , PlayerStatisticsTracker.MercenariesTotalKillCount
           , PlayerStatisticsTracker.PlayerTotalKillCount + PlayerStatisticsTracker.MercenariesTotalKillCount
@@ -88,22 +89,24 @@ public class InformationMenuUI : MonoBehaviour
           , PlayerStatisticsTracker.PlayerTotalSuccessfulBlocks
           , PlayerStatisticsTracker.PlayerTotalGoldEarned
           , PlayerStatisticsTracker.PlayerTotalGoldSpent
+          , PlayerInventoryManager.PlayerGold
           ); ;
 
         if (HordeGameLogic.IsPlayerDied)
         {
             gameOverHeaderStr = "Game Over";
 
-            gameOverBodyStr = "TODO: You were killed in battle." + NL + NL + playerStats;
+            gameOverBodyStr = "TODO: You were killed in battle.";
         }
         else
         {
             gameOverHeaderStr = "Congratulations!";
 
             gameOverBodyStr =
-                "TODO: You have beaten the strongest forces of the enemy. They have given up, etc." 
-                + NL + NL + playerStats;
+                "TODO: You have beaten the strongest forces of the enemy. They have given up, etc.";
         }
+
+        gameOverBodyStr += NL + NL + playerStats;
 
         txtGameOverHeader.text = gameOverHeaderStr;
         txtGameOverBody.text = gameOverBodyStr;

@@ -46,8 +46,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40c10ec7fcab36e4d9b9aa15387d3c67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EDIT_MODE: 0
   shownName: Polehammer
+  purchaseCost: 70
+  isStarterItem: 0
+  EDIT_MODE: 0
   weaponVisual: {fileID: 3440510611704021172}
   weaponLength: 1.03
   weaponRadius: 0.058

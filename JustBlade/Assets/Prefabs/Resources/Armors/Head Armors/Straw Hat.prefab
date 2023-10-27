@@ -517,6 +517,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Straw Hat
+  purchaseCost: 10
+  isStarterItem: 1
   skinnedMeshRenderer: {fileID: 6717505846949211110}
   armorType: 0
   armorLevel: 0

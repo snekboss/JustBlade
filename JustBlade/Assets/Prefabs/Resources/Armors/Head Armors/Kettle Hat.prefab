@@ -400,6 +400,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Kettle Hat
+  purchaseCost: 65
+  isStarterItem: 0
   skinnedMeshRenderer: {fileID: 6305883525073482560}
   armorType: 0
   armorLevel: 2

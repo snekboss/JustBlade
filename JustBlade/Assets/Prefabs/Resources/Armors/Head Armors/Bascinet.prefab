@@ -209,6 +209,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Bascinet
+  purchaseCost: 70
+  isStarterItem: 0
   skinnedMeshRenderer: {fileID: 3634387382079887227}
   armorType: 0
   armorLevel: 2

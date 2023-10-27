@@ -1064,6 +1064,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Woolen Cap
+  purchaseCost: 20
+  isStarterItem: 1
   skinnedMeshRenderer: {fileID: 7105384420324606372}
   armorType: 0
   armorLevel: 0

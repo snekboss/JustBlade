@@ -46,26 +46,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40c10ec7fcab36e4d9b9aa15387d3c67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EDIT_MODE: 0
   shownName: Great Axe
+  purchaseCost: 40
+  isStarterItem: 0
+  EDIT_MODE: 0
   weaponVisual: {fileID: 7513112127007586783}
   weaponLength: 0.88
   weaponRadius: 0.058
   colDirection: 0
   isInverseDirection: 1
   weaponType: 0
-  SwingDmgHeadNaked: 100
-  SwingDmgHeadLight: 100
-  SwingDmgHeadMed: 68
-  SwingDmgHeadHeavy: 60
-  SwingDmgTorsoNaked: 75
-  SwingDmgTorsoLight: 62
-  SwingDmgTorsoMed: 53
-  SwingDmgTorsoHeavy: 45
-  SwingDmgLegNaked: 65
-  SwingDmgLegLight: 52
-  SwingDmgLegMed: 43
-  SwingDmgLegHeavy: 35
+  SwingDmgHeadNaked: 130
+  SwingDmgHeadLight: 105
+  SwingDmgHeadMed: 80
+  SwingDmgHeadHeavy: 55
+  SwingDmgTorsoNaked: 100
+  SwingDmgTorsoLight: 75
+  SwingDmgTorsoMed: 65
+  SwingDmgTorsoHeavy: 50
+  SwingDmgLegNaked: 80
+  SwingDmgLegLight: 65
+  SwingDmgLegMed: 55
+  SwingDmgLegHeavy: 45
   StabDmgHeadNaked: 23
   StabDmgHeadLight: 22
   StabDmgHeadMed: 21
@@ -78,7 +80,6 @@ MonoBehaviour:
   StabDmgLegLight: 7
   StabDmgLegMed: 6
   StabDmgLegHeavy: 5
-  isDmgAlreadyApplied: 0
 --- !u!65 &7242499025900938288
 BoxCollider:
   m_ObjectHideFlags: 0

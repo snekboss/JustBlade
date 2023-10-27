@@ -1,0 +1,60 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &331089811932901666
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 5437575557641583330}
+  - component: {fileID: -5013405692648212928}
+  m_Layer: 0
+  m_Name: MercenaryMediumArmorSet
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &5437575557641583330
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331089811932901666}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-5013405692648212928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 331089811932901666}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 415cdb0c2bc90ba49a740d160d9dcade, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  headArmorPrefabs:
+  - {fileID: 2417351490930815410, guid: bf9057b091e60494a985cb489138100b, type: 3}
+  - {fileID: 149589886018733449, guid: a2d1365864887674f987655c2213e40d, type: 3}
+  - {fileID: 5361306012923295231, guid: fdceb06369392df41aec36463d71d6dd, type: 3}
+  - {fileID: 2863166691169998558, guid: 69473f76ca761fe4db7eccc3a9fa99f4, type: 3}
+  - {fileID: 7327788770051907258, guid: 0715e6051dc1a9946948e1e70651be07, type: 3}
+  torsoArmorPrefabs:
+  - {fileID: 407344131048014455, guid: 4fa5335c0c49c9f448950e14df0b641c, type: 3}
+  - {fileID: 7210638341447028792, guid: 1274b577d6e88d1498128689d1dd9bf8, type: 3}
+  handArmorPrefabs:
+  - {fileID: 8492961926723607155, guid: 26db52c9dfe6b3c48afbd7c37c6c67d8, type: 3}
+  legArmorPrefabs:
+  - {fileID: 7333737964820307588, guid: 3d3ef1253a69fcd46956eb4d8d4c87a5, type: 3}
+  - {fileID: 4466262578747085040, guid: fb99798759ed8c3428585072acd17906, type: 3}

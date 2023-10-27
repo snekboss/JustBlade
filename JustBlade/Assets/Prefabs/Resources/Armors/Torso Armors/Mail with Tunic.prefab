@@ -1104,6 +1104,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Mail with Blue Tunic
+  purchaseCost: 60
+  isStarterItem: 0
   skinnedMeshRenderer: {fileID: 2646327186279897675}
   armorType: 1
   armorLevel: 2

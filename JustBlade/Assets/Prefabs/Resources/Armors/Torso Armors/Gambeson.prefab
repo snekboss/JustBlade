@@ -723,6 +723,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Gambeson
+  purchaseCost: 40
+  isStarterItem: 0
   skinnedMeshRenderer: {fileID: 7736692808612423241}
   armorType: 1
   armorLevel: 1

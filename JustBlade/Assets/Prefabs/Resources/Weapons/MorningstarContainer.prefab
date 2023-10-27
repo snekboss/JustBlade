@@ -46,8 +46,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40c10ec7fcab36e4d9b9aa15387d3c67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EDIT_MODE: 0
   shownName: Morningstar
+  purchaseCost: 90
+  isStarterItem: 0
+  EDIT_MODE: 0
   weaponVisual: {fileID: 4932515261801826841}
   weaponLength: 0.9
   weaponRadius: 0.06
@@ -78,7 +80,6 @@ MonoBehaviour:
   StabDmgLegLight: 30
   StabDmgLegMed: 26
   StabDmgLegHeavy: 25
-  isDmgAlreadyApplied: 0
 --- !u!65 &5238453475780049816
 BoxCollider:
   m_ObjectHideFlags: 0

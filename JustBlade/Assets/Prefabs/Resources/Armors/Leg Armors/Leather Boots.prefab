@@ -522,6 +522,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Leather Boots
+  purchaseCost: 20
+  isStarterItem: 0
   skinnedMeshRenderer: {fileID: 7248652362248302963}
   armorType: 3
   armorLevel: 1
