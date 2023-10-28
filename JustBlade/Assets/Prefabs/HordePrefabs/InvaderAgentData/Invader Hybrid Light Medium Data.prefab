@@ -1,0 +1,50 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &2089070528919058788
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3713806154785825656}
+  - component: {fileID: -2299861688547309290}
+  m_Layer: 0
+  m_Name: Invader Hybrid Light Medium Data
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3713806154785825656
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2089070528919058788}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &-2299861688547309290
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2089070528919058788}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d05bca34fbe96ec4498448c462edb6d5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  charSetPrefab: {fileID: 6260787747674504491, guid: 94cc3d97c89b54045bac3d3d9a040635, type: 3}
+  armorSetPrefab: {fileID: 4792695996499103168, guid: 1092f4e3d3f2e5f4f85fe1a0e55a1b62, type: 3}
+  weaponSetPrefab: {fileID: 5579070294697331014, guid: 516db166713270c4eb7c5d250bcfe46f, type: 3}
+  invaderRewardDataPrefab: {fileID: 4048550916649012738, guid: 688eac62cd1df844198c0ec844b80518, type: 3}

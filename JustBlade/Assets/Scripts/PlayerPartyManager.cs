@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public static class PlayerPartyManager
 {
-    public static readonly int MaxNumberOfMercenaries = 10;
+    public static readonly int MaxNumberOfMercenaries = 20;
 
     static Dictionary<Armor.ArmorLevel, int> MercCountByArmorLevel
     {

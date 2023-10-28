@@ -25,10 +25,7 @@ public class HordeGameLogic : MonoBehaviour
     [System.Serializable]
     public class InvaderData
     {
-        public CharacteristicSet invaderCharacteristicSetPrefab;
-        public HordeArmorSet invaderArmorSetPrefab;
-        public HordeWeaponSet invaderWeaponSetPrefab;
-        public HordeRewardData invaderRewardDataPrefab;
+        public InvaderAgentData invaderAgentDataPrefab;
         public int invaderCount;
     }
 
@@ -38,8 +35,6 @@ public class HordeGameLogic : MonoBehaviour
     /// <seealso cref="enemyTeamSpawnPoint"/>.
     /// </summary>
     public enum SpawnDirection { Left, Right }
-
-    // TODO: Below, remove unnecessary variables and rename necessary variables.
 
     public static bool IsPlayerDied;
     public static bool IsPlayerBeatenTheGame;
@@ -57,9 +52,6 @@ public class HordeGameLogic : MonoBehaviour
         PlayerPartyManager.InitializePlayerParty();
         PlayerStatisticsTracker.Initialize();
     }
-    // TODO: Above, remove unnecessary variables and rename necessary variables.
-
-    // Item shop stuff below
 
     public Transform playerTeamSpawnPoint;
     public SpawnDirection playerTeamSpawnDirection;
@@ -96,22 +88,15 @@ public class HordeGameLogic : MonoBehaviour
     }
     Queue<Agent> agentCombatPrefQueue;
 
-    /// <summary>
-    /// TODO: Remove this?
-    /// The number of enemies beaten by player in this round.
-    /// At the end of every round, these are added to <see cref="PlayerInventoryManager.TotalOpponentsBeatenByPlayer"/>.
-    /// </summary>
-    int numEnemiesBeatenByPlayer;
-
     void SpawnInvadersFromData(InvaderData invaderData, ref Vector3 spawnPos, Vector3 dir)
     {
         for (int i = 0; i < invaderData.invaderCount; i++)
         {
             AiAgent a = Instantiate(aiAgentPrefab);
             InitializeAgentFromHordeData(a
-                , invaderData.invaderWeaponSetPrefab
-                , invaderData.invaderArmorSetPrefab
-                , invaderData.invaderCharacteristicSetPrefab);
+                , invaderData.invaderAgentDataPrefab.weaponSetPrefab
+                , invaderData.invaderAgentDataPrefab.armorSetPrefab
+                , invaderData.invaderAgentDataPrefab.charSetPrefab);
 
             Vector3 nextAgentSpawnOffset = dir * (2 * a.CharMgr.AgentWorldRadius + distanceBetweenAgents);
 
@@ -120,7 +105,7 @@ public class HordeGameLogic : MonoBehaviour
             a.OnDeath += OnAgentDeath;
 
             HordeRewardData hrd = a.gameObject.AddComponent<HordeRewardData>();
-            hrd.CopyDataFromPrefab(invaderData.invaderRewardDataPrefab);
+            hrd.CopyDataFromPrefab(invaderData.invaderAgentDataPrefab.invaderRewardDataPrefab);
 
             a.transform.position = spawnPos;
             enemyTeamAgents.Add(a);
@@ -372,16 +357,16 @@ public class HordeGameLogic : MonoBehaviour
             , PlayerPartyManager.GetMercenaryCount(Armor.ArmorLevel.Heavy), ref spawnPos, dir);
     }
 
-    void SpawnPlayerMercenaryFromData(MercenaryData mercData, int count, ref Vector3 spawnPos, Vector3 dir)
+    void SpawnPlayerMercenaryFromData(MercenaryAgentData mercData, int count, ref Vector3 spawnPos, Vector3 dir)
     {
         for (int i = 0; i < count; i++)
         {
             AiAgent merc = Instantiate(aiAgentPrefab);
             merc.OnSearchForEnemyAgent += OnAiAgentSearchForEnemy;
             InitializeAgentFromHordeData(merc
-                , mercData.mercWeaponSetPrefab
-                , mercData.mercArmorSetPrefab
-                , mercData.mercCharSetPrefab);
+                , mercData.weaponSetPrefab
+                , mercData.armorSetPrefab
+                , mercData.charSetPrefab);
 
             merc.IsFriendOfPlayer = true;
             merc.OnDeath += OnAgentDeath;

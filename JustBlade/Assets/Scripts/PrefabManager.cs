@@ -80,15 +80,15 @@ public static class PrefabManager
         }
     }
 
-    static Dictionary<Armor.ArmorLevel, MercenaryData> mercenaryDataByArmorLevel;
+    static Dictionary<Armor.ArmorLevel, MercenaryAgentData> mercenaryDataByArmorLevel;
 
-    public static Dictionary<Armor.ArmorLevel, MercenaryData> MercenaryDataByArmorLevel
+    public static Dictionary<Armor.ArmorLevel, MercenaryAgentData> MercenaryDataByArmorLevel
     {
         get
         {
             if (mercenaryDataByArmorLevel == null)
             {
-                mercenaryDataByArmorLevel = LoadMercenaryData("MercenaryData");
+                mercenaryDataByArmorLevel = LoadMercenaryAgentData("MercenaryAgentData");
             }
 
             return mercenaryDataByArmorLevel;
@@ -138,28 +138,28 @@ public static class PrefabManager
     }
 
     /// <summary>
-    /// Loads all <see cref="MercenaryData"/> on a given path, under "Resources" folder of this project.
-    /// Note that <see cref="MercenaryData"/> related code are hardcoded, and therefore
-    /// there must be exactly one <see cref="MercenaryData"/> loaded per <see cref="Armor.ArmorLevel"/>.
+    /// Loads all <see cref="MercenaryAgentData"/> on a given path, under "Resources" folder of this project.
+    /// Note that <see cref="MercenaryAgentData"/> related code are hardcoded, and therefore
+    /// there must be exactly one <see cref="MercenaryAgentData"/> loaded per <see cref="Armor.ArmorLevel"/>.
     /// </summary>
     /// <param name="path"></param>
     /// <returns></returns>
-    static Dictionary<Armor.ArmorLevel, MercenaryData> LoadMercenaryData(string path)
+    static Dictionary<Armor.ArmorLevel, MercenaryAgentData> LoadMercenaryAgentData(string path)
     {
         UnityEngine.Object[] objs = Resources.LoadAll(path);
         string nameOfArmorLevel = nameof(Armor.ArmorLevel);
-        string nameOfMercData = nameof(MercenaryData);
+        string nameOfMercData = nameof(MercenaryAgentData);
 
 #if UNITY_EDITOR
-        Debug.Assert(objs.Length == 4, "There needs to be exactly 4 " + nameOfMercData + " under MercenaryData folder.");
+        Debug.Assert(objs.Length == 4, "There needs to be exactly 4 " + nameOfMercData + " under MercenaryAgentData folder.");
 #endif
 
-        Dictionary<Armor.ArmorLevel, MercenaryData> ret = new Dictionary<Armor.ArmorLevel, MercenaryData>();
+        Dictionary<Armor.ArmorLevel, MercenaryAgentData> ret = new Dictionary<Armor.ArmorLevel, MercenaryAgentData>();
 
         for (int i = 0; i < objs.Length; i++)
         {
             GameObject dataGO = objs[i] as GameObject;
-            MercenaryData mercData = dataGO.GetComponent<MercenaryData>();
+            MercenaryAgentData mercData = dataGO.GetComponent<MercenaryAgentData>();
 
 #if UNITY_EDITOR
             Debug.Assert(ret.ContainsKey(mercData.mercArmorLevel) == false, nameOfArmorLevel

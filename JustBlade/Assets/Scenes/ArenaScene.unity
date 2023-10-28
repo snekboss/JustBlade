@@ -15176,39 +15176,193 @@ MonoBehaviour:
   waveSets:
   - waves:
     - invaderDataList:
-      - invaderCharacteristicSetPrefab: {fileID: 5540890549537020506, guid: 942000d9fa76f9c449ad35fd0fb8f194, type: 3}
-        invaderArmorSetPrefab: {fileID: 4792695996499103168, guid: 376db7dc8a7e00d45b0f6217a0a94dae, type: 3}
-        invaderWeaponSetPrefab: {fileID: 5579070294697331014, guid: 7a49a3048065bf9449359a189d9aac78, type: 3}
-        invaderRewardDataPrefab: {fileID: 4048550916649012738, guid: 025beeff7c98e7f4f9277549325bcc88, type: 3}
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
         invaderCount: 3
     - invaderDataList:
-      - invaderCharacteristicSetPrefab: {fileID: 5540890549537020506, guid: 942000d9fa76f9c449ad35fd0fb8f194, type: 3}
-        invaderArmorSetPrefab: {fileID: 4792695996499103168, guid: 376db7dc8a7e00d45b0f6217a0a94dae, type: 3}
-        invaderWeaponSetPrefab: {fileID: 5579070294697331014, guid: 7a49a3048065bf9449359a189d9aac78, type: 3}
-        invaderRewardDataPrefab: {fileID: 4048550916649012738, guid: 025beeff7c98e7f4f9277549325bcc88, type: 3}
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
         invaderCount: 3
-      - invaderCharacteristicSetPrefab: {fileID: 1093605606640559119, guid: 1429f3080c4a805488c113c176a22bcb, type: 3}
-        invaderArmorSetPrefab: {fileID: 6153722146290203373, guid: bca08f95a9b3d05489cedcb4f72d7759, type: 3}
-        invaderWeaponSetPrefab: {fileID: 8882926409810922663, guid: aa8797c96f64e55428d2608e1d835aed, type: 3}
-        invaderRewardDataPrefab: {fileID: 3247148283587847073, guid: e9fc23100337e1a47814e3e653264f79, type: 3}
+      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
         invaderCount: 1
   - waves:
     - invaderDataList:
-      - invaderCharacteristicSetPrefab: {fileID: 3502926071809382518, guid: f7f631cabbb9bd245baee5495eafcfba, type: 3}
-        invaderArmorSetPrefab: {fileID: 4171008422763001702, guid: 63d163f1d5dd68b43a3c234970f74dfe, type: 3}
-        invaderWeaponSetPrefab: {fileID: 9200831808936250303, guid: 69570eb1758e4b143aed0497a3883a0f, type: 3}
-        invaderRewardDataPrefab: {fileID: 5462612875025685118, guid: 80bd83665ab26394485d7b55824c464f, type: 3}
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6d73546f723dcc448beb1ff31d6a6522, type: 3}
         invaderCount: 1
-      - invaderCharacteristicSetPrefab: {fileID: 1839064892537572142, guid: 08952ef086032a841b263ba7f4c557a3, type: 3}
-        invaderArmorSetPrefab: {fileID: 4067017643125202929, guid: 4d2db1924072bd04fb5c11327bfa96b1, type: 3}
-        invaderWeaponSetPrefab: {fileID: 2503613600807818481, guid: a231e832f5b024243b44dbe485beb2d6, type: 3}
-        invaderRewardDataPrefab: {fileID: 5032682403300297307, guid: 0458b0d66bf72a64682d591f87abe33d, type: 3}
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6c89bc23747985c40a372079ac148920, type: 3}
         invaderCount: 1
-      - invaderCharacteristicSetPrefab: {fileID: 3114896049202398484, guid: 812cb11e9621bf640a097019ffb9e158, type: 3}
-        invaderArmorSetPrefab: {fileID: 7600356222138604139, guid: 3bb42a8e52982404b98d77b1dca4b55a, type: 3}
-        invaderWeaponSetPrefab: {fileID: 1084711568109872318, guid: 79ba650e7d9e2ed4f8c8f2438194a5aa, type: 3}
-        invaderRewardDataPrefab: {fileID: 190357537192320274, guid: 5b04454a5753d66428ad344319596319, type: 3}
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
         invaderCount: 1
+  - waves:
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
+        invaderCount: 2
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
+        invaderCount: 3
+  - waves:
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 8c2982130944d1c4691ba74ac10c48ad, type: 3}
+        invaderCount: 8
+  - waves:
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
+        invaderCount: 2
+      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
+        invaderCount: 2
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
+        invaderCount: 1
+  - waves:
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 44377f7e63a5ce14e96061764fba0ed6, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 7238b8e0d27e97a4a84cf2be148d2239, type: 3}
+        invaderCount: 5
+  - waves:
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
+        invaderCount: 2
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
+        invaderCount: 3
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6c89bc23747985c40a372079ac148920, type: 3}
+        invaderCount: 2
+  - waves:
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 99242cb7f55b0354093fce1ae58f2ea7, type: 3}
+        invaderCount: 10
+  - waves:
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
+        invaderCount: 2
+      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6c89bc23747985c40a372079ac148920, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -6397259232906845851, guid: 29cd55cd4375c7144992c96f65e9483d, type: 3}
+        invaderCount: 1
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6c89bc23747985c40a372079ac148920, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -6397259232906845851, guid: 29cd55cd4375c7144992c96f65e9483d, type: 3}
+        invaderCount: 3
+  - waves:
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 379b45fe4e302cf4f996d69e6197a960, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 79bb7b60ed0fd974d9cdf93bb9dd37be, type: 3}
+        invaderCount: 8
+  - waves:
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
+        invaderCount: 2
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6c89bc23747985c40a372079ac148920, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -6397259232906845851, guid: 29cd55cd4375c7144992c96f65e9483d, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6d73546f723dcc448beb1ff31d6a6522, type: 3}
+        invaderCount: 2
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6c89bc23747985c40a372079ac148920, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -6397259232906845851, guid: 29cd55cd4375c7144992c96f65e9483d, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6d73546f723dcc448beb1ff31d6a6522, type: 3}
+        invaderCount: 4
+  - waves:
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: d6fb7efaf8acd674e854015a6219d134, type: 3}
+        invaderCount: 12
+  - waves:
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6c89bc23747985c40a372079ac148920, type: 3}
+        invaderCount: 2
+      - invaderAgentDataPrefab: {fileID: -6397259232906845851, guid: 29cd55cd4375c7144992c96f65e9483d, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6d73546f723dcc448beb1ff31d6a6522, type: 3}
+        invaderCount: 6
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6c89bc23747985c40a372079ac148920, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -6397259232906845851, guid: 29cd55cd4375c7144992c96f65e9483d, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6d73546f723dcc448beb1ff31d6a6522, type: 3}
+        invaderCount: 8
+  - waves:
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 44377f7e63a5ce14e96061764fba0ed6, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 7238b8e0d27e97a4a84cf2be148d2239, type: 3}
+        invaderCount: 5
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 379b45fe4e302cf4f996d69e6197a960, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 79bb7b60ed0fd974d9cdf93bb9dd37be, type: 3}
+        invaderCount: 8
 --- !u!4 &1893990462
 Transform:
   m_ObjectHideFlags: 0
