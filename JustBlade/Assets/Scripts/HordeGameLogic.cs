@@ -14,6 +14,7 @@ public class HordeGameLogic : MonoBehaviour
     public class WaveSet
     {
         public List<Wave> waves;
+        public bool isBossWaveSet;
     }
 
     [System.Serializable]
@@ -40,13 +41,22 @@ public class HordeGameLogic : MonoBehaviour
     public static bool IsPlayerBeatenTheGame;
     public static bool IsGameEnded { get { return IsPlayerDied || IsPlayerBeatenTheGame; } }
     public static bool IsGameHasJustBegun { get { return iCurWaveSet == 0; } }
+    public static int NumberOfWavesBeaten { get; private set; }
+    public static int TotalNumberOfWaves { get; private set; }
+    public static bool IsBossBattleNext { get; private set; }
+    static bool isTotalNumWavesCalculated;
 
     public static void StartNewHordeGame()
     {
         iCurWaveSet = 0;
 
+        NumberOfWavesBeaten = -1; // must be 1
+        
         IsPlayerDied = false;
         IsPlayerBeatenTheGame = false;
+        IsBossBattleNext = false;
+
+        isTotalNumWavesCalculated = false;
 
         PlayerInventoryManager.InitializePlayerInventory();
         PlayerPartyManager.InitializePlayerParty();
@@ -63,7 +73,7 @@ public class HordeGameLogic : MonoBehaviour
     public AiAgent aiAgentPrefab;
 
     static int iCurWaveSet = 0;
-    int iCurWave = -1;
+    int iCurWave = -1; // must be -1
 
     public List<WaveSet> waveSets;
 
@@ -392,6 +402,7 @@ public class HordeGameLogic : MonoBehaviour
     void SpawnNextWave()
     {
         iCurWave++;
+        NumberOfWavesBeaten++;
 
         enemyTeamAgents = new List<Agent>();
         if (waveSets == null || waveSets.Count == 0)
@@ -429,9 +440,15 @@ public class HordeGameLogic : MonoBehaviour
     {
         iCurWaveSet++;
 
+        IsBossBattleNext = false;
+
         if (iCurWaveSet == waveSets.Count)
         {
             IsPlayerBeatenTheGame = true;
+        }
+        else if (waveSets[iCurWaveSet].isBossWaveSet)
+        {
+            IsBossBattleNext = true;
         }
 
         StartCoroutine("ConcludeWaveSetCoroutine");
@@ -494,12 +511,37 @@ public class HordeGameLogic : MonoBehaviour
         SceneManager.LoadScene("InformationMenuScene");
     }
 
+    void CalculateTotalNumberOfWavesOnce()
+    {
+        if (isTotalNumWavesCalculated == false)
+        {
+            int sum = 0;
+            if (waveSets == null)
+            {
+                return;
+            }
+
+            for (int i = 0; i < waveSets.Count; i++)
+            {
+                if (waveSets[i] != null && waveSets[i].waves != null)
+                {
+                    sum += waveSets[i].waves.Count;
+                }
+            }
+
+            TotalNumberOfWaves = sum;
+            isTotalNumWavesCalculated = true;
+        }
+    }
+
     /// <summary>
     /// Unity's Start method.
     /// In this case, it mainly spawns the agents which are meant to compete in this tournament round.
     /// </summary>
     void Start()
     {
+        CalculateTotalNumberOfWavesOnce();
+
         StartWaveSet();
     }
 

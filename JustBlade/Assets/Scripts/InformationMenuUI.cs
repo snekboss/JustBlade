@@ -96,14 +96,39 @@ public class InformationMenuUI : MonoBehaviour
         {
             gameOverHeaderStr = "Game Over";
 
-            gameOverBodyStr = "TODO: You were killed in battle.";
+            double numBeatenWavesDouble = Convert.ToDouble(HordeGameLogic.NumberOfWavesBeaten);
+            double numTotalWavesDouble = Convert.ToDouble(HordeGameLogic.TotalNumberOfWaves);
+
+            double percentage = numBeatenWavesDouble / numTotalWavesDouble;
+
+            gameOverBodyStr = "";
+
+            if (percentage < 0.25d)
+            {
+                gameOverBodyStr += "Your journey ends here, having repelled only a few of the enemy hordes. Your courage was commendable, but the enemy was relentless.";
+            }
+            else if (percentage < 0.5d)
+            {
+                gameOverBodyStr += "You fought valiantly, repelling several of the enemy hordes. Your strength wavered, and the enemy seized their chance.";
+            }
+            else if (percentage < 0.75d)
+            {
+                gameOverBodyStr += "Many enemy hordes fell before you. Yet, in the end, their numbers overwhelmed you.";
+            }
+            else /*if (percentage < 1.0d)*/
+            {
+                gameOverBodyStr += "You stood on the brink of victory, having repelled most of the enemy hordes. But in the final moments, fate turned against you.";
+            }
+
+            gameOverBodyStr += "Remember, every defeat is a step towards victory. Stand up, fight again, and claim your glory!";
         }
         else
         {
             gameOverHeaderStr = "Congratulations!";
 
-            gameOverBodyStr =
-                "TODO: You have beaten the strongest forces of the enemy. They have given up, etc.";
+            gameOverBodyStr = string.Format(
+                "Against all odds, you have repelled all {0} waves of the enemy hordes. Their mightiest have fallen before you, and the enemy, recognizing your indomitable spirit, have withdrawn their forces. You stand victorious."
+                , HordeGameLogic.TotalNumberOfWaves);
         }
 
         gameOverBodyStr += NL + NL + playerStats;
@@ -122,14 +147,24 @@ public class InformationMenuUI : MonoBehaviour
 
         string infoStr = "";
 
+        string NL = Environment.NewLine;
+
         if (HordeGameLogic.IsGameHasJustBegun)
         {
-            infoStr += "TODO: Write info for when you first start the game.";
+            infoStr += "In the aftermath of a crushing defeat, you, once a respected commander, have been stripped of your titles, wealth, and possessions. Your liege lord, in a final act of mercy, has spared your life but exiled you to a forsaken outpost on the edge of the realm. This desolate place, under constant threat from relentless enemy hordes, is your new home."
+                + NL + NL + "Armed with nothing more than a simple axe and a short spear, and clad in mere rags offering no protection, you are all that stands between the outpost and its doom. Your starting gold is meager, barely enough to hire a handful of mercenaries or purchase rudimentary equipment."
+                + NL + NL + "Yet, within this dire situation lies an opportunity for redemption. With each wave of enemies you repel, your wealth will grow. The gold earned from these victories can be used to strengthen your position - hire hardened soldiers, acquire formidable weapons and impenetrable armor."
+                + NL + NL + "Your past may be marked by shame and defeat, but your future holds the promise of glory and honor. Stand firm, fight bravely, and reclaim the respect you once commanded. The battlefield awaits!";
+
         }
         else
         {
-            // TODO:
-            infoStr += "TODO: Write info for a usual wave.";
+            infoStr += "Victory is yours, for now. The fallen enemies have left behind a bounty of gold. Use this respite wisely. Equip yourself with stronger weapons and armor, hire or upgrade mercenaries to stand by your side. Remember, the challenges ahead will only grow tougher.";
+
+            if (HordeGameLogic.IsBossBattleNext)
+            {
+                infoStr += NL + NL + "Prepare yourself, for the battle ahead will not be against mere foot soldiers. The upcoming challenge brings with it a formidable adversary - a boss battle. This enemy will be stronger, tougher, and more relentless than any you’ve faced before. Gather your strength and steel your resolve. The true test of your mettle is about to begin.";
+            }
         }
 
 

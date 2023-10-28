@@ -212,8 +212,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 1200, y: 500}
+  m_AnchoredPosition: {x: 0, y: -25}
+  m_SizeDelta: {x: 1200, y: 575}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &127636817
 MonoBehaviour:
@@ -235,43 +235,43 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'You died in battle! or You''ve beaten the hordes of enemies! They sent
-    their best forces but you defeated all of them so they gave up etc. Some long
-    text to see if the text box is large enough.
+  m_text: 'You stood on the brink of victory, having repelled most of the enemy hordes.
+    But in the final moments, fate turned against you. Remember, every defeat is
+    a step towards victory. Stand up, fight again, and claim your glory!
 
-
-    Player kill count: 111
 
     Player
-    mercenary kill count: 222
+    kill count: 111
 
-    Total kill count: 333
+    Player mercenary kill count: 222
 
+    Total kill count:
+    333
+
+
+    Total number of mercenaries hired: 444
 
     Total number of mercenaries
-    hired: 444
+    upgraded: 555
 
-    Total number of mercenaries upgraded: 555
-
-    Total number of
-    mercenaries died: 666
+    Total number of mercenaries died: 666
 
 
-    Total damage player has inflicted: 7777
+    Total damage player
+    has inflicted: 7777
 
-    Total
-    damage taken by player: 8888
+    Total damage taken by player: 8888
 
-    Total number of attacks successfully blocked
-    by player: 9999
+    Total number
+    of attacks successfully blocked by player: 9999
 
 
     Total gold earned: 11111
 
-    Total gold spent: 22222
+    Total
+    gold spent: 22222
 
-    Remaining
-    gold: 33333'
+    Remaining gold: 33333'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -487,7 +487,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -330}
+  m_AnchoredPosition: {x: 480, y: -330}
   m_SizeDelta: {x: 160, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &459652772
@@ -599,7 +599,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &878150429
 RectTransform:
   m_ObjectHideFlags: 0
@@ -1147,8 +1147,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 800, y: 400}
+  m_AnchoredPosition: {x: 0, y: -25}
+  m_SizeDelta: {x: 1200, y: 550}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1669513062
 MonoBehaviour:
@@ -1170,12 +1170,32 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'This isn''t a tournament anymore. You must write out text for Horde Game
-    related stuff. However, here''s some text from the past, which acts as a lorem
-    ipsum thing, so that you can see how the text''s borders are behaving in the
-    user interface: You are at round X out of Y. In order to advance to the next
-    round, you need to beat at least X opponents, or survive until the end of the
-    round. You can change your equipment before you begin fighting in the next melee.'
+  m_text: 'In the aftermath of a crushing defeat, you, once a respected commander,
+    have been stripped of your titles, wealth, and possessions. Your liege lord,
+    in a final act of mercy, has spared your life but exiled you to a forsaken outpost
+    on the edge of the realm. This desolate place, under constant threat from relentless
+    enemy hordes, is your new home.
+
+
+
+    Armed with nothing more than a worn axe
+    and a short spear, and clad in mere rags offering no protection, you are all
+    that stands between the outpost and its doom. Your starting gold is meager, barely
+    enough to hire a handful of mercenaries or purchase rudimentary equipment.
+
+
+
+    Yet,
+    within this dire situation lies an opportunity for redemption. With each wave
+    of enemies you repel, your wealth will grow. The gold earned from these victories
+    can be used to strengthen your position - hire hardened soldiers, acquire formidable
+    weapons and impenetrable armor.
+
+
+
+    Your past may be marked by shame and defeat,
+    but your future holds the promise of glory and honor. Stand firm, fight bravely,
+    and reclaim the respect you once commanded. The battlefield awaits!'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -1469,7 +1489,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1875545834
 RectTransform:
   m_ObjectHideFlags: 0
