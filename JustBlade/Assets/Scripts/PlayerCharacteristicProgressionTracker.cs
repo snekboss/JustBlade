@@ -9,53 +9,49 @@ public static class PlayerCharacteristicProgressionTracker
     const float DamageTakenMultiplierPerWaveBeaten = 0.01f;
     const float ExtraMovementSpeedMultiplierPerWaveBeaten = 0.005f;
 
-    public static int ProgressedHealth 
+    /// <summary>
+    /// Gets the <see cref="CharacteristicSet"/> of the 
+    /// <see cref="PlayerAgent"/> based on <see cref="HordeGameLogic.NumberOfWavesBeaten"/>.
+    /// There is no prefab for player's characteristics, therefore a game object is instantiated
+    /// at runtime if it doesn't exist. Note that Unity destroys all game objects during
+    /// scene transition. This will cause the aforementioned game object to be instantiated again.
+    /// However, it'll only happen once per scene, so it's not a big deal.
+    /// </summary>
+    public static CharacteristicSet PlayerCharSet 
     { 
         get 
         {
-            return CharacteristicManager.DefaultMaximumHealth + 
+            if (playerCharSet == null)
+            {
+                GameObject go = new GameObject("Player Characteristic Set Game Object");
+                playerCharSet = go.AddComponent<CharacteristicSet>();
+
+                // Below values are never changed for the player.
+                playerCharSet.ModelSizeMultiplier = CharacteristicManager.DefaultAgentSizeMultiplier;
+                playerCharSet.MaximumPoise = CharacteristicManager.DefaultMaximumPoise;
+
+
+                // Below values are determined per wave beaten.
+                playerCharSet.MaximumHealth = CharacteristicManager.DefaultMaximumHealth +
                 (HealthPerWaveBeaten * HordeGameLogic.NumberOfWavesBeaten);
-        }
-    }
-    public static float ProgressedModelSize 
-    { 
-        get 
-        { 
-            // Player's model size is never changed.
-            return CharacteristicManager.DefaultAgentSizeMultiplier;
-        }
-    }
-    public static float ProgressedExtraDamageInflictionMultiplier 
-    { 
-        get 
-        { 
-            return CharacteristicManager.DefaultExtraDamageInflictionMultiplier + 
+
+                playerCharSet.ExtraDamageInflictionMultiplier = 
+                    CharacteristicManager.DefaultExtraDamageInflictionMultiplier +
                 (ExtraDamageInflictionMultiplierPerWaveBeaten * HordeGameLogic.NumberOfWavesBeaten);
-        }
-    }
-    public static float ProgressedDamageTakenMultiplier 
-    { 
-        get 
-        {
-            // This value is a "damage taken" multiplier, and thus subtracted.
-            return CharacteristicManager.DefaultDamageTakenMultiplier -
+
+                // This is a "damage taken" multiplier, and thus it there is subtraction.
+                playerCharSet.DamageTakenMultiplier =
+                    CharacteristicManager.DefaultDamageTakenMultiplier -
                 (DamageTakenMultiplierPerWaveBeaten * HordeGameLogic.NumberOfWavesBeaten);
-        }
-    }
-    public static float ProgressedExtraMovementSpeed
-    {
-        get
-        {
-            return CharacteristicManager.DefaultExtraMovementSpeedLimitMultiplier +
+
+                playerCharSet.ExtraMovementSpeedLimitMultiplier =
+                    CharacteristicManager.DefaultExtraMovementSpeedLimitMultiplier +
                 (ExtraMovementSpeedMultiplierPerWaveBeaten * HordeGameLogic.NumberOfWavesBeaten);
-        }
+
+            }
+
+            return playerCharSet;
+        }       
     }
-    public static int ProgressedPoise 
-    { 
-        get 
-        { 
-            // Player's poise value is never changed.
-            return CharacteristicManager.DefaultMaximumPoise;
-        }
-    }
+    static CharacteristicSet playerCharSet;
 }

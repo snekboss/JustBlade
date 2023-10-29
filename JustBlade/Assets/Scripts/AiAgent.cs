@@ -121,33 +121,6 @@ public class AiAgent : Agent
         InitializeAiAgent();
     }
 
-    public override void InitializeAgent(Weapon weaponPrefab
-        , Armor headArmorPrefab
-        , Armor torsoArmorPrefab
-        , Armor handArmorPrefab
-        , Armor legArmorPrefab
-        , int maximumHealth
-        , float modelSizeMultiplier
-        , float extraMovementSpeedMultiplier
-        , float extraDamageInflictionMultiplier
-        , float damageTakenMultiplier
-        , int maximumPoise)
-    {
-        base.InitializeAgent(weaponPrefab
-            , headArmorPrefab
-            , torsoArmorPrefab
-            , handArmorPrefab
-            , legArmorPrefab
-            , maximumHealth
-            , modelSizeMultiplier
-            , extraMovementSpeedMultiplier
-            , extraDamageInflictionMultiplier
-            , damageTakenMultiplier
-            , maximumPoise);
-
-        InitializeAiAgent();
-    }
-
     void InitializeAiAgent()
     {
         // --- Combat distance related parameters ---

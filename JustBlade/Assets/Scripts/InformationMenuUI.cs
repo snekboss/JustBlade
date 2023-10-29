@@ -168,13 +168,15 @@ public class InformationMenuUI : MonoBehaviour
 
             infoStr += NL + NL + "You've grown stronger, surviving wave after wave of enemies. Your health has increased, your strikes deal more damage, and you've become more resilient to enemy attacks. Your movement speed on the battlefield may have also improved slightly.";
 
-            
-            int health = PlayerCharacteristicProgressionTracker.ProgressedHealth ;
+
+            int health = PlayerCharacteristicProgressionTracker.PlayerCharSet.MaximumHealth;
             // Multiplier values will be written in percentage increases.
             // This will hopefully help the player understand what's happening.
-            float dmgMulti = 100f * (PlayerCharacteristicProgressionTracker.ProgressedExtraDamageInflictionMultiplier - 1f);
-            float dmgTakenMulti = 100f * (1f - PlayerCharacteristicProgressionTracker.ProgressedDamageTakenMultiplier);
-            float speedMulti = 100f * (PlayerCharacteristicProgressionTracker.ProgressedExtraMovementSpeed - 1f);
+            float dmgMulti = 
+                100f * (PlayerCharacteristicProgressionTracker.PlayerCharSet.ExtraDamageInflictionMultiplier - 1f);
+            float dmgTakenMulti = 
+                100f * (1f - PlayerCharacteristicProgressionTracker.PlayerCharSet.DamageTakenMultiplier);
+            float speedMulti = 100f * (PlayerCharacteristicProgressionTracker.PlayerCharSet.ExtraMovementSpeedLimitMultiplier - 1f);
 
             string precisionStr = "0.0";
 
