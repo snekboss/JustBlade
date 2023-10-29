@@ -173,7 +173,7 @@ public class InformationMenuUI : MonoBehaviour
             // Multiplier values will be written in percentage increases.
             // This will hopefully help the player understand what's happening.
             float dmgMulti = 100f * (PlayerCharacteristicProgressionTracker.ProgressedExtraDamage - 1f);
-            float resistMulti = 100f * (1f - PlayerCharacteristicProgressionTracker.ProgressedExtraResistance);
+            float dmgTakenMulti = 100f * (1f - PlayerCharacteristicProgressionTracker.ProgressedDamageTakenMultiplier);
             float speedMulti = 100f * (PlayerCharacteristicProgressionTracker.ProgressedExtraMovementSpeed - 1f);
 
             string precisionStr = "0.0";
@@ -185,7 +185,7 @@ public class InformationMenuUI : MonoBehaviour
                + "Movement speed bonus: +{3}%"
                , health
                , dmgMulti.ToString(precisionStr)
-               , resistMulti.ToString(precisionStr)
+               , dmgTakenMulti.ToString(precisionStr)
                , speedMulti.ToString(precisionStr));
 
             infoStr += NL + NL + statStr;

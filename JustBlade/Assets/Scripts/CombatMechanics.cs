@@ -302,7 +302,7 @@ public static class CombatMechanics
 
         float finalDamage = (rawDamage * attacker.CharMgr.ExtraDamageMultiplier) 
             * (1 - dmgReductionMulti) 
-            * defender.CharMgr.ExtraDamageResistanceMultiplier;
+            * defender.CharMgr.DamageTakenMultiplier;
 
         int finalDamageInt = System.Convert.ToInt32(finalDamage);
 

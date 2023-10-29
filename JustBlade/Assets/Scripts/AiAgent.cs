@@ -130,7 +130,7 @@ public class AiAgent : Agent
         , float modelSizeMultiplier
         , float extraMovementSpeedMultiplier
         , float extraDamageMultiplier
-        , float extraDamageResistanceMultiplier
+        , float damageTakenMultiplier
         , int maximumPoise)
     {
         base.InitializeAgent(weaponPrefab
@@ -142,7 +142,7 @@ public class AiAgent : Agent
             , modelSizeMultiplier
             , extraMovementSpeedMultiplier
             , extraDamageMultiplier
-            , extraDamageResistanceMultiplier
+            , damageTakenMultiplier
             , maximumPoise);
 
         InitializeAiAgent();

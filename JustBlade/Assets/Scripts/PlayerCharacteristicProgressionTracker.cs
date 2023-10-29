@@ -6,7 +6,7 @@ public static class PlayerCharacteristicProgressionTracker
 {
     const int HealthPerWaveBeaten = 5;
     const float ExtraDamagePerWaveBeaten = 0.01f;
-    const float ExtraDamageResistancePerWaveBeaten = 0.01f;
+    const float DamageTakenMultiplierPerWaveBeaten = 0.01f;
     const float ExtraMovementSpeedMultiplierPerWaveBeaten = 0.005f;
 
     public static int ProgressedHealth 
@@ -33,13 +33,13 @@ public static class PlayerCharacteristicProgressionTracker
                 (ExtraDamagePerWaveBeaten * HordeGameLogic.NumberOfWavesBeaten);
         }
     }
-    public static float ProgressedExtraResistance 
+    public static float ProgressedDamageTakenMultiplier 
     { 
         get 
         {
             // This value is a "damage taken" multiplier, and thus subtracted.
-            return CharacteristicManager.DefaultExtraDamageResistanceMultiplier -
-                (ExtraDamageResistancePerWaveBeaten * HordeGameLogic.NumberOfWavesBeaten);
+            return CharacteristicManager.DefaultDamageTakenMultiplier -
+                (DamageTakenMultiplierPerWaveBeaten * HordeGameLogic.NumberOfWavesBeaten);
         }
     }
     public static float ProgressedExtraMovementSpeed

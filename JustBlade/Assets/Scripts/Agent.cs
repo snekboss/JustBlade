@@ -185,7 +185,7 @@ public abstract class Agent : MonoBehaviour
                 , characteristicPrefab.ModelSizeMultiplier
                 , characteristicPrefab.ExtraMovementSpeedLimitMultiplier
                 , characteristicPrefab.ExtraDamageMultiplier
-                , characteristicPrefab.ExtraDamageResistanceMultiplier
+                , characteristicPrefab.DamageTakenMultiplier
                 , characteristicPrefab.MaximumPoise);
         }
     }
@@ -199,7 +199,7 @@ public abstract class Agent : MonoBehaviour
         , float modelSizeMultiplier
         , float extraMovementSpeedMultiplier
         , float extraDamageMultiplier
-        , float extraDamageResistanceMultiplier
+        , float damageTakenMultiplier
         , int maximumPoise)
     {
         EqMgr.InitializeEquipmentManager(weaponPrefab
@@ -213,7 +213,7 @@ public abstract class Agent : MonoBehaviour
             , modelSizeMultiplier
             , extraMovementSpeedMultiplier
             , extraDamageMultiplier
-            , extraDamageResistanceMultiplier
+            , damageTakenMultiplier
             , maximumPoise);
     }
 

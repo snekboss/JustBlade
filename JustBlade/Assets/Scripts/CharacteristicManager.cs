@@ -20,7 +20,7 @@ public class CharacteristicManager : MonoBehaviour
     public float debugAgentScale;
     public float debugExtraMovementSpeedLimitMultiplier;
     public float debugExtraDamageMultiplier;
-    public float debugExtraDamageResistanceMultiplier;
+    public float debugDamageTakenMultiplier;
     public int debugMaximumPoise;
     public int debugPoise;
     public float debugFinalMovementSpeedLimit;
@@ -34,7 +34,7 @@ public class CharacteristicManager : MonoBehaviour
     public const float DefaultAgentSizeMultiplier = 1f;
     public const float DefaultExtraMovementSpeedLimitMultiplier = 1f;
     public const float DefaultExtraDamageMultiplier = 1f;
-    public const float DefaultExtraDamageResistanceMultiplier = 1f;
+    public const float DefaultDamageTakenMultiplier = 1f;
     public const int DefaultMaximumPoise = 0;
 
     public const float MovingBackwardsAngleMin = 40f;
@@ -133,7 +133,7 @@ public class CharacteristicManager : MonoBehaviour
     float extraMovementSpeedLimitMultiplier = DefaultExtraMovementSpeedLimitMultiplier;
 
     public float ExtraDamageMultiplier { get; set; } = DefaultExtraDamageMultiplier;
-    public float ExtraDamageResistanceMultiplier { get; set; } = DefaultExtraDamageResistanceMultiplier;
+    public float DamageTakenMultiplier { get; set; } = DefaultDamageTakenMultiplier;
 
     /// <summary>
     /// Maximum amount of poise of the agent.
@@ -179,7 +179,7 @@ public class CharacteristicManager : MonoBehaviour
         , float modelSizeMultiplier = DefaultAgentSizeMultiplier
         , float extraMovementSpeedLimitMultiplier = DefaultExtraMovementSpeedLimitMultiplier
         , float extraDamageMultiplier = DefaultExtraDamageMultiplier
-        , float extraDamageResistanceMultiplier = DefaultExtraDamageResistanceMultiplier
+        , float damageTakenMultiplier = DefaultDamageTakenMultiplier
         , int maximumPoise = DefaultMaximumPoise)
     {
         MaximumHealth = maximumHealth;
@@ -188,7 +188,7 @@ public class CharacteristicManager : MonoBehaviour
         AgentSizeMultiplier = modelSizeMultiplier;
         ExtraMovementSpeedLimitMultiplier = extraMovementSpeedLimitMultiplier;
         ExtraDamageMultiplier = extraDamageMultiplier;
-        ExtraDamageResistanceMultiplier = extraDamageResistanceMultiplier;
+        DamageTakenMultiplier = damageTakenMultiplier;
 
         MaximumPoise = maximumPoise;
         currentPoise = MaximumPoise;
@@ -224,7 +224,7 @@ public class CharacteristicManager : MonoBehaviour
         debugAgentScale = AgentSizeMultiplier;
         debugExtraMovementSpeedLimitMultiplier = ExtraMovementSpeedLimitMultiplier;
         debugExtraDamageMultiplier = ExtraDamageMultiplier;
-        debugExtraDamageResistanceMultiplier = ExtraDamageResistanceMultiplier;
+        debugDamageTakenMultiplier = DamageTakenMultiplier;
         debugMaximumPoise = maximumPoise;
         debugPoise = currentPoise;
         debugFinalMovementSpeedLimit = MovementSpeedLimit;

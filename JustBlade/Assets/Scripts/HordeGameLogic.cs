@@ -345,7 +345,7 @@ public class HordeGameLogic : MonoBehaviour
           , PlayerCharacteristicProgressionTracker.ProgressedModelSize
           , PlayerCharacteristicProgressionTracker.ProgressedExtraMovementSpeed
           , PlayerCharacteristicProgressionTracker.ProgressedExtraDamage
-          , PlayerCharacteristicProgressionTracker.ProgressedExtraResistance
+          , PlayerCharacteristicProgressionTracker.ProgressedDamageTakenMultiplier
           , PlayerCharacteristicProgressionTracker.ProgressedPoise);
 
         player.IsFriendOfPlayer = true;
