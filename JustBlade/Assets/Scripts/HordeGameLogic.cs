@@ -50,7 +50,7 @@ public class HordeGameLogic : MonoBehaviour
     {
         iCurWaveSet = 0;
 
-        NumberOfWavesBeaten = -1; // must be 1
+        NumberOfWavesBeaten = 0;
         
         IsPlayerDied = false;
         IsPlayerBeatenTheGame = false;
@@ -198,6 +198,7 @@ public class HordeGameLogic : MonoBehaviour
 
         if (enemyTeamAgents.Count == 0)
         {
+            NumberOfWavesBeaten++;
             SpawnNextWave();
         }
     }
@@ -402,17 +403,20 @@ public class HordeGameLogic : MonoBehaviour
     void SpawnNextWave()
     {
         iCurWave++;
-        NumberOfWavesBeaten++;
 
         enemyTeamAgents = new List<Agent>();
+
+        // Check if there's any wave set at all.
         if (waveSets == null || waveSets.Count == 0)
         {
             ConcludeWaveSet();
             return;
         }
 
+        // We have a waveset.
         WaveSet waveSet = waveSets[iCurWaveSet];
 
+        // Check if we have any waves remaining.
         if (iCurWave == waveSet.waves.Count)
         {
             ConcludeWaveSet();
