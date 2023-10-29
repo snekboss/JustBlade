@@ -79,24 +79,26 @@ public class HordeGameLogic : MonoBehaviour
 
     float distanceBetweenAgents = 3.0f; // 3.0f seems ok
 
+    readonly float HoldPositionBaseDistance = 0.75f;
+
     readonly float sceneTransitionTime = 3.0f;
 
     List<Agent> playerTeamAgents;
     List<Agent> enemyTeamAgents;
 
-    Queue<Agent> AgentCombatPrefQueue
+    Queue<Agent> AgentThinkQueue
     {
         get
         {
-            if (agentCombatPrefQueue == null)
+            if (agentThinkQueue == null)
             {
-                agentCombatPrefQueue = new Queue<Agent>();
+                agentThinkQueue = new Queue<Agent>();
             }
 
-            return agentCombatPrefQueue;
+            return agentThinkQueue;
         }
     }
-    Queue<Agent> agentCombatPrefQueue;
+    Queue<Agent> agentThinkQueue;
 
     void SpawnInvadersFromData(InvaderData invaderData, ref Vector3 spawnPos, Vector3 dir)
     {
@@ -122,7 +124,7 @@ public class HordeGameLogic : MonoBehaviour
 
             spawnPos = spawnPos + nextAgentSpawnOffset;
 
-            AgentCombatPrefQueue.Enqueue(a);
+            AgentThinkQueue.Enqueue(a);
         }
     }
 
@@ -267,7 +269,10 @@ public class HordeGameLogic : MonoBehaviour
 
         for (int i = 0; i < friendlyAiAgents.Count; i++)
         {
-            Vector3 offset = (playerAgent.transform.right) * (1f + (friendlyAiAgents[i].CharMgr.AgentWorldRadius * 2f));
+            //Vector3 offset = (playerAgent.transform.right) * (1f + (friendlyAiAgents[i].CharMgr.AgentWorldRadius * 2f));
+            float dist = HoldPositionBaseDistance + (friendlyAiAgents[i].CharMgr.AgentWorldRadius * 2f);
+            Vector3 offset = Vector3.right * dist;
+            offset = playerAgent.transform.TransformDirection(offset);
 
             posList.Add(spawnPos);
 
@@ -392,7 +397,7 @@ public class HordeGameLogic : MonoBehaviour
 
             spawnPos = spawnPos + nextAgentSpawnOffset;
 
-            AgentCombatPrefQueue.Enqueue(merc);
+            AgentThinkQueue.Enqueue(merc);
         }
 
     }
@@ -458,51 +463,109 @@ public class HordeGameLogic : MonoBehaviour
         StartCoroutine("ConcludeWaveSetCoroutine");
     }
 
-    void ToggleAiCombatDirectionPreference()
+    void MakeOneAgentThink()
     {
-        if (agentCombatPrefQueue.Count < 1)
+        if (AgentThinkQueue.Count < 1)
         {
             return;
         }
 
-        Agent thisAgent = AgentCombatPrefQueue.Dequeue();
-        if (thisAgent == null || thisAgent.IsDead || thisAgent.IsPlayerAgent)
+        Agent agent = AgentThinkQueue.Dequeue();
+        if (agent == null || agent.IsDead || agent.IsPlayerAgent)
         {
             return;
         }
         else
         {
-            AgentCombatPrefQueue.Enqueue(thisAgent);
+            AgentThinkQueue.Enqueue(agent);
         }
 
+        // Make this agent think something based on a coin flip.
+        // It's based on a coin flip, because there are only two possible things to think about.
+        // If there were more things, then it'd probably make sense to use a counter or something.
+        int randy = Random.Range(0, 2);
+        if (randy % 2 == 0)
+        {
+            ToggleAiCombatDirectionPreference(agent);
+        }
+        else
+        {
+            ConsiderNearbyEnemy(agent);
+        }
+    }
+
+    void ConsiderNearbyEnemy(Agent agent)
+    {
+        // Assume that thisAgent is a friend of the player.
+        List<Agent> listToChoose = enemyTeamAgents;
+        if (agent.isFriendOfPlayer == false)
+        {
+            // Turns out, thisAgent is an enemy of the player.
+            listToChoose = playerTeamAgents;
+        }
+
+        List<Agent> agentEnemies = listToChoose.FindAll(otherAgent =>
+        (otherAgent != null) && (otherAgent.IsDead == false) && (otherAgent != agent));
+
+        if (agentEnemies.Count < 1)
+        {
+            // No enemies, nothing to consider.
+            return;
+        }
+
+        (Agent, float) minDistAgentData = GetMinDistanceAgent(agent, agentEnemies);
+        agent.ConsiderNearbyEnemy(minDistAgentData.Item1);
+    }
+
+    void ToggleAiCombatDirectionPreference(Agent agent)
+    {
         // Assume that thisAgent is a friend of the player.
         List<Agent> listToChoose = playerTeamAgents;
-        if (thisAgent.isFriendOfPlayer == false)
+        if (agent.isFriendOfPlayer == false)
         {
             // Turns out, thisAgent is an enemy of the player.
             listToChoose = enemyTeamAgents;
         }
 
         List<Agent> agentFriends = listToChoose.FindAll(otherAgent =>
-        (otherAgent != null) && (otherAgent.IsDead == false) && (otherAgent != thisAgent));
+        (otherAgent != null) && (otherAgent.IsDead == false) && (otherAgent != agent));
 
         if (agentFriends.Count < 1)
         {
-            thisAgent.ToggleCombatDirectionPreference(float.MaxValue);
+            agent.ToggleCombatDirectionPreference(float.MaxValue);
             return;
         }
 
-        // Calculate squared distances.
-        List<float> squaredDists = new List<float>();
-        for (int i = 0; i < agentFriends.Count; i++)
+
+        (Agent, float) minDistAgentData = GetMinDistanceAgent(agent, agentFriends);
+        agent.ToggleCombatDirectionPreference(minDistAgentData.Item2);
+    }
+
+    /// <summary>
+    /// Takes an <paramref name="agent"/> and a list of <paramref name="otherAgents"/>,
+    /// and returns an other agent to which the first argument agent is the closest.
+    /// Note that this method will throw an exception is <paramref name="otherAgents"/> is null or empty.
+    /// </summary>
+    /// <param name="agent">Agent against which the distance calculations are done.</param>
+    /// <param name="otherAgents">List of agents which are different from the first argument.</param>
+    /// <returns>The closest agent in terms of distance, and the distance value with it</returns>
+    (Agent, float) GetMinDistanceAgent(Agent agent, List<Agent> otherAgents)
+    {
+        List<(Agent, float)> agentData = new List<(Agent, float)>();
+        for (int i = 0; i < otherAgents.Count; i++)
         {
-            Vector3 diff = thisAgent.transform.position - agentFriends[i].transform.position;
-            squaredDists.Add(diff.sqrMagnitude);
+            Vector3 diff = agent.transform.position - otherAgents[i].transform.position;
+            agentData.Add((otherAgents[i], diff.sqrMagnitude));
         }
 
-        float minSquaredDist = squaredDists.Min();
+        (Agent, float) minAgentData = 
+            agentData.OrderBy(agentData => agentData.Item2).First();
 
-        thisAgent.ToggleCombatDirectionPreference(Mathf.Sqrt(minSquaredDist));
+        // The distances were squared above.
+        // Now that we know who is the closest, take the square root of the distance, and return it.
+        minAgentData.Item2 = Mathf.Sqrt(minAgentData.Item2);
+
+        return minAgentData;
     }
 
     /// <summary>
@@ -551,6 +614,6 @@ public class HordeGameLogic : MonoBehaviour
 
     void Update()
     {
-        ToggleAiCombatDirectionPreference();
+        MakeOneAgentThink();
     }
 }

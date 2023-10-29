@@ -43,6 +43,9 @@ public class AiAgent : Agent
     const float ChanceToChooseVerticalCombatDirection = 0.75f; // chance to choose up or down as combat dir.
     const float ChanceToChooseLegAsTargetLimbType = 0.1f;
     const float NavMeshAgentBaseAcceleration = 4.0f;
+    const float ChanceToDefendWhenDamaged = 0.5f;
+    const float ReducedChanceToDefendPerPoise = 0.1f;
+    const float ChanceToTargetNearbyEnemy = 0.25f;
 
     #region Friendliness indicator related fields
     public GameObject friendlinessIndicator;
@@ -90,7 +93,6 @@ public class AiAgent : Agent
     float searchForEnemyTimer;
 
     public bool IsOrderedToHoldPosition { get; protected set; }
-    Vector3 positionToHold;
 
     AiCombatState combatState;
 
@@ -183,9 +185,12 @@ public class AiAgent : Agent
     {
         enemyAgent = attacker;
 
-        // Decide to defend based on the flip of a coin.
-        int rand = Random.Range(0, 2);
-        if (rand == 0)
+        // Decide to defend based on chance.
+        // For each poise remaining, reduce the chance to block, as we can just poise through.
+        float rand = Random.Range(0f, 1f);
+        float lostChanceAmount = CharMgr.CurrentPoise * ReducedChanceToDefendPerPoise;
+        float totalDefendChance = ChanceToDefendWhenDamaged - lostChanceAmount;
+        if (rand < totalDefendChance)
         {
             defendTimer = 0;
             combatState = AiCombatState.Defending;
@@ -196,7 +201,6 @@ public class AiAgent : Agent
     public void ToggleHoldPosition(bool isPlayerOrderingToHoldPosition, Vector3 positionToHold)
     {
         IsOrderedToHoldPosition = isPlayerOrderingToHoldPosition;
-        this.positionToHold = positionToHold;
 
         if (IsOrderedToHoldPosition)
         {
@@ -213,6 +217,40 @@ public class AiAgent : Agent
         // then we prefer up/down attacks more (in order to avoid teamhitting).
         // If not, then we prefer all attacks equally likely, as there are no friendlies around.
         isPreferringVerticalCombatDirs = distanceToClosestFriend < border;
+    }
+
+    public override void ConsiderNearbyEnemy(Agent nearbyEnemy)
+    {
+        if (IsDead)
+        {
+            return;
+        }
+
+        if (AnimMgr.IsAttacking || AnimMgr.IsDefending)
+        {
+            // Don't switch targets mid combat.
+            return;
+        }
+
+        if ((enemyAgent != null) && (enemyAgent == nearbyEnemy))
+        {
+            // Already fighting the nearby enemy.
+            return;
+        }
+
+        Vector3 nearbyEnemyLocalPos = transform.InverseTransformPoint(nearbyEnemy.transform.position);
+        if (nearbyEnemyLocalPos.z < 0f)
+        {
+            // Nearby enemy is behind me, and so I can't notice him.
+            return;
+        }
+
+        // Target the nearby enemy, based on a coin flip.
+        float randy = Random.Range(0f, 1f);
+        if (randy < ChanceToTargetNearbyEnemy)
+        {
+            enemyAgent = nearbyEnemy;
+        }
     }
 
     /// <summary>

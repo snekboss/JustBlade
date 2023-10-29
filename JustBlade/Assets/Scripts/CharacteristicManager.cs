@@ -149,6 +149,8 @@ public class CharacteristicManager : MonoBehaviour
         }
     }
     int maximumPoise = DefaultMaximumPoise;
+
+    public int CurrentPoise { get { return currentPoise; } }
     int currentPoise = DefaultMaximumPoise;
 
     /// <summary>

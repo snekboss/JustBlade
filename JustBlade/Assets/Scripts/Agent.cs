@@ -147,6 +147,7 @@ public abstract class Agent : MonoBehaviour
     protected virtual void InitializeFriendlinessIndicator() { }
 
     public virtual void ToggleCombatDirectionPreference(float distanceToClosestFriend) { }
+    public virtual void ConsiderNearbyEnemy(Agent nearbyEnemy) { }
 
     protected bool IsMovingBackwards(Vector3 localMoveDir)
     {
