@@ -8,7 +8,7 @@ public class CharacteristicSet : MonoBehaviour
 	public int MaximumHealth;
 	public float ModelSizeMultiplier;
 	public float ExtraMovementSpeedLimitMultiplier;
-	public float ExtraDamageMultiplier;
+	public float ExtraDamageInflictionMultiplier;
 	public float DamageTakenMultiplier;
 	public int MaximumPoise;
 }

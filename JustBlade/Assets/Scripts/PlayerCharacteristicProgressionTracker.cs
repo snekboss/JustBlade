@@ -5,7 +5,7 @@ using UnityEngine;
 public static class PlayerCharacteristicProgressionTracker
 {
     const int HealthPerWaveBeaten = 5;
-    const float ExtraDamagePerWaveBeaten = 0.01f;
+    const float ExtraDamageInflictionMultiplierPerWaveBeaten = 0.01f;
     const float DamageTakenMultiplierPerWaveBeaten = 0.01f;
     const float ExtraMovementSpeedMultiplierPerWaveBeaten = 0.005f;
 
@@ -25,12 +25,12 @@ public static class PlayerCharacteristicProgressionTracker
             return CharacteristicManager.DefaultAgentSizeMultiplier;
         }
     }
-    public static float ProgressedExtraDamage 
+    public static float ProgressedExtraDamageInflictionMultiplier 
     { 
         get 
         { 
-            return CharacteristicManager.DefaultExtraDamageMultiplier + 
-                (ExtraDamagePerWaveBeaten * HordeGameLogic.NumberOfWavesBeaten);
+            return CharacteristicManager.DefaultExtraDamageInflictionMultiplier + 
+                (ExtraDamageInflictionMultiplierPerWaveBeaten * HordeGameLogic.NumberOfWavesBeaten);
         }
     }
     public static float ProgressedDamageTakenMultiplier 

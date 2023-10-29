@@ -344,7 +344,7 @@ public class HordeGameLogic : MonoBehaviour
           , PlayerCharacteristicProgressionTracker.ProgressedHealth
           , PlayerCharacteristicProgressionTracker.ProgressedModelSize
           , PlayerCharacteristicProgressionTracker.ProgressedExtraMovementSpeed
-          , PlayerCharacteristicProgressionTracker.ProgressedExtraDamage
+          , PlayerCharacteristicProgressionTracker.ProgressedExtraDamageInflictionMultiplier
           , PlayerCharacteristicProgressionTracker.ProgressedDamageTakenMultiplier
           , PlayerCharacteristicProgressionTracker.ProgressedPoise);
 

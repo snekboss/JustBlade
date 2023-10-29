@@ -300,7 +300,7 @@ public static class CombatMechanics
             dmgReductionMulti = HandArmorDmgReductionPercentHeavy;
         }
 
-        float finalDamage = (rawDamage * attacker.CharMgr.ExtraDamageMultiplier) 
+        float finalDamage = (rawDamage * attacker.CharMgr.ExtraDamageInflictionMultiplier) 
             * (1 - dmgReductionMulti) 
             * defender.CharMgr.DamageTakenMultiplier;
 

@@ -172,7 +172,7 @@ public class InformationMenuUI : MonoBehaviour
             int health = PlayerCharacteristicProgressionTracker.ProgressedHealth ;
             // Multiplier values will be written in percentage increases.
             // This will hopefully help the player understand what's happening.
-            float dmgMulti = 100f * (PlayerCharacteristicProgressionTracker.ProgressedExtraDamage - 1f);
+            float dmgMulti = 100f * (PlayerCharacteristicProgressionTracker.ProgressedExtraDamageInflictionMultiplier - 1f);
             float dmgTakenMulti = 100f * (1f - PlayerCharacteristicProgressionTracker.ProgressedDamageTakenMultiplier);
             float speedMulti = 100f * (PlayerCharacteristicProgressionTracker.ProgressedExtraMovementSpeed - 1f);
 

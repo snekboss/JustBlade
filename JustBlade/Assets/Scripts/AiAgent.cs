@@ -129,7 +129,7 @@ public class AiAgent : Agent
         , int maximumHealth
         , float modelSizeMultiplier
         , float extraMovementSpeedMultiplier
-        , float extraDamageMultiplier
+        , float extraDamageInflictionMultiplier
         , float damageTakenMultiplier
         , int maximumPoise)
     {
@@ -141,7 +141,7 @@ public class AiAgent : Agent
             , maximumHealth
             , modelSizeMultiplier
             , extraMovementSpeedMultiplier
-            , extraDamageMultiplier
+            , extraDamageInflictionMultiplier
             , damageTakenMultiplier
             , maximumPoise);
 

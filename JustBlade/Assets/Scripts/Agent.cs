@@ -184,7 +184,7 @@ public abstract class Agent : MonoBehaviour
             CharMgr.InitializeCharacteristicsManager(characteristicPrefab.MaximumHealth
                 , characteristicPrefab.ModelSizeMultiplier
                 , characteristicPrefab.ExtraMovementSpeedLimitMultiplier
-                , characteristicPrefab.ExtraDamageMultiplier
+                , characteristicPrefab.ExtraDamageInflictionMultiplier
                 , characteristicPrefab.DamageTakenMultiplier
                 , characteristicPrefab.MaximumPoise);
         }
@@ -198,7 +198,7 @@ public abstract class Agent : MonoBehaviour
         , int maximumHealth
         , float modelSizeMultiplier
         , float extraMovementSpeedMultiplier
-        , float extraDamageMultiplier
+        , float extraDamageInflictionMultiplier
         , float damageTakenMultiplier
         , int maximumPoise)
     {
@@ -212,7 +212,7 @@ public abstract class Agent : MonoBehaviour
             maximumHealth
             , modelSizeMultiplier
             , extraMovementSpeedMultiplier
-            , extraDamageMultiplier
+            , extraDamageInflictionMultiplier
             , damageTakenMultiplier
             , maximumPoise);
     }
