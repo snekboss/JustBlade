@@ -118,6 +118,38 @@ public class AiAgent : Agent
             , legArmorPrefab
             , characteristicPrefab);
 
+        InitializeAiAgent();
+    }
+
+    public override void InitializeAgent(Weapon weaponPrefab
+        , Armor headArmorPrefab
+        , Armor torsoArmorPrefab
+        , Armor handArmorPrefab
+        , Armor legArmorPrefab
+        , int maximumHealth
+        , float modelSizeMultiplier
+        , float extraMovementSpeedMultiplier
+        , float extraDamageMultiplier
+        , float extraDamageResistanceMultiplier
+        , int maximumPoise)
+    {
+        base.InitializeAgent(weaponPrefab
+            , headArmorPrefab
+            , torsoArmorPrefab
+            , handArmorPrefab
+            , legArmorPrefab
+            , maximumHealth
+            , modelSizeMultiplier
+            , extraMovementSpeedMultiplier
+            , extraDamageMultiplier
+            , extraDamageResistanceMultiplier
+            , maximumPoise);
+
+        InitializeAiAgent();
+    }
+
+    void InitializeAiAgent()
+    {
         // --- Combat distance related parameters ---
         // Must check if weapon is null in case EquipmentManager hasn't received its equipment yet.
         float weaponLength = (EqMgr.equippedWeapon == null) ? 0f : EqMgr.equippedWeapon.weaponLength;

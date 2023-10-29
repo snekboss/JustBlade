@@ -163,8 +163,32 @@ public class InformationMenuUI : MonoBehaviour
 
             if (HordeGameLogic.IsBossBattleNext)
             {
-                infoStr += NL + NL + "Prepare yourself, for the battle ahead will not be against mere foot soldiers. The upcoming challenge brings with it a formidable adversary - a boss battle. This enemy will be stronger, tougher, and more relentless than any you’ve faced before. Gather your strength and steel your resolve. The true test of your mettle is about to begin.";
+                infoStr += NL + NL + "Prepare yourself, for the battle ahead will not be against mere foot soldiers. The upcoming challenge brings with it a formidable adversary - a boss battle. This enemy will be stronger, tougher, and more relentless than any you've faced before. Gather your strength and steel your resolve. The true test of your mettle is about to begin.";
             }
+
+            infoStr += NL + NL + "You've grown stronger, surviving wave after wave of enemies. Your health has increased, your strikes deal more damage, and you've become more resilient to enemy attacks. Your movement speed on the battlefield may have also improved slightly.";
+
+            
+            int health = PlayerCharacteristicProgressionTracker.ProgressedHealth ;
+            // Multiplier values will be written in percentage increases.
+            // This will hopefully help the player understand what's happening.
+            float dmgMulti = 100f * (PlayerCharacteristicProgressionTracker.ProgressedExtraDamage - 1f);
+            float resistMulti = 100f * (1f - PlayerCharacteristicProgressionTracker.ProgressedExtraResistance);
+            float speedMulti = 100f * (PlayerCharacteristicProgressionTracker.ProgressedExtraMovementSpeed - 1f);
+
+            string precisionStr = "0.0";
+
+            string statStr = string.Format(
+                 "Maximum health: {0}" + NL 
+               + "Damage bonus: +{1}%" + NL
+               + "Damage resistance bonus: +{2}%" + NL
+               + "Movement speed bonus: +{3}%"
+               , health
+               , dmgMulti.ToString(precisionStr)
+               , resistMulti.ToString(precisionStr)
+               , speedMulti.ToString(precisionStr));
+
+            infoStr += NL + NL + statStr;
         }
 
 

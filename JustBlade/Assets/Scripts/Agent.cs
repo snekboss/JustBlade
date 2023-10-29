@@ -190,6 +190,33 @@ public abstract class Agent : MonoBehaviour
         }
     }
 
+    public virtual void InitializeAgent(Weapon weaponPrefab
+        , Armor headArmorPrefab
+        , Armor torsoArmorPrefab
+        , Armor handArmorPrefab
+        , Armor legArmorPrefab
+        , int maximumHealth
+        , float modelSizeMultiplier
+        , float extraMovementSpeedMultiplier
+        , float extraDamageMultiplier
+        , float extraDamageResistanceMultiplier
+        , int maximumPoise)
+    {
+        EqMgr.InitializeEquipmentManager(weaponPrefab
+            , headArmorPrefab
+            , torsoArmorPrefab
+            , handArmorPrefab
+            , legArmorPrefab);
+
+        CharMgr.InitializeCharacteristicsManager(
+            maximumHealth
+            , modelSizeMultiplier
+            , extraMovementSpeedMultiplier
+            , extraDamageMultiplier
+            , extraDamageResistanceMultiplier
+            , maximumPoise);
+    }
+
     /// <summary>
     /// Unity's Awake method.
     /// In this case, it is mainly used to set the layer of the agent.

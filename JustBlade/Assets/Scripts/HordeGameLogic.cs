@@ -340,7 +340,13 @@ public class HordeGameLogic : MonoBehaviour
           , PrefabManager.HeadArmors[PlayerInventoryManager.PlayerChosenHeadArmorIndex]
           , PrefabManager.TorsoArmors[PlayerInventoryManager.PlayerChosenTorsoArmorIndex]
           , PrefabManager.HandArmors[PlayerInventoryManager.PlayerChosenHandArmorIndex]
-          , PrefabManager.LegArmors[PlayerInventoryManager.PlayerChosenLegArmorIndex]);
+          , PrefabManager.LegArmors[PlayerInventoryManager.PlayerChosenLegArmorIndex]
+          , PlayerCharacteristicProgressionTracker.ProgressedHealth
+          , PlayerCharacteristicProgressionTracker.ProgressedModelSize
+          , PlayerCharacteristicProgressionTracker.ProgressedExtraMovementSpeed
+          , PlayerCharacteristicProgressionTracker.ProgressedExtraDamage
+          , PlayerCharacteristicProgressionTracker.ProgressedExtraResistance
+          , PlayerCharacteristicProgressionTracker.ProgressedPoise);
 
         player.IsFriendOfPlayer = true;
         player.OnDeath += OnAgentDeath;
