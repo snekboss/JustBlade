@@ -91,7 +91,7 @@ public static class AHD
     public static readonly int Hash_TransName_atk_left_bounce_to_idle = Animator.StringToHash("atk_left_bounce_to_idle");
     // Ok... I wasn't expecting this nonsense.
     // When leaving a state via a transition, Mecanim still considers you to be in the source state.
-    // Hence the nonsense below...
+    // Hence, we have to account for each transition below...
     // atk_up_hold_to_def_hold
     public static readonly int Hash_TransName_atk_up_hold_to_def_up_hold = Animator.StringToHash("atk_up_hold_to_def_up_hold");
     public static readonly int Hash_TransName_atk_up_hold_to_def_right_hold = Animator.StringToHash("atk_up_hold_to_def_right_hold");
@@ -128,9 +128,6 @@ public static class AHD
     public static readonly int Hash_TransName_def_right_blocked_to_hold = Animator.StringToHash("def_right_blocked_to_hold");
     public static readonly int Hash_TransName_def_down_blocked_to_hold = Animator.StringToHash("def_down_blocked_to_hold");
     public static readonly int Hash_TransName_def_left_blocked_to_hold = Animator.StringToHash("def_left_blocked_to_hold");
-    // Ok... I wasn't expecting this nonsense.
-    // When leaving a state via a transition, Mecanim still considers you to be in the source state.
-    // Hence the nonsense below...
     // def_up_hold_to_atk_hold
     public static readonly int Hash_TransName_def_up_hold_to_atk_up_hold = Animator.StringToHash("def_up_hold_to_atk_up_hold");
     public static readonly int Hash_TransName_def_up_hold_to_atk_right_hold = Animator.StringToHash("def_up_hold_to_atk_right_hold");
@@ -150,6 +147,48 @@ public static class AHD
     public static readonly int Hash_TransName_def_left_hold_to_atk_up_hold = Animator.StringToHash("def_left_hold_to_atk_up_hold");
     public static readonly int Hash_TransName_def_left_hold_to_atk_right_hold = Animator.StringToHash("def_left_hold_to_atk_right_hold");
     public static readonly int Hash_TransName_def_left_hold_to_atk_down_hold = Animator.StringToHash("def_left_hold_to_atk_down_hold");
-    public static readonly int Hash_TransName_def_left_hold_to_atk_left_hold = Animator.StringToHash("def_left_hold_to_atk_left_hold"); 
+    public static readonly int Hash_TransName_def_left_hold_to_atk_left_hold = Animator.StringToHash("def_left_hold_to_atk_left_hold");
+    // def_up_hold_to_other_def_hold --- new stuff
+    public static readonly int Hash_TransName_def_up_hold_to_def_right_hold = Animator.StringToHash("def_up_hold_to_def_right_hold");
+    public static readonly int Hash_TransName_def_up_hold_to_def_down_hold = Animator.StringToHash("def_up_hold_to_def_down_hold");
+    public static readonly int Hash_TransName_def_up_hold_to_def_left_hold = Animator.StringToHash("def_up_hold_to_def_left_hold");
+    // def_right_hold_to_other_def_hold
+    public static readonly int Hash_TransName_def_right_hold_to_def_up_hold = Animator.StringToHash("def_right_hold_to_def_up_hold");
+    public static readonly int Hash_TransName_def_right_hold_to_def_down_hold = Animator.StringToHash("def_right_hold_to_def_down_hold");
+    public static readonly int Hash_TransName_def_right_hold_to_def_left_hold = Animator.StringToHash("def_right_hold_to_def_left_hold");
+    // def_down_hold_to_other_def_hold
+    public static readonly int Hash_TransName_def_down_hold_to_def_up_hold = Animator.StringToHash("def_down_hold_to_def_up_hold");
+    public static readonly int Hash_TransName_def_down_hold_to_def_right_hold = Animator.StringToHash("def_down_hold_to_def_right_hold");
+    public static readonly int Hash_TransName_def_down_hold_to_def_left_hold = Animator.StringToHash("def_down_hold_to_def_left_hold");
+    // def_left_hold_to_other_def_hold
+    public static readonly int Hash_TransName_def_left_hold_to_def_up_hold = Animator.StringToHash("def_left_hold_to_def_up_hold");
+    public static readonly int Hash_TransName_def_left_hold_to_def_right_hold = Animator.StringToHash("def_left_hold_to_def_right_hold");
+    public static readonly int Hash_TransName_def_left_hold_to_def_down_hold = Animator.StringToHash("def_left_hold_to_def_down_hold");
+    // def_up_blocked_to_other_def_hold
+    public static readonly int Hash_TransName_def_up_blocked_to_def_right_hold = Animator.StringToHash("def_up_blocked_to_def_right_hold");
+    public static readonly int Hash_TransName_def_up_blocked_to_def_down_hold = Animator.StringToHash("def_up_blocked_to_def_down_hold");
+    public static readonly int Hash_TransName_def_up_blocked_to_def_left_hold = Animator.StringToHash("def_up_blocked_to_def_left_hold");
+    // def_right_blocked_to_other_def_hold
+    public static readonly int Hash_TransName_def_right_blocked_to_def_up_hold = Animator.StringToHash("def_right_blocked_to_def_up_hold");
+    public static readonly int Hash_TransName_def_right_blocked_to_def_down_hold = Animator.StringToHash("def_right_blocked_to_def_down_hold");
+    public static readonly int Hash_TransName_def_right_blocked_to_def_left_hold = Animator.StringToHash("def_right_blocked_to_def_left_hold");
+    // def_down_blocked_to_other_def_hold
+    public static readonly int Hash_TransName_def_down_blocked_to_def_up_hold = Animator.StringToHash("def_down_blocked_to_def_up_hold");
+    public static readonly int Hash_TransName_def_down_blocked_to_def_right_hold = Animator.StringToHash("def_down_blocked_to_def_right_hold");
+    public static readonly int Hash_TransName_def_down_blocked_to_def_left_hold = Animator.StringToHash("def_down_blocked_to_def_left_hold");
+    // def_left_blocked_to_other_def_hold
+    public static readonly int Hash_TransName_def_left_blocked_to_def_up_hold = Animator.StringToHash("def_left_blocked_to_def_up_hold");
+    public static readonly int Hash_TransName_def_left_blocked_to_def_right_hold = Animator.StringToHash("def_left_blocked_to_def_right_hold");
+    public static readonly int Hash_TransName_def_left_blocked_to_def_down_hold = Animator.StringToHash("def_left_blocked_to_def_down_hold");
+    // def_hold_to_idle
+    public static readonly int Hash_TransName_def_up_hold_to_idle = Animator.StringToHash("def_up_hold_to_idle");
+    public static readonly int Hash_TransName_def_right_hold_to_idle = Animator.StringToHash("def_right_hold_to_idle");
+    public static readonly int Hash_TransName_def_down_hold_to_idle = Animator.StringToHash("def_down_hold_to_idle");
+    public static readonly int Hash_TransName_def_left_hold_to_idle = Animator.StringToHash("def_left_hold_to_idle");
+    // def_blocked_to_idle
+    public static readonly int Hash_TransName_def_up_blocked_to_idle = Animator.StringToHash("def_up_blocked_to_idle");
+    public static readonly int Hash_TransName_def_right_blocked_to_idle = Animator.StringToHash("def_right_blocked_to_idle");
+    public static readonly int Hash_TransName_def_down_blocked_to_idle = Animator.StringToHash("def_down_blocked_to_idle");
+    public static readonly int Hash_TransName_def_left_blocked_to_idle = Animator.StringToHash("def_left_blocked_to_idle");
     #endregion
 }

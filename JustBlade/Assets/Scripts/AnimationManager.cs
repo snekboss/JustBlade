@@ -137,6 +137,8 @@ public class AnimationManager : MonoBehaviour
 
     #region Animator transitions
     // AttackAndBlockLayer Transition custom names
+    bool isTrans_AnyState;
+
     // Attack
     // idle_to_atk_hold
     bool isTrans_IdleToAtkUpHold;
@@ -236,6 +238,51 @@ public class AnimationManager : MonoBehaviour
     bool isTrans_DefLeftHoldToAtkRightHold;
     bool isTrans_DefLeftHoldToAtkDownHold;
     bool isTrans_DefLeftHoldToAtkLeftHold;
+
+    // def_up_hold_to_other_def_hold
+    bool isTrans_DefUpHoldToDefRightHold;
+    bool isTrans_DefUpHoldToDefDownHold;
+    bool isTrans_DefUpHoldToDefLeftHold;
+    // def_right_hold_to_other_def_hold
+    bool isTrans_DefRightHoldToDefUpHold;
+    bool isTrans_DefRightHoldToDefDownHold;
+    bool isTrans_DefRightHoldToDefLeftHold;
+    // def_down_hold_to_other_def_hold
+    bool isTrans_DefDownHoldToDefUpHold;
+    bool isTrans_DefDownHoldToDefRightHold;
+    bool isTrans_DefDownHoldToDefLeftHold;
+    // def_left_hold_to_other_def_hold
+    bool isTrans_DefLeftHoldToDefUpHold;
+    bool isTrans_DefLeftHoldToDefRightHold;
+    bool isTrans_DefLeftHoldToDefDownHold;
+
+    // def_up_blocked_to_other_def_hold
+    bool isTrans_DefUpBlockedToDefRightHold;
+    bool isTrans_DefUpBlockedToDefDownHold;
+    bool isTrans_DefUpBlockedToDefLeftHold;
+    // def_right_blocked_to_other_def_hold
+    bool isTrans_DefRightBlockedToDefUpHold;
+    bool isTrans_DefRightBlockedToDefDownHold;
+    bool isTrans_DefRightBlockedToDefLeftHold;
+    // def_down_blocked_to_other_def_hold
+    bool isTrans_DefDownBlockedToDefUpHold;
+    bool isTrans_DefDownBlockedToDefRightHold;
+    bool isTrans_DefDownBlockedToDefLeftHold;
+    // def_left_blocked_to_other_def_hold
+    bool isTrans_DefLeftBlockedToDefUpHold;
+    bool isTrans_DefLeftBlockedToDefRightHold;
+    bool isTrans_DefLeftBlockedToDefDownHold;
+
+    // def_hold_to_idle
+    bool isTrans_DefUpHoldToIdle;
+    bool isTrans_DefRightHoldToIdle;
+    bool isTrans_DefDownHoldToIdle;
+    bool isTrans_DefLeftHoldToIdle;
+    // def_blocked_to_idle
+    bool isTrans_DefUpBlockedToIdle;
+    bool isTrans_DefRightBlockedToIdle;
+    bool isTrans_DefDownBlockedToIdle;
+    bool isTrans_DefLeftBlockedToIdle;
     #endregion
     #endregion
 
@@ -464,6 +511,9 @@ public class AnimationManager : MonoBehaviour
     void ReadTransitionInfo()
     {
         attackAndBlockLayerTransitionInfo = Animat.GetAnimatorTransitionInfo(LayerIdAttackAndBlock);
+
+        isTrans_AnyState = attackAndBlockLayerTransitionInfo.anyState;
+
         // Attack
         // idle_to_atk_hold
         isTrans_IdleToAtkUpHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_idle_to_atk_up_hold;
@@ -497,7 +547,7 @@ public class AnimationManager : MonoBehaviour
 
         // Ok... I wasn't expecting this nonsense.
         // When leaving a state via a transition, Mecanim still considers you to be in the source state.
-        // Hence the nonsense below...
+        // Hence, we have to account for each transition below...
         // atk_up_hold_to_def_hold
         isTrans_AtkUpHoldToDefUpHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_atk_up_hold_to_def_up_hold;
         isTrans_AtkUpHoldToDefRightHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_atk_up_hold_to_def_right_hold;
@@ -542,9 +592,6 @@ public class AnimationManager : MonoBehaviour
         isTrans_DefDownBlockedToHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_down_blocked_to_hold;
         isTrans_DefLeftBlockedToHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_left_blocked_to_hold;
 
-        // Ok... I wasn't expecting this nonsense.
-        // When leaving a state via a transition, Mecanim still considers you to be in the source state.
-        // Hence the nonsense below...
         // def_up_hold_to_atk_hold
         isTrans_DefUpHoldToAtkUpHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_up_hold_to_atk_up_hold;
         isTrans_DefUpHoldToAtkRightHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_up_hold_to_atk_right_hold;
@@ -568,6 +615,51 @@ public class AnimationManager : MonoBehaviour
         isTrans_DefLeftHoldToAtkRightHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_left_hold_to_atk_right_hold;
         isTrans_DefLeftHoldToAtkDownHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_left_hold_to_atk_down_hold;
         isTrans_DefLeftHoldToAtkLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_left_hold_to_atk_left_hold;
+
+        // def_up_hold_to_other_def_hold
+        isTrans_DefUpHoldToDefRightHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_up_hold_to_def_right_hold;
+        isTrans_DefUpHoldToDefDownHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_up_hold_to_def_down_hold;
+        isTrans_DefUpHoldToDefLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_up_hold_to_def_left_hold;
+        // def_right_hold_to_other_def_hold
+        isTrans_DefRightHoldToDefUpHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_right_hold_to_def_up_hold;
+        isTrans_DefRightHoldToDefDownHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_right_hold_to_def_down_hold;
+        isTrans_DefRightHoldToDefLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_right_hold_to_def_left_hold;
+        // def_down_hold_to_other_def_hold
+        isTrans_DefDownHoldToDefUpHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_down_hold_to_def_up_hold;
+        isTrans_DefDownHoldToDefRightHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_down_hold_to_def_right_hold;
+        isTrans_DefDownHoldToDefLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_down_hold_to_def_left_hold;
+        // def_left_hold_to_other_def_hold
+        isTrans_DefLeftHoldToDefUpHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_left_hold_to_def_up_hold;
+        isTrans_DefLeftHoldToDefRightHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_left_hold_to_def_right_hold;
+        isTrans_DefLeftHoldToDefDownHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_left_hold_to_def_down_hold;
+
+        // def_up_blocked_to_other_def_hold
+        isTrans_DefUpBlockedToDefRightHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_up_blocked_to_def_right_hold;
+        isTrans_DefUpBlockedToDefDownHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_up_blocked_to_def_down_hold;
+        isTrans_DefUpBlockedToDefLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_up_blocked_to_def_left_hold;
+        // def_right_blocked_to_other_def_hold
+        isTrans_DefRightBlockedToDefUpHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_right_blocked_to_def_up_hold;
+        isTrans_DefRightBlockedToDefDownHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_right_blocked_to_def_down_hold;
+        isTrans_DefRightBlockedToDefLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_right_blocked_to_def_left_hold;
+        // def_down_blocked_to_other_def_hold
+        isTrans_DefDownBlockedToDefUpHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_down_blocked_to_def_up_hold;
+        isTrans_DefDownBlockedToDefRightHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_down_blocked_to_def_right_hold;
+        isTrans_DefDownBlockedToDefLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_down_blocked_to_def_left_hold;
+        // def_left_blocked_to_other_def_hold
+        isTrans_DefLeftBlockedToDefUpHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_left_blocked_to_def_up_hold;
+        isTrans_DefLeftBlockedToDefRightHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_left_blocked_to_def_right_hold;
+        isTrans_DefLeftBlockedToDefDownHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_left_blocked_to_def_down_hold;
+
+        // def_hold_to_idle
+        isTrans_DefUpHoldToIdle = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_up_hold_to_idle;
+        isTrans_DefRightHoldToIdle = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_right_hold_to_idle;
+        isTrans_DefDownHoldToIdle = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_down_hold_to_idle;
+        isTrans_DefLeftHoldToIdle = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_left_hold_to_idle;
+        // def_blocked_to_idle
+        isTrans_DefUpBlockedToIdle = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_up_blocked_to_idle;
+        isTrans_DefRightBlockedToIdle = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_right_blocked_to_idle;
+        isTrans_DefDownBlockedToIdle = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_down_blocked_to_idle;
+        isTrans_DefLeftBlockedToIdle = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_def_left_blocked_to_idle;
     }
 
     /// <summary>
@@ -576,15 +668,146 @@ public class AnimationManager : MonoBehaviour
     void SetCombatParameters()
     {
         // Setting values based on state and transition info
-        IsAttackingFromUp = isState_AtkReleaseUp;
-        IsAttackingFromRight = isState_AtkReleaseRight;
-        IsAttackingFromDown = isState_AtkReleaseDown;
-        IsAttackingFromLeft = isState_AtkReleaseLeft;
+        // Attack
+        bool isTransOutOfAtkUpRelease =  isTrans_AtkUpReleaseToIdle || isTrans_AtkUpReleaseToBounce || isTrans_AnyState;
+        bool isTransOutOfAtkRightRelease =  isTrans_AtkRightReleaseToIdle || isTrans_AtkRightReleaseToBounce || isTrans_AnyState;
+        bool isTransOutOfAtkDownRelease = isTrans_AtkDownReleaseToIdle || isTrans_AtkDownReleaseToBounce || isTrans_AnyState;
+        bool isTransOutOfAtkLeftRelease = isTrans_AtkLeftReleaseToIdle || isTrans_AtkLeftReleaseToBounce || isTrans_AnyState;
 
-        IsDefendingFromUp = isState_DefHoldUp || isState_DefBlockedUp || isTrans_DefUpHoldToBlocked || isTrans_DefUpBlockedToHold;
-        IsDefendingFromRight = isState_DefHoldRight || isState_DefBlockedRight || isTrans_DefRightHoldToBlocked || isTrans_DefRightBlockedToHold;
-        IsDefendingFromDown = isState_DefHoldDown || isState_DefBlockedDown || isTrans_DefDownHoldToBlocked || isTrans_DefDownBlockedToHold;
-        IsDefendingFromLeft = isState_DefHoldLeft || isState_DefBlockedLeft || isTrans_DefLeftHoldToBlocked || isTrans_DefLeftBlockedToHold;
+        IsAttackingFromUp = isState_AtkReleaseUp && (isTransOutOfAtkUpRelease == false);
+        IsAttackingFromRight = isState_AtkReleaseRight && (isTransOutOfAtkRightRelease == false);
+        IsAttackingFromDown = isState_AtkReleaseDown && (isTransOutOfAtkDownRelease == false);
+        IsAttackingFromLeft = isState_AtkReleaseLeft && (isTransOutOfAtkLeftRelease == false);
+
+        // Defend
+
+        // First, determine the "transition out" transitions.
+        // Meaning, we're check if we're transitioning out of a "def_hold" or "def_blocked" state.
+        
+        // Up
+        // def_up_hold transition outs
+        bool isTransDefUpHoldToAtkHold =
+            isTrans_DefUpHoldToAtkUpHold
+            || isTrans_DefUpHoldToAtkRightHold
+            || isTrans_DefUpHoldToAtkDownHold
+            || isTrans_DefUpHoldToAtkLeftHold;
+
+        bool isTransDefUpHoldToOtherDefHold = 
+            isTrans_DefUpHoldToDefRightHold 
+            || isTrans_DefUpHoldToDefDownHold 
+            || isTrans_DefUpHoldToDefLeftHold;
+
+        bool isTransOutOfDefendUp = 
+            isTransDefUpHoldToAtkHold 
+            || isTransDefUpHoldToOtherDefHold 
+            || isTrans_DefUpHoldToIdle;
+
+        // def_up_blocked transition outs
+        bool isTransOutOfDefBlockedUp = 
+            isTrans_DefUpBlockedToDefRightHold 
+            || isTrans_DefUpBlockedToDefDownHold 
+            || isTrans_DefUpBlockedToDefLeftHold
+            || isTrans_DefUpBlockedToIdle;
+
+        // Right
+        // def_right_hold transition outs
+        bool isTransDefRightHoldToAtkHold =
+            isTrans_DefRightHoldToAtkUpHold
+            || isTrans_DefRightHoldToAtkRightHold
+            || isTrans_DefRightHoldToAtkDownHold
+            || isTrans_DefRightHoldToAtkLeftHold;
+
+        bool isTransDefRightHoldToOtherDefHold =
+            isTrans_DefRightHoldToDefUpHold
+            || isTrans_DefRightHoldToDefDownHold
+            || isTrans_DefRightHoldToDefLeftHold;
+
+        bool isTransOutOfDefendRight =
+            isTransDefRightHoldToAtkHold
+            || isTransDefRightHoldToOtherDefHold
+            || isTrans_DefRightHoldToIdle;
+
+        // def_right_blocked transition outs
+        bool isTransOutOfDefBlockedRight = 
+            isTrans_DefRightBlockedToDefUpHold
+            || isTrans_DefRightBlockedToDefDownHold
+            || isTrans_DefRightBlockedToDefLeftHold
+            || isTrans_DefRightBlockedToIdle;
+
+        // Down
+        // def_down_hold transition outs
+        bool isTransDefDownHoldToAtkHold = 
+            isTrans_DefDownHoldToAtkUpHold
+            || isTrans_DefDownHoldToAtkRightHold
+            || isTrans_DefDownHoldToAtkDownHold
+            || isTrans_DefDownHoldToAtkLeftHold;
+
+        bool isTransDefDownHoldToOtherDefHold =
+            isTrans_DefDownHoldToDefUpHold
+            || isTrans_DefDownHoldToDefRightHold
+            || isTrans_DefDownHoldToDefLeftHold;
+
+        bool isTransOutOfDefendDown =
+            isTransDefDownHoldToAtkHold
+            || isTransDefDownHoldToOtherDefHold
+            || isTrans_DefDownHoldToIdle;
+
+        // def_down_blocked transition outs
+        bool isTransOutOfDefBlockedDown =
+            isTrans_DefDownBlockedToDefUpHold
+            || isTrans_DefDownBlockedToDefRightHold
+            || isTrans_DefDownBlockedToDefLeftHold
+            || isTrans_DefDownBlockedToIdle;
+
+        // Left
+        // def_left_hold transition outs
+        bool isTransDefLeftHoldToAtkHold = 
+            isTrans_DefLeftHoldToAtkUpHold
+            || isTrans_DefLeftHoldToAtkRightHold
+            || isTrans_DefLeftHoldToAtkDownHold
+            || isTrans_DefLeftHoldToAtkLeftHold;
+
+        bool isTransDefLeftHoldToOtherDefHold =
+            isTrans_DefLeftHoldToDefUpHold
+            || isTrans_DefLeftHoldToDefRightHold
+            || isTrans_DefLeftHoldToDefDownHold;
+
+        bool isTransOutOfDefendLeft = 
+            isTransDefLeftHoldToAtkHold 
+            || isTransDefLeftHoldToOtherDefHold 
+            || isTrans_DefLeftHoldToIdle;
+
+        // def_left_blocked transition outs
+        bool isTransOutOfDefBlockedLeft = 
+            isTrans_DefLeftBlockedToDefUpHold
+            || isTrans_DefLeftBlockedToDefRightHold
+            || isTrans_DefLeftBlockedToDefDownHold
+            || isTrans_DefLeftBlockedToIdle;
+
+
+        // Finally, combine all information.
+        // If we're in a state which is considered "defending", then we set defending to true.
+        // Else, if we're transitioning out of what's considered "defending", then set defending to false.
+        IsDefendingFromUp = (isTransOutOfDefendUp == false && isTransOutOfDefBlockedUp == false && isTrans_AnyState == false) 
+            && (isState_DefHoldUp
+            || isState_DefBlockedUp
+            || isTrans_DefUpHoldToBlocked
+            || isTrans_DefUpBlockedToHold);
+        IsDefendingFromRight = (isTransOutOfDefendRight == false && isTransOutOfDefBlockedRight == false && isTrans_AnyState == false)
+            && (isState_DefHoldRight 
+            || isState_DefBlockedRight 
+            || isTrans_DefRightHoldToBlocked 
+            || isTrans_DefRightBlockedToHold);
+        IsDefendingFromDown = (isTransOutOfDefendDown == false && isTransOutOfDefBlockedDown == false && isTrans_AnyState == false)
+            && (isState_DefHoldDown 
+            || isState_DefBlockedDown 
+            || isTrans_DefDownHoldToBlocked 
+            || isTrans_DefDownBlockedToHold);
+        IsDefendingFromLeft = (isTransOutOfDefendLeft == false && isTransOutOfDefBlockedLeft == false && isTrans_AnyState == false)
+            && (isState_DefHoldLeft 
+            || isState_DefBlockedLeft 
+            || isTrans_DefLeftHoldToBlocked 
+            || isTrans_DefLeftBlockedToHold);
     }
 
     /// <summary>
@@ -706,7 +929,7 @@ public class AnimationManager : MonoBehaviour
 
         // If we're in a transitioning from AnyState, and it just so happens to be the idle state, then these transitions are also NOT considered "idle".
         // Therefore, we exclude them too.
-        isNotIdling |= attackAndBlockLayerTransitionInfo.anyState;
+        isNotIdling |= isTrans_AnyState;
 
         if (isNotIdling)
         {
