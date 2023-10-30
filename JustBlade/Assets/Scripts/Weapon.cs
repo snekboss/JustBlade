@@ -335,6 +335,8 @@ public class Weapon : EquippableItem
                 // Bounce the attack so that the agents don't use one another as meat shields.
                 attacker.AnimMgr.SetIsAttackBounced(true);
                 isDmgAlreadyApplied = true;
+
+                SoundEffectManager.PlayObjectHitSound(transform.position);
                 return;
             }
 
@@ -345,6 +347,8 @@ public class Weapon : EquippableItem
                 attacker.AnimMgr.SetIsAttackBounced(true);
                 defender.AnimMgr.SetIsDefBlocked(true);
                 isDmgAlreadyApplied = true;
+
+                SoundEffectManager.PlayDefendBlockedSound(defender);
 
                 if (defender.IsPlayerAgent)
                 {
@@ -359,6 +363,8 @@ public class Weapon : EquippableItem
                 // So, apply damage.
                 CombatMechanics.ApplyDamageToDefender(attacker, defender, defenderLimb.limbType);
                 isDmgAlreadyApplied = true;
+
+                SoundEffectManager.PlayWeaponSoundOnStruckAgent(attacker, defender, defenderLimb.limbType);
                 return;
             }
         }
@@ -369,6 +375,7 @@ public class Weapon : EquippableItem
             // Bounce the attack and return.
             ownerAgent.AnimMgr.SetIsAttackBounced(true);
             isDmgAlreadyApplied = true;
+            SoundEffectManager.PlayObjectHitSound(transform.position);
             return;
         }
     }

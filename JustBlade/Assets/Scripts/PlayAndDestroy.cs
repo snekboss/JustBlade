@@ -15,7 +15,9 @@ public class PlayAndDestroy : MonoBehaviour
         audioSourceComponent.spatialBlend = 1f;
         audioSourceComponent.minDistance = AudioMinDistance;
         audioSourceComponent.maxDistance = AudioMaxDistance;
+        transform.position = worldPosition;
         audioSourceComponent.Play();
-        Destroy(audioSourceComponent.gameObject, BaseSelfDestructDuration + audioSourceComponent.clip.length);
+
+        Destroy(this.gameObject, BaseSelfDestructDuration + audioSourceComponent.clip.length);
     }
 }

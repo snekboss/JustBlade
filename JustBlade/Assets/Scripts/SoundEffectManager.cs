@@ -4,15 +4,17 @@ using UnityEngine;
 
 public static class SoundEffectManager
 {
-    static readonly string UnarmoredCut = "UnarmoredCut";
-    static readonly string UnarmoredBlunt = "UnarmoredBlunt";
-    static readonly string ArmoredCut = "ArmoredCut";
-    static readonly string ArmoredBlunt = "ArmoredBlunt";
-    static readonly string ObjectHit = "ObjectHit";
-    static readonly string WoodenBlock = "WoodenBlock";
-    static readonly string MetalBlock = "MetalBlock";
+    // These strings must be in-sync with the sound effect prefabs located in Resources/SoundEffects.
 
-    public static void PlayWeaponSoundOnStruckAgent(Agent attacker, Agent defender, Limb.LimbType limbType, Vector3 soundPlayWorldPos)
+    static readonly string UnarmoredCut = "UnarmoredCut".ToLower();
+    static readonly string UnarmoredBlunt = "UnarmoredBlunt".ToLower();
+    static readonly string ArmoredCut = "ArmoredCut".ToLower();
+    static readonly string ArmoredBlunt = "ArmoredBlunt".ToLower();
+    static readonly string ObjectHit = "ObjectHit".ToLower();
+    static readonly string WoodenBlock = "WoodenBlock".ToLower();
+    static readonly string MetalBlock = "MetalBlock".ToLower();
+
+    public static void PlayWeaponSoundOnStruckAgent(Agent attacker, Agent defender, Limb.LimbType limbType)
     {
         Armor.ArmorLevel limbArmorLevel = Armor.ArmorLevel.None;
 
@@ -65,6 +67,7 @@ public static class SoundEffectManager
                 break;
         }
 
+        Vector3 soundPlayWorldPos = attacker.EqMgr.equippedWeapon.transform.position;
         sound.PlayAndSelfDestruct(soundPlayWorldPos);
     }
 
@@ -74,8 +77,9 @@ public static class SoundEffectManager
         sound.PlayAndSelfDestruct(soundPlayWorldPos);
     }
 
-    public static void PlayDefendBlockedSound(Agent defender, Vector3 soundPlayWorldPos)
+    public static void PlayDefendBlockedSound(Agent defender)
     {
+        Vector3 soundPlayWorldPos = defender.EqMgr.equippedWeapon.transform.position;
         PlayAndDestroy sound = null;
         switch (defender.EqMgr.equippedWeapon.blockSoundType)
         {
