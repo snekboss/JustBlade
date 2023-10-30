@@ -11,6 +11,8 @@ using UnityEngine.UI;
 /// It contains the logic of the controls of the Information Menu UI.
 /// The information menu screen is shown during breaks from combat.
 /// It is also shown when the player is dead or when the player has beaten the game.
+/// Note that the nicely written "flavor text" that is shown after beating a wave, beating the game, losing the game, etc.
+/// are written by Microsoft's Bing AI chat bot (based on my instructions about what should be written).
 /// </summary>
 public class InformationMenuUI : MonoBehaviour
 {
@@ -105,27 +107,33 @@ public class InformationMenuUI : MonoBehaviour
 
             if (percentage < 0.25d)
             {
+                // The flavor text is written by Microsoft's Bing AI chat bot, based on my instructions about what should be written.
                 gameOverBodyStr += "Your journey ends here, having repelled only a few of the enemy hordes. Your courage was commendable, but the enemy was relentless.";
             }
             else if (percentage < 0.5d)
             {
+                // The flavor text is written by Microsoft's Bing AI chat bot, based on my instructions about what should be written.
                 gameOverBodyStr += "You fought valiantly, repelling several of the enemy hordes. Your strength wavered, and the enemy seized their chance.";
             }
             else if (percentage < 0.75d)
             {
+                // The flavor text is written by Microsoft's Bing AI chat bot, based on my instructions about what should be written.
                 gameOverBodyStr += "Many enemy hordes fell before you. Yet, in the end, their numbers overwhelmed you.";
             }
             else /*if (percentage < 1.0d)*/
             {
+                // The flavor text is written by Microsoft's Bing AI chat bot, based on my instructions about what should be written.
                 gameOverBodyStr += "You stood on the brink of victory, having repelled most of the enemy hordes. But in the final moments, fate turned against you.";
             }
 
-            gameOverBodyStr += "Remember, every defeat is a step towards victory. Stand up, fight again, and claim your glory!";
+            // The flavor text is written by Microsoft's Bing AI chat bot, based on my instructions about what should be written.
+            gameOverBodyStr += " Remember, every defeat is a step towards victory. Stand up, fight again, and claim your glory!";
         }
         else
         {
             gameOverHeaderStr = "Congratulations!";
 
+            // The flavor text is written by Microsoft's Bing AI chat bot, based on my instructions about what should be written.
             gameOverBodyStr = string.Format(
                 "Against all odds, you have repelled all {0} waves of the enemy hordes. Their mightiest have fallen before you, and the enemy, recognizing your indomitable spirit, have withdrawn their forces. You stand victorious."
                 , HordeGameLogic.TotalNumberOfWaves);
@@ -151,6 +159,7 @@ public class InformationMenuUI : MonoBehaviour
 
         if (HordeGameLogic.IsGameHasJustBegun)
         {
+            // The flavor text is written by Microsoft's Bing AI chat bot, based on my instructions about what should be written.
             infoStr += "In the aftermath of a crushing defeat, you, once a respected commander, have been stripped of your titles, wealth, and possessions. Your liege lord, in a final act of mercy, has spared your life but exiled you to a forsaken outpost on the edge of the realm. This desolate place, under constant threat from relentless enemy hordes, is your new home."
                 + NL + NL + "Armed with nothing more than a simple axe and a short spear, and clad in mere rags offering no protection, you are all that stands between the outpost and its doom. Your starting gold is meager, barely enough to hire a handful of mercenaries or purchase rudimentary equipment."
                 + NL + NL + "Yet, within this dire situation lies an opportunity for redemption. With each wave of enemies you repel, your wealth will grow. The gold earned from these victories can be used to strengthen your position - hire hardened soldiers, acquire formidable weapons and impenetrable armor."
@@ -159,13 +168,16 @@ public class InformationMenuUI : MonoBehaviour
         }
         else
         {
+            // The flavor text is written by Microsoft's Bing AI chat bot, based on my instructions about what should be written.
             infoStr += "Victory is yours, for now. The fallen enemies have left behind a bounty of gold. Use this respite wisely. Equip yourself with stronger weapons and armor, hire or upgrade mercenaries to stand by your side. Remember, the challenges ahead will only grow tougher.";
 
             if (HordeGameLogic.IsBossBattleNext)
             {
+                // The flavor text is written by Microsoft's Bing AI chat bot, based on my instructions about what should be written.
                 infoStr += NL + NL + "Prepare yourself, for the battle ahead will not be against mere foot soldiers. The upcoming challenge brings with it a formidable adversary - a boss battle. This enemy will be stronger, tougher, and more relentless than any you've faced before. Gather your strength and steel your resolve. The true test of your mettle is about to begin.";
             }
 
+            // The flavor text is written by Microsoft's Bing AI chat bot, based on my instructions about what should be written.
             infoStr += NL + NL + "You've grown stronger, surviving wave after wave of enemies. Your health has increased, your strikes deal more damage, and you've become more resilient to enemy attacks. Your movement speed on the battlefield may have also improved slightly.";
 
 
