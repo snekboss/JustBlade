@@ -50,6 +50,9 @@ MonoBehaviour:
   purchaseCost: 50
   isStarterItem: 0
   EDIT_MODE: 0
+  swingSoundType: 0
+  stabSoundType: 1
+  blockSoundType: 0
   weaponVisual: {fileID: 4554387046226232518}
   weaponLength: 1.09
   weaponRadius: 0.06

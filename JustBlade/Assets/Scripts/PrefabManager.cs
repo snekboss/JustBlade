@@ -80,6 +80,20 @@ public static class PrefabManager
         }
     }
 
+    public static Dictionary<string, PlayAndDestroy> SoundsByName
+    {
+        get
+        {
+            if (soundsByName == null)
+            {
+                soundsByName = LoadSoundEffects("SoundEffects");
+            }
+
+            return soundsByName;
+        }
+    }
+    static Dictionary<string, PlayAndDestroy> soundsByName;
+
     static Dictionary<Armor.ArmorLevel, MercenaryAgentData> mercenaryDataByArmorLevel;
 
     public static Dictionary<Armor.ArmorLevel, MercenaryAgentData> MercenaryDataByArmorLevel
@@ -190,5 +204,22 @@ public static class PrefabManager
         return armorCollection.OrderByDescending(item => item.isStarterItem)
             .ThenBy(item => item.purchaseCost)
             .ToList();
+    }
+
+    static Dictionary<string, PlayAndDestroy> LoadSoundEffects(string path)
+    {
+        Dictionary<string, PlayAndDestroy> ret = new Dictionary<string, PlayAndDestroy>();
+
+        UnityEngine.Object[] objs = Resources.LoadAll(path);
+        for (int i = 0; i < objs.Length; i++)
+        {
+            GameObject soundGO = objs[i] as GameObject;
+            PlayAndDestroy soundPrefab = soundGO.GetComponent<PlayAndDestroy>();
+            soundPrefab.soundName = soundPrefab.soundName.ToLower();
+
+            ret.Add(soundPrefab.soundName, soundPrefab);
+        }
+
+        return ret;
     }
 }

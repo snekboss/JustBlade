@@ -41,6 +41,22 @@ public class Weapon : EquippableItem
         Polearm = 1,
     }
 
+    public enum WeaponAttackSoundType
+    {
+        Cut = 0,
+        Blunt,
+    }
+
+    public enum WeaponDefendSoundType
+    {
+        Wood = 0,
+        Metal,
+    }
+
+    public WeaponAttackSoundType swingSoundType;
+    public WeaponAttackSoundType stabSoundType;
+    public WeaponDefendSoundType blockSoundType;
+
     public GameObject weaponVisual; // the mesh of the weapon
     [Range(0.01f, 20.0f)]
     public float weaponLength;
