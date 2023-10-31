@@ -7,6 +7,7 @@ public class PlayAndDestroy : MonoBehaviour
 {
     public string soundName;
     public AudioSource audioSourceComponent;
+    public AudioClip audioClip;
     [Range(0.0f, 1.0f)]
     public float volume;
     const float BaseSelfDestructDuration = 0.1f;
@@ -23,7 +24,7 @@ public class PlayAndDestroy : MonoBehaviour
         transform.position = worldPosition;
 
         audioSourceComponent.pitch = Random.Range(MinPitch, MaxPitch);
-
+        audioSourceComponent.clip = audioClip;
         audioSourceComponent.volume = volume;
         audioSourceComponent.Play();
 

@@ -26,7 +26,39 @@ public static class SoundEffectManager
         "footstep_grass_2", 
         "footstep_grass_3", 
         "footstep_grass_4", 
-        "footstep_grass_5" };
+        "footstep_grass_5", };
+    static readonly string[] Hurt = {
+        "hurt_1",
+        "hurt_2",
+        "hurt_3",
+        "hurt_4",
+        "hurt_5",
+        "hurt_6",
+        "hurt_7",
+        "hurt_8",
+    };
+    static readonly string[] Grunt = {
+        "grunt_1",
+        "grunt_2",
+        "grunt_3",
+        "grunt_4",
+        "grunt_5",
+        "grunt_6",
+        "grunt_7",
+        "grunt_8",
+        "grunt_9",
+        "grunt_10",
+        "grunt_11",
+    };
+    static readonly string[] Death = {
+        "death_1",
+        "death_2",
+        "death_3",
+        "death_4",
+        "death_5",
+        "death_6",
+        "death_7",
+    };
 
     public static void PlayWeaponSoundOnStruckAgent(Agent attacker, Agent defender, Limb.LimbType limbType)
     {
@@ -54,65 +86,77 @@ public static class SoundEffectManager
         Weapon.WeaponAttackSoundType weaponSoundType =
             attackerIsStabbing ? attacker.EqMgr.equippedWeapon.stabSoundType : attacker.EqMgr.equippedWeapon.swingSoundType;
 
-        PlayAndDestroy sound = null;
+        Vector3 soundPlayWorldPos = attacker.EqMgr.equippedWeapon.transform.position;
+
         switch (weaponSoundType)
         {
             case Weapon.WeaponAttackSoundType.Cut:
                 if (isUnarmored)
                 {
-                    sound = GameObject.Instantiate(PrefabManager.SoundsByName[GetRandomSound(UnarmoredCut)]);
+                    PlaySound(UnarmoredCut, soundPlayWorldPos);
                 }
                 else
                 {
-                    sound = GameObject.Instantiate(PrefabManager.SoundsByName[GetRandomSound(ArmoredCut)]);
+                    PlaySound(ArmoredCut, soundPlayWorldPos);
                 }
                 break;
             case Weapon.WeaponAttackSoundType.Blunt:
                 if (isUnarmored)
                 {
-                    sound = GameObject.Instantiate(PrefabManager.SoundsByName[GetRandomSound(UnarmoredBlunt)]);
+                    PlaySound(UnarmoredBlunt, soundPlayWorldPos);
                 }
                 else
                 {
-                    sound = GameObject.Instantiate(PrefabManager.SoundsByName[GetRandomSound(ArmoredBlunt)]);
+                    PlaySound(ArmoredBlunt, soundPlayWorldPos);
                 }
                 break;
             default:
                 break;
         }
-
-        Vector3 soundPlayWorldPos = attacker.EqMgr.equippedWeapon.transform.position;
-        sound.PlayAndSelfDestruct(soundPlayWorldPos);
     }
 
     public static void PlayObjectHitSound(Vector3 soundPlayWorldPos)
     {
-        PlayAndDestroy sound = GameObject.Instantiate(PrefabManager.SoundsByName[GetRandomSound(ObjectHit)]);
-        sound.PlayAndSelfDestruct(soundPlayWorldPos);
+        PlaySound(ObjectHit, soundPlayWorldPos);
     }
 
     public static void PlayDefendBlockedSound(Agent defender)
     {
         Vector3 soundPlayWorldPos = defender.EqMgr.equippedWeapon.transform.position;
-        PlayAndDestroy sound = null;
         switch (defender.EqMgr.equippedWeapon.blockSoundType)
         {
             case Weapon.WeaponDefendSoundType.Wood:
-                sound = GameObject.Instantiate(PrefabManager.SoundsByName[GetRandomSound(WoodenBlock)]);
+                PlaySound(WoodenBlock, soundPlayWorldPos);
                 break;
             case Weapon.WeaponDefendSoundType.Metal:
-                sound = GameObject.Instantiate(PrefabManager.SoundsByName[GetRandomSound(MetalBlock)]);
+                PlaySound(MetalBlock, soundPlayWorldPos);
                 break;
             default:
                 break;
         }
+    }
 
-        sound.PlayAndSelfDestruct(soundPlayWorldPos);
+    public static void PlayHurtSound(Vector3 soundPlayWorldPos) 
+    {
+        PlaySound(Hurt, soundPlayWorldPos);
+    }
+    public static void PlayGruntSound(Vector3 soundPlayWorldPos) 
+    {
+        PlaySound(Grunt, soundPlayWorldPos);
+    }
+    public static void PlayDeathSound(Vector3 soundPlayWorldPos) 
+    {
+        PlaySound(Death, soundPlayWorldPos);
     }
 
     public static void PlayFootstepSound(Vector3 soundPlayWorldPos)
     {
-        PlayAndDestroy sound = GameObject.Instantiate(PrefabManager.SoundsByName[GetRandomSound(FootstepGrass)]);
+        PlaySound(FootstepGrass, soundPlayWorldPos);
+    }
+
+    static void PlaySound(string[] soundArray, Vector3 soundPlayWorldPos)
+    {
+        PlayAndDestroy sound = GameObject.Instantiate(PrefabManager.SoundsByName[GetRandomSound(soundArray)]);
         sound.PlayAndSelfDestruct(soundPlayWorldPos);
     }
 

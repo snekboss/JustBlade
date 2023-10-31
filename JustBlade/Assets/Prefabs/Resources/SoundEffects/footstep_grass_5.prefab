@@ -143,4 +143,5 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundName: footstep_grass_5
   audioSourceComponent: {fileID: 2340499822564563675}
+  audioClip: {fileID: 8300000, guid: 2de8329adc6f9b944a5ab0875fb59924, type: 3}
   volume: 0.5

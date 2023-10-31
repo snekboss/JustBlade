@@ -138,11 +138,13 @@ public abstract class Agent : MonoBehaviour
     public void ApplyDamage(Agent attacker, int amount)
     {
         CharMgr.ApplyDamage(attacker, amount);
+        AudioMgr.PlayHurtSound();
     }
 
     public void OnThisAgentDeath(Agent killer)
     {
         AnimMgr.PlayDeathAnimation();
+        AudioMgr.PlayDeathSound();
         StartCoroutine("AgentDespawnCoroutine");
 
         if (OnDeath != null)

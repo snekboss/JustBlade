@@ -10,6 +10,9 @@ public class AgentAudioManager : MonoBehaviour
     public Transform rightFoot;
     public Transform head;
 
+    #region Footstep related fields
+    // Footstep related fields
+
     const float RaycastLengthGrounded = 0.1f;
     const float RaycastLengthJump = 0.375f;
     const float FootstepMovementSpeedLimit = 0.375f;
@@ -18,6 +21,10 @@ public class AgentAudioManager : MonoBehaviour
 
     float leftFootstepTimer;
     float rightFootstepTimer;
+    #endregion
+
+    // Grunting related fields
+    bool isAttackingPrevFrame;
 
     public void InitializeAgentAudioManager()
     {
@@ -27,6 +34,33 @@ public class AgentAudioManager : MonoBehaviour
     public void UpdateAudioManager()
     {
         ManageFootsteps();
+
+        ManageGrunting();
+    }
+
+    void ManageGrunting()
+    {
+        if (ownerAgent.AnimMgr.IsAttacking && isAttackingPrevFrame == false)
+        {
+            PlayGruntSound();
+        }
+
+        isAttackingPrevFrame = ownerAgent.AnimMgr.IsAttacking;
+    }
+
+    public void PlayHurtSound()
+    {
+        SoundEffectManager.PlayHurtSound(head.position);
+    }
+
+    public void PlayDeathSound()
+    {
+        SoundEffectManager.PlayDeathSound(head.position);
+    }
+
+    void PlayGruntSound()
+    {
+        SoundEffectManager.PlayGruntSound(head.position);
     }
 
     void ManageFootsteps()
