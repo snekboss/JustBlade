@@ -87,6 +87,9 @@ For these sound effects, the credits go to the following:
 - Blades & Bludgeoning Free Sample Pack: https://assetstore.unity.com/packages/audio/sound-fx/blades-bludgeoning-free-sample-pack-179306
 - Blade Sounds: https://assetstore.unity.com/packages/audio/sound-fx/weapons/blade-sounds-30189
 - Footsteps - Essentials: https://assetstore.unity.com/packages/audio/sound-fx/foley/footsteps-essentials-189879
+- Demo Ancient Weapons Pack FREE: https://assetstore.unity.com/packages/audio/sound-fx/demo-ancient-weapons-pack-free-173519
+- Voices - Essentials: https://assetstore.unity.com/packages/audio/sound-fx/voices/voices-essentials-214441
+- Bow and Hammer Sound Effects: https://assetstore.unity.com/packages/audio/sound-fx/weapons/bow-and-hammer-sound-effects-163948
 
 Note that some of these sounds may have been edited by me a little bit, for my own purposes.
 The editing of sounds was done using Audacity: https://www.audacityteam.org/

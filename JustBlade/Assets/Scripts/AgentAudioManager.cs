@@ -43,6 +43,7 @@ public class AgentAudioManager : MonoBehaviour
         if (ownerAgent.AnimMgr.IsAttacking && isAttackingPrevFrame == false)
         {
             PlayGruntSound();
+            PlayWeaponWhiffSound();
         }
 
         isAttackingPrevFrame = ownerAgent.AnimMgr.IsAttacking;
@@ -61,6 +62,11 @@ public class AgentAudioManager : MonoBehaviour
     void PlayGruntSound()
     {
         SoundEffectManager.PlayGruntSound(head.position);
+    }
+
+    void PlayWeaponWhiffSound()
+    {
+        SoundEffectManager.PlayWhiffSound(ownerAgent.EqMgr.equippedWeapon.transform.position);
     }
 
     void ManageFootsteps()

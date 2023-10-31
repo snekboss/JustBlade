@@ -15,18 +15,30 @@ public static class SoundEffectManager
     // These strings must be in-sync with the sound effect prefabs located in Resources/SoundEffects.
 
     static readonly string[] UnarmoredCut = { "unarmored_cut_1" };
-    static readonly string[] UnarmoredBlunt = { "unarmored_blunt_1" };
-    static readonly string[] ArmoredCut = { "armored_cut_1" };
-    static readonly string[] ArmoredBlunt = { "armored_blunt_1" };
+    static readonly string[] UnarmoredBlunt = { "unarmored_blunt_1", };
+    static readonly string[] ArmoredCut = {
+        "armored_cut_1",
+        "armored_cut_2",
+        "armored_cut_3",
+        "armored_cut_4",
+    };
+    static readonly string[] ArmoredBlunt = {
+        "armored_blunt_1",
+        "armored_blunt_2",
+        "armored_blunt_3",
+        "armored_blunt_4",
+        "armored_blunt_5",
+    };
     static readonly string[] ObjectHit = { "object_hit_1" };
     static readonly string[] WoodenBlock = { "wooden_block_1" };
-    static readonly string[] MetalBlock = { "metal_block_1" };
+    static readonly string[] MetalBlock = { "metal_block_1", "metal_block_2" };
     static readonly string[] FootstepGrass = { 
         "footstep_grass_1", 
         "footstep_grass_2", 
         "footstep_grass_3", 
         "footstep_grass_4", 
-        "footstep_grass_5", };
+        "footstep_grass_5",
+    };
     static readonly string[] Hurt = {
         "hurt_1",
         "hurt_2",
@@ -59,6 +71,7 @@ public static class SoundEffectManager
         "death_6",
         "death_7",
     };
+    static readonly string[] Whiff = { "whiff_1", "whiff_2" };
 
     public static void PlayWeaponSoundOnStruckAgent(Agent attacker, Agent defender, Limb.LimbType limbType)
     {
@@ -147,6 +160,11 @@ public static class SoundEffectManager
     public static void PlayDeathSound(Vector3 soundPlayWorldPos) 
     {
         PlaySound(Death, soundPlayWorldPos);
+    }
+
+    public static void PlayWhiffSound(Vector3 soundPlayWorldPos)
+    {
+        PlaySound(Whiff, soundPlayWorldPos);
     }
 
     public static void PlayFootstepSound(Vector3 soundPlayWorldPos)

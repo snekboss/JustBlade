@@ -51,7 +51,7 @@ MonoBehaviour:
   isStarterItem: 1
   EDIT_MODE: 0
   swingSoundType: 1
-  stabSoundType: 1
+  stabSoundType: 0
   blockSoundType: 0
   weaponVisual: {fileID: 2430496146317283450}
   weaponLength: 1.18

@@ -145,3 +145,5 @@ MonoBehaviour:
   audioSourceComponent: {fileID: -3628540132976089576}
   audioClip: {fileID: 8300000, guid: fdfbcdcbccf38ef449b210f9beb2714c, type: 3}
   volume: 1
+  pitch: 0
+  useRandomPitch: 1
