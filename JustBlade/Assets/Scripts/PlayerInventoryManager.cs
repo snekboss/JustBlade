@@ -14,12 +14,16 @@ public static class PlayerInventoryManager
     {
         PlayerStatisticsTracker.PlayerTotalGoldEarned += amount;
         PlayerGold += amount;
+
+        SoundEffectManager.PlayCoinSound(Camera.main.transform.position);
     }
 
     public static void RemovePlayerGold(int amount)
     {
         PlayerStatisticsTracker.PlayerTotalGoldSpent += amount;
         PlayerGold -= amount;
+
+        SoundEffectManager.PlayCoinSound(Camera.main.transform.position);
     }
 
     public static void InitializePlayerInventory()

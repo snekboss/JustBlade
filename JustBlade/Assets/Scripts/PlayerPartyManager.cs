@@ -104,7 +104,7 @@ public static class PlayerPartyManager
         PlayerInventoryManager.RemovePlayerGold(PrefabManager.MercenaryDataByArmorLevel[mercToBeUpgraded].upgradeCost);
 
         PlayerStatisticsTracker.NumTotalMercenaryUpgrades++;
-  }
+    }
 
     public static bool CanHireMercenary(Armor.ArmorLevel mercArmorLevel)
     {

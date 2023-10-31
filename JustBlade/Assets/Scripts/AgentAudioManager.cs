@@ -25,6 +25,7 @@ public class AgentAudioManager : MonoBehaviour
 
     // Grunting related fields
     bool isAttackingPrevFrame;
+    const float GruntChance = 0.5f;
 
     public void InitializeAgentAudioManager()
     {
@@ -42,7 +43,12 @@ public class AgentAudioManager : MonoBehaviour
     {
         if (ownerAgent.AnimMgr.IsAttacking && isAttackingPrevFrame == false)
         {
-            PlayGruntSound();
+            float randy = Random.Range(0.0f, 1.0f);
+            if (randy < GruntChance)
+            {
+                PlayGruntSound();
+            }
+
             PlayWeaponWhiffSound();
         }
 
@@ -94,9 +100,11 @@ public class AgentAudioManager : MonoBehaviour
         float cooldownTimer = isLeftFoot ? leftFootstepTimer : rightFootstepTimer;
         float rayDist = ownerAgent.IsGrounded() ? RaycastLengthGrounded : RaycastLengthJump;
 
+        rayDist *= ownerAgent.CharMgr.AgentSizeMultiplier;
+
         Ray footRay = new Ray(foot.position, Vector3.down);
         bool rayCastHit = Physics.Raycast(footRay, rayDist, walkableLayerMask);
-        
+
         bool isMovingFastEnough = ownerAgent.CharMgr.CurrentMovementSpeed > FootstepMovementSpeedLimit;
         if (ownerAgent.IsGrounded() == false)
         {

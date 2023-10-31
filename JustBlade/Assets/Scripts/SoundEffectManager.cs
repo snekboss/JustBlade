@@ -72,6 +72,11 @@ public static class SoundEffectManager
         "death_7",
     };
     static readonly string[] Whiff = { "whiff_1", "whiff_2" };
+    static readonly string[] Coin = {
+        "coin_1",
+        "coin_2",
+        "coin_3",
+    };
 
     public static void PlayWeaponSoundOnStruckAgent(Agent attacker, Agent defender, Limb.LimbType limbType)
     {
@@ -170,6 +175,11 @@ public static class SoundEffectManager
     public static void PlayFootstepSound(Vector3 soundPlayWorldPos)
     {
         PlaySound(FootstepGrass, soundPlayWorldPos);
+    }
+
+    public static void PlayCoinSound(Vector3 soundPlayWorldPos)
+    {
+        PlaySound(Coin, soundPlayWorldPos);
     }
 
     static void PlaySound(string[] soundArray, Vector3 soundPlayWorldPos)

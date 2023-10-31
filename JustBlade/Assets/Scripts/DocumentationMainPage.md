@@ -90,6 +90,7 @@ For these sound effects, the credits go to the following:
 - Demo Ancient Weapons Pack FREE: https://assetstore.unity.com/packages/audio/sound-fx/demo-ancient-weapons-pack-free-173519
 - Voices - Essentials: https://assetstore.unity.com/packages/audio/sound-fx/voices/voices-essentials-214441
 - Bow and Hammer Sound Effects: https://assetstore.unity.com/packages/audio/sound-fx/weapons/bow-and-hammer-sound-effects-163948
+- Coins Sfx: https://assetstore.unity.com/packages/audio/sound-fx/coins-sfx-39052
 
 Note that some of these sounds may have been edited by me a little bit, for my own purposes.
 The editing of sounds was done using Audacity: https://www.audacityteam.org/
