@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 2150563293266908261}
   - component: {fileID: 4016320921752801652}
   m_Layer: 0
-  m_Name: MetalBlock
+  m_Name: metal_block_1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -141,5 +141,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5a9098ee840b3f244b3a294e6e81a279, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  soundName: metalblock
+  soundName: metal_block_1
   audioSourceComponent: {fileID: 2150563293266908261}
