@@ -1549,6 +1549,7 @@ GameObject:
   - component: {fileID: 6721999397170714355}
   - component: {fileID: 1080316829}
   - component: {fileID: -637937191252390872}
+  - component: {fileID: 9195324965342194765}
   m_Layer: 0
   m_Name: AiAgent
   m_TagString: Untagged
@@ -1693,6 +1694,41 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50e1bed47e2571741843123c9973dd91, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugShowData: 0
+  debugAgentWorldHeight: 0
+  debugAgentWorldRadius: 0
+  debugAgentMass: 0
+  debugMaximumHealth: 0
+  debugHealth: 0
+  debugAgentScale: 0
+  debugExtraMovementSpeedLimitMultiplier: 0
+  debugExtraDamageInflictionMultiplier: 0
+  debugDamageTakenMultiplier: 0
+  debugMaximumPoise: 0
+  debugPoise: 0
+  debugFinalMovementSpeedLimit: 0
+--- !u!114 &9195324965342194765
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8302257294258779100}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1504e3505b15df44c82276bee1fda1f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  leftFoot: {fileID: 2869448891602728986}
+  leftLowerLeg: {fileID: 1918313102105609019}
+  leftUpperLeg: {fileID: 187065156015531947}
+  rightFoot: {fileID: 7937300984978034510}
+  rightLowerLeg: {fileID: 6568219588349560905}
+  rightUpperLeg: {fileID: 8193867925634643107}
+  pelvis: {fileID: 5774086182151286322}
+  root: {fileID: 5649223959042826810}
+  armature: {fileID: 345808484218649080}
+  head: {fileID: 4038910880550374465}
 --- !u!1 &8321640778244885349
 GameObject:
   m_ObjectHideFlags: 0

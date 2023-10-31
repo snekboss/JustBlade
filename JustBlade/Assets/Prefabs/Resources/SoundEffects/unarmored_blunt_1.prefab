@@ -143,3 +143,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundName: unarmored_blunt_1
   audioSourceComponent: {fileID: -6209744282468986727}
+  volume: 1

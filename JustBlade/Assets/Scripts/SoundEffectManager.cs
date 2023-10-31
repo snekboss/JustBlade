@@ -21,6 +21,12 @@ public static class SoundEffectManager
     static readonly string[] ObjectHit = { "object_hit_1" };
     static readonly string[] WoodenBlock = { "wooden_block_1" };
     static readonly string[] MetalBlock = { "metal_block_1" };
+    static readonly string[] FootstepGrass = { 
+        "footstep_grass_1", 
+        "footstep_grass_2", 
+        "footstep_grass_3", 
+        "footstep_grass_4", 
+        "footstep_grass_5" };
 
     public static void PlayWeaponSoundOnStruckAgent(Agent attacker, Agent defender, Limb.LimbType limbType)
     {
@@ -101,6 +107,12 @@ public static class SoundEffectManager
                 break;
         }
 
+        sound.PlayAndSelfDestruct(soundPlayWorldPos);
+    }
+
+    public static void PlayFootstepSound(Vector3 soundPlayWorldPos)
+    {
+        PlayAndDestroy sound = GameObject.Instantiate(PrefabManager.SoundsByName[GetRandomSound(FootstepGrass)]);
         sound.PlayAndSelfDestruct(soundPlayWorldPos);
     }
 

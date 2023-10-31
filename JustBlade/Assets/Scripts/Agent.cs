@@ -97,6 +97,20 @@ public abstract class Agent : MonoBehaviour
     }
     CharacteristicManager charMgr;
 
+    public AgentAudioManager AudioMgr
+    {
+        get
+        {
+            if (audioMgr == null)
+            {
+                audioMgr = GetComponent<AgentAudioManager>();
+            }
+
+            return audioMgr;
+        }
+    }
+    AgentAudioManager audioMgr;
+
 
     /// <summary>
     /// An delegate for when an agent dies.
@@ -188,7 +202,11 @@ public abstract class Agent : MonoBehaviour
                 , characteristicPrefab.DamageTakenMultiplier
                 , characteristicPrefab.MaximumPoise);
         }
+
+        AudioMgr.InitializeAgentAudioManager();
     }
+
+    public virtual bool IsGrounded() { return true; }
 
     /// <summary>
     /// Unity's Awake method.

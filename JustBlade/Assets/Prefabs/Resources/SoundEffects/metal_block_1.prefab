@@ -143,3 +143,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundName: metal_block_1
   audioSourceComponent: {fileID: 2150563293266908261}
+  volume: 1

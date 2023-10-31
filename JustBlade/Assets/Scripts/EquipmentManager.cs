@@ -18,7 +18,6 @@ public class EquipmentManager : MonoBehaviour
     public float MovementSpeedMultiplierFromArmor { get; protected set; }
 
     public Agent ownerAgent { get; private set; }
-    public AnimationManager animMgr { get; set; }
 
     public Transform weaponBone; // item bone of the agent which is used to parent the weapon game object.
 
@@ -104,7 +103,6 @@ public class EquipmentManager : MonoBehaviour
     {
         // Initialize fields
         ownerAgent = GetComponent<Agent>();
-        animMgr = GetComponent<AnimationManager>();
 
         agentHeadSMR = ownerAgent.transform.Find(StaticVariables.HumanHeadName).GetComponent<SkinnedMeshRenderer>();
         agentTorsoSMR = ownerAgent.transform.Find(StaticVariables.HumanTorsoName).GetComponent<SkinnedMeshRenderer>();

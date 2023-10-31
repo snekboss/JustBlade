@@ -79,12 +79,14 @@ The goal of the game is to become the champion of the Melee Tournament.
 
 => The programming, as well as the modelling, rigging and animating are done by Ogulhan Bozkir (me).
 For modelling and animations, I was inspired by inspired by the video game Mount & Blade: Warband (https://www.taleworlds.com/en/Games/Warband).
+=> The modelling, rigging and animating were done using Blender: https://www.blender.org/
 => The flavor text which are written in InformationMenuUI are done by Microsoft's Bing AI chat bot, based on my instructions.
 => The sound effects were imported from free assets found in Unity's Asset store.
 For these sound effects, the credits go to the following:
 - Wood Splitting Pack 1: https://assetstore.unity.com/packages/audio/sound-fx/wood-splitting-pack-1-139997
 - Blades & Bludgeoning Free Sample Pack: https://assetstore.unity.com/packages/audio/sound-fx/blades-bludgeoning-free-sample-pack-179306
 - Blade Sounds: https://assetstore.unity.com/packages/audio/sound-fx/weapons/blade-sounds-30189
+- Footsteps - Essentials: https://assetstore.unity.com/packages/audio/sound-fx/foley/footsteps-essentials-189879
 
 Note that some of these sounds may have been edited by me a little bit, for my own purposes.
 The editing of sounds was done using Audacity: https://www.audacityteam.org/

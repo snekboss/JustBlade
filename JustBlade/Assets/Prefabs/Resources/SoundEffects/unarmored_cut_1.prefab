@@ -143,3 +143,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundName: unarmored_cut_1
   audioSourceComponent: {fileID: -4101310601111528737}
+  volume: 1

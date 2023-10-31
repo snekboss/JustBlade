@@ -122,6 +122,8 @@ public class PlayerAgent : Agent
         SetCameraTrackingPoint();
     }
 
+    public override bool IsGrounded() { return isGrounded; }
+
     /// <summary>
     /// Initializes the values of the character controller of the player.
     /// It sets the height, radius, position, etc.
@@ -586,6 +588,7 @@ public class PlayerAgent : Agent
         HandleCombatDirection();
 
         AnimMgr.UpdateAnimations(localMoveDirXZ, CharMgr.CurrentMovementSpeed, isGrounded, isAtk, isDef);
+        AudioMgr.UpdateAudioManager();
     }
 
     /// <summary>

@@ -143,3 +143,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   soundName: wooden_block_1
   audioSourceComponent: {fileID: -3628540132976089576}
+  volume: 1
