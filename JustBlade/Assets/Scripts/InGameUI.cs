@@ -21,6 +21,12 @@ public class InGameUI : MonoBehaviour
     public Slider sliderMouseSensitivity;
     public TextMeshProUGUI txtMouseSensitivity;
 
+    public Slider sliderSound;
+    public TextMeshProUGUI txtSound;
+
+    public Slider sliderDifficulty;
+    public TextMeshProUGUI txtDifficulty;
+
     public Slider sliderFieldOfView;
     public TextMeshProUGUI txtFieldOfView;
 
@@ -62,6 +68,16 @@ public class InGameUI : MonoBehaviour
         sliderMouseSensitivity.value = StaticVariables.PlayerCameraRotationSpeed;
         sliderMouseSensitivity.maxValue = StaticVariables.PlayerCameraRotationSpeedMax;
 
+        sliderSound.wholeNumbers = false;
+        sliderSound.minValue = StaticVariables.SoundSettingMin;
+        sliderSound.value = StaticVariables.SoundSetting;
+        sliderSound.maxValue = StaticVariables.SoundSettingMax;
+
+        sliderDifficulty.wholeNumbers = false;
+        sliderDifficulty.minValue = StaticVariables.DifficultySettingMin;
+        sliderDifficulty.value = StaticVariables.DifficultySetting;
+        sliderDifficulty.maxValue = StaticVariables.DifficultySettingMax;
+
         sliderFieldOfView.wholeNumbers = true;
         sliderFieldOfView.minValue = StaticVariables.PlayerCameraFieldOfViewMin;
         sliderFieldOfView.value = StaticVariables.PlayerCameraFieldOfView;
@@ -77,6 +93,22 @@ public class InGameUI : MonoBehaviour
         float val = sliderMouseSensitivity.value;
         txtMouseSensitivity.text = "Mouse Sensitivity: " + val.ToString("0.00");
         StaticVariables.PlayerCameraRotationSpeed = val;
+    }
+
+    public void OnSliderValueChanged_Sound()
+    {
+        float val = sliderSound.value;
+        txtSound.text = "Sound: " + val.ToString("0.00");
+        StaticVariables.SoundSetting = val;
+
+        AudioListener.volume = StaticVariables.SoundSetting;
+    }
+
+    public void OnSliderValueChanged_Difficulty()
+    {
+        float val = sliderDifficulty.value;
+        txtDifficulty.text = "Difficulty: " + val.ToString("0.00");
+        StaticVariables.DifficultySetting = val;
     }
 
     /// <summary>

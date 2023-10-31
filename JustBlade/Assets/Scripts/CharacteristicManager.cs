@@ -196,7 +196,12 @@ public class CharacteristicManager : MonoBehaviour
 
     public void ApplyDamage(Agent attacker, int amount)
     {
-        Health -= amount;
+        int difficultyAmount = amount;
+        if (OwnerAgent.IsPlayerAgent)
+        {
+            difficultyAmount = System.Convert.ToInt32(difficultyAmount * StaticVariables.DifficultySetting);
+        }
+        Health -= difficultyAmount;
 
         if (Health <= 0)
         {
@@ -205,7 +210,7 @@ public class CharacteristicManager : MonoBehaviour
             return;
         }
 
-        OwnerAgent.OnThisAgentDamaged(attacker, amount);
+        OwnerAgent.OnThisAgentDamaged(attacker, difficultyAmount);
     }
 
 #if UNITY_EDITOR

@@ -144,6 +144,6 @@ MonoBehaviour:
   soundName: object_hit_1
   audioSourceComponent: {fileID: 6948387345258371217}
   audioClip: {fileID: 8300000, guid: 0e289649262c65c42a4c04f1a9cec8b3, type: 3}
-  volume: 1
+  volume: 0.5
   pitch: 0
   useRandomPitch: 1

@@ -144,6 +144,6 @@ MonoBehaviour:
   soundName: hurt_5
   audioSourceComponent: {fileID: 1168157389970516781}
   audioClip: {fileID: 8300000, guid: 88b91714a2e2cbb428f61e18ca4d39d8, type: 3}
-  volume: 1
+  volume: 0.5
   pitch: 0
   useRandomPitch: 1

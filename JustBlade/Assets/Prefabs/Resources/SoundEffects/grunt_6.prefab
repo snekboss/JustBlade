@@ -144,6 +144,6 @@ MonoBehaviour:
   soundName: grunt_6
   audioSourceComponent: {fileID: 545106450277591257}
   audioClip: {fileID: 8300000, guid: dfd9240fb951bf6498605be9a417b5de, type: 3}
-  volume: 0.5
+  volume: 0.2
   pitch: 0
   useRandomPitch: 1

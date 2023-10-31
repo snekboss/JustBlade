@@ -55,13 +55,27 @@ public class StaticVariables
     public const float PlayerCameraRotationSpeedMin = 0.02f;
     public const float PlayerCameraRotationSpeedMax = 5.0f;
     public static float PlayerCameraRotationSpeed = 1.0f;
+
     public const int PlayerCameraFieldOfViewMin = 45;
     public const int PlayerCameraFieldOfViewMax = 110;
     public static int PlayerCameraFieldOfView = 60;
+
     public static float ThirdPersonCameraOffsetYcur = 0.3f;
     public static float ThirdPersonCameraOffsetZcur = 1.0f;
     public static bool IsCameraModeFirstPerson = false;
     public static bool IsGamePaused = false;
+
+    public const float SoundSettingMin = 0f;
+    public const float SoundSettingMax = 1f;
+    public static float SoundSetting = 0.75f;
+
+    public const float DifficultySettingMin = 0.1f;
+    public const float DifficultySettingMax = 1f;
+    public static float DifficultySetting = 1f;
+
     public static int DefaultQualitySetting = (int)(QualitySetting.High);
+
+
+
 }
 

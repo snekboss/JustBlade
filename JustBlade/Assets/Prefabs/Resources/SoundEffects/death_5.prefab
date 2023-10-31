@@ -144,6 +144,6 @@ MonoBehaviour:
   soundName: death_5
   audioSourceComponent: {fileID: -611701507588316392}
   audioClip: {fileID: 8300000, guid: 7cf9167a5239d254a84b44cf35c8d481, type: 3}
-  volume: 1
+  volume: 0.75
   pitch: 0
   useRandomPitch: 1
