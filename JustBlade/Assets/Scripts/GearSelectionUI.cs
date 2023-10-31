@@ -89,6 +89,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_NextWeapon()
     {
+        PlayButtonSound();
         PlayerInventoryManager.PlayerChosenWeaponIndex++;
         OnMannequinEquipmentChanged();
     }
@@ -98,6 +99,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_NextHeadArmor()
     {
+        PlayButtonSound();
         PlayerInventoryManager.PlayerChosenHeadArmorIndex++;
         OnMannequinEquipmentChanged();
     }
@@ -107,6 +109,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_NextTorsoArmor()
     {
+        PlayButtonSound();
         PlayerInventoryManager.PlayerChosenTorsoArmorIndex++;
         OnMannequinEquipmentChanged();
     }
@@ -116,6 +119,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_NextHandArmor()
     {
+        PlayButtonSound();
         PlayerInventoryManager.PlayerChosenHandArmorIndex++;
         OnMannequinEquipmentChanged();
     }
@@ -125,6 +129,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_NextLegArmor()
     {
+        PlayButtonSound();
         PlayerInventoryManager.PlayerChosenLegArmorIndex++;
         OnMannequinEquipmentChanged();
     }
@@ -134,6 +139,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_PrevWeapon()
     {
+        PlayButtonSound();
         PlayerInventoryManager.PlayerChosenWeaponIndex--;
         OnMannequinEquipmentChanged();
     }
@@ -143,6 +149,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_PrevHeadArmor()
     {
+        PlayButtonSound();
         PlayerInventoryManager.PlayerChosenHeadArmorIndex--;
         OnMannequinEquipmentChanged();
     }
@@ -152,6 +159,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_PrevTorsoArmor()
     {
+        PlayButtonSound();
         PlayerInventoryManager.PlayerChosenTorsoArmorIndex--;
         OnMannequinEquipmentChanged();
     }
@@ -161,6 +169,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_PrevHandArmor()
     {
+        PlayButtonSound();
         PlayerInventoryManager.PlayerChosenHandArmorIndex--;
         OnMannequinEquipmentChanged();
     }
@@ -170,6 +179,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_PrevLegArmor()
     {
+        PlayButtonSound();
         PlayerInventoryManager.PlayerChosenLegArmorIndex--;
         OnMannequinEquipmentChanged();
     }
@@ -179,6 +189,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_Back()
     {
+        PlayButtonSound();
         SceneManager.LoadScene("InformationMenuScene");
     }
 
@@ -187,6 +198,7 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_Fight()
     {
+        PlayButtonSound();
         SceneManager.LoadScene("ArenaScene");
     }
 
@@ -211,61 +223,73 @@ public class GearSelectionUI : MonoBehaviour
 
     public void OnButtonClick_BuyWeapon()
     {
+        PlayButtonSound();
         ConfirmAndPurchase(txtBtnBuyWeapon, PlayerInventoryManager.BuyChosenWeapon);
     }
 
     public void OnButtonClick_BuyHeadArmor()
     {
+        PlayButtonSound();
         ConfirmAndPurchase(txtBtnBuyWeapon, PlayerInventoryManager.BuyChosenHeadArmor);
     }
 
     public void OnButtonClick_BuyTorsoArmor()
     {
+        PlayButtonSound();
         ConfirmAndPurchase(txtBtnBuyTorsoArmor, PlayerInventoryManager.BuyChosenTorsoArmor);
     }
 
     public void OnButtonClick_BuyHandArmor()
     {
+        PlayButtonSound();
         ConfirmAndPurchase(txtBtnBuyHandArmor, PlayerInventoryManager.BuyChosenHandArmor);
     }
 
     public void OnButtonClick_BuyLegArmor()
     {
+        PlayButtonSound();
         ConfirmAndPurchase(txtBtnBuyLegArmor, PlayerInventoryManager.BuyChosenLegArmor);
     }
 
     public void OnButtonClick_HireBasicMercenary()
     {
+        PlayButtonSound();
         ConfirmAndPurchase(txtBtnHireBasicMerc, PlayerPartyManager.HireBasicMercenary);
     }
 
     public void OnButtonClick_HireLightMercenary()
     {
+        PlayButtonSound();
         ConfirmAndPurchase(txtBtnHireLightMerc, PlayerPartyManager.HireLightMercenary);
     }
 
     public void OnButtonClick_HireMediumMercenary()
     {
+        PlayButtonSound();
         ConfirmAndPurchase(txtBtnHireMediumMerc, PlayerPartyManager.HireMediumMercenary);
     }
 
     public void OnButtonClick_HireHeavyMercenary()
     {
+        PlayButtonSound();
         ConfirmAndPurchase(txtBtnHireHeavyMerc, PlayerPartyManager.HireHeavyMercenary);
     }
 
     public void OnButtonClick_UpgradeBasicMercenary()
     {
+        PlayButtonSound();
         ConfirmAndPurchase(txtBtnUpgradeBasicMerc, PlayerPartyManager.UpgradeBasicMercenary);
     }
 
     public void OnButtonClick_UpgradeLightMercenary()
     {
+        PlayButtonSound();
         ConfirmAndPurchase(txtBtnUpgradeLightMerc, PlayerPartyManager.UpgradeLightMercenary);
     }
 
     public void OnButtonClick_UpgradeMediumMercenary()
     {
+        PlayButtonSound();
         ConfirmAndPurchase(txtBtnUpgradeMediumMerc, PlayerPartyManager.UpgradeMediumMercenary);
     }
 
@@ -473,5 +497,10 @@ public class GearSelectionUI : MonoBehaviour
         mannequinAgent.transform.parent = mannequinContainer;
         mannequinAgent.transform.localPosition = Vector3.zero;
         mannequinAgent.transform.localScale = Vector3.one * mannequinAgentSize;
+    }
+
+    void PlayButtonSound()
+    {
+        SoundEffectManager.PlayButtonSound(Camera.main.transform.position);
     }
 }

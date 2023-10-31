@@ -57,6 +57,11 @@ public class AgentAudioManager : MonoBehaviour
 
     public void PlayHurtSound()
     {
+        if (ownerAgent.IsDead)
+        {
+            return;
+        }
+
         SoundEffectManager.PlayHurtSound(head.position);
     }
 

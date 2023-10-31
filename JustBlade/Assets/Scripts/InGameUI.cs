@@ -98,6 +98,7 @@ public class InGameUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_ReturnToMainMenu()
     {
+        PlayButtonSound();
         SceneManager.LoadScene("MainMenuScene");
     }
 
@@ -199,5 +200,10 @@ public class InGameUI : MonoBehaviour
         FindPlayerAgentInScene();
         UpdateHealthBar();
         UpdateTexts();
+    }
+
+    void PlayButtonSound()
+    {
+        SoundEffectManager.PlayButtonSound(Camera.main.transform.position);
     }
 }

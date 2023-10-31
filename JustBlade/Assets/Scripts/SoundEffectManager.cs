@@ -77,6 +77,7 @@ public static class SoundEffectManager
         "coin_2",
         "coin_3",
     };
+    static readonly string[] Button = { "button_1" };
 
     public static void PlayWeaponSoundOnStruckAgent(Agent attacker, Agent defender, Limb.LimbType limbType)
     {
@@ -180,6 +181,11 @@ public static class SoundEffectManager
     public static void PlayCoinSound(Vector3 soundPlayWorldPos)
     {
         PlaySound(Coin, soundPlayWorldPos);
+    }
+
+    public static void PlayButtonSound(Vector3 soundPlayWorldPos)
+    {
+        PlaySound(Button, soundPlayWorldPos);
     }
 
     static void PlaySound(string[] soundArray, Vector3 soundPlayWorldPos)

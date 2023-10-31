@@ -42,6 +42,7 @@ public class InformationMenuUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_ReturnToMainMenu()
     {
+        PlayButtonSound();
         SceneManager.LoadScene("MainMenuScene");
     }
 
@@ -50,6 +51,7 @@ public class InformationMenuUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_Next()
     {
+        PlayButtonSound();
         SceneManager.LoadScene("GearSelectionMenuScene");
     }
 
@@ -216,5 +218,10 @@ public class InformationMenuUI : MonoBehaviour
     {
         UpdateGameOverScreenTexts();
         UpdateRoundInfoScreenTexts();
+    }
+
+    void PlayButtonSound()
+    {
+        SoundEffectManager.PlayButtonSound(Camera.main.transform.position);
     }
 }

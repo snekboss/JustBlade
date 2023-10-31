@@ -57,7 +57,7 @@ public class MainMenuUI : MonoBehaviour
 
         if (isLoadingForTheFirstTime)
         {
-            OnButtonClick_SetDefaultQuality();
+            OnButtonClick_SetDefaultQuality(); // also plays button sound on load now.
             isLoadingForTheFirstTime = false;
         }
         else
@@ -93,6 +93,8 @@ public class MainMenuUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_StartGame()
     {
+        PlayButtonSound();
+
         Time.timeScale = 1;
 
         HordeGameLogic.StartNewHordeGame();
@@ -105,6 +107,8 @@ public class MainMenuUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_KeyBindings()
     {
+        PlayButtonSound();
+
         screenMainMenu.SetActive(false);
         screenKeyBindings.SetActive(true);
         screenSettings.SetActive(false);
@@ -117,6 +121,8 @@ public class MainMenuUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_Settings()
     {
+        PlayButtonSound();
+
         screenMainMenu.SetActive(false);
         screenKeyBindings.SetActive(false);
         screenSettings.SetActive(true);
@@ -129,6 +135,7 @@ public class MainMenuUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_ExitGame()
     {
+        PlayButtonSound();
         Application.Quit();
     }
 
@@ -137,6 +144,8 @@ public class MainMenuUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_GoBack()
     {
+        PlayButtonSound();
+
         screenMainMenu.SetActive(true);
         screenKeyBindings.SetActive(false);
         screenSettings.SetActive(false);
@@ -149,6 +158,8 @@ public class MainMenuUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_IncreaseQuality()
     {
+        PlayButtonSound();
+
         QualitySettings.IncreaseLevel(true);
 
         UpdateQualitySettingWidgets();
@@ -159,6 +170,8 @@ public class MainMenuUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_DecreaseQuality()
     {
+        PlayButtonSound();
+
         QualitySettings.DecreaseLevel(true);
 
         UpdateQualitySettingWidgets();
@@ -169,6 +182,8 @@ public class MainMenuUI : MonoBehaviour
     /// </summary>
     public void OnButtonClick_SetDefaultQuality()
     {
+        PlayButtonSound();
+
         QualitySettings.SetQualityLevel(StaticVariables.DefaultQualitySetting, true);
 
         UpdateQualitySettingWidgets();
@@ -218,5 +233,10 @@ public class MainMenuUI : MonoBehaviour
     void Start()
     {
         InitMainMenuUI();
+    }
+
+    void PlayButtonSound()
+    {
+        SoundEffectManager.PlayButtonSound(Camera.main.transform.position);
     }
 }

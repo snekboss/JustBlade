@@ -91,6 +91,7 @@ For these sound effects, the credits go to the following:
 - Voices - Essentials: https://assetstore.unity.com/packages/audio/sound-fx/voices/voices-essentials-214441
 - Bow and Hammer Sound Effects: https://assetstore.unity.com/packages/audio/sound-fx/weapons/bow-and-hammer-sound-effects-163948
 - Coins Sfx: https://assetstore.unity.com/packages/audio/sound-fx/coins-sfx-39052
+- Free UI Click Sound Pack: https://assetstore.unity.com/packages/audio/sound-fx/free-ui-click-sound-pack-244644
 
 Note that some of these sounds may have been edited by me a little bit, for my own purposes.
 The editing of sounds was done using Audacity: https://www.audacityteam.org/
