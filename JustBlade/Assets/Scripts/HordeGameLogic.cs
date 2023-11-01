@@ -51,7 +51,7 @@ public class HordeGameLogic : MonoBehaviour
         iCurWaveSet = 0;
 
         NumberOfWavesBeaten = 0;
-        
+
         IsPlayerDied = false;
         IsPlayerBeatenTheGame = false;
         IsBossBattleNext = false;
@@ -481,18 +481,8 @@ public class HordeGameLogic : MonoBehaviour
             AgentThinkQueue.Enqueue(agent);
         }
 
-        // Make this agent think something based on a coin flip.
-        // It's based on a coin flip, because there are only two possible things to think about.
-        // If there were more things, then it'd probably make sense to use a counter or something.
-        int randy = Random.Range(0, 2);
-        if (randy % 2 == 0)
-        {
-            ToggleAiCombatDirectionPreference(agent);
-        }
-        else
-        {
-            ConsiderNearbyEnemy(agent);
-        }
+        ToggleAiCombatDirectionPreference(agent);
+        ConsiderNearbyEnemy(agent);
     }
 
     void ConsiderNearbyEnemy(Agent agent)
@@ -559,7 +549,7 @@ public class HordeGameLogic : MonoBehaviour
             agentData.Add((otherAgents[i], diff.sqrMagnitude));
         }
 
-        (Agent, float) minAgentData = 
+        (Agent, float) minAgentData =
             agentData.OrderBy(agentData => agentData.Item2).First();
 
         // The distances were squared above.
