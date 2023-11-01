@@ -31,7 +31,7 @@ public class AiAgent : Agent
     const float LerpRateYawAngle = 0.1f;
 
     const float AttackTimeMax = 0.5f;
-    const float DefendTimeMax = 2.0f;
+    const float DefendTimeMax = 2.5f;
     const float SearchForEnemyTimeMax = 0.5f;
 
     const float TooCloseMultiplier = 0.75f;

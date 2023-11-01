@@ -77,7 +77,7 @@ public class HordeGameLogic : MonoBehaviour
 
     public List<WaveSet> waveSets;
 
-    float distanceBetweenAgents = 3.0f; // 3.0f seems ok
+    float distanceBetweenAgents = 1.0f; // 3.0f seems ok
 
     readonly float HoldPositionBaseDistance = 0.75f;
 
@@ -99,34 +99,6 @@ public class HordeGameLogic : MonoBehaviour
         }
     }
     Queue<Agent> agentThinkQueue;
-
-    void SpawnInvadersFromData(InvaderData invaderData, ref Vector3 spawnPos, Vector3 dir)
-    {
-        for (int i = 0; i < invaderData.invaderCount; i++)
-        {
-            AiAgent a = Instantiate(aiAgentPrefab);
-            InitializeAgentFromHordeData(a
-                , invaderData.invaderAgentDataPrefab.weaponSetPrefab
-                , invaderData.invaderAgentDataPrefab.armorSetPrefab
-                , invaderData.invaderAgentDataPrefab.charSetPrefab);
-
-            Vector3 nextAgentSpawnOffset = dir * (2 * a.CharMgr.AgentWorldRadius + distanceBetweenAgents);
-
-            a.OnSearchForEnemyAgent += OnAiAgentSearchForEnemy;
-            a.IsFriendOfPlayer = false;
-            a.OnDeath += OnAgentDeath;
-
-            HordeRewardData hrd = a.gameObject.AddComponent<HordeRewardData>();
-            hrd.CopyDataFromPrefab(invaderData.invaderAgentDataPrefab.invaderRewardDataPrefab);
-
-            a.transform.position = spawnPos;
-            enemyTeamAgents.Add(a);
-
-            spawnPos = spawnPos + nextAgentSpawnOffset;
-
-            AgentThinkQueue.Enqueue(a);
-        }
-    }
 
     void InitializeAgentFromHordeData(Agent agent
         , HordeWeaponSet hordeWeaponSet
@@ -326,11 +298,12 @@ public class HordeGameLogic : MonoBehaviour
         Vector3 spawnPos = playerTeamSpawnPoint.position;
         Vector3 dir = playerTeamSpawnDirection == SpawnDirection.Right ? Vector3.right : Vector3.left;
 
-        SpawnPlayer(ref spawnPos, dir);
-        SpawnPlayerFriendlyAgents(ref spawnPos, dir);
+        SpawnPlayer();
+        SpawnPlayerFriendlyAgents();
+        InitializeTeamPositions(playerTeamAgents, spawnPos, dir, true);
     }
 
-    void SpawnPlayer(ref Vector3 spawnPos, Vector3 dir)
+    void SpawnPlayer()
     {
         PlayerAgent player = Instantiate(playerAgentPrefab);
 
@@ -348,33 +321,29 @@ public class HordeGameLogic : MonoBehaviour
 
         player.PlayerOrderToggle += OnPlayerOrderToggleEvent;
 
-        player.transform.position = spawnPos;
         playerTeamAgents.Add(player);
-
-        Vector3 nextAgentSpawnOffset = dir * (2 * player.CharMgr.AgentWorldRadius + distanceBetweenAgents);
-        spawnPos = spawnPos + nextAgentSpawnOffset;
     }
 
-    void SpawnPlayerFriendlyAgents(ref Vector3 spawnPos, Vector3 dir)
+    void SpawnPlayerFriendlyAgents()
     {
         SpawnPlayerMercenaryFromData(
             PrefabManager.MercenaryDataByArmorLevel[Armor.ArmorLevel.None]
-            , PlayerPartyManager.GetMercenaryCount(Armor.ArmorLevel.None), ref spawnPos, dir);
+            , PlayerPartyManager.GetMercenaryCount(Armor.ArmorLevel.None));
 
         SpawnPlayerMercenaryFromData(
             PrefabManager.MercenaryDataByArmorLevel[Armor.ArmorLevel.Light]
-            , PlayerPartyManager.GetMercenaryCount(Armor.ArmorLevel.Light), ref spawnPos, dir);
+            , PlayerPartyManager.GetMercenaryCount(Armor.ArmorLevel.Light));
 
         SpawnPlayerMercenaryFromData(
             PrefabManager.MercenaryDataByArmorLevel[Armor.ArmorLevel.Medium]
-            , PlayerPartyManager.GetMercenaryCount(Armor.ArmorLevel.Medium), ref spawnPos, dir);
+            , PlayerPartyManager.GetMercenaryCount(Armor.ArmorLevel.Medium));
 
         SpawnPlayerMercenaryFromData(
             PrefabManager.MercenaryDataByArmorLevel[Armor.ArmorLevel.Heavy]
-            , PlayerPartyManager.GetMercenaryCount(Armor.ArmorLevel.Heavy), ref spawnPos, dir);
+            , PlayerPartyManager.GetMercenaryCount(Armor.ArmorLevel.Heavy));
     }
 
-    void SpawnPlayerMercenaryFromData(MercenaryAgentData mercData, int count, ref Vector3 spawnPos, Vector3 dir)
+    void SpawnPlayerMercenaryFromData(MercenaryAgentData mercData, int count)
     {
         for (int i = 0; i < count; i++)
         {
@@ -391,16 +360,115 @@ public class HordeGameLogic : MonoBehaviour
             MercenaryDescriptionData mdd = merc.gameObject.AddComponent<MercenaryDescriptionData>();
             mdd.InitializeFromMercenaryData(mercData);
 
-            merc.transform.position = spawnPos;
             playerTeamAgents.Add(merc);
-
-            Vector3 nextAgentSpawnOffset = dir * (2 * merc.CharMgr.AgentWorldRadius + distanceBetweenAgents);
-
-            spawnPos = spawnPos + nextAgentSpawnOffset;
 
             AgentThinkQueue.Enqueue(merc);
         }
+    }
 
+    void SpawnInvadersFromData(InvaderData invaderData)
+    {
+        for (int i = 0; i < invaderData.invaderCount; i++)
+        {
+            AiAgent a = Instantiate(aiAgentPrefab);
+            InitializeAgentFromHordeData(a
+                , invaderData.invaderAgentDataPrefab.weaponSetPrefab
+                , invaderData.invaderAgentDataPrefab.armorSetPrefab
+                , invaderData.invaderAgentDataPrefab.charSetPrefab);
+
+            a.OnSearchForEnemyAgent += OnAiAgentSearchForEnemy;
+            a.IsFriendOfPlayer = false;
+            a.OnDeath += OnAgentDeath;
+
+            HordeRewardData hrd = a.gameObject.AddComponent<HordeRewardData>();
+            hrd.CopyDataFromPrefab(invaderData.invaderAgentDataPrefab.invaderRewardDataPrefab);
+
+            enemyTeamAgents.Add(a);
+
+            AgentThinkQueue.Enqueue(a);
+        }
+    }
+
+    void InitializeTeamPositions(List<Agent> agentTeam
+        , Vector3 spawnPos
+        , Vector3 dir
+        , bool randomizePositions = false
+        , bool centerThePositions = true)
+    {
+        if (randomizePositions)
+        {
+            Shuffle(agentTeam);
+        }
+
+        Agent player = null;
+
+        for (int i = 0; i < agentTeam.Count; i++)
+        {
+            if (agentTeam[i].IsPlayerAgent)
+            {
+                player = agentTeam[i];
+                break;
+            }
+        }
+
+        if (player != null)
+        {
+            // It's the player team. Put the player in the middle.
+            agentTeam.Remove(player);
+            int iMid = agentTeam.Count / 2;
+            agentTeam.Insert(iMid, player);
+        }
+
+        List<Vector3> spawnPositions = new List<Vector3>();
+
+        for (int i = 0; i < agentTeam.Count; i++)
+        {
+            Agent agent = agentTeam[i];
+            Vector3 nextAgentSpawnOffset = dir * (2 * agent.CharMgr.AgentWorldRadius + distanceBetweenAgents);
+
+            spawnPositions.Add(spawnPos);
+
+            spawnPos = spawnPos + nextAgentSpawnOffset;
+        }
+
+        if (centerThePositions && agentTeam.Count > 1)
+        {
+            // Find the distance between minPos and maxPos.
+            // Then, move all positions in the opposite direction of "dir", by half of the distance.
+            // This way, we centralize the positions.
+
+            Vector3 minPos = spawnPositions[0];
+            Vector3 maxPos = spawnPositions[spawnPositions.Count - 1];
+            float dist = Vector3.Distance(minPos, maxPos);
+
+            for (int i = 0; i < spawnPositions.Count; i++)
+            {
+                spawnPositions[i] += (-dir) * (dist / 2f);
+            }
+        }
+
+        // Finally, set positions.
+        for (int i = 0; i < agentTeam.Count; i++)
+        {
+            agentTeam[i].transform.position = spawnPositions[i];
+        }
+    }
+
+    /// <summary>
+    /// Shuffles an <see cref="List{T}"/> based on Fisher-Yates shuffle.
+    /// </summary>
+    /// <typeparam name="T">Type</typeparam>
+    /// <param name="list">List to be shuffled</param>
+    void Shuffle<T>(IList<T> list)
+    {
+        int count = list.Count;
+        for (int i = 0; i < count; i++)
+        {
+            int iRand = Random.Range(i, count);
+            T temp = list[i];
+            list[i] = list[iRand];
+            list[iRand] = temp;
+        }
     }
 
     /// <summary>
@@ -438,8 +506,10 @@ public class HordeGameLogic : MonoBehaviour
         for (int i = 0; i < invaderDataList.Count; i++)
         {
             InvaderData invaderData = invaderDataList[i];
-            SpawnInvadersFromData(invaderData, ref spawnPos, dir);
+            SpawnInvadersFromData(invaderData);
         }
+
+        InitializeTeamPositions(enemyTeamAgents, spawnPos, dir, true);
     }
 
     /// <summary>
