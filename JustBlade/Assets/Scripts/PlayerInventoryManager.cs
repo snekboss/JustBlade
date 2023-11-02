@@ -10,16 +10,35 @@ public static class PlayerInventoryManager
 {
     public static int DefaultPlayerGold = 1000;
     public static int PlayerGold { get; private set; }
+    
+    /// <summary>
+    /// Adds gold to player. The argument must be a positive value.
+    /// </summary>
+    /// <param name="amount">Positive gold amount.</param>
     public static void AddPlayerGold(int amount)
     {
+        if (amount < 0)
+        {
+            return;
+        }
+
         PlayerStatisticsTracker.PlayerTotalGoldEarned += amount;
         PlayerGold += amount;
 
         SoundEffectManager.PlayCoinSound(Camera.main.transform.position);
     }
 
+    /// <summary>
+    /// Removes gold from player. The argument must be a positive value.
+    /// </summary>
+    /// <param name="amount">Positive gold amount.</param>
     public static void RemovePlayerGold(int amount)
     {
+        if (amount < 0)
+        {
+            return;
+        }
+
         PlayerStatisticsTracker.PlayerTotalGoldSpent += amount;
         PlayerGold -= amount;
 

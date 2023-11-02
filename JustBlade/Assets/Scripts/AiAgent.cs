@@ -696,7 +696,7 @@ public class AiAgent : Agent
         Vector2 localMoveDir = GetLocalMoveDir(out speed);
 
         // AiAgents are always considered to be grounded, since NavMeshAgents can't jump anyway...
-        AnimMgr.UpdateAnimations(localMoveDir, speed, true, isAtk, isDef);
+        AnimMgr.UpdateAnimations(localMoveDir, speed, IsGrounded(), isAtk, isDef);
         AudioMgr.UpdateAudioManager();
     }
 }

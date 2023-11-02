@@ -164,7 +164,8 @@ public class HordeGameLogic : MonoBehaviour
             enemyTeamAgents.Remove(victim);
 
             HordeRewardData hrd = victim.GetComponent<HordeRewardData>();
-            if (hrd != null)
+            bool isFinalWaveSet = iCurWaveSet == (waveSets.Count - 1);
+            if (hrd != null && isFinalWaveSet == false)
             {
                 PlayerInventoryManager.AddPlayerGold(hrd.GetRandomGoldAmountWithinRange());
             }
