@@ -64,7 +64,7 @@ public class MainMenuUI : MonoBehaviour
 
         if (isLoadingForTheFirstTime)
         {
-            OnButtonClick_SetDefaultQuality(); // also plays button sound on load now.
+            SetDefaultQuality();
             isLoadingForTheFirstTime = false;
         }
         else
@@ -201,9 +201,7 @@ public class MainMenuUI : MonoBehaviour
     {
         PlayButtonSound();
 
-        QualitySettings.SetQualityLevel(StaticVariables.DefaultQualitySetting, true);
-
-        UpdateQualitySettingWidgets();
+        SetDefaultQuality();
     }
 
     /// <summary>
@@ -257,6 +255,13 @@ public class MainMenuUI : MonoBehaviour
         StaticVariables.PlayerCameraFieldOfView = val;
 
         Camera.main.fieldOfView = StaticVariables.PlayerCameraFieldOfView;
+    }
+
+    void SetDefaultQuality()
+    {
+        QualitySettings.SetQualityLevel(StaticVariables.DefaultQualitySetting, true);
+
+        UpdateQualitySettingWidgets();
     }
 
     /// <summary>

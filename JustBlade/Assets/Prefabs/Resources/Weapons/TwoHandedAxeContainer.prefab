@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 40c10ec7fcab36e4d9b9aa15387d3c67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  shownName: Two Handed Axe
+  shownName: Simple Axe
   purchaseCost: 1
   isStarterItem: 1
   EDIT_MODE: 0

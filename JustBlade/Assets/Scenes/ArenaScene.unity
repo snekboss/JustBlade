@@ -15186,11 +15186,11 @@ MonoBehaviour:
     isBossWaveSet: 0
   - waves:
     - invaderDataList:
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6d73546f723dcc448beb1ff31d6a6522, type: 3}
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: d6fb7efaf8acd674e854015a6219d134, type: 3}
         invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6c89bc23747985c40a372079ac148920, type: 3}
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 99242cb7f55b0354093fce1ae58f2ea7, type: 3}
         invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 8c2982130944d1c4691ba74ac10c48ad, type: 3}
         invaderCount: 1
     isBossWaveSet: 1
   - waves:
