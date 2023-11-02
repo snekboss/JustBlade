@@ -21,6 +21,9 @@ public class PlayAndDestroy : MonoBehaviour
     const float MinPitch = 0.8f;
     const float MaxPitch = 1.25f;
 
+    const bool UsePriority = true; // giving sounds priority based on their distance to main camera.
+    const float PriorityDistance = 4f;
+
     public void PlayAndSelfDestruct(Vector3 worldPosition)
     {
         audioSourceComponent.spatialBlend = 1f;
@@ -35,8 +38,25 @@ public class PlayAndDestroy : MonoBehaviour
         }
         audioSourceComponent.clip = audioClip;
         audioSourceComponent.volume = volume;
+
+        if (UsePriority)
+        {
+            audioSourceComponent.priority = CalculatePriority(worldPosition);
+        }
+
         audioSourceComponent.Play();
 
         Destroy(this.gameObject, BaseSelfDestructDuration + audioSourceComponent.clip.length);
+    }
+
+    int CalculatePriority(Vector3 worldPosition)
+    {
+        // Priority calculation.
+        float distFromCamera = Vector3.Distance(worldPosition, Camera.main.transform.position);
+        float distNormalized = Mathf.Clamp01(distFromCamera / PriorityDistance);
+
+        // In Unity, highest priority is 0; and lowest is 255.
+        int priority = System.Convert.ToInt32(distNormalized * 255);
+        return Mathf.Clamp(priority, 0, 255);
     }
 }
