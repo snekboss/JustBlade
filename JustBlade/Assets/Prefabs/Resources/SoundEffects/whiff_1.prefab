@@ -144,6 +144,6 @@ MonoBehaviour:
   soundName: whiff_1
   audioSourceComponent: {fileID: -3585572415346174839}
   audioClip: {fileID: 8300000, guid: 01999991d21504b5abb7a554bba05227, type: 3}
-  volume: 0.1
+  volume: 0.15
   pitch: 0.1
   useRandomPitch: 1

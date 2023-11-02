@@ -144,6 +144,6 @@ MonoBehaviour:
   soundName: armored_cut_2
   audioSourceComponent: {fileID: 8256462931867770510}
   audioClip: {fileID: 8300000, guid: 594c4d362d2ee664e91397fd725b3b3f, type: 3}
-  volume: 0.1
+  volume: 0.15
   pitch: 0
   useRandomPitch: 1

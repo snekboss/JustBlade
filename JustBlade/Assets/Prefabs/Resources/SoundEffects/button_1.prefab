@@ -144,6 +144,6 @@ MonoBehaviour:
   soundName: button_1
   audioSourceComponent: {fileID: -1446301147245564445}
   audioClip: {fileID: 8300000, guid: 087224dd7ec352f42a3b950a07009a88, type: 3}
-  volume: 0.2
+  volume: 0.6
   pitch: 1
   useRandomPitch: 0

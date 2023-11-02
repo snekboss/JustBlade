@@ -144,6 +144,6 @@ MonoBehaviour:
   soundName: armored_blunt_2
   audioSourceComponent: {fileID: -1165211432647697467}
   audioClip: {fileID: 8300000, guid: 8e728a1e9d3dc5f41a2d59668c45e98e, type: 3}
-  volume: 0.1
+  volume: 0.15
   pitch: 0
   useRandomPitch: 1
