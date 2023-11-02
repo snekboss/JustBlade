@@ -229,7 +229,7 @@ public abstract class Agent : MonoBehaviour
     /// </summary>
     protected virtual void LateUpdate()
     {
-        animMgr.LateUpdateAnimations();
+        AnimMgr.LateUpdateAnimations();
     }
 
     /// <summary>
