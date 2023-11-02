@@ -180,8 +180,20 @@ public class InformationMenuUI : MonoBehaviour
             }
 
             // The flavor text is written by Microsoft's Bing AI chat bot, based on my instructions about what should be written.
-            infoStr += NL + NL + "You've grown stronger, surviving wave after wave of enemies. Your health has increased, your strikes deal more damage, and you've become more resilient to enemy attacks. Your movement speed on the battlefield may have also improved slightly.";
+            infoStr += NL + NL + "With each wave conquered, your vitality surges, your blows land with greater force, and your defenses harden. Even your stride may quicken.";
 
+            bool isMaxSize = PlayerPartyManager.PartySize == PlayerPartyManager.MaxPartySize;
+
+            if (isMaxSize == false)
+            {
+                // The flavor text is written by Microsoft's Bing AI chat bot, based on my instructions about what should be written.
+                infoStr += " As your prowess grows, so does the size of your band of warriors. Stand tall, for your ranks are growing.";
+            }
+            else
+            {
+                // The flavor text is written by Microsoft's Bing AI chat bot, based on my instructions about what should be written.
+                infoStr += " Your deeds on the battlefield have earned you a reputation of valor and strength. Stand tall, for your name echoes among the ranks, inspiring respect and admiration.";
+            }
 
             int health = PlayerCharacteristicProgressionTracker.PlayerCharSet.MaximumHealth;
             // Multiplier values will be written in percentage increases.
@@ -191,6 +203,7 @@ public class InformationMenuUI : MonoBehaviour
             float dmgTakenMulti = 
                 100f * (1f - PlayerCharacteristicProgressionTracker.PlayerCharSet.DamageTakenMultiplier);
             float speedMulti = 100f * (PlayerCharacteristicProgressionTracker.PlayerCharSet.ExtraMovementSpeedLimitMultiplier - 1f);
+            string maxSizeStr = isMaxSize ? " (max)" : "";
 
             string precisionStr = "0.0";
 
@@ -198,11 +211,13 @@ public class InformationMenuUI : MonoBehaviour
                  "Maximum health: {0}" + NL 
                + "Damage bonus: +{1}%" + NL
                + "Damage resistance bonus: +{2}%" + NL
-               + "Movement speed bonus: +{3}%"
+               + "Movement speed bonus: +{3}%" + NL
+               + "Party size: {4}{5}"
                , health
                , dmgMulti.ToString(precisionStr)
                , dmgTakenMulti.ToString(precisionStr)
-               , speedMulti.ToString(precisionStr));
+               , speedMulti.ToString(precisionStr)
+               , PlayerPartyManager.PartySize.ToString(), maxSizeStr);
 
             infoStr += NL + NL + statStr;
         }

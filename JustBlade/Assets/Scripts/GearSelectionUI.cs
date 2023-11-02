@@ -393,8 +393,8 @@ public class GearSelectionUI : MonoBehaviour
             + "Light mercenaries: " + PlayerPartyManager.GetMercenaryCount(Armor.ArmorLevel.Light).ToString() + NL
             + "Medium mercenaries: " + PlayerPartyManager.GetMercenaryCount(Armor.ArmorLevel.Medium).ToString() + NL
             + "Heavy mercenaries: " + PlayerPartyManager.GetMercenaryCount(Armor.ArmorLevel.Heavy).ToString() + NL
-            + "Total party size: " + PlayerPartyManager.NumTotalMercenaries.ToString()
-            + "/" + PlayerPartyManager.MaxNumberOfMercenaries.ToString();
+            + "Party size: " + PlayerPartyManager.NumMercenariesInParty.ToString()
+            + "/" + PlayerPartyManager.PartySize.ToString();
 
         txtPlayerGold.text = "Gold: " + PlayerInventoryManager.PlayerGold.ToString();
 

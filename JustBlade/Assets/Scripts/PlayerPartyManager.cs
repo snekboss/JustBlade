@@ -8,7 +8,10 @@ using UnityEngine;
 /// </summary>
 public static class PlayerPartyManager
 {
-    public static readonly int MaxNumberOfMercenaries = 20;
+    public const int MaxPartySize = 16;
+    const int BasePartySize = 3;
+    const int PartySizeIncreasePerWavesBeaten = 1;
+
 
     static Dictionary<Armor.ArmorLevel, int> MercCountByArmorLevel
     {
@@ -28,6 +31,15 @@ public static class PlayerPartyManager
     }
     static Dictionary<Armor.ArmorLevel, int> mercCountByArmorLevel;
 
+    public static int PartySize
+    {
+        get
+        {
+            int curSize = BasePartySize + HordeGameLogic.NumberOfWavesBeaten * PartySizeIncreasePerWavesBeaten;
+            return Mathf.Clamp(curSize, BasePartySize, MaxPartySize);
+        }
+    }
+
     public static void InitializePlayerParty()
     {
         MercCountByArmorLevel[Armor.ArmorLevel.None] = 0;
@@ -36,7 +48,7 @@ public static class PlayerPartyManager
         MercCountByArmorLevel[Armor.ArmorLevel.Heavy] = 0;
     }
 
-    public static int NumTotalMercenaries
+    public static int NumMercenariesInParty
     {
         get
         {
@@ -123,7 +135,7 @@ public static class PlayerPartyManager
             && (PlayerInventoryManager.PlayerGold >= PrefabManager.MercenaryDataByArmorLevel[mercArmorLevel].upgradeCost);
     }
 
-    public static bool PlayerPartyIsFull() { return NumTotalMercenaries == MaxNumberOfMercenaries; }
+    public static bool PlayerPartyIsFull() { return NumMercenariesInParty == PartySize; }
 
     public static void HireBasicMercenary()
     {
