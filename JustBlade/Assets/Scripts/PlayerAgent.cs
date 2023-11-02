@@ -118,8 +118,11 @@ public class PlayerAgent : Agent
             , legArmorPrefab
             , characteristicPrefab);
 
-        InitializeCharacterController();
+        SpawnMainCamera();
         SetCameraTrackingPoint();
+
+        InitializeCharacterController();
+        InitializeNavMeshAgent();
     }
 
     public override bool IsGrounded() { return isGrounded; }
@@ -546,20 +549,6 @@ public class PlayerAgent : Agent
         IsPlayerAgent = true;
 
         isDefTimer = 2 * isDefTimerThreshold; // set it far above the threshold, so that the condition is not satisfied at the start.
-    }
-
-    /// <summary>
-    /// Unity's Start method.
-    /// In this case, it is used to spawn the camera (if it is null), and set the <see cref="chosenCameraTrackingPoint"/>.
-    /// It is also used to initialize the movement related components of the player.
-    /// </summary>
-    void Start()
-    {
-        SpawnMainCamera();
-        SetCameraTrackingPoint();
-
-        InitializeCharacterController();
-        InitializeNavMeshAgent();
     }
 
     /// <summary>
