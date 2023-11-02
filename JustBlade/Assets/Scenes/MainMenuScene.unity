@@ -2685,7 +2685,7 @@ GameObject:
   - component: {fileID: 912285065}
   - component: {fileID: 912285064}
   m_Layer: 0
-  m_Name: Text_MouseSensitivity (TMP)
+  m_Name: Text_CameraSensitivity (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2731,7 +2731,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Mouse Sensitivity: 360'
+  m_text: 'Camera Sensitivity: 360'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
@@ -4810,7 +4810,7 @@ GameObject:
   - component: {fileID: 1901997521}
   - component: {fileID: 1901997522}
   m_Layer: 0
-  m_Name: Slider_MouseSensitivity
+  m_Name: Slider_CameraSensitivity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4883,16 +4883,16 @@ MonoBehaviour:
   m_FillRect: {fileID: 1967544315}
   m_HandleRect: {fileID: 476000755}
   m_Direction: 0
-  m_MinValue: 5
-  m_MaxValue: 360
-  m_WholeNumbers: 1
-  m_Value: 45
+  m_MinValue: 0.1
+  m_MaxValue: 10
+  m_WholeNumbers: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 1917405536}
         m_TargetAssemblyTypeName: MainMenuUI, Assembly-CSharp
-        m_MethodName: OnSliderValueChanged_MouseSensitivity
+        m_MethodName: OnSliderValueChanged_CameraSensitivity
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -4949,8 +4949,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3087a4cdd178cd74bbe2a206ee6cd79b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sliderMouseSensitivity: {fileID: 1901997522}
-  txtMouseSensitivity: {fileID: 912285064}
+  sliderCameraSensitivity: {fileID: 1901997522}
+  txtCameraSensitivity: {fileID: 912285064}
   sliderSound: {fileID: 283366956}
   txtSound: {fileID: 1558424527}
   sliderDifficulty: {fileID: 1352190694}

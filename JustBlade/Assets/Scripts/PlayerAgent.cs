@@ -23,7 +23,7 @@ public class PlayerAgent : Agent
     const float ThirdPersonCameraOffsetYchangeSpeed = 0.1f;
 
     const float ThirdPersonCameraOffsetZchangeSpeed = 0.1f;
-    const float ThirdPersonCameraOffsetZmin = 0.75f;
+    const float ThirdPersonCameraOffsetZmin = 0.7f;
     const float ThirdPersonCameraOffsetZmax = 2.5f;
     bool IsCameraModeOrbital;
 

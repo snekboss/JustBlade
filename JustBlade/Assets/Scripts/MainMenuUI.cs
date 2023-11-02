@@ -12,8 +12,8 @@ using UnityEngine.UI;
 /// </summary>
 public class MainMenuUI : MonoBehaviour
 {
-    public Slider sliderMouseSensitivity;
-    public TextMeshProUGUI txtMouseSensitivity;
+    public Slider sliderCameraSensitivity;
+    public TextMeshProUGUI txtCameraSensitivity;
 
     public Slider sliderSound;
     public TextMeshProUGUI txtSound;
@@ -83,10 +83,10 @@ public class MainMenuUI : MonoBehaviour
         // - value
         // - maxValue
 
-        sliderMouseSensitivity.wholeNumbers = false;
-        sliderMouseSensitivity.minValue = StaticVariables.PlayerCameraRotationSpeedMin;
-        sliderMouseSensitivity.value = StaticVariables.PlayerCameraRotationSpeed;
-        sliderMouseSensitivity.maxValue = StaticVariables.PlayerCameraRotationSpeedMax;
+        sliderCameraSensitivity.wholeNumbers = false;
+        sliderCameraSensitivity.minValue = StaticVariables.PlayerCameraRotationSpeedMin;
+        sliderCameraSensitivity.value = StaticVariables.PlayerCameraRotationSpeed;
+        sliderCameraSensitivity.maxValue = StaticVariables.PlayerCameraRotationSpeedMax;
 
         sliderSound.wholeNumbers = false;
         sliderSound.minValue = StaticVariables.SoundSettingMin;
@@ -220,13 +220,13 @@ public class MainMenuUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Callback method when the mouse sensitivity slider's value has been changed.
-    /// It updates the player's mouse sensitivity value by changing <see cref="StaticVariables.PlayerCameraRotationSpeed"/>.
+    /// Callback method when the camera sensitivity slider's value has been changed.
+    /// It updates the player's camera sensitivity value by changing <see cref="StaticVariables.PlayerCameraRotationSpeed"/>.
     /// </summary>
-    public void OnSliderValueChanged_MouseSensitivity()
+    public void OnSliderValueChanged_CameraSensitivity()
     {
-        float val = sliderMouseSensitivity.value;
-        txtMouseSensitivity.text = "Mouse Sensitivity: " + val.ToString("0.00");
+        float val = sliderCameraSensitivity.value;
+        txtCameraSensitivity.text = "Camera Sensitivity: " + val.ToString("0.00");
         StaticVariables.PlayerCameraRotationSpeed = val;
     }
 

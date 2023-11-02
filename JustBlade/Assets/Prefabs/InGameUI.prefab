@@ -1802,8 +1802,8 @@ MonoBehaviour:
   screenPauseMenu: {fileID: 4049269316427307327}
   screenPlayerInfo: {fileID: 5825148316309574566}
   healthBar: {fileID: 4369945653805534931}
-  sliderMouseSensitivity: {fileID: 4049269316510822061}
-  txtMouseSensitivity: {fileID: 4049269316987081910}
+  sliderCameraSensitivity: {fileID: 4049269316510822061}
+  txtCameraSensitivity: {fileID: 4049269316987081910}
   sliderSound: {fileID: 3074479666761584839}
   txtSound: {fileID: 1240162038616576958}
   sliderDifficulty: {fileID: 446724504330363583}
@@ -1911,7 +1911,7 @@ GameObject:
   - component: {fileID: 4049269316510822098}
   - component: {fileID: 4049269316510822061}
   m_Layer: 0
-  m_Name: Slider_MouseSensitivity
+  m_Name: Slider_CameraSensitivity
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1984,16 +1984,16 @@ MonoBehaviour:
   m_FillRect: {fileID: 4049269315359740987}
   m_HandleRect: {fileID: 4049269316762765388}
   m_Direction: 0
-  m_MinValue: 5
-  m_MaxValue: 360
-  m_WholeNumbers: 1
-  m_Value: 45
+  m_MinValue: 0
+  m_MaxValue: 10
+  m_WholeNumbers: 0
+  m_Value: 1
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 5670082124281093017}
         m_TargetAssemblyTypeName: InGameUI, Assembly-CSharp
-        m_MethodName: OnSliderValueChanged_MouseSensitivity
+        m_MethodName: OnSliderValueChanged_CameraSensitivity
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -2226,7 +2226,7 @@ GameObject:
   - component: {fileID: 4049269316987081905}
   - component: {fileID: 4049269316987081910}
   m_Layer: 0
-  m_Name: Text_MouseSensitivity (TMP)
+  m_Name: Text_CameraSensitivity (TMP)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2280,7 +2280,7 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'Mouse Sensitivity: 45.00'
+  m_text: 'Camera Sensitivity: 1.00'
   m_isRightToLeft: 0
   m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
   m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
