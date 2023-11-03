@@ -190,6 +190,11 @@ public static class SoundEffectManager
 
     static void PlaySound(string[] soundArray, Vector3 soundPlayWorldPos)
     {
+        if (StaticVariables.SoundSetting == 0)
+        {
+            return;
+        }
+
         PlayAndDestroy sound = GameObject.Instantiate(PrefabManager.SoundsByName[GetRandomSound(soundArray)]);
         sound.PlayAndSelfDestruct(soundPlayWorldPos);
     }

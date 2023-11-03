@@ -3807,7 +3807,7 @@ AnimatorStateTransition:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: atk_down_bounce_to_release
+  m_Name: atk_down_bounce_to_idle
   m_Conditions: []
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 7080895602105644971}
