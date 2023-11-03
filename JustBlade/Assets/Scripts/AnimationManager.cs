@@ -69,7 +69,9 @@ public class AnimationManager : MonoBehaviour
     const float TargetSpineAngleMaxForOverheadSwings = 30f;
 
     float spineCurAngle;
-    float SpineRotationLerpRate = 0.2f;
+    const float SpineRotationLerpRateWhileNotAttacking = 0.05f;
+    const float SpineRotationLerpRateWhileAttacking = 0.2f;
+    float chosenSpineRotationLerpRate; // choose a lerp rate from above.
     bool spineShouldBeRotated;
     #endregion
 
@@ -194,6 +196,27 @@ public class AnimationManager : MonoBehaviour
     bool isTrans_AtkLeftHoldToDefRightHold;
     bool isTrans_AtkLeftHoldToDefDownHold;
     bool isTrans_AtkLeftHoldToDefLeftHold;
+
+    // atk_up_release_to_def_hold
+    bool isTrans_AtkUpReleaseToDefUpHold;
+    bool isTrans_AtkUpReleaseToDefRightHold;
+    bool isTrans_AtkUpReleaseToDefDownHold;
+    bool isTrans_AtkUpReleaseToDefLeftHold;
+    // atk_right_release_to_def_hold
+    bool isTrans_AtkRightReleaseToDefUpHold;
+    bool isTrans_AtkRightReleaseToDefRightHold;
+    bool isTrans_AtkRightReleaseToDefDownHold;
+    bool isTrans_AtkRightReleaseToDefLeftHold;
+    // atk_down_release_to_def_hold
+    bool isTrans_AtkDownReleaseToDefUpHold;
+    bool isTrans_AtkDownReleaseToDefRightHold;
+    bool isTrans_AtkDownReleaseToDefDownHold;
+    bool isTrans_AtkDownReleaseToDefLeftHold;
+    // atk_left_release_to_def_hold
+    bool isTrans_AtkLeftReleaseToDefUpHold;
+    bool isTrans_AtkLeftReleaseToDefRightHold;
+    bool isTrans_AtkLeftReleaseToDefDownHold;
+    bool isTrans_AtkLeftReleaseToDefLeftHold;
 
 
     // Defend
@@ -572,6 +595,27 @@ public class AnimationManager : MonoBehaviour
         isTrans_AtkLeftHoldToDefDownHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_atk_left_hold_to_def_down_hold;
         isTrans_AtkLeftHoldToDefLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_atk_left_hold_to_def_left_hold;
 
+        // atk_up_release_to_def_hold
+        isTrans_AtkUpReleaseToDefUpHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_atk_up_release_to_def_up_hold;
+        isTrans_AtkUpReleaseToDefRightHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_atk_up_release_to_def_right_hold;
+        isTrans_AtkUpReleaseToDefDownHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_atk_up_release_to_def_down_hold;
+        isTrans_AtkUpReleaseToDefLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_atk_up_release_to_def_left_hold;
+        // atk_right_release_to_def_hold
+        isTrans_AtkRightReleaseToDefUpHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_atk_right_release_to_def_up_hold;
+        isTrans_AtkRightReleaseToDefRightHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_atk_right_release_to_def_right_hold;
+        isTrans_AtkRightReleaseToDefDownHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_atk_right_release_to_def_down_hold;
+        isTrans_AtkRightReleaseToDefLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_atk_right_release_to_def_left_hold;
+        // atk_down_release_to_def_hold
+        isTrans_AtkDownReleaseToDefUpHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_atk_down_release_to_def_up_hold;
+        isTrans_AtkDownReleaseToDefRightHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_atk_down_release_to_def_right_hold;
+        isTrans_AtkDownReleaseToDefDownHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_atk_down_release_to_def_down_hold;
+        isTrans_AtkDownReleaseToDefLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_atk_down_release_to_def_left_hold;
+        // atk_left_release_to_def_hold
+        isTrans_AtkLeftReleaseToDefUpHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_atk_left_release_to_def_up_hold;
+        isTrans_AtkLeftReleaseToDefRightHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_atk_left_release_to_def_right_hold;
+        isTrans_AtkLeftReleaseToDefDownHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_atk_left_release_to_def_down_hold;
+        isTrans_AtkLeftReleaseToDefLeftHold = attackAndBlockLayerTransitionInfo.userNameHash == AHD.Hash_TransName_atk_left_release_to_def_left_hold;
+
 
         // Defend
         // idle_to_def_hold
@@ -669,10 +713,50 @@ public class AnimationManager : MonoBehaviour
     {
         // Setting values based on state and transition info
         // Attack
-        bool isTransOutOfAtkUpRelease =  isTrans_AtkUpReleaseToIdle || isTrans_AtkUpReleaseToBounce || isTrans_AnyState;
-        bool isTransOutOfAtkRightRelease =  isTrans_AtkRightReleaseToIdle || isTrans_AtkRightReleaseToBounce || isTrans_AnyState;
-        bool isTransOutOfAtkDownRelease = isTrans_AtkDownReleaseToIdle || isTrans_AtkDownReleaseToBounce || isTrans_AnyState;
-        bool isTransOutOfAtkLeftRelease = isTrans_AtkLeftReleaseToIdle || isTrans_AtkLeftReleaseToBounce || isTrans_AnyState;
+        bool isTransAtkUpReleaseToDefHold = 
+            isTrans_AtkUpReleaseToDefUpHold
+            || isTrans_AtkUpReleaseToDefRightHold
+            || isTrans_AtkUpReleaseToDefDownHold
+            || isTrans_AtkUpReleaseToDefLeftHold;
+
+        bool isTransAtkRightReleaseToDefHold =
+            isTrans_AtkRightReleaseToDefUpHold
+            || isTrans_AtkRightReleaseToDefRightHold
+            || isTrans_AtkRightReleaseToDefDownHold
+            || isTrans_AtkRightReleaseToDefLeftHold;
+
+        bool isTransAtkDownReleaseToDefHold =
+            isTrans_AtkDownReleaseToDefUpHold
+            || isTrans_AtkDownReleaseToDefRightHold
+            || isTrans_AtkDownReleaseToDefDownHold
+            || isTrans_AtkDownReleaseToDefLeftHold;
+
+        bool isTransAtkLeftReleaseToDefHold =
+            isTrans_AtkLeftReleaseToDefUpHold
+            || isTrans_AtkLeftReleaseToDefRightHold
+            || isTrans_AtkLeftReleaseToDefDownHold
+            || isTrans_AtkLeftReleaseToDefLeftHold;
+
+        bool isTransOutOfAtkUpRelease =  
+            isTrans_AtkUpReleaseToIdle 
+            || isTrans_AtkUpReleaseToBounce
+            || isTransAtkUpReleaseToDefHold
+            || isTrans_AnyState;
+        bool isTransOutOfAtkRightRelease =  
+            isTrans_AtkRightReleaseToIdle 
+            || isTrans_AtkRightReleaseToBounce
+            || isTransAtkRightReleaseToDefHold
+            || isTrans_AnyState;
+        bool isTransOutOfAtkDownRelease = 
+            isTrans_AtkDownReleaseToIdle 
+            || isTrans_AtkDownReleaseToBounce 
+            || isTransAtkDownReleaseToDefHold
+            || isTrans_AnyState;
+        bool isTransOutOfAtkLeftRelease = 
+            isTrans_AtkLeftReleaseToIdle 
+            || isTrans_AtkLeftReleaseToBounce 
+            || isTransAtkLeftReleaseToDefHold
+            || isTrans_AnyState;
 
         IsAttackingFromUp = isState_AtkReleaseUp && (isTransOutOfAtkUpRelease == false);
         IsAttackingFromRight = isState_AtkReleaseRight && (isTransOutOfAtkRightRelease == false);
@@ -836,13 +920,13 @@ public class AnimationManager : MonoBehaviour
         bool allStates = upStates || rightStates || downStates || leftStates;
 
         bool upTransitions = isTrans_IdleToAtkUpHold || isTrans_AtkUpHoldToRelease
-            || isTrans_AtkUpReleaseToBounce || isTrans_AtkUpReleaseToIdle || isTrans_AtkUpBounceToIdle;
+            || isTrans_AtkUpReleaseToIdle || isTrans_AtkUpReleaseToBounce || isTrans_AtkUpBounceToIdle;
         bool rightTransitions = isTrans_IdleToAtkRightHold || isTrans_AtkRightHoldToRelease
-            || isTrans_AtkRightReleaseToBounce || isTrans_AtkRightReleaseToIdle || isTrans_AtkRightBounceToIdle;
+            || isTrans_AtkRightReleaseToIdle || isTrans_AtkRightReleaseToBounce || isTrans_AtkRightBounceToIdle;
         bool downTransitions = isTrans_IdleToAtkDownHold || isTrans_AtkDownHoldToRelease
-            || isTrans_AtkDownReleaseToBounce || isTrans_AtkDownReleaseToIdle || isTrans_AtkDownBounceToIdle;
+            || isTrans_AtkDownReleaseToIdle || isTrans_AtkDownReleaseToBounce || isTrans_AtkDownBounceToIdle;
         bool leftTransitions = isTrans_IdleToAtkLeftHold || isTrans_AtkLeftHoldToRelease
-            || isTrans_AtkLeftReleaseToBounce || isTrans_AtkLeftReleaseToIdle || isTrans_AtkLeftBounceToIdle;
+            || isTrans_AtkLeftReleaseToIdle || isTrans_AtkLeftReleaseToBounce || isTrans_AtkLeftBounceToIdle;
         bool allTransitions = upTransitions || rightTransitions || downTransitions || leftTransitions;
 
         bool atkHoldToDefHoldTransitions =
@@ -893,11 +977,16 @@ public class AnimationManager : MonoBehaviour
         || defHoldToAtkDownHoldTransitions
         || defHoldToAtkLeftHoldTransitions;
 
-        spineShouldBeRotated = (allStates || allTransitions || defHoldToAtkHoldTransitions) && (atkHoldToDefHoldTransitions == false);
+        spineShouldBeRotated = 
+            (allStates || allTransitions || defHoldToAtkHoldTransitions) && (atkHoldToDefHoldTransitions == false);
+
+
+        chosenSpineRotationLerpRate = SpineRotationLerpRateWhileNotAttacking;
 
         if (spineShouldBeRotated)
         {
             targetSpineAngle = ownerAgent.LookAngleX;
+            chosenSpineRotationLerpRate = SpineRotationLerpRateWhileAttacking;
 
             if (upStates || upTransitions || defHoldToAtkUpHoldTransitions)
             {
@@ -1083,7 +1172,7 @@ public class AnimationManager : MonoBehaviour
             targetSpineAngle = 0;
         }
 
-        spineCurAngle = Mathf.LerpAngle(spineCurAngle, targetSpineAngle, SpineRotationLerpRate);
+        spineCurAngle = Mathf.LerpAngle(spineCurAngle, targetSpineAngle, chosenSpineRotationLerpRate);
 
         Transform spineAfterAnim = spineBone.transform;
         spineAfterAnim.RotateAround(spineBone.position, ownerAgent.transform.right, spineCurAngle);

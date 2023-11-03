@@ -42,24 +42,47 @@ However, with the speed multiplier, they will last 0.33 seconds.
 => Any "atk_release" animation is considered to be "Attack Release".
 => Any transition which goes from any kind of "atk_release" to "idle" is considered to be "Attack Release Recovery".
 => Any transition which goes from any kind of "atk_bounced" to "idle" is considered to be "Attack Bounced Recovery".
+=> The transition from any "atk_release" to "atk_bounced" does not have a name, but they all have a transition
+duration of 0.1. This is only for making the animation visually smooth. It doesn't necessarily have any
+"combat balance" considerations in mind.
 
 
 ----- Attack Transitions -----
 => Attack Windup transition times are 0.66 for swings, and 1.0 for stabs.
-=> Attack Release Recovery times are:
-	- For swings, the times are 0.33.
-	- For stabs, the times are 0.165. This is to account for the slower windup time for stab attacks.
+This is because, if stabs have 0.66 windup, then it's much harder to block them.
+=> Attack Release Recovery times are 0.2.	
+=> Attack Bounced Recovery times are 0.2.
 
-=> Attack Bounced Recovery times are 0.66 for both swings and stabs.
-The bounced recovery time for stabs is also 0.66 (rather than 0.33).
-This is because the Attack Release Recovery time for stabs is already very quick (0.165),
-so I think this should help balance that.
+=> NOTE: In the past, the above values were different. They had a "different balance" to them.
+For example, the Attack Bounced Recovery used to be "0.66" instead of "0.2". However, after adding the
+recent feature of having the ability to transition from [Attack Release/Bounced] to [Defend Hold]
+(see "Defend Windup" below) with a transition value of 0.2, the aforementioned Attack Bounced Recovery value
+has been changed from "0.66" to "0.2". This is done in order to avoid "animation skipping" exploit which can
+be done by clever players.
+=>
+Here is an example of an "animation skipping" exploit which could have been done:
+	- Transitioning from [Attack Release] to [Idle] is 0.66.
+	- Transitioning from [Idle] to [Attack Hold] is 0.66.
+	- The total transition time from [Attack Release] to [Idle] to [Attack Hold] is 1.32.
+	This would have been intended by design.
 
+However, a clever player could have bypassed the above by the following (new feature):
+	- Transitioning from [Attack Release] to [Defend Hold] is 0.2.
+	- Transitioning from [Defend Hold] to [Attack Hold] is 0.66.
+	- The total transition time from [Attack Release] to [Defend Hold] to [Attack Hold] is 0.86.
+	This 0.86 value is less than the intended 1.32 value.
+
+Indeed, the new feature would have introduced several "animation skipping" exploits as above.
+However, now that the transition durations are 0.2 in general, the players can transition from
+[Attack Release/Bounce] to [Attack Hold] in 0.86 seconds total, regardless of what sort of
+transitions are chosen.
 
 
 ----- Attack Animations -----
 => Attack Release animation speed will not be touched.
-All attack animations are 40 frames long, so that means 0.66 seconds. That's good enough for me.
+All attack animations are 40 frames long, so that means 0.66 seconds. 
+=> Note that the [Attack Windup]->[Attack Release]->[Attack Release Recovery] duration for swings
+in total is 0.66 + 0.66 + 0.2 = 1.52. This is basically 1.5 seconds. I think it looks good.
 
 
 
