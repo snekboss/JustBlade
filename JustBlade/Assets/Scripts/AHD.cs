@@ -112,6 +112,26 @@ public static class AHD
     public static readonly int Hash_TransName_atk_left_hold_to_def_right_hold = Animator.StringToHash("atk_left_hold_to_def_right_hold");
     public static readonly int Hash_TransName_atk_left_hold_to_def_down_hold = Animator.StringToHash("atk_left_hold_to_def_down_hold");
     public static readonly int Hash_TransName_atk_left_hold_to_def_left_hold = Animator.StringToHash("atk_left_hold_to_def_left_hold");
+    // atk_up_release_to_def_hold
+    public static readonly int Hash_TransName_atk_up_release_to_def_up_hold = Animator.StringToHash("atk_up_release_to_def_up_hold");
+    public static readonly int Hash_TransName_atk_up_release_to_def_right_hold = Animator.StringToHash("atk_up_release_to_def_right_hold");
+    public static readonly int Hash_TransName_atk_up_release_to_def_down_hold = Animator.StringToHash("atk_up_release_to_def_down_hold");
+    public static readonly int Hash_TransName_atk_up_release_to_def_left_hold = Animator.StringToHash("atk_up_release_to_def_left_hold");
+    // atk_right_release_to_def_hold
+    public static readonly int Hash_TransName_atk_right_release_to_def_up_hold = Animator.StringToHash("atk_right_release_to_def_up_hold");
+    public static readonly int Hash_TransName_atk_right_release_to_def_right_hold = Animator.StringToHash("atk_right_release_to_def_right_hold");
+    public static readonly int Hash_TransName_atk_right_release_to_def_down_hold = Animator.StringToHash("atk_right_release_to_def_down_hold");
+    public static readonly int Hash_TransName_atk_right_release_to_def_left_hold = Animator.StringToHash("atk_right_release_to_def_left_hold");
+    // atk_down_release_to_def_hold
+    public static readonly int Hash_TransName_atk_down_release_to_def_up_hold = Animator.StringToHash("atk_down_release_to_def_up_hold");
+    public static readonly int Hash_TransName_atk_down_release_to_def_right_hold = Animator.StringToHash("atk_down_release_to_def_right_hold");
+    public static readonly int Hash_TransName_atk_down_release_to_def_down_hold = Animator.StringToHash("atk_down_release_to_def_down_hold");
+    public static readonly int Hash_TransName_atk_down_release_to_def_left_hold = Animator.StringToHash("atk_down_release_to_def_left_hold");
+    // atk_left_release_to_def_hold
+    public static readonly int Hash_TransName_atk_left_release_to_def_up_hold = Animator.StringToHash("atk_left_release_to_def_up_hold");
+    public static readonly int Hash_TransName_atk_left_release_to_def_right_hold = Animator.StringToHash("atk_left_release_to_def_right_hold");
+    public static readonly int Hash_TransName_atk_left_release_to_def_down_hold = Animator.StringToHash("atk_left_release_to_def_down_hold");
+    public static readonly int Hash_TransName_atk_left_release_to_def_left_hold = Animator.StringToHash("atk_left_release_to_def_left_hold");
     // Defend
     // idle_to_def_hold
     public static readonly int Hash_TransName_idle_to_def_up_hold = Animator.StringToHash("idle_to_def_up_hold");

@@ -12821,6 +12821,46 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 702599675214163822, guid: bf91edea3dbc21346b357b5974927e68, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 702599675214163822, guid: bf91edea3dbc21346b357b5974927e68, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 747642197927765084, guid: bf91edea3dbc21346b357b5974927e68, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 747642197927765084, guid: bf91edea3dbc21346b357b5974927e68, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 917330807354006704, guid: bf91edea3dbc21346b357b5974927e68, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 917330807354006704, guid: bf91edea3dbc21346b357b5974927e68, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 917330807354006704, guid: bf91edea3dbc21346b357b5974927e68, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3930138844630504413, guid: bf91edea3dbc21346b357b5974927e68, type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3930138844630504413, guid: bf91edea3dbc21346b357b5974927e68, type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3930138844630504413, guid: bf91edea3dbc21346b357b5974927e68, type: 3}
+      propertyPath: m_AnchorMin.x
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 4049269315359740987, guid: bf91edea3dbc21346b357b5974927e68, type: 3}
       propertyPath: m_AnchorMax.x
       value: 0
