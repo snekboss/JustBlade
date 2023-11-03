@@ -69,7 +69,9 @@ public class AnimationManager : MonoBehaviour
     const float TargetSpineAngleMaxForOverheadSwings = 30f;
 
     float spineCurAngle;
-    float SpineRotationLerpRate = 0.2f;
+    const float SpineRotationLerpRateWhileNotAttacking = 0.05f;
+    const float SpineRotationLerpRateWhileAttacking = 0.2f;
+    float chosenSpineRotationLerpRate; // choose a lerp rate from above.
     bool spineShouldBeRotated;
     #endregion
 
@@ -911,24 +913,20 @@ public class AnimationManager : MonoBehaviour
     /// </summary>
     void DecideIfSpineShouldBeRotated()
     {
-        // The commented out states are related to "attack bounce" and their transitions.
-        // I've decided to make it so that the spine is not rotated during the "bounce" animations and transitions.
-        // If I change my mind later, it's as easy as uncommenting the below code, which is why I'm keeping it.
-
-        bool upStates = isState_AtkHoldUp || isState_AtkReleaseUp /*|| isState_AtkBounceUp*/;
-        bool rightStates = isState_AtkHoldRight || isState_AtkReleaseRight /*|| isState_AtkBounceRight*/;
-        bool downStates = isState_AtkHoldDown || isState_AtkReleaseDown/* || isState_AtkBounceDown*/;
-        bool leftStates = isState_AtkHoldLeft || isState_AtkReleaseLeft /*|| isState_AtkBounceLeft*/;
+        bool upStates = isState_AtkHoldUp || isState_AtkReleaseUp || isState_AtkBounceUp;
+        bool rightStates = isState_AtkHoldRight || isState_AtkReleaseRight || isState_AtkBounceRight;
+        bool downStates = isState_AtkHoldDown || isState_AtkReleaseDown || isState_AtkBounceDown;
+        bool leftStates = isState_AtkHoldLeft || isState_AtkReleaseLeft || isState_AtkBounceLeft;
         bool allStates = upStates || rightStates || downStates || leftStates;
 
         bool upTransitions = isTrans_IdleToAtkUpHold || isTrans_AtkUpHoldToRelease
-            /*|| isTrans_AtkUpReleaseToIdle || isTrans_AtkUpReleaseToBounce || isTrans_AtkUpBounceToIdle*/;
+            || isTrans_AtkUpReleaseToIdle || isTrans_AtkUpReleaseToBounce || isTrans_AtkUpBounceToIdle;
         bool rightTransitions = isTrans_IdleToAtkRightHold || isTrans_AtkRightHoldToRelease
-            /*|| isTrans_AtkRightReleaseToIdle || isTrans_AtkRightReleaseToBounce || isTrans_AtkRightBounceToIdle*/;
+            || isTrans_AtkRightReleaseToIdle || isTrans_AtkRightReleaseToBounce || isTrans_AtkRightBounceToIdle;
         bool downTransitions = isTrans_IdleToAtkDownHold || isTrans_AtkDownHoldToRelease
-            /*|| isTrans_AtkDownReleaseToIdle || isTrans_AtkDownReleaseToBounce || isTrans_AtkDownBounceToIdle*/;
+            || isTrans_AtkDownReleaseToIdle || isTrans_AtkDownReleaseToBounce || isTrans_AtkDownBounceToIdle;
         bool leftTransitions = isTrans_IdleToAtkLeftHold || isTrans_AtkLeftHoldToRelease
-            /*|| isTrans_AtkLeftReleaseToIdle || isTrans_AtkLeftReleaseToBounce || isTrans_AtkLeftBounceToIdle*/;
+            || isTrans_AtkLeftReleaseToIdle || isTrans_AtkLeftReleaseToBounce || isTrans_AtkLeftBounceToIdle;
         bool allTransitions = upTransitions || rightTransitions || downTransitions || leftTransitions;
 
         bool atkHoldToDefHoldTransitions =
@@ -979,11 +977,16 @@ public class AnimationManager : MonoBehaviour
         || defHoldToAtkDownHoldTransitions
         || defHoldToAtkLeftHoldTransitions;
 
-        spineShouldBeRotated = (allStates || allTransitions || defHoldToAtkHoldTransitions) && (atkHoldToDefHoldTransitions == false);
+        spineShouldBeRotated = 
+            (allStates || allTransitions || defHoldToAtkHoldTransitions) && (atkHoldToDefHoldTransitions == false);
+
+
+        chosenSpineRotationLerpRate = SpineRotationLerpRateWhileNotAttacking;
 
         if (spineShouldBeRotated)
         {
             targetSpineAngle = ownerAgent.LookAngleX;
+            chosenSpineRotationLerpRate = SpineRotationLerpRateWhileAttacking;
 
             if (upStates || upTransitions || defHoldToAtkUpHoldTransitions)
             {
@@ -1169,7 +1172,7 @@ public class AnimationManager : MonoBehaviour
             targetSpineAngle = 0;
         }
 
-        spineCurAngle = Mathf.LerpAngle(spineCurAngle, targetSpineAngle, SpineRotationLerpRate);
+        spineCurAngle = Mathf.LerpAngle(spineCurAngle, targetSpineAngle, chosenSpineRotationLerpRate);
 
         Transform spineAfterAnim = spineBone.transform;
         spineAfterAnim.RotateAround(spineBone.position, ownerAgent.transform.right, spineCurAngle);
