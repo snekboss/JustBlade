@@ -1,0 +1,320 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &6471526990291733259
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6471526990291733256}
+  m_Layer: 0
+  m_Name: PlayerTeamSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6471526990291733256
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6471526990291733259}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: -18}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6471526991737155636}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &6471526991737155638
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6471526991737155636}
+  - component: {fileID: 6471526991737155639}
+  m_Layer: 0
+  m_Name: HordeGameLogic
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6471526991737155636
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6471526991737155638}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children:
+  - {fileID: 6471526990291733256}
+  - {fileID: 6471526992111523067}
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6471526991737155639
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6471526991737155638}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 56328f1ddd700984581b7cce9529edcd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  playerTeamSpawnPoint: {fileID: 6471526990291733256}
+  playerTeamSpawnDirection: 1
+  enemyTeamSpawnPoint: {fileID: 6471526992111523067}
+  enemyTeamSpawnDirection: 0
+  playerAgentPrefab: {fileID: 8209919147568450872, guid: 7bb4698197bfc0c4d96a458e73365778, type: 3}
+  aiAgentPrefab: {fileID: 1748176825034016795, guid: dcef08d3e0dc6bf4e9ef62251f520387, type: 3}
+  waveSets:
+  - waves:
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
+        invaderCount: 3
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
+        invaderCount: 1
+    isBossWaveSet: 0
+  - waves:
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: d6fb7efaf8acd674e854015a6219d134, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 99242cb7f55b0354093fce1ae58f2ea7, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 8c2982130944d1c4691ba74ac10c48ad, type: 3}
+        invaderCount: 1
+    isBossWaveSet: 1
+  - waves:
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
+        invaderCount: 2
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
+        invaderCount: 3
+    isBossWaveSet: 0
+  - waves:
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 8c2982130944d1c4691ba74ac10c48ad, type: 3}
+        invaderCount: 8
+    isBossWaveSet: 1
+  - waves:
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
+        invaderCount: 2
+      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
+        invaderCount: 2
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
+        invaderCount: 1
+    isBossWaveSet: 0
+  - waves:
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 44377f7e63a5ce14e96061764fba0ed6, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 7238b8e0d27e97a4a84cf2be148d2239, type: 3}
+        invaderCount: 5
+    isBossWaveSet: 1
+  - waves:
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
+        invaderCount: 2
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
+        invaderCount: 3
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6c89bc23747985c40a372079ac148920, type: 3}
+        invaderCount: 2
+    isBossWaveSet: 0
+  - waves:
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 99242cb7f55b0354093fce1ae58f2ea7, type: 3}
+        invaderCount: 10
+    isBossWaveSet: 1
+  - waves:
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
+        invaderCount: 2
+      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6c89bc23747985c40a372079ac148920, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -6397259232906845851, guid: 29cd55cd4375c7144992c96f65e9483d, type: 3}
+        invaderCount: 1
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6c89bc23747985c40a372079ac148920, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -6397259232906845851, guid: 29cd55cd4375c7144992c96f65e9483d, type: 3}
+        invaderCount: 3
+    isBossWaveSet: 0
+  - waves:
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 379b45fe4e302cf4f996d69e6197a960, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 79bb7b60ed0fd974d9cdf93bb9dd37be, type: 3}
+        invaderCount: 8
+    isBossWaveSet: 1
+  - waves:
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
+        invaderCount: 2
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6c89bc23747985c40a372079ac148920, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -6397259232906845851, guid: 29cd55cd4375c7144992c96f65e9483d, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6d73546f723dcc448beb1ff31d6a6522, type: 3}
+        invaderCount: 2
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6c89bc23747985c40a372079ac148920, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -6397259232906845851, guid: 29cd55cd4375c7144992c96f65e9483d, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6d73546f723dcc448beb1ff31d6a6522, type: 3}
+        invaderCount: 4
+    isBossWaveSet: 0
+  - waves:
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: d6fb7efaf8acd674e854015a6219d134, type: 3}
+        invaderCount: 12
+    isBossWaveSet: 1
+  - waves:
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6c89bc23747985c40a372079ac148920, type: 3}
+        invaderCount: 2
+      - invaderAgentDataPrefab: {fileID: -6397259232906845851, guid: 29cd55cd4375c7144992c96f65e9483d, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6d73546f723dcc448beb1ff31d6a6522, type: 3}
+        invaderCount: 6
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6c89bc23747985c40a372079ac148920, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -6397259232906845851, guid: 29cd55cd4375c7144992c96f65e9483d, type: 3}
+        invaderCount: 3
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6d73546f723dcc448beb1ff31d6a6522, type: 3}
+        invaderCount: 8
+    isBossWaveSet: 0
+  - waves:
+    - invaderDataList:
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 44377f7e63a5ce14e96061764fba0ed6, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 7238b8e0d27e97a4a84cf2be148d2239, type: 3}
+        invaderCount: 5
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 379b45fe4e302cf4f996d69e6197a960, type: 3}
+        invaderCount: 1
+      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 79bb7b60ed0fd974d9cdf93bb9dd37be, type: 3}
+        invaderCount: 8
+    isBossWaveSet: 1
+--- !u!1 &6471526992111523066
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6471526992111523067}
+  m_Layer: 0
+  m_Name: EnemyTeamSpawnPoint
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6471526992111523067
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6471526992111523066}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.5, z: 18}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 6471526991737155636}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

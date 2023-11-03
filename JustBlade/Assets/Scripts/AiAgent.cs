@@ -11,7 +11,12 @@ using UnityEngine.AI;
 /// - <see cref="AnimationManager"/>.
 /// - <see cref="EquipmentManager"/>.
 /// - <see cref="LimbManager"/>.
+/// - <see cref="AgentAudioManager"/>
+/// - <see cref="CharacteristicManager"/>
+/// - <see cref="NavMeshAgent"/>. In particular, make sure this component is disabled
+/// in the Inspector menu. Enable this component via code using .
 /// </summary>
+[RequireComponent(typeof(NavMeshAgent))]
 public class AiAgent : Agent
 {
     /// <summary>
@@ -64,8 +69,6 @@ public class AiAgent : Agent
     bool isDef;
 
     CombatDirection combatDir;
-
-    NavMeshAgent nma;
 
     Transform agentEyes;
 
@@ -121,6 +124,16 @@ public class AiAgent : Agent
         InitializeAiAgent();
     }
 
+    /// <summary>
+    /// TODO: Explain this nonsense. All this to supress some warnings in a single frame...
+    /// </summary>
+    /// <param name="worldPos"></param>
+    public override void InitializePosition(Vector3 worldPos)
+    {
+        transform.position = worldPos;
+        InitializeNavMeshAgent();
+    }
+
     void InitializeAiAgent()
     {
         // --- Combat distance related parameters ---
@@ -148,7 +161,7 @@ public class AiAgent : Agent
         lastNonZeroSpeedDecreaseLerpRate *= lastNonZeroSpeedDecreaseLerpRate;
         lastNonZeroSpeedDecreaseLerpRate = Mathf.Clamp01(lastNonZeroSpeedDecreaseLerpRate);
 
-        InitializeNavMeshAgent();
+        //InitializeNavMeshAgent();
     }
 
     /// <summary>
@@ -158,10 +171,6 @@ public class AiAgent : Agent
     /// </summary>
     void InitializeNavMeshAgent()
     {
-        lastNonZeroSpeedDecreaseLerpRate = CharacteristicManager.DefaultMovementSpeedLimit / CharMgr.MovementSpeedLimit;
-        lastNonZeroSpeedDecreaseLerpRate *= lastNonZeroSpeedDecreaseLerpRate;
-        lastNonZeroSpeedDecreaseLerpRate = Mathf.Clamp01(lastNonZeroSpeedDecreaseLerpRate);
-
         nma = GetComponent<NavMeshAgent>();
 
         // Use default agent values here, as NavMeshAgent makes up for the change in scale automatically.
@@ -177,6 +186,9 @@ public class AiAgent : Agent
         // While moving to position, don't let the AI code rotate the agent transform.
         // Just, go where you're told, and don't do any rotations...
         nma.angularSpeed = 0;
+
+        // Make sure that the NavMeshComponent is disabled in the Inspector menu.
+        nma.enabled = true;
     }
 
     /// <summary>

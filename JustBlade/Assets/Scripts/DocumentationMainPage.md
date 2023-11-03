@@ -81,6 +81,7 @@ The goal of the game is to become the champion of the Melee Tournament.
 For modelling and animations, I was inspired by inspired by the video game Mount & Blade: Warband (https://www.taleworlds.com/en/Games/Warband).
 => The modelling, rigging and animating were done using Blender: https://www.blender.org/
 => The flavor text which are written in InformationMenuUI are done by Microsoft's Bing AI chat bot, based on my instructions.
+=> Some of the color RGB values of the terrain "textures" were asked to Microsoft's Bing AI chat bot.
 => The sound effects were imported from free assets found in Unity's Asset store.
 For these sound effects, the credits go to the following:
 - Wood Splitting Pack 1: https://assetstore.unity.com/packages/audio/sound-fx/wood-splitting-pack-1-139997

@@ -15,6 +15,9 @@ EditorBuildSettings:
     path: Assets/Scenes/GearSelectionMenuScene.unity
     guid: 4754a269ac10c5d419b66a9fe2d7f298
   - enabled: 1
+    path: Assets/Scenes/HordeScene.unity
+    guid: 7ba69a13b312f674c8666ebc899280d0
+  - enabled: 0
     path: Assets/Scenes/ArenaScene.unity
     guid: 94df3d2b8f6d44747a6c2ca7bf5014fe
   m_configObjects: {}

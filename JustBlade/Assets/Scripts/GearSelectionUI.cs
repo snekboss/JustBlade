@@ -199,7 +199,7 @@ public class GearSelectionUI : MonoBehaviour
     public void OnButtonClick_Fight()
     {
         PlayButtonSound();
-        SceneManager.LoadScene("ArenaScene");
+        SceneManager.LoadScene("HordeScene");
     }
 
     void ConfirmAndPurchase(TextMeshProUGUI textToConfirm, Action purchaseAction)

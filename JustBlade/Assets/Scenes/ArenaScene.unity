@@ -1060,37 +1060,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 886e3f836f8b05a4c88fb47c77b2bd6f, type: 3}
   m_PrefabInstance: {fileID: 149212174}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &177044225
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 177044226}
-  m_Layer: 0
-  m_Name: PlayerTeamSpawnPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &177044226
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 177044225}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: -18}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1893990462}
-  m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &188722989
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -13910,37 +13879,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1725209178}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &1729406192
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1729406193}
-  m_Layer: 0
-  m_Name: EnemyTeamSpawnPoint
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &1729406193
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1729406192}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.5, z: 18}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children: []
-  m_Father: {fileID: 1893990462}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1729552418
 GameObject:
   m_ObjectHideFlags: 0
@@ -15138,262 +15076,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 4cc0e61bc762f4d4d905871d9f6b0293, type: 3}
   m_PrefabInstance: {fileID: 1869914844}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &1893990460
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 1893990462}
-  - component: {fileID: 1893990461}
-  m_Layer: 0
-  m_Name: HordeGameLogic
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &1893990461
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1893990460}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 56328f1ddd700984581b7cce9529edcd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  playerTeamSpawnPoint: {fileID: 177044226}
-  playerTeamSpawnDirection: 1
-  enemyTeamSpawnPoint: {fileID: 1729406193}
-  enemyTeamSpawnDirection: 0
-  playerAgentPrefab: {fileID: 8209919147568450872, guid: 7bb4698197bfc0c4d96a458e73365778, type: 3}
-  aiAgentPrefab: {fileID: 1748176825034016795, guid: dcef08d3e0dc6bf4e9ef62251f520387, type: 3}
-  waveSets:
-  - waves:
-    - invaderDataList:
-      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
-        invaderCount: 3
-    - invaderDataList:
-      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
-        invaderCount: 3
-      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
-        invaderCount: 1
-    isBossWaveSet: 0
-  - waves:
-    - invaderDataList:
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: d6fb7efaf8acd674e854015a6219d134, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 99242cb7f55b0354093fce1ae58f2ea7, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 8c2982130944d1c4691ba74ac10c48ad, type: 3}
-        invaderCount: 1
-    isBossWaveSet: 1
-  - waves:
-    - invaderDataList:
-      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
-        invaderCount: 3
-      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
-        invaderCount: 2
-    - invaderDataList:
-      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
-        invaderCount: 3
-      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
-        invaderCount: 3
-    isBossWaveSet: 0
-  - waves:
-    - invaderDataList:
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 8c2982130944d1c4691ba74ac10c48ad, type: 3}
-        invaderCount: 8
-    isBossWaveSet: 1
-  - waves:
-    - invaderDataList:
-      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
-        invaderCount: 2
-      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
-        invaderCount: 3
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
-        invaderCount: 2
-    - invaderDataList:
-      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
-        invaderCount: 3
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
-        invaderCount: 3
-      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
-        invaderCount: 1
-    isBossWaveSet: 0
-  - waves:
-    - invaderDataList:
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 44377f7e63a5ce14e96061764fba0ed6, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 7238b8e0d27e97a4a84cf2be148d2239, type: 3}
-        invaderCount: 5
-    isBossWaveSet: 1
-  - waves:
-    - invaderDataList:
-      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
-        invaderCount: 2
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
-        invaderCount: 3
-      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
-        invaderCount: 3
-    - invaderDataList:
-      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
-        invaderCount: 3
-      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
-        invaderCount: 3
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6c89bc23747985c40a372079ac148920, type: 3}
-        invaderCount: 2
-    isBossWaveSet: 0
-  - waves:
-    - invaderDataList:
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 99242cb7f55b0354093fce1ae58f2ea7, type: 3}
-        invaderCount: 10
-    isBossWaveSet: 1
-  - waves:
-    - invaderDataList:
-      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
-        invaderCount: 2
-      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
-        invaderCount: 3
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6c89bc23747985c40a372079ac148920, type: 3}
-        invaderCount: 3
-      - invaderAgentDataPrefab: {fileID: -6397259232906845851, guid: 29cd55cd4375c7144992c96f65e9483d, type: 3}
-        invaderCount: 1
-    - invaderDataList:
-      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
-        invaderCount: 3
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6c89bc23747985c40a372079ac148920, type: 3}
-        invaderCount: 3
-      - invaderAgentDataPrefab: {fileID: -6397259232906845851, guid: 29cd55cd4375c7144992c96f65e9483d, type: 3}
-        invaderCount: 3
-    isBossWaveSet: 0
-  - waves:
-    - invaderDataList:
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 379b45fe4e302cf4f996d69e6197a960, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 79bb7b60ed0fd974d9cdf93bb9dd37be, type: 3}
-        invaderCount: 8
-    isBossWaveSet: 1
-  - waves:
-    - invaderDataList:
-      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
-        invaderCount: 2
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6c89bc23747985c40a372079ac148920, type: 3}
-        invaderCount: 3
-      - invaderAgentDataPrefab: {fileID: -6397259232906845851, guid: 29cd55cd4375c7144992c96f65e9483d, type: 3}
-        invaderCount: 3
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6d73546f723dcc448beb1ff31d6a6522, type: 3}
-        invaderCount: 2
-    - invaderDataList:
-      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6c89bc23747985c40a372079ac148920, type: 3}
-        invaderCount: 3
-      - invaderAgentDataPrefab: {fileID: -6397259232906845851, guid: 29cd55cd4375c7144992c96f65e9483d, type: 3}
-        invaderCount: 3
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6d73546f723dcc448beb1ff31d6a6522, type: 3}
-        invaderCount: 4
-    isBossWaveSet: 0
-  - waves:
-    - invaderDataList:
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: d6fb7efaf8acd674e854015a6219d134, type: 3}
-        invaderCount: 12
-    isBossWaveSet: 1
-  - waves:
-    - invaderDataList:
-      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6c89bc23747985c40a372079ac148920, type: 3}
-        invaderCount: 2
-      - invaderAgentDataPrefab: {fileID: -6397259232906845851, guid: 29cd55cd4375c7144992c96f65e9483d, type: 3}
-        invaderCount: 3
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6d73546f723dcc448beb1ff31d6a6522, type: 3}
-        invaderCount: 6
-    - invaderDataList:
-      - invaderAgentDataPrefab: {fileID: -361019570900770663, guid: 223dd4c086e864946b93fb41f26e7886, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -4719917025683045211, guid: 200b800f05d100b44902cf46218cfa67, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 9bf2965c6a72fb44182cfddd1ee9bd24, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -2299861688547309290, guid: 6af179ee1c49146448b67b7d3201a0f0, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6c89bc23747985c40a372079ac148920, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -6397259232906845851, guid: 29cd55cd4375c7144992c96f65e9483d, type: 3}
-        invaderCount: 3
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 6d73546f723dcc448beb1ff31d6a6522, type: 3}
-        invaderCount: 8
-    isBossWaveSet: 0
-  - waves:
-    - invaderDataList:
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 44377f7e63a5ce14e96061764fba0ed6, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 7238b8e0d27e97a4a84cf2be148d2239, type: 3}
-        invaderCount: 5
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 379b45fe4e302cf4f996d69e6197a960, type: 3}
-        invaderCount: 1
-      - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 79bb7b60ed0fd974d9cdf93bb9dd37be, type: 3}
-        invaderCount: 8
-    isBossWaveSet: 1
---- !u!4 &1893990462
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1893990460}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_ConstrainProportionsScale: 0
-  m_Children:
-  - {fileID: 177044226}
-  - {fileID: 1729406193}
-  m_Father: {fileID: 0}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1901776197
 GameObject:
   m_ObjectHideFlags: 0
@@ -18029,3 +17711,60 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2146834766}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!1001 &6471526990384754698
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 6471526991737155636, guid: 549b2c4f521241b459461cad0ee0077b, type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6471526991737155636, guid: 549b2c4f521241b459461cad0ee0077b, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6471526991737155636, guid: 549b2c4f521241b459461cad0ee0077b, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6471526991737155636, guid: 549b2c4f521241b459461cad0ee0077b, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6471526991737155636, guid: 549b2c4f521241b459461cad0ee0077b, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6471526991737155636, guid: 549b2c4f521241b459461cad0ee0077b, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6471526991737155636, guid: 549b2c4f521241b459461cad0ee0077b, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6471526991737155636, guid: 549b2c4f521241b459461cad0ee0077b, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6471526991737155636, guid: 549b2c4f521241b459461cad0ee0077b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6471526991737155636, guid: 549b2c4f521241b459461cad0ee0077b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6471526991737155636, guid: 549b2c4f521241b459461cad0ee0077b, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6471526991737155638, guid: 549b2c4f521241b459461cad0ee0077b, type: 3}
+      propertyPath: m_Name
+      value: HordeGameLogic
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 549b2c4f521241b459461cad0ee0077b, type: 3}

@@ -111,6 +111,9 @@ public abstract class Agent : MonoBehaviour
     }
     AgentAudioManager audioMgr;
 
+    // Every agent has this (including the player) so that they can avoid one another.
+    protected UnityEngine.AI.NavMeshAgent nma;
+
 
     /// <summary>
     /// An delegate for when an agent dies.
@@ -207,6 +210,8 @@ public abstract class Agent : MonoBehaviour
 
         AudioMgr.InitializeAgentAudioManager();
     }
+
+    public virtual void InitializePosition(Vector3 worldPos) { }
 
     public virtual bool IsGrounded() { return true; }
 
