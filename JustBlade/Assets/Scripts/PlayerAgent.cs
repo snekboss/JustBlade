@@ -11,7 +11,12 @@ using UnityEngine.AI;
 /// - <see cref="AnimationManager"/>.
 /// - <see cref="EquipmentManager"/>.
 /// - <see cref="LimbManager"/>.
+/// - <see cref="AgentAudioManager"/>
+/// - <see cref="CharacteristicManager"/>
+/// - <see cref="NavMeshAgent"/>. In particular, make sure this component is disabled
+/// in the Inspector menu. Enable this component via code using .
 /// </summary>
+[RequireComponent(typeof(NavMeshAgent))]
 public class PlayerAgent : Agent
 {
     #region Camera related fields
@@ -43,11 +48,6 @@ public class PlayerAgent : Agent
     const float GroundedDistanceMultiplier = 2.0f;
     float AgentSkinWidth { get { return CharMgr.AgentWorldRadius * AgentSkinWidthMultiplier; } }
     float GroundedDistance { get { return AgentSkinWidth * GroundedDistanceMultiplier; } }
-
-    /// <summary>
-    /// Make the player agent a NavMeshAgent, to make sure that AiAgents don't go through the player agent.
-    /// </summary>
-    NavMeshAgent nma;
     #endregion
 
     #region Foot movement fields
@@ -122,6 +122,19 @@ public class PlayerAgent : Agent
         SetCameraTrackingPoint();
 
         InitializeCharacterController();
+        //InitializeNavMeshAgent();
+    }
+
+    /// <summary>
+    /// TODO: Explain this nonsense. All this to supress some warnings in a single frame...
+    /// </summary>
+    /// <param name="worldPos"></param>
+    public override void InitializePosition(Vector3 worldPos)
+    {
+        // To avoid Unity's complaining about the NavMeshAgent not being close
+        // enough to a NavMesh, we first set our transform position, and then enable
+        // the NavMeshAgent component (by calling the below method).
+        transform.position = worldPos;
         InitializeNavMeshAgent();
     }
 
@@ -152,13 +165,16 @@ public class PlayerAgent : Agent
     /// </summary>
     void InitializeNavMeshAgent()
     {
-        nma = gameObject.AddComponent<NavMeshAgent>();
+        nma = gameObject.GetComponent<NavMeshAgent>();
         nma.height = CharacteristicManager.DefaultAgentHeight;
         nma.radius = CharacteristicManager.DefaultAgentRadius;
         nma.updatePosition = false;
         nma.updateRotation = false;
         nma.nextPosition = transform.position;
         nma.avoidancePriority = 0;
+
+        // Make sure that the NavMeshComponent is disabled in the Inspector menu.
+        nma.enabled = true; 
     }
 
     /// <summary>

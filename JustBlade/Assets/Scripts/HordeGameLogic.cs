@@ -451,7 +451,8 @@ public class HordeGameLogic : MonoBehaviour
         // Finally, set positions.
         for (int i = 0; i < agentTeam.Count; i++)
         {
-            agentTeam[i].transform.position = spawnPositions[i];
+            agentTeam[i].InitializePosition(spawnPositions[i]);
+            //agentTeam[i].transform.position = spawnPositions[i];
         }
     }
 
