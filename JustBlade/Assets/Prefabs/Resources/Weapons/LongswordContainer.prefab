@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Longsword
-  purchaseCost: 80
+  purchaseCost: 1400
   isStarterItem: 0
   EDIT_MODE: 0
   swingSoundType: 0

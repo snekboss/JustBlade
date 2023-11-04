@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Zweihander
-  purchaseCost: 110
+  purchaseCost: 2000
   isStarterItem: 0
   EDIT_MODE: 0
   swingSoundType: 0

@@ -780,7 +780,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Helmet with Neckguard
-  purchaseCost: 30
+  purchaseCost: 325
   isStarterItem: 0
   skinnedMeshRenderer: {fileID: 852949307561846429}
   armorType: 0

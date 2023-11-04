@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Greatsword
-  purchaseCost: 100
+  purchaseCost: 1750
   isStarterItem: 0
   EDIT_MODE: 0
   swingSoundType: 0

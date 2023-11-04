@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Long Spear
-  purchaseCost: 60
+  purchaseCost: 1100
   isStarterItem: 0
   EDIT_MODE: 0
   swingSoundType: 1

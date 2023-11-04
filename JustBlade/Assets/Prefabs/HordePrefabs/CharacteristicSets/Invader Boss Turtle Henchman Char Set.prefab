@@ -48,5 +48,5 @@ MonoBehaviour:
   ModelSizeMultiplier: 1.025
   ExtraMovementSpeedLimitMultiplier: 1
   ExtraDamageInflictionMultiplier: 1
-  DamageTakenMultiplier: 0.85
+  DamageTakenMultiplier: 0.825
   MaximumPoise: 1

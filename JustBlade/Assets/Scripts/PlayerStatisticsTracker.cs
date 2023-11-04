@@ -22,7 +22,9 @@ public static class PlayerStatisticsTracker
         PlayerTotalDamageTaken = 0;
         PlayerTotalSuccessfulBlocks = 0;
 
-        PlayerTotalGoldEarned = 0;
+        // Total gold earned starts with this, so that it doesn't look like we
+        // spent more than we earnt.
+        PlayerTotalGoldEarned = PlayerInventoryManager.DefaultPlayerGold;
         PlayerTotalGoldSpent = 0;
 
         NumTotalMercenariesHired = 0;

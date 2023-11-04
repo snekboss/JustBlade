@@ -71,7 +71,7 @@ public class StaticVariables
 
     public const float DifficultySettingMin = 0.1f;
     public const float DifficultySettingMax = 1f;
-    public static float DifficultySetting = DifficultySettingMax;
+    public static float DifficultySetting = 0.5f;
 
     public static int DefaultQualitySetting = (int)(QualitySetting.High);
 }

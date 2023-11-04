@@ -47,11 +47,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Padded Coif
-  purchaseCost: 5
+  purchaseCost: 290
   isStarterItem: 0
   skinnedMeshRenderer: {fileID: 5937430599842051221}
   armorType: 0
-  armorLevel: 0
+  armorLevel: 1
   coversTheEntireBodyPart: 0
 --- !u!1 &58215426280225935
 GameObject:

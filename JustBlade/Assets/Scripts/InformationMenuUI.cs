@@ -66,22 +66,28 @@ public class InformationMenuUI : MonoBehaviour
         string gameOverBodyStr = "";
         string NL = Environment.NewLine;
 
+        float difficultyPercent = StaticVariables.DifficultySetting * 100f;
+        string difficultyStr = difficultyPercent.ToString("0.00") + "%";
+
         string playerStats = string.Format(
-            "Player kill count: {0}" + NL
-          + "Player mercenary kill count: {1}" + NL
-          + "Total kill count: {2}" + NL
+            "Difficulty: {0}" + NL
           + NL
-          + "Total number of mercenaries hired: {3}" + NL
-          + "Total number mercenary upgrades were made: {4}" + NL
-          + "Total number of mercenaries died: {5}" + NL
+          + "Player kill count: {1}" + NL
+          + "Player mercenary kill count: {2}" + NL
+          + "Total kill count: {3}" + NL
           + NL
-          + "Total damage player has inflicted: {6}" + NL
-          + "Total damage taken by player: {7}" + NL
-          + "Total number of attacks successfully blocked by player: {8}" + NL
+          + "Total number of mercenaries hired: {4}" + NL
+          + "Total number mercenary upgrades were made: {5}" + NL
+          + "Total number of mercenaries died: {6}" + NL
           + NL
-          + "Total gold earned: {9}" + NL
-          + "Total gold spent: {10}" + NL
-          + "Remaining gold: {11}"
+          + "Total damage player has inflicted: {7}" + NL
+          + "Total damage taken by player: {8}" + NL
+          + "Total number of attacks successfully blocked by player: {9}" + NL
+          + NL
+          + "Total gold earned: {10}" + NL
+          + "Total gold spent: {11}" + NL
+          + "Remaining gold: {12}"
+          , difficultyStr
           , PlayerStatisticsTracker.PlayerTotalKillCount
           , PlayerStatisticsTracker.MercenariesTotalKillCount
           , PlayerStatisticsTracker.PlayerTotalKillCount + PlayerStatisticsTracker.MercenariesTotalKillCount
@@ -94,7 +100,7 @@ public class InformationMenuUI : MonoBehaviour
           , PlayerStatisticsTracker.PlayerTotalGoldEarned
           , PlayerStatisticsTracker.PlayerTotalGoldSpent
           , PlayerInventoryManager.PlayerGold
-          ); ;
+          ); ; ;
 
         if (HordeGameLogic.IsPlayerDied)
         {

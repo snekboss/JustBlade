@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Morningstar
-  purchaseCost: 90
+  purchaseCost: 1500
   isStarterItem: 0
   EDIT_MODE: 0
   swingSoundType: 1

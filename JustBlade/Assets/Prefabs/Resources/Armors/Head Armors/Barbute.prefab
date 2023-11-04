@@ -967,7 +967,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Barbute
-  purchaseCost: 200
+  purchaseCost: 2400
   isStarterItem: 0
   skinnedMeshRenderer: {fileID: 2020939575929212809}
   armorType: 0

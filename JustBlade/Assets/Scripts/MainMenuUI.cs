@@ -61,6 +61,7 @@ public class MainMenuUI : MonoBehaviour
         btnGoBack.gameObject.SetActive(false);
 
         InitializeSliders();
+        
 
         if (isLoadingForTheFirstTime)
         {
@@ -87,21 +88,25 @@ public class MainMenuUI : MonoBehaviour
         sliderCameraSensitivity.minValue = StaticVariables.PlayerCameraRotationSpeedMin;
         sliderCameraSensitivity.value = StaticVariables.PlayerCameraRotationSpeed;
         sliderCameraSensitivity.maxValue = StaticVariables.PlayerCameraRotationSpeedMax;
+        txtCameraSensitivity.text = "Camera Sensitivity: " + StaticVariables.PlayerCameraRotationSpeed.ToString("0.00");
 
         sliderSound.wholeNumbers = false;
         sliderSound.minValue = StaticVariables.SoundSettingMin;
         sliderSound.value = StaticVariables.SoundSetting;
         sliderSound.maxValue = StaticVariables.SoundSettingMax;
+        txtSound.text = "Sound: " + StaticVariables.SoundSetting.ToString("0.00");
 
         sliderDifficulty.wholeNumbers = false;
         sliderDifficulty.minValue = StaticVariables.DifficultySettingMin;
         sliderDifficulty.value = StaticVariables.DifficultySetting;
         sliderDifficulty.maxValue = StaticVariables.DifficultySettingMax;
+        txtDifficulty.text = "Difficulty: " + StaticVariables.DifficultySetting.ToString("0.00");
 
         sliderFieldOfView.wholeNumbers = true;
         sliderFieldOfView.minValue = StaticVariables.PlayerCameraFieldOfViewMin;
         sliderFieldOfView.value = StaticVariables.PlayerCameraFieldOfView;
         sliderFieldOfView.maxValue = StaticVariables.PlayerCameraFieldOfViewMax;
+        txtFieldOfView.text = "Field of View: " + StaticVariables.PlayerCameraFieldOfView;
     }
 
     /// <summary>

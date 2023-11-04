@@ -331,7 +331,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Full Helm
-  purchaseCost: 210
+  purchaseCost: 2300
   isStarterItem: 0
   skinnedMeshRenderer: {fileID: 6394041656710321053}
   armorType: 0

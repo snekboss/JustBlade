@@ -299,7 +299,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Plated Greaves
-  purchaseCost: 40
+  purchaseCost: 2000
   isStarterItem: 0
   skinnedMeshRenderer: {fileID: 1108594975411142298}
   armorType: 3

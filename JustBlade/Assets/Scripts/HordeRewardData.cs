@@ -16,6 +16,10 @@ public class HordeRewardData : MonoBehaviour
 
 	public int GetRandomGoldAmountWithinRange()
 	{
-		return Random.Range(minGoldReward, maxGoldReward);
+		float difficultyMulti = 1f / StaticVariables.DifficultySetting;
+		int randomGold = Random.Range(minGoldReward, maxGoldReward);
+		int difficultyGold = System.Convert.ToInt32(difficultyMulti * randomGold);
+
+		return difficultyGold;
 	}
 }

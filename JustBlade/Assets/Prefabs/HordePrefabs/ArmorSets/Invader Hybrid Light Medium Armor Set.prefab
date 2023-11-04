@@ -54,6 +54,7 @@ MonoBehaviour:
   - {fileID: 5361306012923295231, guid: fdceb06369392df41aec36463d71d6dd, type: 3}
   - {fileID: 2863166691169998558, guid: 69473f76ca761fe4db7eccc3a9fa99f4, type: 3}
   - {fileID: 7327788770051907258, guid: 0715e6051dc1a9946948e1e70651be07, type: 3}
+  - {fileID: 917943812463331358, guid: d4320d4bdd3b667459ebe9e06ff683d2, type: 3}
   torsoArmorPrefabs:
   - {fileID: 1324746687953447541, guid: 22ae69c5276ac0a4da538684b5d5ac18, type: 3}
   - {fileID: 4816724852430478961, guid: 749e5f1639ab8c24282e60dfb1f30db7, type: 3}

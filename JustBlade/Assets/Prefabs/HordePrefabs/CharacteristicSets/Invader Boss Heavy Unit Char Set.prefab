@@ -47,6 +47,6 @@ MonoBehaviour:
   MaximumHealth: 135
   ModelSizeMultiplier: 1.1
   ExtraMovementSpeedLimitMultiplier: 1
-  ExtraDamageInflictionMultiplier: 1
+  ExtraDamageInflictionMultiplier: 1.1
   DamageTakenMultiplier: 0.875
   MaximumPoise: 0

@@ -657,7 +657,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Plate Armor
-  purchaseCost: 80
+  purchaseCost: 4000
   isStarterItem: 0
   skinnedMeshRenderer: {fileID: 4458189046344107480}
   armorType: 1

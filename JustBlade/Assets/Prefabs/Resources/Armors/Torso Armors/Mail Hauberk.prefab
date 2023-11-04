@@ -113,7 +113,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Mail Hauberk
-  purchaseCost: 50
+  purchaseCost: 1950
   isStarterItem: 0
   skinnedMeshRenderer: {fileID: 3655867833408631465}
   armorType: 1

@@ -430,7 +430,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Banded Armor
-  purchaseCost: 70
+  purchaseCost: 3950
   isStarterItem: 0
   skinnedMeshRenderer: {fileID: 7203010702743829784}
   armorType: 1

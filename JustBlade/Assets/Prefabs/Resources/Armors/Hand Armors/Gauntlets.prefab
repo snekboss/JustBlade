@@ -333,7 +333,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Gauntlets
-  purchaseCost: 30
+  purchaseCost: 900
   isStarterItem: 0
   skinnedMeshRenderer: {fileID: 9122752131408760797}
   armorType: 2
