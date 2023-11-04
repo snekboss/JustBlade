@@ -24,9 +24,6 @@ public class InGameUI : MonoBehaviour
     public Slider sliderSound;
     public TextMeshProUGUI txtSound;
 
-    public Slider sliderDifficulty;
-    public TextMeshProUGUI txtDifficulty;
-
     public Slider sliderFieldOfView;
     public TextMeshProUGUI txtFieldOfView;
 
@@ -75,12 +72,6 @@ public class InGameUI : MonoBehaviour
         sliderSound.maxValue = StaticVariables.SoundSettingMax;
         txtSound.text = "Sound: " + StaticVariables.SoundSetting.ToString("0.00");
 
-        sliderDifficulty.wholeNumbers = false;
-        sliderDifficulty.minValue = StaticVariables.DifficultySettingMin;
-        sliderDifficulty.value = StaticVariables.DifficultySetting;
-        sliderDifficulty.maxValue = StaticVariables.DifficultySettingMax;
-        txtDifficulty.text = "Difficulty: " + StaticVariables.DifficultySetting.ToString("0.00");
-
         sliderFieldOfView.wholeNumbers = true;
         sliderFieldOfView.minValue = StaticVariables.PlayerCameraFieldOfViewMin;
         sliderFieldOfView.value = StaticVariables.PlayerCameraFieldOfView;
@@ -106,13 +97,6 @@ public class InGameUI : MonoBehaviour
         StaticVariables.SoundSetting = val;
 
         AudioListener.volume = StaticVariables.SoundSetting;
-    }
-
-    public void OnSliderValueChanged_Difficulty()
-    {
-        float val = sliderDifficulty.value;
-        txtDifficulty.text = "Difficulty: " + val.ToString("0.00");
-        StaticVariables.DifficultySetting = val;
     }
 
     /// <summary>
