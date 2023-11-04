@@ -77,9 +77,10 @@ public class HordeGameLogic : MonoBehaviour
 
     public List<WaveSet> waveSets;
 
-    float distanceBetweenAgents = 1.0f; // 3.0f seems ok
+    readonly float SpawnAgentBaseDistance = 2.0f; // (3.0f was ok in the past. Got more agents now. Gotta fit them in.)
 
-    readonly float HoldPositionBaseDistance = 0.75f;
+    readonly float HoldPositionPlayerBaseBackDistance = 0.25f; // hold position behind the player, by at least this much.
+    readonly float HoldPositionBaseSideBySideDistance = 0.75f; // "side by side" distance when holding position
 
     readonly float sceneTransitionTime = 3.0f;
 
@@ -234,7 +235,7 @@ public class HordeGameLogic : MonoBehaviour
 
         // From now on, we assume that the order given is to "hold position".
         Vector3 playerPos = playerAgent.transform.position;
-        float playerRadiusMulti = (1f + playerAgent.CharMgr.AgentWorldRadius);
+        float playerRadiusMulti = (HoldPositionPlayerBaseBackDistance + (playerAgent.CharMgr.AgentWorldRadius * 2f));
         Vector3 playerBack = (-playerAgent.transform.forward) * playerRadiusMulti;
         Vector3 spawnPos = playerPos + playerBack;
 
@@ -243,7 +244,7 @@ public class HordeGameLogic : MonoBehaviour
         for (int i = 0; i < friendlyAiAgents.Count; i++)
         {
             //Vector3 offset = (playerAgent.transform.right) * (1f + (friendlyAiAgents[i].CharMgr.AgentWorldRadius * 2f));
-            float dist = HoldPositionBaseDistance + (friendlyAiAgents[i].CharMgr.AgentWorldRadius * 2f);
+            float dist = HoldPositionBaseSideBySideDistance + (friendlyAiAgents[i].CharMgr.AgentWorldRadius * 2f);
             Vector3 offset = Vector3.right * dist;
             offset = playerAgent.transform.TransformDirection(offset);
 
@@ -425,7 +426,7 @@ public class HordeGameLogic : MonoBehaviour
         for (int i = 0; i < agentTeam.Count; i++)
         {
             Agent agent = agentTeam[i];
-            Vector3 nextAgentSpawnOffset = dir * (2 * agent.CharMgr.AgentWorldRadius + distanceBetweenAgents);
+            Vector3 nextAgentSpawnOffset = dir * (2 * agent.CharMgr.AgentWorldRadius + SpawnAgentBaseDistance);
 
             spawnPositions.Add(spawnPos);
 

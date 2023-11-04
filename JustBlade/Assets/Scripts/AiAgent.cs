@@ -45,7 +45,7 @@ public class AiAgent : Agent
     //const float TooCloseBorderLowerBound = 0.9f;
     const float TooFarBorderLowerBound = 1.2f;
     const float AttackDistanceMultiplier = 2f;
-    const float ChanceToChooseVerticalCombatDirection = 0.75f; // chance to choose up or down as combat dir.
+    const float ChanceToChooseVerticalCombatDirection = 0.8f; // chance to choose up or down as combat dir.
     const float ChanceToChooseLegAsTargetLimbType = 0.1f;
     const float NavMeshAgentBaseAcceleration = 4.0f;
     const float ChanceToDefendWhenDamaged = 0.5f;
@@ -228,7 +228,7 @@ public class AiAgent : Agent
     public override void ToggleCombatDirectionPreference(float distanceToClosestFriend)
     {
         float weaponLength = (EqMgr.equippedWeapon == null) ? 0f : EqMgr.equippedWeapon.weaponLength;
-        float border = weaponLength + (CharMgr.AgentWorldRadius);
+        float border = weaponLength + (CharMgr.AgentWorldRadius * 2f);
 
         // If distance to closest friend is less than the border,
         // then we prefer up/down attacks more (in order to avoid teamhitting).
