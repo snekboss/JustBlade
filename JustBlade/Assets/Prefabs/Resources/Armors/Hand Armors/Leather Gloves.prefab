@@ -1252,7 +1252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Leather Gloves
-  purchaseCost: 150
+  purchaseCost: 50
   isStarterItem: 0
   skinnedMeshRenderer: {fileID: 3842118656870171380}
   armorType: 2

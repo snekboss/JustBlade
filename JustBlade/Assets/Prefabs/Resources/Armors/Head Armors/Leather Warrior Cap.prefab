@@ -1252,7 +1252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Leather Warrior Cap
-  purchaseCost: 300
+  purchaseCost: 200
   isStarterItem: 0
   skinnedMeshRenderer: {fileID: 5764690160986463446}
   armorType: 0

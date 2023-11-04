@@ -1067,7 +1067,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Nordic Helmet
-  purchaseCost: 1225
+  purchaseCost: 595
   isStarterItem: 0
   skinnedMeshRenderer: {fileID: 2057359009226601885}
   armorType: 0

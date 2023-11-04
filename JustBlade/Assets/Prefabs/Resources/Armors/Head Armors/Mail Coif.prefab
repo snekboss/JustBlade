@@ -235,7 +235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Mail Coif
-  purchaseCost: 275
+  purchaseCost: 190
   isStarterItem: 0
   skinnedMeshRenderer: {fileID: 7533301646290355716}
   armorType: 0

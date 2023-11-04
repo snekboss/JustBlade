@@ -1068,7 +1068,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Nordic Warlord Helmet
-  purchaseCost: 2385
+  purchaseCost: 1210
   isStarterItem: 0
   skinnedMeshRenderer: {fileID: 248587397178324037}
   armorType: 0

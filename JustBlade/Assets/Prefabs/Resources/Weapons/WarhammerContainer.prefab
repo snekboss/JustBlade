@@ -47,7 +47,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Polehammer
-  purchaseCost: 1200
+  purchaseCost: 950
   isStarterItem: 0
   EDIT_MODE: 0
   swingSoundType: 1

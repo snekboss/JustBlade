@@ -235,7 +235,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Skullcap
-  purchaseCost: 325
+  purchaseCost: 205
   isStarterItem: 0
   skinnedMeshRenderer: {fileID: 8671494255891976494}
   armorType: 0

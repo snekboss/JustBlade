@@ -1255,7 +1255,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Mail Mittens
-  purchaseCost: 450
+  purchaseCost: 250
   isStarterItem: 0
   skinnedMeshRenderer: {fileID: 7039776434282565059}
   armorType: 2

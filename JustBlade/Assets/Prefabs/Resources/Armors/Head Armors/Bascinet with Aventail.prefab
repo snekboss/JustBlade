@@ -464,7 +464,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Bascinet with Aventail
-  purchaseCost: 1200
+  purchaseCost: 610
   isStarterItem: 0
   skinnedMeshRenderer: {fileID: 4699557221968886444}
   armorType: 0

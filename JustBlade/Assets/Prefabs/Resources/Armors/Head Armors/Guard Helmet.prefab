@@ -689,7 +689,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   shownName: Guard Helmet
-  purchaseCost: 1250
+  purchaseCost: 600
   isStarterItem: 0
   skinnedMeshRenderer: {fileID: 7422631843822278952}
   armorType: 0
