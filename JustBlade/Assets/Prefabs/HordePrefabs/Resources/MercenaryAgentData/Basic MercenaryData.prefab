@@ -48,5 +48,5 @@ MonoBehaviour:
   armorSetPrefab: {fileID: 5989388249505641282, guid: 4fe2c9699f9c0a1419d9c049b865e956, type: 3}
   weaponSetPrefab: {fileID: 8488145020270377298, guid: 101372d693c0a5340a2b878c33e8686b, type: 3}
   mercArmorLevel: 0
-  hireCost: 300
-  upgradeCost: 200
+  hireCost: 250
+  upgradeCost: 100
