@@ -307,7 +307,9 @@ public class HordeGameLogic : MonoBehaviour
 
     void SpawnPlayer()
     {
-        PlayerAgent player = Instantiate(playerAgentPrefab);
+        // Spawn the player at the spawn point so that NavMeshAgent doesn't get glued to the NavMesh
+        // around the default position of instantiation.
+        PlayerAgent player = Instantiate(playerAgentPrefab, playerTeamSpawnPoint.position, Quaternion.identity);
 
         // Player gets default Characteristics.
         player.InitializeAgent(
@@ -349,7 +351,9 @@ public class HordeGameLogic : MonoBehaviour
     {
         for (int i = 0; i < count; i++)
         {
-            AiAgent merc = Instantiate(aiAgentPrefab);
+            // Spawn the agent at the spawn point so that NavMeshAgent doesn't get glued to the NavMesh
+            // around the default position of instantiation.
+            AiAgent merc = Instantiate(aiAgentPrefab, playerTeamSpawnPoint.position, Quaternion.identity);
             merc.OnSearchForEnemyAgent += OnAiAgentSearchForEnemy;
             InitializeAgentFromHordeData(merc
                 , mercData.weaponSetPrefab
@@ -372,7 +376,9 @@ public class HordeGameLogic : MonoBehaviour
     {
         for (int i = 0; i < invaderData.invaderCount; i++)
         {
-            AiAgent a = Instantiate(aiAgentPrefab);
+            // Spawn the agent at the spawn point so that NavMeshAgent doesn't get glued to the NavMesh
+            // around the default position of instantiation.
+            AiAgent a = Instantiate(aiAgentPrefab, enemyTeamSpawnPoint.position, Quaternion.identity);
             InitializeAgentFromHordeData(a
                 , invaderData.invaderAgentDataPrefab.weaponSetPrefab
                 , invaderData.invaderAgentDataPrefab.armorSetPrefab
