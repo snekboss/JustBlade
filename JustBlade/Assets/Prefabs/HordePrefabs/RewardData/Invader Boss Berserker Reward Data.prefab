@@ -45,4 +45,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   minGoldReward: 3000
-  maxGoldReward: 3000
+  maxGoldReward: 3010
