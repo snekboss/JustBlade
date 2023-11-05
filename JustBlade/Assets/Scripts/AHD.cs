@@ -21,7 +21,7 @@ public static class AHD
     public static readonly int Hash_isAtkBounced = Animator.StringToHash("isAtkBounced");
     public static readonly int Hash_isDefBlocked = Animator.StringToHash("isDefBlocked");
     public static readonly int Hash_jump = Animator.StringToHash("jump");
-    public static readonly int Hash_isGrounded = Animator.StringToHash("isGrounded");
+    public static readonly int Hash_isFalling = Animator.StringToHash("isFalling");
     public static readonly int Hash_isHurt = Animator.StringToHash("isHurt");
     public static readonly int Hash_isHurtDir = Animator.StringToHash("isHurtDir");
     public static readonly int Hash_isDead = Animator.StringToHash("isDead");

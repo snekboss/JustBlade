@@ -84,9 +84,9 @@ MonoBehaviour:
     m_VAllowExceedBaseRangeMax: 1
     m_ScaleWithWindow: 0
     m_HSlider: 0
-    m_VSlider: 1
+    m_VSlider: 0
     m_IgnoreScrollWheelUntilClicked: 0
-    m_EnableMouseInput: 1
+    m_EnableMouseInput: 0
     m_EnableSliderZoomHorizontal: 0
     m_EnableSliderZoomVertical: 0
     m_UniformScale: 1
@@ -97,7 +97,7 @@ MonoBehaviour:
       y: 21
       width: 1152
       height: 529
-    m_Scale: {x: 0.7638889, y: 0.7638889}
+    m_Scale: {x: 0.7347222, y: 0.7347222}
     m_Translation: {x: 576, y: 264.5}
     m_MarginLeft: 0
     m_MarginRight: 0
@@ -105,12 +105,12 @@ MonoBehaviour:
     m_MarginBottom: 0
     m_LastShownAreaInsideMargins:
       serializedVersion: 2
-      x: -754.0364
-      y: -346.25455
-      width: 1508.0728
-      height: 692.5091
+      x: -783.9698
+      y: -360
+      width: 1567.9396
+      height: 720
     m_MinimalGUI: 1
-  m_defaultScale: 0.7638889
+  m_defaultScale: 0.7347222
   m_LastWindowPixelSize: {x: 1152, y: 550}
   m_ClearInEditMode: 1
   m_NoCameraWarning: 1
@@ -224,9 +224,9 @@ MonoBehaviour:
   m_SceneHierarchy:
     m_TreeViewState:
       scrollPos: {x: 0, y: 0}
-      m_SelectedIDs: 
+      m_SelectedIDs: 605d0000
       m_LastClickedID: 0
-      m_ExpandedIDs: 36fbffff
+      m_ExpandedIDs: 769dfaff32a2faff36fbffff
       m_RenameOverlay:
         m_UserAcceptedRename: 0
         m_Name: 
@@ -502,9 +502,9 @@ MonoBehaviour:
   m_PlayAudio: 0
   m_AudioPlay: 0
   m_Position:
-    m_Target: {x: 7.4217076, y: 2.1729505, z: 4.111992}
+    m_Target: {x: -12.161414, y: -5.394899, z: -9.436853}
     speed: 2
-    m_Value: {x: -1.2377362, y: 2.2456765, z: -0.3330641}
+    m_Value: {x: -12.161414, y: -5.394899, z: -9.436853}
   m_RenderMode: 0
   m_CameraMode:
     drawMode: 0
@@ -551,13 +551,13 @@ MonoBehaviour:
     m_GridAxis: 1
     m_gridOpacity: 0.5
   m_Rotation:
-    m_Target: {x: 0.031672418, y: -0.75617707, z: 0.03370802, w: 0.65331125}
+    m_Target: {x: 0.20249487, y: -0.6890568, z: 0.20706864, w: 0.664894}
     speed: 2
-    m_Value: {x: -0.25976908, y: 0.01361256, z: -0.0036621317, w: -0.96556896}
+    m_Value: {x: 0.2024175, y: -0.6887935, z: 0.2069895, w: 0.6646399}
   m_Size:
-    m_Target: 0.9902651
+    m_Target: 10
     speed: 2
-    m_Value: 2.082527
+    m_Value: 10
   m_Ortho:
     m_Target: 0
     speed: 2
@@ -650,21 +650,21 @@ MonoBehaviour:
     m_SkipHidden: 0
     m_SearchArea: 1
     m_Folders:
-    - Assets/Prefabs/Resources/Armors/Hand Armors
+    - Assets/Scenes
     m_Globs: []
     m_OriginalText: 
   m_ViewMode: 1
   m_StartGridSize: 16
   m_LastFolders:
-  - Assets/Prefabs/Resources/Armors/Hand Armors
+  - Assets/Scenes
   m_LastFoldersGridSize: 16
   m_LastProjectPath: C:\Users\i7\source\repos\JustBlade\JustBlade
   m_LockTracker:
     m_IsLocked: 0
   m_FolderTreeState:
     scrollPos: {x: 0, y: 248}
-    m_SelectedIDs: 405d0000
-    m_LastClickedID: 23872
+    m_SelectedIDs: 1c5d0000
+    m_LastClickedID: 23836
     m_ExpandedIDs: 00000000105d0000125d0000145d0000165d0000185d00001a5d00001c5d00001e5d0000205d0000225d000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -693,7 +693,7 @@ MonoBehaviour:
     scrollPos: {x: 0, y: 0}
     m_SelectedIDs: 
     m_LastClickedID: 0
-    m_ExpandedIDs: 00000000105d0000125d0000145d0000165d0000185d00001a5d00001c5d00001e5d0000205d0000225d0000
+    m_ExpandedIDs: 00000000105d0000125d0000145d0000165d0000185d00001a5d00001c5d00001e5d0000205d0000225d000000ca9a3b
     m_RenameOverlay:
       m_UserAcceptedRename: 0
       m_Name: 
@@ -718,9 +718,9 @@ MonoBehaviour:
       m_Icon: {fileID: 0}
       m_ResourceFile: 
   m_ListAreaState:
-    m_SelectedInstanceIDs: 
-    m_LastClickedInstanceID: 0
-    m_HadKeyboardFocusLastEvent: 1
+    m_SelectedInstanceIDs: 605d0000
+    m_LastClickedInstanceID: 23904
+    m_HadKeyboardFocusLastEvent: 0
     m_ExpandedInstanceIDs: c6230000
     m_RenameOverlay:
       m_UserAcceptedRename: 0
@@ -796,8 +796,8 @@ MonoBehaviour:
     y: 0
     width: 474
     height: 944
-  m_MinSize: {x: 276, y: 71}
-  m_MaxSize: {x: 4001, y: 4021}
+  m_MinSize: {x: 275, y: 50}
+  m_MaxSize: {x: 4000, y: 4000}
   m_ActualView: {fileID: 13}
   m_Panes:
   - {fileID: 13}

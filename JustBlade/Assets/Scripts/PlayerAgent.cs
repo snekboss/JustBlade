@@ -43,6 +43,10 @@ public class PlayerAgent : Agent
     public Transform groundednessCheckerTransform; // used for checking if the player is grounded
     bool isGrounded; // value based on CharacterController.isGrounded AND Physics.CheckSphere.
 
+    bool isFalling;
+    float isFallingTimer;
+    readonly float IsFallingThreshold = 0.375f; // player is considered to be falling beyond this time
+
     CharacterController charCont;
     const float AgentSkinWidthMultiplier = 0.1f;
     const float GroundedDistanceMultiplier = 2.0f;
@@ -139,6 +143,8 @@ public class PlayerAgent : Agent
     }
 
     public override bool IsGrounded() { return isGrounded; }
+
+    public override bool IsFalling() { return isFalling; }
 
     /// <summary>
     /// Initializes the values of the character controller of the player.
@@ -322,6 +328,28 @@ public class PlayerAgent : Agent
     }
 
     /// <summary>
+    /// TODO: Write summary.
+    /// It's better to invoke this after calling <see cref="HandleGroundednessCheck"/>,
+    /// so that we have groundedness information.
+    /// </summary>
+    void HandleIsFalling()
+    {
+        if (isGrounded == false)
+        {
+            isFallingTimer += Time.deltaTime;
+            if (isFallingTimer >= IsFallingThreshold)
+            {
+                isFalling = true;
+            }
+        }
+        else
+        {
+            isFallingTimer = 0f;
+            isFalling = false;
+        }
+    }
+
+    /// <summary>
     /// Handles the rotation of the player agent based on the camera's rotation.
     /// <seealso cref="HandleCameraRotation"/>.
     /// </summary>
@@ -351,9 +379,11 @@ public class PlayerAgent : Agent
         // This is because the "isGrounded" code below might edit the y value.
         float existingY = worldVelocity.y;
 
-        if (isGrounded)
+        if (isFalling == false)
         {
             // This part of the code is about handling non-vertical movement (ie, X and Z axes).
+            // This part of the code will run as long as isFalling is false, which is based on isFallingTimer.
+            // This means that this code will run even if isGrounded is false, as they're separate things.
 
             // localMoveDirXZ is for animation (moveX, moveY); as well as for initializing non-vertical movement.
             localMoveDirXZ = new Vector2(moveInputX, moveInputY);
@@ -385,7 +415,7 @@ public class PlayerAgent : Agent
             // Now, update the value of currentMovementSpeed by taking ONLY the horizontal directions into account.
             Vector2 worldVelocityXZ = new Vector2(worldVelocity.x, worldVelocity.z);
 
-            // Update its value only as long as the player is grounded.
+            // Update its value only as long as the player is not falling (ie, isFalling == false).
             CharMgr.CurrentMovementSpeed = worldVelocityXZ.magnitude;
         }
 
@@ -399,9 +429,10 @@ public class PlayerAgent : Agent
         }
 
         // Jump related
+        // Jumping is based on "isFalling" rather than "isGrounded".
         bool canJump = true;
 
-        if (!isGrounded)
+        if (isFalling)
         {
             jumpCooldownTimer = 0;
         }
@@ -412,7 +443,7 @@ public class PlayerAgent : Agent
             jumpCooldownTimer += Time.deltaTime;
         }
 
-        if (btnJumpPressed && isGrounded && canJump)
+        if (btnJumpPressed && (isFalling == false) && canJump)
         {
             jumpCooldownTimer = 0;
             AnimMgr.SetJump(true);
@@ -588,12 +619,13 @@ public class PlayerAgent : Agent
         HandleCameraRotation();
         HandleAgentRotation();
         HandleGroundednessCheck();
+        HandleIsFalling();
         HandleFootMovement();
 
         HandleCombatInputs();
         HandleCombatDirection();
 
-        AnimMgr.UpdateAnimations(localMoveDirXZ, CharMgr.CurrentMovementSpeed, isGrounded, isAtk, isDef);
+        AnimMgr.UpdateAnimations(localMoveDirXZ, CharMgr.CurrentMovementSpeed, IsFalling(), isAtk, isDef);
         AudioMgr.UpdateAudioManager();
     }
 

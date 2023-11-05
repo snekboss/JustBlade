@@ -14,6 +14,8 @@ using UnityEngine;
 /// </summary>
 public class MannequinAgent : Agent
 {
+    bool isFalling = true; // this is just to make the mannequin agent jump in the gear selection menu :D
+
     /// <summary>
     /// Unity's Start method.
     /// In this case, it is used to make the <see cref="MannequinAgent"/> look at the origin of the world.
@@ -32,6 +34,10 @@ public class MannequinAgent : Agent
     /// </summary>
     void Update()
     {
-        AnimMgr.UpdateAnimations(Vector2.zero, 0, true, false, false);
+        AnimMgr.UpdateAnimations(Vector2.zero, 0, isFalling, false, false);
+
+        // In the first frame, isFalling is true (because it is initialized as such).
+        // After that, it's false. So, make sure this happens after the first invocation of AnimMgr.UpdateAnimations.
+        isFalling = false;
     }
 }

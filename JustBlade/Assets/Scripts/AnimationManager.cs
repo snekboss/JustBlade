@@ -1085,10 +1085,10 @@ public class AnimationManager : MonoBehaviour
     /// </summary>
     /// <param name="localMoveDir">Local move direction relative to the agent.</param>
     /// <param name="curMoveSpeed">The current movement speed of the agent.</param>
-    /// <param name="isGrounded">Whether or not the agent is grounded.</param>
+    /// <param name="isFalling">Whether or not the agent is falling.</param>
     /// <param name="isAtk">Whether or not the agent wants to attack.</param>
     /// <param name="isDef">Whether or not the agent wants to defend.</param>
-    public void UpdateAnimations(Vector2 localMoveDir, float curMoveSpeed, bool isGrounded, bool isAtk, bool isDef)
+    public void UpdateAnimations(Vector2 localMoveDir, float curMoveSpeed, bool isFalling, bool isAtk, bool isDef)
     {
         // Every update frame, assume that the target is zero degrees.
         // If the spine needs to be rotated, then the targetAngle will be read from the Agent later on.
@@ -1109,7 +1109,7 @@ public class AnimationManager : MonoBehaviour
         Animat.SetFloat(AHD.Hash_moveY, moveY);
         Animat.SetBool(AHD.Hash_isAtk, isAtk);
         Animat.SetBool(AHD.Hash_isDef, isDef);
-        Animat.SetBool(AHD.Hash_isGrounded, isGrounded);
+        Animat.SetBool(AHD.Hash_isFalling, isFalling);
 
         // Set triggers.
         SetTriggerParameters();

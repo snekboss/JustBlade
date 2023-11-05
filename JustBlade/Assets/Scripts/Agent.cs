@@ -213,7 +213,23 @@ public abstract class Agent : MonoBehaviour
 
     public virtual void InitializePosition(Vector3 worldPos) { }
 
+    /// <summary>
+    /// TODO: Write summary.
+    /// Firstly, only <see cref="PlayerAgent"/> can jump anyway (the others cant).
+    /// Secondly, the meanings of <see cref="IsGrounded"/> and <see cref="IsFalling"/> are different.
+    /// IsFalling is based on a timer.
+    /// </summary>
+    /// <returns>True if the agent is touching the ground; false otherwise</returns>
     public virtual bool IsGrounded() { return true; }
+
+    /// <summary>
+    /// TODO: Write summary.
+    /// Firstly, only <see cref="PlayerAgent"/> can jump anyway (the others cant).
+    /// Secondly, the meanings of <see cref="IsGrounded"/> and <see cref="IsFalling"/> are different.
+    /// IsFalling is based on a timer.
+    /// </summary>
+    /// <returns>True if the agent is falling; false otherwise</returns>
+    public virtual bool IsFalling() { return false; }
 
     /// <summary>
     /// Unity's Awake method.
