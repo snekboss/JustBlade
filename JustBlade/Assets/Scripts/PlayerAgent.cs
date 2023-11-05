@@ -446,11 +446,7 @@ public class PlayerAgent : Agent
 
         // Handle Blocking
         isDef = btnDefHeld;
-
-        // Commenting out below for a while.
-        // The automatic defend timer may not be that great. I don't know.
-
-        /*
+        
         // Continue defending for a short time even after releasing the defend button.
         if (btnDefReleased)
         {
@@ -468,7 +464,7 @@ public class PlayerAgent : Agent
             isDef = true;
             isDefTimer += Time.deltaTime;
         }
-        */
+        
     }
 
     /// <summary>
