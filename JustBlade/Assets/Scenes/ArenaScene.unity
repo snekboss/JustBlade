@@ -15273,7 +15273,7 @@ MonoBehaviour:
       - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 44377f7e63a5ce14e96061764fba0ed6, type: 3}
         invaderCount: 1
       - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 7238b8e0d27e97a4a84cf2be148d2239, type: 3}
-        invaderCount: 5
+        invaderCount: 7
     isBossWaveSet: 1
   - waves:
     - invaderDataList:
@@ -15411,7 +15411,7 @@ MonoBehaviour:
       - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 44377f7e63a5ce14e96061764fba0ed6, type: 3}
         invaderCount: 1
       - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 7238b8e0d27e97a4a84cf2be148d2239, type: 3}
-        invaderCount: 5
+        invaderCount: 7
       - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 379b45fe4e302cf4f996d69e6197a960, type: 3}
         invaderCount: 1
       - invaderAgentDataPrefab: {fileID: -127812968741851847, guid: 79bb7b60ed0fd974d9cdf93bb9dd37be, type: 3}
