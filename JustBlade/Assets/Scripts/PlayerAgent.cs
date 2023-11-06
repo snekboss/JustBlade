@@ -294,16 +294,6 @@ public class PlayerAgent : Agent
     /// </summary>
     void HandleCameraRotation()
     {
-        if (StaticVariables.IsGamePaused)
-        {
-            // Do not rotate the camera while the game is paused.
-            // If this if check isn't here, then when the game is paused, the camera continues to rotate
-            // with the stored rotation in formation (before the pause).
-            // This happens because the handling of the camera rotation was moved to LateUpdate, which doesn't
-            // have an "IsGamePaused" guard (for spine rotation reasons).
-            return;
-        }
-
         cameraYaw += StaticVariables.PlayerCameraRotationSpeed * mouseX;
 
         // Subtracting, because negative angle about X axis means "up".
@@ -626,7 +616,7 @@ public class PlayerAgent : Agent
 
         HandleOrders();
         HandleCameraViewMode();
-        //HandleCameraRotation();
+        HandleCameraRotation();
         HandleAgentRotation();
         HandleGroundednessCheck();
         HandleIsFalling();
@@ -640,7 +630,6 @@ public class PlayerAgent : Agent
     }
 
     /// <summary>
-    /// // TODO: Now it handles camera rotation too. Explain why.
     /// Unity's LateUpdate method.
     /// It is also an override of <see cref="Agent.LateUpdate"/>.
     /// On top of what <see cref="Agent.LateUpdate"/> does, it also sets the position of the camera.
@@ -649,11 +638,6 @@ public class PlayerAgent : Agent
     protected override void LateUpdate()
     {
         base.LateUpdate(); // let the spine be rotated
-
-        // Handle camera position and rotation in LateUpdate to avoid jittery camera movement.
-
-        // Rotate the camera before moving it (otherwise, the player looks jittery while rotating the camera).
-        HandleCameraRotation();
 
         // Move the camera to the position after the spine has been rotated.
         HandleCameraPosition();
