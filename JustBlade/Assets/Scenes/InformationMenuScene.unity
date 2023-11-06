@@ -235,41 +235,44 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_text: 'You stood on the brink of victory, having repelled most of the enemy hordes.
-    But in the final moments, fate turned against you. Remember, every defeat is
-    a step towards victory. Stand up, fight again, and claim your glory!
+  m_text: 'Your journey ends here, having repelled only a few of the enemy hordes.
+    Your courage was commendable, but the enemy was relentless. Remember, every defeat
+    is a step towards victory. Stand up, fight again, and claim your glory!
 
 
-    Player
-    kill count: 111
+    Difficulty:
+    150%
+
+
+    Player kill count: 111
 
     Player mercenary kill count: 222
 
-    Total kill count:
-    333
+    Total
+    kill count: 333
 
 
     Total number of mercenaries hired: 444
 
-    Total number of mercenaries
-    upgraded: 555
+    Total number
+    of mercenaries upgraded: 555
 
     Total number of mercenaries died: 666
 
 
-    Total damage player
-    has inflicted: 7777
+    Total
+    damage player has inflicted: 7777
 
     Total damage taken by player: 8888
 
-    Total number
-    of attacks successfully blocked by player: 9999
-
-
-    Total gold earned: 11111
-
     Total
-    gold spent: 22222
+    number of attacks successfully blocked by player: 9999
+
+
+    Total gold earned:
+    11111
+
+    Total gold spent: 22222
 
     Remaining gold: 33333'
   m_isRightToLeft: 0
@@ -298,8 +301,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 25
-  m_fontSizeBase: 25
+  m_fontSize: 23
+  m_fontSizeBase: 23
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
