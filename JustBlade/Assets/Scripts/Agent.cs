@@ -242,6 +242,8 @@ public abstract class Agent : MonoBehaviour
     }
 
     /// <summary>
+    /// TODO: Explain that this method should not use <see cref="StaticVariables.IsGamePaused"/>
+    /// because it causes the spine to not get connected (or rotated) when the game is paused.
     /// Unity's LateUpdate method.
     /// It is used to adjust the spine bone of all agents.
     /// The spine bone is connected to the pelvis bone manually.

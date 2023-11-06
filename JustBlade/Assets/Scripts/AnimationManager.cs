@@ -1172,6 +1172,13 @@ public class AnimationManager : MonoBehaviour
             targetSpineAngle = 0;
         }
 
+        if (StaticVariables.IsGamePaused)
+        {
+            // Do not rotate the spine while the game is paused.
+            // Let it stay the way it was.
+            chosenSpineRotationLerpRate = 0f;
+        }
+
         spineCurAngle = Mathf.LerpAngle(spineCurAngle, targetSpineAngle, chosenSpineRotationLerpRate);
 
         Transform spineAfterAnim = spineBone.transform;
