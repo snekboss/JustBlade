@@ -46,7 +46,7 @@ public class LimbManager : MonoBehaviour
         float rootToSpineHeight = spineBone.transform.position.y - rootBone.transform.position.y;
 
         GameObject legsLimbGO = new GameObject("LegsLimb");
-        legsLimbGO.layer = StaticVariables.Instance.LimbLayer;
+        legsLimbGO.layer = StaticVariables.LimbLayer;
 
         legsLimbGO.transform.parent = rootBone.transform;
         legsLimbGO.transform.localPosition = Vector3.zero;
@@ -73,7 +73,7 @@ public class LimbManager : MonoBehaviour
         float spineToNeckHeight = neckBone.transform.position.y - spineBone.transform.position.y;
 
         GameObject torsoLimbGo = new GameObject("TorsoLimb");
-        torsoLimbGo.layer = StaticVariables.Instance.LimbLayer;
+        torsoLimbGo.layer = StaticVariables.LimbLayer;
 
         torsoLimbGo.transform.parent = spineBone.transform;
         torsoLimbGo.transform.localPosition = Vector3.zero;
@@ -100,7 +100,7 @@ public class LimbManager : MonoBehaviour
         // We call it "head limb", but it's a child of the neckBone.
 
         GameObject headLimbGo = new GameObject("HeadLimb");
-        headLimbGo.layer = StaticVariables.Instance.LimbLayer;
+        headLimbGo.layer = StaticVariables.LimbLayer;
 
         headLimbGo.transform.parent = neckBone.transform;
         headLimbGo.transform.localPosition = Vector3.zero;

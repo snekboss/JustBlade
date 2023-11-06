@@ -100,7 +100,7 @@ public class AgentAudioManager : MonoBehaviour
 
     bool IsShouldPlayFootstepSound(bool isLeftFoot)
     {
-        LayerMask walkableLayerMask = 1 << StaticVariables.Instance.DefaultLayer.value;
+        LayerMask walkableLayerMask = 1 << StaticVariables.DefaultLayer.value;
         Transform foot = isLeftFoot ? leftFoot : rightFoot;
         float cooldownTimer = isLeftFoot ? leftFootstepTimer : rightFootstepTimer;
         float rayDist = ownerAgent.IsGrounded() ? RaycastLengthGrounded : RaycastLengthJump;

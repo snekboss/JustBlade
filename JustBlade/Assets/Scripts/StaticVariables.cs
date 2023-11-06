@@ -1,6 +1,7 @@
 using UnityEngine;
 
 /// <summary>
+/// TODO: The method mentioned below doesn't complain? :D
 /// A singleton class that contains some static variables which can be accessed throughout the game.
 /// The main behind using a singleton approach is to ensure that Unity's <see cref="LayerMask.NameToLayer(string)"/> method does not complain.
 /// It also contains constant names of some strings, as well as some of user options which are meant to be
@@ -8,31 +9,17 @@ using UnityEngine;
 /// </summary>
 public class StaticVariables
 {
-    static StaticVariables instance;
-    public static StaticVariables Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = new StaticVariables();
-            }
-
-            return instance;
-        }
-    }
-
     public const string DefaultLayerName = "Default";
     public const string AgentLayerName = "Agent";
     public const string WeaponLayerName = "Weapon";
     public const string LimbLayerName = "Limb";
     public const string NoCollisionLayerName = "NoCollision";
 
-    public LayerMask DefaultLayer { get; private set; } = LayerMask.NameToLayer(DefaultLayerName);
-    public LayerMask AgentLayer { get; private set; } = LayerMask.NameToLayer(AgentLayerName);
-    public LayerMask WeaponLayer { get; private set; } = LayerMask.NameToLayer(WeaponLayerName);
-    public LayerMask LimbLayer { get; private set; } = LayerMask.NameToLayer(LimbLayerName);
-    public LayerMask NoCollisionLayer { get; private set; } = LayerMask.NameToLayer(NoCollisionLayerName);
+    public static LayerMask DefaultLayer { get; private set; } = LayerMask.NameToLayer(DefaultLayerName);
+    public static LayerMask AgentLayer { get; private set; } = LayerMask.NameToLayer(AgentLayerName);
+    public static LayerMask WeaponLayer { get; private set; } = LayerMask.NameToLayer(WeaponLayerName);
+    public static LayerMask LimbLayer { get; private set; } = LayerMask.NameToLayer(LimbLayerName);
+    public static LayerMask NoCollisionLayer { get; private set; } = LayerMask.NameToLayer(NoCollisionLayerName);
 
     public const string HumanHeadName = "human_head";
     public const string HumanTorsoName = "human_body_with_shorts";

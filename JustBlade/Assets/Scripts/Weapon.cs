@@ -196,16 +196,16 @@ public class Weapon : EquippableItem
     {
         if (canCollide)
         {
-            if (gameObject.layer == StaticVariables.Instance.NoCollisionLayer)
+            if (gameObject.layer == StaticVariables.NoCollisionLayer)
             {
-                gameObject.layer = StaticVariables.Instance.WeaponLayer;
+                gameObject.layer = StaticVariables.WeaponLayer;
             }
         }
         else
         {
-            if (gameObject.layer == StaticVariables.Instance.WeaponLayer)
+            if (gameObject.layer == StaticVariables.WeaponLayer)
             {
-                gameObject.layer = StaticVariables.Instance.NoCollisionLayer;
+                gameObject.layer = StaticVariables.NoCollisionLayer;
             }
         }
     }
@@ -229,7 +229,7 @@ public class Weapon : EquippableItem
 
         col.size = ColDimensionVec;
 
-        gameObject.layer = StaticVariables.Instance.WeaponLayer;
+        gameObject.layer = StaticVariables.WeaponLayer;
     }
 
     /// <summary>
@@ -306,7 +306,7 @@ public class Weapon : EquippableItem
         }
 
         // Check if the agent hit a limb.
-        if (other.gameObject.layer == StaticVariables.Instance.LimbLayer)
+        if (other.gameObject.layer == StaticVariables.LimbLayer)
         {
             Limb defenderLimb = other.gameObject.GetComponent<Limb>();
             if (defenderLimb.OwnerAgent == ownerAgent)
@@ -370,7 +370,7 @@ public class Weapon : EquippableItem
         }
 
         // Check if the agent hit scene geometry.
-        if (other.gameObject.layer == StaticVariables.Instance.DefaultLayer)
+        if (other.gameObject.layer == StaticVariables.DefaultLayer)
         {
             // Bounce the attack and return.
             ownerAgent.AnimMgr.SetIsAttackBounced(true);

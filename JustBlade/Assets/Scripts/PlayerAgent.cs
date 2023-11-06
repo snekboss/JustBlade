@@ -317,7 +317,7 @@ public class PlayerAgent : Agent
     /// </summary>
     void HandleGroundednessCheck()
     {
-        LayerMask walkableLayerMask = 1 << StaticVariables.Instance.DefaultLayer.value;
+        LayerMask walkableLayerMask = 1 << StaticVariables.DefaultLayer.value;
         bool isGroundedPhysics =
             Physics.CheckSphere(groundednessCheckerTransform.position, GroundedDistance, walkableLayerMask, QueryTriggerInteraction.Ignore);
 

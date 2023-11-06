@@ -237,7 +237,7 @@ public abstract class Agent : MonoBehaviour
     /// </summary>
     public virtual void Awake()
     {
-        gameObject.layer = StaticVariables.Instance.AgentLayer;
+        gameObject.layer = StaticVariables.AgentLayer;
         IsPlayerAgent = false;
     }
 
