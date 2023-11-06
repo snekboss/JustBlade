@@ -161,13 +161,13 @@ public static class PrefabManager
     static Dictionary<Armor.ArmorLevel, MercenaryAgentData> LoadMercenaryAgentData(string path)
     {
         UnityEngine.Object[] objs = Resources.LoadAll(path);
+#if UNITY_EDITOR
         string nameOfArmorLevel = nameof(Armor.ArmorLevel);
         string nameOfMercData = nameof(MercenaryAgentData);
 
-#if UNITY_EDITOR
         Debug.Assert(objs.Length == 4, "There needs to be exactly 4 " + nameOfMercData + " under MercenaryAgentData folder.");
 #endif
-
+        
         Dictionary<Armor.ArmorLevel, MercenaryAgentData> ret = new Dictionary<Armor.ArmorLevel, MercenaryAgentData>();
 
         for (int i = 0; i < objs.Length; i++)
