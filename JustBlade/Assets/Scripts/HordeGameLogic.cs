@@ -388,6 +388,8 @@ public class HordeGameLogic : MonoBehaviour
             a.IsFriendOfPlayer = false;
             a.OnDeath += OnAgentDeath;
 
+            a.IsAggressive = invaderData.invaderAgentDataPrefab.isAggressive;
+
             HordeRewardData hrd = a.gameObject.AddComponent<HordeRewardData>();
             hrd.CopyDataFromPrefab(invaderData.invaderAgentDataPrefab.invaderRewardDataPrefab);
 

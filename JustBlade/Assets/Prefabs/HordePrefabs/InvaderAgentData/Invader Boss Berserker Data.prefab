@@ -48,3 +48,4 @@ MonoBehaviour:
   armorSetPrefab: {fileID: 6217587355360615090, guid: 62e15f8d6c3c1474c87b4cdbfcc07f36, type: 3}
   weaponSetPrefab: {fileID: 621750973140898959, guid: 853544657b86a0f458cf493fe5ad7072, type: 3}
   invaderRewardDataPrefab: {fileID: 7664714801592480426, guid: 177b7d15096050f469e505bb4f2bddd0, type: 3}
+  isAggressive: 1

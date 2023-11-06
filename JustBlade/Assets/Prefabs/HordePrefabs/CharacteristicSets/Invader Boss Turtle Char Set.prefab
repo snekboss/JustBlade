@@ -44,7 +44,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3716aaa4bf901b1439ac13c451f973ff, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MaximumHealth: 500
+  MaximumHealth: 600
   ModelSizeMultiplier: 1.4
   ExtraMovementSpeedLimitMultiplier: 1
   ExtraDamageInflictionMultiplier: 1

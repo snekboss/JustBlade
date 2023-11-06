@@ -5,4 +5,5 @@ using UnityEngine;
 public class InvaderAgentData : HordeAgentData
 {
     public HordeRewardData invaderRewardDataPrefab;
+    public bool isAggressive; // attack relentlessly, without defending at all
 }

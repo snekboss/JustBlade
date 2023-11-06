@@ -49,7 +49,7 @@ public class AiAgent : Agent
     const float ChanceToChooseLegAsTargetLimbType = 0.1f;
     const float NavMeshAgentBaseAcceleration = 4.0f;
     const float ChanceToDefendWhenDamaged = 0.5f;
-    const float ReducedChanceToDefendPerPoise = 0.1f;
+    const float ReducedChanceToDefendPerPoise = 0.15f;
     const float ChanceToTargetNearbyEnemy = 0.25f;
 
     #region Friendliness indicator related fields
@@ -67,6 +67,7 @@ public class AiAgent : Agent
 
     bool isAtk;
     bool isDef;
+    public bool IsAggressive { get; set; }  // attacks relentlessly, without defending at all.
 
     CombatDirection combatDir;
 
@@ -201,6 +202,12 @@ public class AiAgent : Agent
     public override void OnThisAgentDamaged(Agent attacker, int amount)
     {
         enemyAgent = attacker;
+
+        if (IsAggressive)
+        {
+            // Don't defend at all, if aggressive.
+            return;
+        }
 
         // Decide to defend based on chance.
         // For each poise remaining, reduce the chance to block, as we can just poise through.
