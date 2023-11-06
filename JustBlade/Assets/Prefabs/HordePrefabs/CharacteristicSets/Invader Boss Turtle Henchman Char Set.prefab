@@ -45,8 +45,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   MaximumHealth: 160
-  ModelSizeMultiplier: 1.05
+  ModelSizeMultiplier: 1.075
   ExtraMovementSpeedLimitMultiplier: 1
   ExtraDamageInflictionMultiplier: 1
-  DamageTakenMultiplier: 0.825
-  MaximumPoise: 1
+  DamageTakenMultiplier: 0.8
+  MaximumPoise: 2
