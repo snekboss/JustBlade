@@ -478,8 +478,8 @@ public class PlayerAgent : Agent
         // Handle Blocking
         isDef = btnDefHeld;
         
-        // Continue defending for a short time even after releasing the defend button.
-        if (btnDefReleased)
+        // Continue defending for a short time even after pressing the defend button.
+        if (btnDefPressed)
         {
             isDefTimer = 0;
         }
