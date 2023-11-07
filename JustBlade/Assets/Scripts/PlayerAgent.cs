@@ -55,8 +55,16 @@ public class PlayerAgent : Agent
 
     #region Foot movement fields
     // Foot movement fields
-    float moveInputX;
-    float moveInputY;
+    float moveInputXraw;
+    float moveInputYraw;
+
+    float moveInputXsmoothed;
+    float moveInputYsmoothed;
+
+    float moveInputSmoothDampVelocityX; // DO NOT MODIFY. This is passed as a ref argument to Unity's Mathf.SmoothDamp method.
+    float moveInputSmoothDampVelocityY; // DO NOT MODIFY. This is passed as a ref argument to Unity's Mathf.SmoothDamp method.
+    readonly float MoveInputSmoothTime = 0.1f;
+
     Vector2 localMoveDirXZ;
     Vector3 worldVelocity;
 
@@ -216,8 +224,13 @@ public class PlayerAgent : Agent
     void ReadInputs()
     {
         // Foot movement
-        moveInputX = Input.GetAxis("Horizontal");
-        moveInputY = Input.GetAxis("Vertical");
+        // Get raw movement inputs.
+        moveInputXraw = Input.GetAxis("Horizontal");
+        moveInputYraw = Input.GetAxis("Vertical");
+
+        // Calculate smoothed move inputs to avoid sharp changes in the movement (and also in the animations).
+        moveInputXsmoothed = Mathf.SmoothDamp(moveInputXsmoothed, moveInputXraw, ref moveInputSmoothDampVelocityX, MoveInputSmoothTime);
+        moveInputYsmoothed = Mathf.SmoothDamp(moveInputYsmoothed, moveInputYraw, ref moveInputSmoothDampVelocityY, MoveInputSmoothTime);
 
         // Camera rotation
         // Get raw mouse inputs
@@ -418,7 +431,7 @@ public class PlayerAgent : Agent
             // This means that this code will run even if isGrounded is false, as they're separate things.
 
             // localMoveDirXZ is for animation (moveX, moveY); as well as for initializing non-vertical movement.
-            localMoveDirXZ = new Vector2(moveInputX, moveInputY);
+            localMoveDirXZ = new Vector2(moveInputXsmoothed, moveInputYsmoothed);
 
             // Notice that the y value of this vector is 0.
             // This is because we don't want the y value to take any part in the calculation of the movement speed.
