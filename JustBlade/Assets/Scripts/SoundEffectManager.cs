@@ -23,7 +23,7 @@ public static class SoundEffectManager
         "armored_cut_4",
     };
     static readonly string[] ArmoredBlunt = {
-        "armored_blunt_1",
+        //"armored_blunt_1", // this one doesn't sound as meaty as the others.
         "armored_blunt_2",
         "armored_blunt_3",
         "armored_blunt_4",
