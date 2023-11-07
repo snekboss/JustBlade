@@ -220,6 +220,10 @@ public class AiAgent : Agent
             combatState = AiCombatState.Defending;
             combatDir = GetBiasedRandomCombatDirection();
         }
+        else
+        {
+            combatState = AiCombatState.Attacking;
+        }
     }
 
     public void ToggleHoldPosition(bool isPlayerOrderingToHoldPosition, Vector3 positionToHold)
