@@ -67,7 +67,7 @@ public class InformationMenuUI : MonoBehaviour
         string NL = Environment.NewLine;
 
         float difficultyPercent = StaticVariables.DifficultySetting * 100f;
-        string difficultyStr = difficultyPercent.ToString("0.00") + "%";
+        string difficultyStr = difficultyPercent.ToString("0") + "%";
 
         string playerStats = string.Format(
             "Difficulty: {0}" + NL
