@@ -23,15 +23,14 @@ public class PlayerAgent : Agent
     // The camera is governed by the player agent, because the position has to be set AFTER player's LateUpate is run.
     // The only way to ensure that is by letting the player govern camera completely.
     // The other option is to write a custom system which updates all game objects on the scene *manually*.
-    const float ThirdPersonCameraOffsetYmin = -1.0f;
-    const float ThirdPersonCameraOffsetYmax = 0.5f;
-    const float ThirdPersonCameraOffsetYchangeSpeed = 0.1f;
+    readonly float ThirdPersonCameraOffsetYmin = -1.0f;
+    readonly float ThirdPersonCameraOffsetYmax = 0.5f;
+    readonly float ThirdPersonCameraOffsetYchangeSpeed = 0.1f;
 
-    const float ThirdPersonCameraOffsetZchangeSpeed = 0.1f;
-    const float ThirdPersonCameraOffsetZmin = 0.7f;
-    const float ThirdPersonCameraOffsetZmax = 2.5f;
+    readonly float ThirdPersonCameraOffsetZchangeSpeed = 0.1f;
+    readonly float ThirdPersonCameraOffsetZmin = 0.7f;
+    readonly float ThirdPersonCameraOffsetZmax = 2.5f;
     bool IsCameraModeOrbital;
-
     public Camera mainCameraPrefab;
 
     Transform chosenCameraTrackingPoint;
@@ -48,8 +47,8 @@ public class PlayerAgent : Agent
     readonly float IsFallingThreshold = 0.375f; // player is considered to be falling beyond this time
 
     CharacterController charCont;
-    const float AgentSkinWidthMultiplier = 0.1f;
-    const float GroundedDistanceMultiplier = 2.0f;
+    readonly float AgentSkinWidthMultiplier = 0.1f;
+    readonly float GroundedDistanceMultiplier = 2.0f;
     float AgentSkinWidth { get { return CharMgr.AgentWorldRadius * AgentSkinWidthMultiplier; } }
     float GroundedDistance { get { return AgentSkinWidth * GroundedDistanceMultiplier; } }
     #endregion
@@ -66,16 +65,28 @@ public class PlayerAgent : Agent
     float jumpCooldownTimerMax = 1.0f;
     #endregion
 
-    #region Agent rotation fields
-    // Agent rotation fields
-    float mouseX;
-    float mouseY;
+    #region Camera and agent rotation fields
+    // Camera and agent rotation fields
+    // Camera rotation fields
+    float mouseXraw;
+    float mouseYraw;
+
+    // Below are the smoothed versions of the raw mouse inputs, done by Mathf.SmoothDamp
+    float mouseXsmoothed;
+    float mouseYsmoothed;
+    readonly float MouseInputSmoothTime = 0.05f;
+
+    float mouseSmoothDampVelocityX; // DO NOT MODIFY. This is passed as a ref argument to Unity's Mathf.SmoothDamp method.
+    float mouseSmoothDampVelocityY; // DO NOT MODIFY. This is passed as a ref argument to Unity's Mathf.SmoothDamp method.
+
+    readonly float CameraSmoothRotateLerpRate = 0.8f;
 
     float cameraYaw; // left right about Y axis
-    const float CameraPitchThreshold = 89.0f;
+    readonly float CameraPitchThreshold = 89.0f;
 
-    const float TargetLookDirSlerpRate = 0.1f;
+    // Agent rotation fields
     Vector3 targetLookDir;
+    readonly float TargetLookDirSlerpRate = 0.1f;
     #endregion
 
     #region Combat inputs
@@ -195,8 +206,8 @@ public class PlayerAgent : Agent
         worldVelocity = Vector3.zero;
         localMoveDirXZ = Vector2.zero;
         charCont.SimpleMove(worldVelocity);
-        mouseX = 0;
-        mouseY = 0;
+        mouseXraw = 0;
+        mouseYraw = 0;
     }
 
     /// <summary>
@@ -209,8 +220,13 @@ public class PlayerAgent : Agent
         moveInputY = Input.GetAxis("Vertical");
 
         // Camera rotation
-        mouseX = Input.GetAxis("Mouse X");
-        mouseY = Input.GetAxis("Mouse Y");
+        // Get raw mouse inputs
+        mouseXraw = Input.GetAxis("Mouse X");
+        mouseYraw = Input.GetAxis("Mouse Y");
+
+        // Calculate smoothed mouse inputs to avoid camera jitter when "moving + rotating camera".
+        mouseXsmoothed = Mathf.SmoothDamp(mouseXsmoothed, mouseXraw, ref mouseSmoothDampVelocityX, MouseInputSmoothTime);
+        mouseYsmoothed = Mathf.SmoothDamp(mouseYsmoothed, mouseYraw, ref mouseSmoothDampVelocityY, MouseInputSmoothTime);
 
         // Button inputs
         btnAtkPressed = Input.GetMouseButtonDown(0);
@@ -290,23 +306,40 @@ public class PlayerAgent : Agent
     }
 
     /// <summary>
+    /// TODO: Explain that this should be invoked from LateUpdate.
     /// Handles the rotation of the camera based on mouse input.
     /// </summary>
     void HandleCameraRotation()
     {
-        cameraYaw += StaticVariables.PlayerCameraRotationSpeed * mouseX;
+        if (StaticVariables.IsGamePaused || IsDead)
+        {
+            // PlayerAgent.Update method is paused when the game is paused.
+            // However, since this method is now invoked from PlayerAgent.LateUpdate,
+            // we must also put this if check here.
+            // Otherwise, the camera continues to rotate even while the game is paused.
+            // Same thing when the player is dead.
+            return;
+        }
 
-        // Subtracting, because negative angle about X axis means "up".
-        LookAngleX -= StaticVariables.PlayerCameraRotationSpeed * mouseY;
+        cameraYaw += StaticVariables.PlayerCameraRotationSpeed * mouseXsmoothed;
+
+        // We subtract here, so that the camera moves up when the mouse moves up.
+        LookAngleX -= StaticVariables.PlayerCameraRotationSpeed * mouseYsmoothed;
 
         LookAngleX = Mathf.Clamp(LookAngleX, -CameraPitchThreshold, CameraPitchThreshold);
 
-        // First, reset rotation.
-        Camera.main.transform.rotation = Quaternion.identity;
+        // I used to have a camera jitter problem when "moving + rotating camera".
 
-        // Then, rotate with the new angles.
-        Camera.main.transform.Rotate(Vector3.up, cameraYaw);
-        Camera.main.transform.Rotate(Vector3.right, LookAngleX);
+        // Below code was suggested by Microsoft's Bing Ai chat bot, based on my instructions regarding my camera jitter problem.
+        // Create a target forward vector
+        Vector3 targetForward = Quaternion.Euler(LookAngleX, cameraYaw, 0) * Vector3.forward;
+
+        // Smoothly interpolate the camera's forward vector towards the target
+        Camera.main.transform.forward = Vector3.Lerp(Camera.main.transform.forward, targetForward, CameraSmoothRotateLerpRate);
+
+        // Update the camera's rotation
+        Camera.main.transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward, Vector3.up);
+        // Above code was suggested by Microsoft's Bing Ai chat bot, based on my instructions regarding my camera jitter problem.
     }
 
     /// <summary>
@@ -350,8 +383,8 @@ public class PlayerAgent : Agent
     }
 
     /// <summary>
-    /// Handles the rotation of the player agent based on the camera's rotation.
-    /// <seealso cref="HandleCameraRotation"/>.
+    /// Handles the rotation of the player agent based on camera's forward.
+    /// See <see cref="HandleCameraRotation"/> for handling of the camera's rotation.
     /// </summary>
     void HandleAgentRotation()
     {
@@ -363,7 +396,6 @@ public class PlayerAgent : Agent
         }
 
         Quaternion lookRot = Quaternion.LookRotation(targetLookDir);
-
         transform.rotation = Quaternion.Slerp(transform.rotation, lookRot, TargetLookDirSlerpRate);
     }
 
@@ -507,26 +539,26 @@ public class PlayerAgent : Agent
         // Assume combatDir hasn't changed.
         combatDir = lastCombatDir;
 
-        if (Mathf.Abs(mouseX) > Mathf.Abs(mouseY))
+        if (Mathf.Abs(mouseXraw) > Mathf.Abs(mouseYraw))
         {
             // it has to be left or right
-            if (mouseX > 0)
+            if (mouseXraw > 0)
             {
                 combatDir = CombatDirection.Right;
             }
-            if (mouseX < 0)
+            if (mouseXraw < 0)
             {
                 combatDir = CombatDirection.Left;
             }
         }
-        else if (Mathf.Abs(mouseX) < Mathf.Abs(mouseY))
+        else if (Mathf.Abs(mouseXraw) < Mathf.Abs(mouseYraw))
         {
             // it has to be up or down
-            if (mouseY > 0)
+            if (mouseYraw > 0)
             {
                 combatDir = CombatDirection.Up;
             }
-            if (mouseY < 0)
+            if (mouseYraw < 0)
             {
                 combatDir = CombatDirection.Down;
             }
@@ -544,6 +576,7 @@ public class PlayerAgent : Agent
     }
 
     /// <summary>
+    /// TODO: Explain also, that in general, it's PROBABLY better to do this in late update anyway. Dunno though. Think later. I'm hungry.
     /// Handles the position of the camera.
     /// This method is best called from <see cref="LateUpdate"/> method.
     /// This is because, if the camera is in first person view mode, then we want the spine bone to be rotated
@@ -577,7 +610,6 @@ public class PlayerAgent : Agent
         }
 
         Vector3 destination = chosenCameraTrackingPoint.position + offset;
-
         Camera.main.transform.position = destination;
     }
 
@@ -616,8 +648,9 @@ public class PlayerAgent : Agent
 
         HandleOrders();
         HandleCameraViewMode();
-        HandleCameraRotation();
+        //HandleCameraRotation();
         HandleAgentRotation();
+        
         HandleGroundednessCheck();
         HandleIsFalling();
         HandleFootMovement();
@@ -627,9 +660,12 @@ public class PlayerAgent : Agent
 
         AnimMgr.UpdateAnimations(localMoveDirXZ, CharMgr.CurrentMovementSpeed, IsFalling(), isAtk, isDef);
         AudioMgr.UpdateAudioManager();
+
+        
     }
 
     /// <summary>
+    /// TODO: Explain that the rotation is also done in LateUpdate, to avoid jittery camera.
     /// Unity's LateUpdate method.
     /// It is also an override of <see cref="Agent.LateUpdate"/>.
     /// On top of what <see cref="Agent.LateUpdate"/> does, it also sets the position of the camera.
@@ -638,6 +674,9 @@ public class PlayerAgent : Agent
     protected override void LateUpdate()
     {
         base.LateUpdate(); // let the spine be rotated
+
+        // Rotate the camera first in order to avoid jittery camera.
+        HandleCameraRotation();
 
         // Move the camera to the position after the spine has been rotated.
         HandleCameraPosition();
