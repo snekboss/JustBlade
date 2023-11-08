@@ -13,30 +13,26 @@ using UnityEngine.AI;
 /// - <see cref="LimbManager"/>.
 /// - <see cref="AgentAudioManager"/>
 /// - <see cref="CharacteristicManager"/>
+/// - <see cref="CameraManager"/>.
 /// - <see cref="NavMeshAgent"/>. In particular, make sure this component is disabled
-/// in the Inspector menu. Enable this component via code using .
+/// in the Inspector menu. Enable this component via code using <see cref="Agent.InitializePosition(Vector3)"/>.
 /// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
 public class PlayerAgent : Agent
 {
-    #region Camera related fields
-    // The camera is governed by the player agent, because the position has to be set AFTER player's LateUpate is run.
-    // The only way to ensure that is by letting the player govern camera completely.
-    // The other option is to write a custom system which updates all game objects on the scene *manually*.
-    readonly float ThirdPersonCameraOffsetYmin = -1.0f;
-    readonly float ThirdPersonCameraOffsetYmax = 0.5f;
-    readonly float ThirdPersonCameraOffsetYchangeSpeed = 0.1f;
+    CameraManager CamMgr
+    {
+        get
+        {
+            if (camMgr == null)
+            {
+                camMgr = GetComponent<CameraManager>();
+            }
 
-    readonly float ThirdPersonCameraOffsetZchangeSpeed = 0.1f;
-    readonly float ThirdPersonCameraOffsetZmin = 0.7f;
-    readonly float ThirdPersonCameraOffsetZmax = 2.5f;
-    bool IsCameraModeOrbital;
-    public Camera mainCameraPrefab;
-
-    Transform chosenCameraTrackingPoint;
-    public Transform thirdPersonViewTrackingPoint;
-    public Transform firstPersonViewTrackingPoint;
-    #endregion
+            return camMgr;
+        }
+    }
+    CameraManager camMgr;
 
     #region Player movement related fields
     public Transform groundednessCheckerTransform; // used for checking if the player is grounded
@@ -73,25 +69,7 @@ public class PlayerAgent : Agent
     float jumpCooldownTimerMax = 1.0f;
     #endregion
 
-    #region Camera and agent rotation fields
-    // Camera and agent rotation fields
-    // Camera rotation fields
-    float mouseXraw;
-    float mouseYraw;
-
-    // Below are the smoothed versions of the raw mouse inputs, done by Mathf.SmoothDamp
-    float mouseXsmoothed;
-    float mouseYsmoothed;
-    readonly float MouseInputSmoothTime = 0.05f;
-
-    float mouseSmoothDampVelocityX; // DO NOT MODIFY. This is passed as a ref argument to Unity's Mathf.SmoothDamp method.
-    float mouseSmoothDampVelocityY; // DO NOT MODIFY. This is passed as a ref argument to Unity's Mathf.SmoothDamp method.
-
-    readonly float CameraSmoothRotateLerpRate = 0.8f;
-
-    float cameraYaw; // left right about Y axis
-    readonly float CameraPitchThreshold = 89.0f;
-
+    #region Agent rotation fields
     // Agent rotation fields
     Vector3 targetLookDir;
     readonly float TargetLookDirSlerpRate = 0.1f;
@@ -99,15 +77,16 @@ public class PlayerAgent : Agent
 
     #region Combat inputs
     // Combat inputs
+    // Mouse inputs to choose combat direction
+    float mouseXraw;
+    float mouseYraw;
+    // Button inputs
     bool btnAtkPressed;
     bool btnAtkHeld;
     bool btnDefPressed;
     bool btnDefHeld;
     bool btnDefReleased;
     bool btnJumpPressed;
-    bool btnShiftHeld; // toggle editing camera offset Y or Z
-    bool btnRpressed; // toggle first/third person view
-    bool btnTpressed; // toggle orbital camera 
     bool btnQpressed; // toggle AI command
     #endregion
 
@@ -120,7 +99,6 @@ public class PlayerAgent : Agent
     CombatDirection lastCombatDir;
     CombatDirection combatDir;
     #endregion
-
 
     public bool IsPlayerOrderingToHoldPosition { get; protected set; } = false;
 
@@ -141,8 +119,7 @@ public class PlayerAgent : Agent
             , legArmorPrefab
             , characteristicPrefab);
 
-        SpawnMainCamera();
-        SetCameraTrackingPoint();
+        CamMgr.InitializeCamera(this);
 
         InitializeCharacterController();
         //InitializeNavMeshAgent();
@@ -232,14 +209,9 @@ public class PlayerAgent : Agent
         moveInputXsmoothed = Mathf.SmoothDamp(moveInputXsmoothed, moveInputXraw, ref moveInputSmoothDampVelocityX, MoveInputSmoothTime);
         moveInputYsmoothed = Mathf.SmoothDamp(moveInputYsmoothed, moveInputYraw, ref moveInputSmoothDampVelocityY, MoveInputSmoothTime);
 
-        // Camera rotation
-        // Get raw mouse inputs
+        // Use raw mouse inputs to choose combat direction.
         mouseXraw = Input.GetAxis("Mouse X");
         mouseYraw = Input.GetAxis("Mouse Y");
-
-        // Calculate smoothed mouse inputs to avoid camera jitter when "moving + rotating camera".
-        mouseXsmoothed = Mathf.SmoothDamp(mouseXsmoothed, mouseXraw, ref mouseSmoothDampVelocityX, MouseInputSmoothTime);
-        mouseYsmoothed = Mathf.SmoothDamp(mouseYsmoothed, mouseYraw, ref mouseSmoothDampVelocityY, MouseInputSmoothTime);
 
         // Button inputs
         btnAtkPressed = Input.GetMouseButtonDown(0);
@@ -250,39 +222,17 @@ public class PlayerAgent : Agent
         btnDefReleased = Input.GetMouseButtonUp(1);
 
         btnJumpPressed = Input.GetKeyDown(KeyCode.Space);
-        btnShiftHeld = Input.GetKey(KeyCode.LeftShift);
 
-        btnRpressed = Input.GetKeyDown(KeyCode.R);
-        btnTpressed = Input.GetKeyDown(KeyCode.T);
         btnQpressed = Input.GetKeyDown(KeyCode.Q);
     }
 
-    /// <summary>
-    /// Spawns the main camera, if it is null.
-    /// </summary>
-    void SpawnMainCamera()
+    void SetLookAngleX()
     {
-        if (Camera.main == null)
+        LookAngleX = Camera.main.transform.rotation.eulerAngles.x;
+        // Adjust the angle to the range [-180, 180]
+        if (LookAngleX > 180)
         {
-            Instantiate(mainCameraPrefab);
-        }
-    }
-
-    /// <summary>
-    /// Sets the <see cref="chosenCameraTrackingPoint"/> depending on whether or not the camera is in first or third person mode.
-    /// It also sets the visibility of the helmet.
-    /// </summary>
-    void SetCameraTrackingPoint()
-    {
-        if (StaticVariables.IsCameraModeFirstPerson)
-        {
-            chosenCameraTrackingPoint = firstPersonViewTrackingPoint;
-            EqMgr.ToggleHelmetVisibility(false);
-        }
-        else
-        {
-            chosenCameraTrackingPoint = thirdPersonViewTrackingPoint;
-            EqMgr.ToggleHelmetVisibility(true);
+            LookAngleX -= 360;
         }
     }
 
@@ -297,62 +247,6 @@ public class PlayerAgent : Agent
                 PlayerOrderToggle(this, IsPlayerOrderingToHoldPosition);
             }
         }
-    }
-
-    /// <summary>
-    /// Manages the switching between first person and third person views by calling <see cref="SetCameraTrackingPoint"/>.
-    /// It also toggles between orbital camera mode based on <see cref="IsCameraModeOrbital"/>.
-    /// </summary>
-    void HandleCameraViewMode()
-    {
-        if (btnRpressed)
-        {
-            StaticVariables.IsCameraModeFirstPerson = !StaticVariables.IsCameraModeFirstPerson;
-
-            SetCameraTrackingPoint();
-        }
-
-        if (btnTpressed)
-        {
-            IsCameraModeOrbital = !IsCameraModeOrbital;
-        }
-    }
-
-    /// <summary>
-    /// TODO: Explain that this should be invoked from LateUpdate.
-    /// Handles the rotation of the camera based on mouse input.
-    /// </summary>
-    void HandleCameraRotation()
-    {
-        if (StaticVariables.IsGamePaused || IsDead)
-        {
-            // PlayerAgent.Update method is paused when the game is paused.
-            // However, since this method is now invoked from PlayerAgent.LateUpdate,
-            // we must also put this if check here.
-            // Otherwise, the camera continues to rotate even while the game is paused.
-            // Same thing when the player is dead.
-            return;
-        }
-
-        cameraYaw += StaticVariables.PlayerCameraRotationSpeed * mouseXsmoothed;
-
-        // We subtract here, so that the camera moves up when the mouse moves up.
-        LookAngleX -= StaticVariables.PlayerCameraRotationSpeed * mouseYsmoothed;
-
-        LookAngleX = Mathf.Clamp(LookAngleX, -CameraPitchThreshold, CameraPitchThreshold);
-
-        // I used to have a camera jitter problem when "moving + rotating camera".
-
-        // Below code was suggested by Microsoft's Bing Ai chat bot, based on my instructions regarding my camera jitter problem.
-        // Create a target forward vector
-        Vector3 targetForward = Quaternion.Euler(LookAngleX, cameraYaw, 0) * Vector3.forward;
-
-        // Smoothly interpolate the camera's forward vector towards the target
-        Camera.main.transform.forward = Vector3.Lerp(Camera.main.transform.forward, targetForward, CameraSmoothRotateLerpRate);
-
-        // Update the camera's rotation
-        Camera.main.transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward, Vector3.up);
-        // Above code was suggested by Microsoft's Bing Ai chat bot, based on my instructions regarding my camera jitter problem.
     }
 
     /// <summary>
@@ -401,7 +295,7 @@ public class PlayerAgent : Agent
     /// </summary>
     void HandleAgentRotation()
     {
-        if (IsCameraModeOrbital == false)
+        if (CamMgr.IsCameraModeOrbital == false)
         {
             // Only keep track of camera's forward when we're NOT in orbital mode.
             targetLookDir = Camera.main.transform.forward;
@@ -589,44 +483,6 @@ public class PlayerAgent : Agent
     }
 
     /// <summary>
-    /// TODO: Explain also, that in general, it's PROBABLY better to do this in late update anyway. Dunno though. Think later. I'm hungry.
-    /// Handles the position of the camera.
-    /// This method is best called from <see cref="LateUpdate"/> method.
-    /// This is because, if the camera is in first person view mode, then we want the spine bone to be rotated
-    /// before we place the camera in the agent's eye.
-    /// </summary>
-    void HandleCameraPosition()
-    {
-        // Assume the camera is in first person view mode.
-        Vector3 offset = Vector3.zero;
-
-        if (StaticVariables.IsCameraModeFirstPerson == false)
-        {
-            // The camera is actually in third person view mode, so apply the zoom effects.
-
-            if (btnShiftHeld == false)
-            {
-                StaticVariables.ThirdPersonCameraOffsetZcur -= Input.mouseScrollDelta.y * ThirdPersonCameraOffsetZchangeSpeed;
-                StaticVariables.ThirdPersonCameraOffsetZcur
-                    = Mathf.Clamp(StaticVariables.ThirdPersonCameraOffsetZcur, ThirdPersonCameraOffsetZmin, ThirdPersonCameraOffsetZmax);
-            }
-            else
-            {
-                StaticVariables.ThirdPersonCameraOffsetYcur += Input.mouseScrollDelta.y * ThirdPersonCameraOffsetYchangeSpeed;
-                StaticVariables.ThirdPersonCameraOffsetYcur
-                    = Mathf.Clamp(StaticVariables.ThirdPersonCameraOffsetYcur, ThirdPersonCameraOffsetYmin, ThirdPersonCameraOffsetYmax);
-            }
-
-            Vector3 offsetZ = Camera.main.transform.forward * (-StaticVariables.ThirdPersonCameraOffsetZcur);
-            Vector3 offsetY = Vector3.up * StaticVariables.ThirdPersonCameraOffsetYcur;
-            offset = offsetZ + offsetY;
-        }
-
-        Vector3 destination = chosenCameraTrackingPoint.position + offset;
-        Camera.main.transform.position = destination;
-    }
-
-    /// <summary>
     /// Unity's Awake method.
     /// In this case, it is used to initialize a few fields about the player.
     /// </summary>
@@ -658,10 +514,10 @@ public class PlayerAgent : Agent
         }
 
         ReadInputs();
+        CamMgr.UpdateCamera();
+        SetLookAngleX();
 
         HandleOrders();
-        HandleCameraViewMode();
-        //HandleCameraRotation();
         HandleAgentRotation();
         
         HandleGroundednessCheck();
@@ -673,8 +529,6 @@ public class PlayerAgent : Agent
 
         AnimMgr.UpdateAnimations(localMoveDirXZ, CharMgr.CurrentMovementSpeed, IsFalling(), isAtk, isDef);
         AudioMgr.UpdateAudioManager();
-
-        
     }
 
     /// <summary>
@@ -686,12 +540,9 @@ public class PlayerAgent : Agent
     /// </summary>
     protected override void LateUpdate()
     {
-        base.LateUpdate(); // let the spine be rotated
+        base.LateUpdate(); // Let the spine be rotated.
 
-        // Rotate the camera first in order to avoid jittery camera.
-        HandleCameraRotation();
-
-        // Move the camera to the position after the spine has been rotated.
-        HandleCameraPosition();
+        // Update the camera after the spine has been rotated.
+        CamMgr.LateUpdateCamera();
     }
 }

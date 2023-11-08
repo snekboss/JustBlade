@@ -824,6 +824,7 @@ GameObject:
   - component: {fileID: 922571951}
   - component: {fileID: -7167919754140725662}
   - component: {fileID: 4867552233133293716}
+  - component: {fileID: -2759576391405307909}
   - component: {fileID: 1757832549553300922}
   m_Layer: 0
   m_Name: PlayerAgent
@@ -887,9 +888,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isFriendOfPlayer: 0
-  mainCameraPrefab: {fileID: 1653163678436621986, guid: 5b6f703cc6d723443af9ab43ce870845, type: 3}
-  thirdPersonViewTrackingPoint: {fileID: 1724222695684689829}
-  firstPersonViewTrackingPoint: {fileID: 9083436578199529652}
   groundednessCheckerTransform: {fileID: 495923429132351219}
 --- !u!114 &2011178560111457975
 MonoBehaviour:
@@ -975,6 +973,21 @@ MonoBehaviour:
   leftFoot: {fileID: 8834657594055225078}
   rightFoot: {fileID: 3706361232966113698}
   head: {fileID: 7297044010335099565}
+--- !u!114 &-2759576391405307909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3350359074657051952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 38ad2d87c0ef9ff4f9853530ffa8a7a6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  mainCameraPrefab: {fileID: 1653163678436621986, guid: 5b6f703cc6d723443af9ab43ce870845, type: 3}
+  thirdPersonViewTrackingPoint: {fileID: 1724222695684689829}
+  firstPersonViewTrackingPoint: {fileID: 9083436578199529652}
 --- !u!195 &1757832549553300922
 NavMeshAgent:
   m_ObjectHideFlags: 0
