@@ -50,14 +50,14 @@ duration of 0.1. This is only for making the animation visually smooth. It doesn
 ----- Attack Transitions -----
 => Attack Windup transition times are 0.66 for swings, and 1.0 for stabs.
 This is because, if stabs have 0.66 windup, then it's much harder to block them.
-=> Attack Release Recovery times are 0.2.	
-=> Attack Bounced Recovery times are 0.2.
+=> Attack Release Recovery times are 0.1.	
+=> Attack Bounced Recovery times are 0.1.
 
 => NOTE: In the past, the above values were different. They had a "different balance" to them.
-For example, the Attack Bounced Recovery used to be "0.66" instead of "0.2". However, after adding the
+For example, the Attack Bounced Recovery used to be "0.66" instead of "0.1". However, after adding the
 recent feature of having the ability to transition from [Attack Release/Bounced] to [Defend Hold]
-(see "Defend Windup" below) with a transition value of 0.2, the aforementioned Attack Bounced Recovery value
-has been changed from "0.66" to "0.2". This is done in order to avoid "animation skipping" exploit which can
+(see "Defend Windup" below) with a transition value of 0.1, the aforementioned Attack Bounced Recovery value
+has been changed from "0.66" to "0.1". This is done in order to avoid "animation skipping" exploit which can
 be done by clever players.
 =>
 Here is an example of an "animation skipping" exploit which could have been done:
@@ -67,14 +67,14 @@ Here is an example of an "animation skipping" exploit which could have been done
 	This would have been intended by design.
 
 However, a clever player could have bypassed the above by the following (new feature):
-	- Transitioning from [Attack Release] to [Defend Hold] is 0.2.
+	- Transitioning from [Attack Release] to [Defend Hold] is 0.1.
 	- Transitioning from [Defend Hold] to [Attack Hold] is 0.66.
-	- The total transition time from [Attack Release] to [Defend Hold] to [Attack Hold] is 0.86.
-	This 0.86 value is less than the intended 1.32 value.
+	- The total transition time from [Attack Release] to [Defend Hold] to [Attack Hold] is 0.76.
+	This 0.76 value is less than the intended 1.32 value.
 
 Indeed, the new feature would have introduced several "animation skipping" exploits as above.
-However, now that the transition durations are 0.2 in general, the players can transition from
-[Attack Release/Bounce] to [Attack Hold] in 0.86 seconds total, regardless of what sort of
+However, now that the transition durations are 0.1 in general, the players can transition from
+[Attack Release/Bounce] to [Attack Hold] in 0.76 seconds total, regardless of what sort of
 transitions are chosen.
 
 
@@ -82,7 +82,7 @@ transitions are chosen.
 => Attack Release animation speed will not be touched.
 All attack animations are 40 frames long, so that means 0.66 seconds. 
 => Note that the [Attack Windup]->[Attack Release]->[Attack Release Recovery] duration for swings
-in total is 0.66 + 0.66 + 0.2 = 1.52. This is basically 1.5 seconds. I think it looks good.
+in total is 0.66 + 0.66 + 0.1 = 1.42. This is basically 1.4 seconds. I think it looks good.
 
 
 
@@ -95,8 +95,11 @@ to be "Defend Blocked Recovery".
 
 
 ----- Defend Transitions -----
-=> Good news! Any kind of transition duration will be 0.2 seconds no matter what.
+=> Good news! Any kind of transition duration will be 0.1 seconds no matter what.
 This is to make sure that blocking is faster than attacks, so that the agents don't get spammed by attacks.
+
+=> NOTE: These duration values used to be 0.2, but now they're 0.1. This makes the blocking way faster than before,
+but this is at the cost of really fast crossfading of the combat animations.
 
 
 ----- Defend Animations -----
