@@ -56,9 +56,9 @@ public class StaticVariables
     public const float SoundSettingMax = 1f;
     public static float SoundSetting = SoundSettingMax;
 
-    public const float DifficultySettingMin = 0.5f;
+    public const float DifficultySettingMin = 0.25f;
     public const float DifficultySettingMax = 1.5f;
-    public static float DifficultySetting = 1f;
+    public static float DifficultySetting = (DifficultySettingMin + DifficultySettingMax) / 2f;
 
     public static int DefaultQualitySetting = (int)(QualitySetting.High);
 }

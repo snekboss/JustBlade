@@ -100,7 +100,7 @@ public class MainMenuUI : MonoBehaviour
         sliderDifficulty.minValue = StaticVariables.DifficultySettingMin;
         sliderDifficulty.value = StaticVariables.DifficultySetting;
         sliderDifficulty.maxValue = StaticVariables.DifficultySettingMax;
-        txtDifficulty.text = "Difficulty: " + StaticVariables.DifficultySetting.ToString("0.00");
+        txtDifficulty.text = "Difficulty: " + (StaticVariables.DifficultySetting * 100f).ToString("0") + "%";
 
         sliderFieldOfView.wholeNumbers = true;
         sliderFieldOfView.minValue = StaticVariables.PlayerCameraFieldOfViewMin;
@@ -245,7 +245,7 @@ public class MainMenuUI : MonoBehaviour
     public void OnSliderValueChanged_Difficulty()
     {
         float val = sliderDifficulty.value;
-        txtDifficulty.text = "Difficulty: " + val.ToString("0.00");
+        txtDifficulty.text = "Difficulty: " + (val * 100f).ToString("0") + "%";
         StaticVariables.DifficultySetting = val;
     }
 
