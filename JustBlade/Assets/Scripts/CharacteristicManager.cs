@@ -194,6 +194,14 @@ public class CharacteristicManager : MonoBehaviour
         currentPoise = MaximumPoise;
     }
 
+    /// <summary>
+    /// Applies damage to the <see cref="Health"/> of the owner <see cref="Agent"/>.
+    /// If the agent is still alive, this method invokes <see cref="Agent.OnThisAgentDamaged(Agent, int)"/>.
+    /// If the Health goes below zero, the agent dies.
+    /// When the agent is dead, this method invokes <see cref="Agent.OnThisAgentDeath(Agent)"/>.
+    /// </summary>
+    /// <param name="attacker">The agent whom damaged this agent.</param>
+    /// <param name="amount">The amount by which the health should be damaged.</param>
     public void ApplyDamage(Agent attacker, int amount)
     {
         int difficultyAmount = amount;
@@ -204,6 +212,7 @@ public class CharacteristicManager : MonoBehaviour
             difficultyAmount = System.Convert.ToInt32(difficultyAmount * StaticVariables.DifficultySetting);
         }
         Health -= difficultyAmount;
+        ownerAgent.AudioMgr.PlayHurtSound();
 
         if (Health <= 0)
         {

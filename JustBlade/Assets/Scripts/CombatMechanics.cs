@@ -307,7 +307,7 @@ public static class CombatMechanics
         int finalDamageInt = System.Convert.ToInt32(finalDamage);
 
         // Apply damage here.
-        defender.ApplyDamage(attacker, finalDamageInt);
+        defender.CharMgr.ApplyDamage(attacker, finalDamageInt);
 
         // Track player stat
         if (attacker.IsPlayerAgent)

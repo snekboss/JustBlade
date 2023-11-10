@@ -1,12 +1,11 @@
-using System;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 /// <summary>
 /// An abstract class which is meant to be inherited by anything that is designated as Agent.
 /// It contains references to fields which are used by all agents.
-/// Most of this class' methods are either abstract or virtual, so refer to the derived classes for more info.
+/// Most of this class' methods are either abstract or virtual, so refer to the derived classes for more information.
 /// </summary>
 public abstract class Agent : MonoBehaviour
 {
@@ -23,10 +22,22 @@ public abstract class Agent : MonoBehaviour
         Left
     }
 
-    public const float AgentDespawnTime = 5;
+    const float AgentDespawnTime = 5;
 
+    /// <summary>
+    /// True if the agent has less than or equal to zero <see cref="CharacteristicManager.Health"/>.
+    /// </summary>
     public bool IsDead { get { return CharMgr.IsDead; } }
+    /// <summary>
+    /// This is set to true by <see cref="PlayerAgent"/> in <see cref="PlayerAgent.Awake"/>;
+    /// false by every other agent.
+    /// </summary>
     public bool IsPlayerAgent { get; protected set; }
+    /// <summary>
+    /// True if the agent is a friend of the player (ie, will fight for the player); false otherwise.
+    /// It also invokes <see cref="Agent.InitializeFriendlinessIndicator"/> so that the friendly agents
+    /// get an indicator above their heads to determine whether they're friendly to the player or not.
+    /// </summary>
     public bool IsFriendOfPlayer
     {
         get
@@ -42,6 +53,9 @@ public abstract class Agent : MonoBehaviour
     }
     public bool isFriendOfPlayer;
 
+    /// <summary>
+    /// Access the <see cref="EquipmentManager"/> of this agent.
+    /// </summary>
     public EquipmentManager EqMgr
     {
         get
@@ -55,6 +69,10 @@ public abstract class Agent : MonoBehaviour
         }
     }
     EquipmentManager eqMgr;
+
+    /// <summary>
+    /// Access the <see cref="AnimationManager"/> of this agent.
+    /// </summary>
     public AnimationManager AnimMgr
     {
         get
@@ -69,6 +87,9 @@ public abstract class Agent : MonoBehaviour
     }
     AnimationManager animMgr;
 
+    /// <summary>
+    /// Access the <see cref="LimbManager"/> of this agent.
+    /// </summary>
     public LimbManager LimbMgr
     {
         get
@@ -83,6 +104,9 @@ public abstract class Agent : MonoBehaviour
     }
     LimbManager limbMgr;
 
+    /// <summary>
+    /// Access the <see cref="CharacteristicManager"/> of this agent.
+    /// </summary>
     public CharacteristicManager CharMgr
     {
         get
@@ -97,6 +121,9 @@ public abstract class Agent : MonoBehaviour
     }
     CharacteristicManager charMgr;
 
+    /// <summary>
+    /// Access the <see cref="AgentAudioManager"/> of this agent.
+    /// </summary>
     public AgentAudioManager AudioMgr
     {
         get
@@ -112,14 +139,14 @@ public abstract class Agent : MonoBehaviour
     AgentAudioManager audioMgr;
 
     // Every agent has this (including the player) so that they can avoid one another.
-    protected UnityEngine.AI.NavMeshAgent nma;
+    protected NavMeshAgent nma;
 
 
     /// <summary>
     /// An delegate for when an agent dies.
     /// </summary>
-    /// <param name="victim"></param>
-    /// <param name="killer"></param>
+    /// <param name="victim">Victim agent.</param>
+    /// <param name="killer">Killer agent.</param>
     public delegate void AgentDeathEvent(Agent victim, Agent killer);
     /// <summary>
     /// The event of this agent's death.
@@ -132,18 +159,12 @@ public abstract class Agent : MonoBehaviour
     public float LookAngleX { get; protected set; }
 
     /// <summary>
-    /// Applies damage to the <see cref="Health"/> of this agent.
-    /// If the Health goes below zero, the agent dies.
-    /// When the agent is dead, it is automatically despawned via <see cref="AgentDespawnCoroutine"/>.
+    /// Invoked by <see cref="CharacteristicManager.ApplyDamage(Agent, int)"/> when this <see cref="Agent"/> dies.
+    /// It starts the <see cref="AgentDespawnCoroutine"/> to despawn the agent game object.
+    /// It also plays a death sound and animation.
+    /// Finally, it invokes the <see cref="OnDeath"/> event if it has any subscribers.
     /// </summary>
-    /// <param name="attacker">The agent whom damaged this agent.</param>
-    /// <param name="amount">The amount by which the health should be damaged.</param>
-    public void ApplyDamage(Agent attacker, int amount)
-    {
-        CharMgr.ApplyDamage(attacker, amount);
-        AudioMgr.PlayHurtSound();
-    }
-
+    /// <param name="killer"></param>
     public void OnThisAgentDeath(Agent killer)
     {
         AnimMgr.PlayDeathAnimation();
@@ -165,9 +186,33 @@ public abstract class Agent : MonoBehaviour
 
     protected virtual void InitializeFriendlinessIndicator() { }
 
+    /// <summary>
+    /// A virtual method mainly used by <see cref="AiAgent"/>s to set their preference towards
+    /// using vertical attacks (up/down) more often rather than using all directions equally likely.
+    /// They take the distance to their closest friend into account when making this decision.
+    /// </summary>
+    /// <param name="distanceToClosestFriend">Distance to the closest friend of this agent.</param>
     public virtual void ToggleCombatDirectionPreference(float distanceToClosestFriend) { }
+
+    /// <summary>
+    /// A virtual method mainly used by <see cref="AiAgent"/>s to consider a nearby enemy.
+    /// An <see cref="AiAgent"/> will change their targetted enemy based on certain conditions,
+    /// and this method is meant to provide an enemy to consider for targetting.
+    /// Refer to <see cref="AiAgent.ConsiderNearbyEnemy(Agent)"/> for more details.
+    /// </summary>
+    /// <param name="nearbyEnemy"></param>
     public virtual void ConsiderNearbyEnemy(Agent nearbyEnemy) { }
 
+    /// <summary>
+    /// A method mainly used by <see cref="PlayerAgent"/> to see if he is moving backwards,
+    /// based on a local movement direction vector.
+    /// If so, this information can then be used to apply a movement speed penalty for moving backwards.
+    /// Currently, only the <see cref="PlayerAgent"/> uses this, as the <see cref="AiAgent"/>s' navigation
+    /// are handled by Unity's <see cref="NavMeshAgent"/> system.
+    /// </summary>
+    /// <param name="localMoveDir">A movement direction vector
+    /// with respect to the local space of this agent.</param>
+    /// <returns></returns>
     protected bool IsMovingBackwards(Vector3 localMoveDir)
     {
         if (localMoveDir.z > 0f)
@@ -181,6 +226,25 @@ public abstract class Agent : MonoBehaviour
             && (angle < CharacteristicManager.MovingBackwardsAngleMax);
     }
 
+    /// <summary>
+    /// Initialize the equipment and characteristics of this <see cref="Agent"/>.
+    /// After the instantiation of any agent, this method should be used to initialize such things.
+    /// All agents will spawn with their equipment and characteristics.
+    /// Currently, these things cannot be changed after the spawning has occured.
+    /// If
+    /// </summary>
+    /// <param name="weaponPrefab">A reference to the <see cref="Weapon"/> prefab.</param>
+    /// <param name="headArmorPrefab">A reference to the <see cref="Armor"/> 
+    /// prefab of <see cref="Armor.ArmorType.Head"/>.</param>
+    /// <param name="torsoArmorPrefab">A reference to the <see cref="Armor"/> 
+    /// prefab of <see cref="Armor.ArmorType.Torso"/>.</param>
+    /// <param name="handArmorPrefab">A reference to the <see cref="Armor"/> 
+    /// prefab of <see cref="Armor.ArmorType.Hand"/>.</param>
+    /// <param name="legArmorPrefab">A reference to the <see cref="Armor"/> 
+    /// prefab of <see cref="Armor.ArmorType.Leg"/>.</param>
+    /// <param name="characteristicPrefab">A reference to the specific <see cref="CharacteristicSet"/>
+    /// prefab to initialize the <see cref="CharacteristicManager"/> of this agent.
+    /// The default values in <see cref="CharacteristicManager"/> will be used if this argument is null.</param>
     public virtual void InitializeAgent(Weapon weaponPrefab
         , Armor headArmorPrefab
         , Armor torsoArmorPrefab
@@ -211,22 +275,36 @@ public abstract class Agent : MonoBehaviour
         AudioMgr.InitializeAgentAudioManager();
     }
 
+    /// <summary>
+    /// A method to initialize the position of a newly spawned <see cref="Agent"/>.
+    /// All agents could potentially use Unity's <see cref="NavMeshAgent"/>, for various reasons.
+    /// When using <see cref="Object.Instantiate(Object)"/> to spawn an agent, if the spawn position is not
+    /// recognized by Unity's <see cref="NavMesh"/>, then Unity complains.
+    /// To avoid these complaints, the <see cref="NavMeshAgent"/> component of agents should be disabled by default.
+    /// This method method is used to set the position of a newly spawned agent, and then renable its
+    /// <see cref="NavMeshAgent"/> component.
+    /// </summary>
+    /// <param name="worldPos"></param>
     public virtual void InitializePosition(Vector3 worldPos) { }
 
     /// <summary>
-    /// TODO: Write summary.
-    /// Firstly, only <see cref="PlayerAgent"/> can jump anyway (the others cant).
-    /// Secondly, the meanings of <see cref="IsGrounded"/> and <see cref="IsFalling"/> are different.
-    /// IsFalling is based on a timer.
+    /// A virtual method which tells whether the <see cref="Agent"/> is grounded or not.
+    /// Mainly used by <see cref="PlayerAgent"/>, as the other agents currently do not jump.
+    /// To be grounded means to be touching the ground.
+    /// The meanings of <see cref="IsGrounded"/> and <see cref="IsFalling"/> are different.
+    /// For example, if an agent is NOT grounded, this doesn't necessarily mean he is falling.
+    /// The state of "falling" is based on a timer, to keep the animations from playing too early.
     /// </summary>
     /// <returns>True if the agent is touching the ground; false otherwise</returns>
     public virtual bool IsGrounded() { return true; }
 
     /// <summary>
-    /// TODO: Write summary.
+    /// A virtual method which tells whether the <see cref="Agent"/> is falling or not.
+    /// Mainly used by <see cref="PlayerAgent"/>, as the other agents currently do not jump/fall.
     /// Firstly, only <see cref="PlayerAgent"/> can jump anyway (the others cant).
-    /// Secondly, the meanings of <see cref="IsGrounded"/> and <see cref="IsFalling"/> are different.
-    /// IsFalling is based on a timer.
+    /// The meanings of <see cref="IsGrounded"/> and <see cref="IsFalling"/> are different.
+    /// For example, if an agent is NOT grounded, this doesn't necessarily mean he is falling.
+    /// The state of "falling" is based on a timer, to keep the animations from playing too early.
     /// </summary>
     /// <returns>True if the agent is falling; false otherwise</returns>
     public virtual bool IsFalling() { return false; }
@@ -242,13 +320,14 @@ public abstract class Agent : MonoBehaviour
     }
 
     /// <summary>
-    /// TODO: Explain that this method should not use <see cref="StaticVariables.IsGamePaused"/>
-    /// because it causes the spine to not get connected (or rotated) when the game is paused.
     /// Unity's LateUpdate method.
     /// It is used to adjust the spine bone of all agents.
     /// The spine bone is connected to the pelvis bone manually.
     /// It's also rotated about its local X axis, so that the agents can look up and down while attacking.
     /// Since animations are done in Update, any animation related post processing is done in LateUpdate.
+    /// Note that this method should not use <see cref="StaticVariables.IsGamePaused"/> to pause the method.
+    /// Because, even when the game is paused, we would like the spine bone to be connected and rotated
+    /// accordingly, in order to avoid visual discrepancies.
     /// </summary>
     protected virtual void LateUpdate()
     {
