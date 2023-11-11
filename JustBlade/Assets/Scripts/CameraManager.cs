@@ -3,8 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// TODO: The camera is still controlled by <see cref="PlayerAgent"/>, because currently, it doesn't
-/// make sense to move the camera while there is no <see cref="PlayerAgent"/> around.
+/// A script which contains the logic to control <see cref="Camera.main"/>.
+/// In this game, it doesn't make sense to have a controllable camera when the is no <see cref="PlayerAgent"/> around.
+/// The <see cref="PlayerAgent"/> controls the camera. However, to make things more pleasing to the eye,
+/// the logic of the control of the camera is moved to its separate class, ie the <see cref="CameraManager"/>.
+/// The controls are done via inputs, which are managed by Unity's <see cref="Input"/> system.
+/// This class doesn't have its own Update method. It is updated via the <see cref="PlayerAgent"/>'s update method,
+/// which invokes <see cref="UpdateCamera"/>.
+/// The <see cref="PlayerAgent"/> also invokes <see cref="LateUpdateCamera"/> in its own LateUpdate.
+/// The position and rotation of the camera must be handled in a LateUpdate call, to avoid "jittery" visuals
+/// in the camera's movement.
 /// </summary>
 public class CameraManager : MonoBehaviour
 {
@@ -17,9 +25,17 @@ public class CameraManager : MonoBehaviour
     readonly float ThirdPersonCameraOffsetZmax = 3.5f; // used to be 2.5f
     readonly float CameraSmoothRotateLerpRate = 0.8f;
 
-    // Prefabs to be set in the inspector.
+    /// <summary>
+    /// Main camera prefab, to be set in the Inspector menu.
+    /// </summary>
     public Camera mainCameraPrefab;
+    /// <summary>
+    /// Third person view camera tracking point, to be set in the Inspector menu.
+    /// </summary>
     public Transform thirdPersonViewTrackingPoint;
+    /// <summary>
+    /// First person view camera tracking point, to be set in the Inspector menu.
+    /// </summary>
     public Transform firstPersonViewTrackingPoint;
     Transform chosenCameraTrackingPoint;
     /// <summary>
@@ -47,7 +63,7 @@ public class CameraManager : MonoBehaviour
     PlayerAgent playerAgent;
 
     /// <summary>
-    /// Spawns the main camera, if it is null.
+    /// Spawns the main camera if it is null, using <see cref="mainCameraPrefab"/>.
     /// </summary>
     void SpawnMainCamera()
     {
@@ -57,6 +73,10 @@ public class CameraManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Initializes the camera for the <see cref="PlayerAgent"/> to control.
+    /// </summary>
+    /// <param name="playerAgent"></param>
     public void InitializeCamera(PlayerAgent playerAgent)
     {
         this.playerAgent = playerAgent;
@@ -64,6 +84,9 @@ public class CameraManager : MonoBehaviour
         SetCameraTrackingPoint();
     }
 
+    /// <summary>
+    /// Read inputs from Unity's <see cref="Input"/> system.
+    /// </summary>
     void ReadInputs()
     {
         // Camera rotation
@@ -80,6 +103,7 @@ public class CameraManager : MonoBehaviour
         btnRpressed = Input.GetKeyDown(KeyCode.R);
         btnTpressed = Input.GetKeyDown(KeyCode.T);
     }
+
     /// <summary>
     /// Manages the switching between first person and third person views by calling <see cref="SetCameraTrackingPoint"/>.
     /// It also toggles between orbital camera mode based on <see cref="IsCameraModeOrbital"/>.
@@ -100,8 +124,8 @@ public class CameraManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets the <see cref="chosenCameraTrackingPoint"/> depending on whether or not the camera is in first or third person mode.
-    /// It also sets the visibility of the helmet.
+    /// Sets the <see cref="chosenCameraTrackingPoint"/> depending on whether or not the camera is in first
+    /// or third person mode. It also sets the visibility of the helmet.
     /// </summary>
     void SetCameraTrackingPoint()
     {
@@ -117,6 +141,13 @@ public class CameraManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// A method which is meant to be invoked in every Update call.
+    /// Primarily used by <see cref="PlayerAgent.Update"/>.
+    /// It reads inputs which will be used to control the camera.
+    /// It is better to read inputs in Update, to avoid "input lag".
+    /// It also handles the camera's view mode, and tracking point.
+    /// </summary>
     public void UpdateCamera()
     {
         ReadInputs();
@@ -126,8 +157,8 @@ public class CameraManager : MonoBehaviour
     }
 
     /// <summary>
-    /// TODO: Explain that this should be invoked from LateUpdate.
     /// Handles the rotation of the camera based on mouse input.
+    /// Primarily used by <see cref="LateUpdateCamera"/>.
     /// </summary>
     void HandleCameraRotation()
     {
@@ -163,11 +194,9 @@ public class CameraManager : MonoBehaviour
     }
 
     /// <summary>
-    /// TODO: Explain also, that in general, it's PROBABLY better to do this in late update anyway. Dunno though. Think later. I'm hungry.
-    /// Handles the position of the camera.
-    /// This method is best called from <see cref="LateUpdate"/> method.
-    /// This is because, if the camera is in first person view mode, then we want the spine bone to be rotated
-    /// before we place the camera in the agent's eye.
+    /// Handles the position of the camera based on whatever it is tracking.
+    /// Primarily used by <see cref="LateUpdateCamera"/>.
+
     /// </summary>
     void HandleCameraPosition()
     {
@@ -200,6 +229,14 @@ public class CameraManager : MonoBehaviour
         Camera.main.transform.position = destination;
     }
 
+    /// <summary>
+    /// A method which is meant to be invoked in every Update call.
+    /// Primarily used by <see cref="PlayerAgent.LateUpdate"/>.
+    /// The camera's position and rotation must be set in a LateUpdte call (ie, after Update has been called).
+    /// This is because we do not want to have "jittery" camera movement.
+    /// Also, animations are done in Update. So, if the player chooses to use the first person view mode,
+    /// then we want to set the camera's position in LateUpdate (ie, after animations have played out in Update).
+    /// </summary>
     public void LateUpdateCamera()
     {
         // Rotate the camera first in order to avoid jittery camera.

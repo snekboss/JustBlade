@@ -4,6 +4,12 @@ using UnityEngine;
 
 /// <summary>
 /// A static class which contains the methods that are used in combat.
+/// It is mainly used by the <see cref="Weapon"/> class.
+/// The methods have been put here to avoid cluttering the <see cref="Weapon"/> class with such details.
+/// Some examples are: 
+/// - Mehtods regarding determining if an <see cref="Agent"/> was able to defend against an attack.
+/// - Methods regarding which "getting hurt" animation should be played, based on the attack direction
+/// and the position of the defender (as well as the relative position of the attacker).
 /// </summary>
 public static class CombatMechanics
 {
@@ -143,7 +149,8 @@ public static class CombatMechanics
     }
 
     /// <summary>
-    /// Calculates and applies the damage value to the defender agent, inflicted by the attacker agent, based on the attacked limb type.
+    /// Calculates and applies the damage value to the defender agent, inflicted by the attacker agent,
+    /// based on the attacked limb type.
     /// </summary>
     /// <param name="attacker">The attacking agent.</param>
     /// <param name="defender">The defending agent.</param>
@@ -152,7 +159,7 @@ public static class CombatMechanics
     {
         bool attackerIsStabbing = attacker.AnimMgr.IsAttackingFromDown;
 
-        Weapon attackerWeapon = attacker.EqMgr.equippedWeapon;
+        Weapon attackerWeapon = attacker.EqMgr.EquippedWeapon;
         float rawDamage = 0;
 
         // The reason for this code is because Unity's inspector menu doesn't want to serialize dictionaries by default.

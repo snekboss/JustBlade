@@ -9,6 +9,13 @@ using UnityEngine.UI;
 /// <summary>
 /// A script which designates the attached game object as In Game UI.
 /// It contains the logic of the controls of the In Game UI.
+/// The InGameUI shows certain information about the status of the <see cref="PlayerAgent"/>.
+/// This includes things like remaining health and gold of the player; as well as the
+/// order status of the player (ie, whether the player has ordered his mercenaries to "hold position" or "attack").
+/// Since this is a UI script, many of the fields are meant to be set using Unity's Inspector menu.
+/// For this reason, these fields were not given commented documentation, as there are many of them.
+/// Some of public methods may also not have been given commented documentation, as they're just
+/// callbacks for the UI widgets.
 /// </summary>
 public class InGameUI : MonoBehaviour
 {
@@ -90,6 +97,11 @@ public class InGameUI : MonoBehaviour
         StaticVariables.PlayerCameraRotationSpeed = val;
     }
 
+    /// <summary>
+    /// Callback method when the sound slider's value has been changed.
+    /// It changes the overall sound (ie, master volume) of the game, value by changing
+    /// <see cref="StaticVariables.SoundSetting"/>.
+    /// </summary>
     public void OnSliderValueChanged_Sound()
     {
         float val = sliderSound.value;
@@ -113,7 +125,7 @@ public class InGameUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Quits the tournament, and loads the MainMenuScene.
+    /// Quits the Horde game mode, and loads the MainMenuScene.
     /// Does not ask for confirmation.
     /// </summary>
     public void OnButtonClick_ReturnToMainMenu()
@@ -159,10 +171,11 @@ public class InGameUI : MonoBehaviour
     }
 
     /// <summary>
-    /// In order to update the UI elements which involve the <see cref="playerAgent"/>'s health, it needs a reference to it first.
+    /// In order to update the UI elements which involve the <see cref="playerAgent"/>'s health,
+    /// it needs a reference to it first.
     /// Since the player agent may not spawn immediately, it needs to check every frame until it can find the player agent.
     /// Once the player is found, the In Game UI logic script is activated.
-    /// This method handles that logic.
+    /// This method handles the logic of this edge case.
     /// </summary>
     void FindPlayerAgentInScene()
     {
@@ -196,6 +209,10 @@ public class InGameUI : MonoBehaviour
         healthBar.transform.localScale = new Vector3(healthRatio, y, z);
     }
 
+    /// <summary>
+    /// Upgrades the texts on the screen in the game.
+    /// Examples of these texts are gold, player order status (ie, "holding position" vs "attacking).
+    /// </summary>
     void UpdateTexts()
     {
         if (playerAgent == null)

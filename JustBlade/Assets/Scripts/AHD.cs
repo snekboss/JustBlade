@@ -1,13 +1,23 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
 /// AHD means Animator Hash Data.
 /// Unity doesn't like to check for the states and transitions via a string due to performance issues.
-/// Therefore, we have to use the <see cref="Animator.StringToHash(string)"/> method to get the corresponding hash values,
-/// and check for the states and transitions that way.
-/// In order to reduce clutter in <see cref="AnimationManager"/>, these hash values were put here, since they're the same across all Animators.
+/// Therefore, we have to use the <see cref="Animator.StringToHash(string)"/> method to get the
+/// corresponding hash values, and check for the states and transitions that way.
+/// In order to reduce clutter in <see cref="AnimationManager"/>, these hash values were put here,
+/// since they're the same across all Animators.
+/// For any given state in Unity's Mecanim, it considers you to be on that state until you have
+/// fully transitioned out of it. This causes issues. For example, if you're in the "atk_release" state,
+/// you are considered to be "attacking". However, while you're transitioning out of it that state,
+/// if you haven't FULLY transitioned out of it, then you are still considered to be "attacking",
+/// due to how Mecanim works as described above. Therefore, in such cases, it is required to explicitly
+/// state that we do not want these transitions to be considered "attacking". Since there are many cases
+/// similar to this (eg: many "atk" states, many "def" states), there are a lot of transitions to consider,
+/// which increases the number of hash integers we have to store. This is the reason why there is a rather
+/// large amount of hash values stored in this class.
+/// This class can be easily turned into Singleton if it's necessary (eg: if static memory is getting too large).
+/// However, at the time of writing this, it wasn't necessary.
 /// </summary>
 public static class AHD
 {

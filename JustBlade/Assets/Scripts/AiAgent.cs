@@ -5,7 +5,7 @@ using UnityEngine.AI;
 
 /// <summary>
 /// A class which designates the attached game object as an AiAgent.
-/// AiAgents are <see cref="Agent"/> object which are controlled by the state machine written in this class.
+/// AiAgents are <see cref="Agent"/> objects, which are controlled by the state machine written in this class.
 /// These agents are not controlled by the player.
 /// An AiAgent also requires:
 /// - <see cref="AnimationManager"/>.
@@ -13,8 +13,8 @@ using UnityEngine.AI;
 /// - <see cref="LimbManager"/>.
 /// - <see cref="AgentAudioManager"/>
 /// - <see cref="CharacteristicManager"/>
-/// - <see cref="NavMeshAgent"/>. In particular, make sure this component is disabled
-/// in the Inspector menu. Enable this component via code using .
+/// - <see cref="NavMeshAgent"/> (in particular, make sure this component is disabled
+/// in the Inspector menu. Enable this component via code using <see cref="Agent.InitializePosition(UnityEngine.Vector3)"/>.)
 /// </summary>
 [RequireComponent(typeof(NavMeshAgent))]
 public class AiAgent : Agent
@@ -33,7 +33,7 @@ public class AiAgent : Agent
     const float TorsoLookPercentPosY = 0.75f;
     const float LegsLookPercentPosY = 0.5f;
     const float SlerpRateLookDirection = 0.2f;
-    const float LerpRateYawAngle = 0.1f;
+    const float LerpRateYawAngle = 0.1f; 
 
     const float AttackTimeMax = 0.5f;
     const float DefendTimeMax = 2.5f;
@@ -47,14 +47,25 @@ public class AiAgent : Agent
     const float AttackDistanceMultiplier = 2f;
     const float ChanceToChooseVerticalCombatDirection = 0.8f; // chance to choose up or down as combat dir.
     const float ChanceToChooseLegAsTargetLimbType = 0.1f;
+
     const float NavMeshAgentBaseAcceleration = 4.0f;
+
     const float ChanceToDefendWhenDamaged = 0.5f;
     const float ReducedChanceToDefendPerPoise = 0.15f;
     const float ChanceToTargetNearbyEnemy = 0.25f;
 
     #region Friendliness indicator related fields
+    /// <summary>
+    /// Friendliness indicator game object, set in the Inspector.
+    /// </summary>
     public GameObject friendlinessIndicator;
+    /// <summary>
+    /// Friendliness color material, set in the Inspector.
+    /// </summary>
     public Material friendlyColorMat;
+    /// <summary>
+    /// Enmity color material, set in the Inspector.
+    /// </summary>
     public Material enemyColorMat;
     #endregion
 
@@ -67,7 +78,10 @@ public class AiAgent : Agent
 
     bool isAtk;
     bool isDef;
-    public bool IsAggressive { get; set; }  // attacks relentlessly, without defending at all.
+    /// <summary>
+    /// If set to true, the <see cref="AiAgent"/> attacks relentlessly, without defending at all.
+    /// </summary>
+    public bool IsAggressive { get; set; }
 
     CombatDirection combatDir;
 
@@ -96,6 +110,9 @@ public class AiAgent : Agent
     float defendTimer;
     float searchForEnemyTimer;
 
+    /// <summary>
+    /// True if this <see cref="AiAgent"/> was ordered to hold position by the <see cref="PlayerAgent"/>.
+    /// </summary>
     public bool IsOrderedToHoldPosition { get; protected set; }
 
     AiCombatState combatState;
@@ -104,7 +121,7 @@ public class AiAgent : Agent
     /// A delegate for when the AiAgent wants to search for an enemy.
     /// </summary>
     /// <param name="caller">The AiAgent who wants to search for an enemy.</param>
-    /// <returns></returns>
+    /// <returns>An enemy agent for this AiAgent.</returns>
     public delegate Agent AiAgentSearchForEnemyEvent(AiAgent caller);
     public event AiAgentSearchForEnemyEvent OnSearchForEnemyAgent;
 
@@ -125,21 +142,22 @@ public class AiAgent : Agent
         InitializeAiAgent();
     }
 
-    /// <summary>
-    /// TODO: Explain this nonsense. All this to supress some warnings in a single frame...
-    /// </summary>
-    /// <param name="worldPos"></param>
     public override void InitializePosition(Vector3 worldPos)
     {
         transform.position = worldPos;
         InitializeNavMeshAgent();
     }
 
+    /// <summary>
+    /// Initializes values for the <see cref="AiAgent"/>s artificial intelligence state machine to function properly.
+    /// The values that are initialized are used to see if this AiAgent is close to (or far from) the enemy,
+    /// among other things.
+    /// </summary>
     void InitializeAiAgent()
     {
         // --- Combat distance related parameters ---
         // Must check if weapon is null in case EquipmentManager hasn't received its equipment yet.
-        float weaponLength = (EqMgr.equippedWeapon == null) ? 0f : EqMgr.equippedWeapon.weaponLength;
+        float weaponLength = (EqMgr.EquippedWeapon == null) ? 0f : EqMgr.EquippedWeapon.weaponLength;
         weaponLength *= CharMgr.AgentSizeMultiplier;
 
         TooFarBorder = CharMgr.AgentWorldRadius + weaponLength * TooFarMultiplier;
@@ -166,9 +184,9 @@ public class AiAgent : Agent
     }
 
     /// <summary>
-    /// Initializes the values of Unity's <see cref="NavMeshAgent"/>.
-    /// It's also used to initialize the rigidbody attached to this agent.
-    /// The rigidbody was attached so that the AiAgents don't walk through one another.
+    /// The <see cref="AiAgent"/>s are driven by Unity's <see cref="NavMeshAgent"/>.
+    /// This method initializes the values for <see cref="NavMeshAgent"/>, based on this <see cref="AiAgent"/>'s
+    /// characteristics (see: <see cref="CharacteristicManager"/>).
     /// </summary>
     void InitializeNavMeshAgent()
     {
@@ -195,7 +213,7 @@ public class AiAgent : Agent
     /// <summary>
     /// An override of <see cref="Agent.OnThisAgentDamaged(Agent, int)"/>.
     /// When damaged, AiAgents focus on the agent who damaged them.
-    /// They also attack or defend based on the flip of a coin.
+    /// They also attack or defend based on the a "chance to defend".
     /// </summary>
     /// <param name="attacker"></param>
     /// <param name="amount"></param>
@@ -226,6 +244,14 @@ public class AiAgent : Agent
         }
     }
 
+    /// <summary>
+    /// Toggles the state of "holding position", which is an order that the <see cref="PlayerAgent"/>
+    /// gives to friendly <see cref="AiAgent"/>s.
+    /// If the player is not ordering to "hold position" then the AiAgents just charge at will.
+    /// </summary>
+    /// <param name="isPlayerOrderingToHoldPosition">True if the player is ordering to hold position;
+    /// false otherwise</param>
+    /// <param name="positionToHold">A position to hold, calculated by the caller method.</param>
     public void ToggleHoldPosition(bool isPlayerOrderingToHoldPosition, Vector3 positionToHold)
     {
         IsOrderedToHoldPosition = isPlayerOrderingToHoldPosition;
@@ -238,7 +264,7 @@ public class AiAgent : Agent
 
     public override void ToggleCombatDirectionPreference(float distanceToClosestFriend)
     {
-        float weaponLength = (EqMgr.equippedWeapon == null) ? 0f : EqMgr.equippedWeapon.weaponLength;
+        float weaponLength = (EqMgr.EquippedWeapon == null) ? 0f : EqMgr.EquippedWeapon.weaponLength;
         float border = weaponLength + (CharMgr.AgentWorldRadius * 2f);
 
         // If distance to closest friend is less than the border,
@@ -286,7 +312,7 @@ public class AiAgent : Agent
     /// Meaning, if the agent is currently meant to be looking at the <see cref="Limb.LimbType.Torso"/>,
     /// then this method returns the correct position in world coordinates of where he is meant to look at.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>Position to look at, in world coordinates.</returns>
     Vector3 GetLookPosition()
     {
         if (enemyAgent == null)
@@ -296,36 +322,36 @@ public class AiAgent : Agent
 
         if (targetLimbType == Limb.LimbType.Head)
         {
-            float headStartPosY = enemyAgent.LimbMgr.limbHead.transform.position.y;
+            float headStartPosY = enemyAgent.LimbMgr.LimbHead.transform.position.y;
             float headEndPosY = CharMgr.AgentWorldHeight;
 
             float chosenPosY = Mathf.Lerp(headStartPosY, headEndPosY, HeadLookPercentPosY);
 
-            Vector3 lookPos = enemyAgent.LimbMgr.limbHead.transform.position;
+            Vector3 lookPos = enemyAgent.LimbMgr.LimbHead.transform.position;
             lookPos.y = chosenPosY;
 
             return lookPos;
         }
         else if (targetLimbType == Limb.LimbType.Torso)
         {
-            float torsoStartPosY = enemyAgent.LimbMgr.limbTorso.transform.position.y;
-            float headStartPosY = enemyAgent.LimbMgr.limbHead.transform.position.y;
+            float torsoStartPosY = enemyAgent.LimbMgr.LimbTorso.transform.position.y;
+            float headStartPosY = enemyAgent.LimbMgr.LimbHead.transform.position.y;
 
             float chosenPosY = Mathf.Lerp(torsoStartPosY, headStartPosY, TorsoLookPercentPosY);
 
-            Vector3 lookPos = enemyAgent.LimbMgr.limbTorso.transform.position;
+            Vector3 lookPos = enemyAgent.LimbMgr.LimbTorso.transform.position;
             lookPos.y = chosenPosY;
 
             return lookPos;
         }
         else /*if (targetLimbType == Limb.LimbType.Legs)*/
         {
-            float legsStartPosY = enemyAgent.LimbMgr.limbLegs.transform.position.y;
-            float torsoStartPosY = enemyAgent.LimbMgr.limbTorso.transform.position.y;
+            float legsStartPosY = enemyAgent.LimbMgr.LimbLegs.transform.position.y;
+            float torsoStartPosY = enemyAgent.LimbMgr.LimbTorso.transform.position.y;
 
             float chosenPosY = Mathf.Lerp(legsStartPosY, torsoStartPosY, LegsLookPercentPosY);
 
-            Vector3 lookPos = enemyAgent.LimbMgr.limbLegs.transform.position;
+            Vector3 lookPos = enemyAgent.LimbMgr.LimbLegs.transform.position;
             lookPos.y = chosenPosY;
 
             return lookPos;
@@ -335,7 +361,8 @@ public class AiAgent : Agent
     /// <summary>
     /// Sets the <see cref="Agent.LookAngleX"/> angle value of the AiAgent.
     /// If this AiAgent has no <see cref="enemyAgent"/>, then he AiAgent simply looks forward.
-    /// If he does have an enemy, then based on <see cref="GetLookPosition"/>, it sets the <see cref="Agent.LookAngleX"/> value.
+    /// If he does have an enemy, then based on <see cref="GetLookPosition"/>,
+    /// it sets the <see cref="Agent.LookAngleX"/> value.
     /// </summary>
     void SetLookAngleX()
     {
@@ -404,12 +431,14 @@ public class AiAgent : Agent
     /// <summary>
     /// Returns a combat direction which can be used to attack or defend.
     /// The method returns a biased combat direction. The meaning of the "bias" is the following:
-    /// If the AiAgent has no friends left, then any combat direction can be given equally likely.
-    /// If the AiAgent still has friends left, then up/down directions are more preferred.
-    /// This is because we'd like to avoid swinging wildly left/right while we still have friends, lest we hit them.
-    /// The bias depends on <see cref="ChanceToChooseVerticalCombatDirection"/>.
+    /// If the AiAgent prefers vertical combat directions (maybe because he doesn't have friends nearby),
+    /// then up/down directions are more preferred.
+    /// If the AiAgent does NOT prefer vertical combat directions (maybe because he has friends nearby), 
+    /// then any combat direction can be given equally likely.
+    /// The bias depends on <see cref="ChanceToChooseVerticalCombatDirection"/>, and
+    /// <see cref="isPreferringVerticalCombatDirs"/>.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A combat direction.</returns>
     CombatDirection GetBiasedRandomCombatDirection()
     {
         CombatDirection ret;
@@ -448,7 +477,7 @@ public class AiAgent : Agent
     /// Meaning, we prefer to attack <see cref="Limb.LimbType.Head"/> or <see cref="Limb.LimbType.Torso"/>.
     /// The bias depends on <see cref="ChanceToChooseLegAsTargetLimbType"/>.
     /// </summary>
-    /// <returns></returns>
+    /// <returns>A limb type.</returns>
     Limb.LimbType GetBiasedRandomTargetLimbType()
     {
         // Be less likely to choose legs as the target limb type.
@@ -499,8 +528,9 @@ public class AiAgent : Agent
 
     /// <summary>
     /// Moves to the desired destination.
-    /// Currently, the desired destination is directly towards where the enemy is.
-    /// If there is no enemy, then the agent simply stops.
+    /// Currently, the desired destination is directly towards where the enemy is, unless
+    /// the player has ordered to hold a particular position.
+    /// If there is no enemy, then the AiAgent simply stops.
     /// </summary>
     void ThinkMovement()
     {
@@ -590,7 +620,7 @@ public class AiAgent : Agent
     }
 
     /// <summary>
-    /// It is used to set the <see cref="Agent.currentMovementSpeed"/>.
+    /// It is used to set the <see cref="CharacteristicManager.CurrentMovementSpeed"/>.
     /// It is also used to set <see cref="lastNonZeroSpeed"/> and <see cref="lastNonZeroVelocity"/>.
     /// The last two values are used to smooth out the foot movement animation
     /// to fight against the sudden stopping of Unity's <see cref="NavMeshAgent"/>.
@@ -609,7 +639,7 @@ public class AiAgent : Agent
     /// If this agent has an enemy, then this method doesn't do anything.
     /// If this agent has no enemy, then this method searches for a new enemy agent.
     /// The actual searching is done by calling <see cref="OnSearchForEnemyAgent"/>.
-    /// Currently, the only subscriber to this event is <see cref="HordeGameLogic.OnAiAgentSearchForEnemy(AiAgent, out int)"/>.
+    /// Currently, the only subscriber to this event is <see cref="HordeGameLogic.OnAiAgentSearchForEnemy(AiAgent)"/>.
     /// </summary>
     void HandleSearchForEnemyAgent()
     {
@@ -720,6 +750,8 @@ public class AiAgent : Agent
 
         // AiAgents are always considered to be grounded (ie, not falling), since NavMeshAgents can't jump anyway...
         AnimMgr.UpdateAnimations(localMoveDir, speed, IsFalling(), isAtk, isDef);
+
+        // Update audio manager.
         AudioMgr.UpdateAudioManager();
     }
 }

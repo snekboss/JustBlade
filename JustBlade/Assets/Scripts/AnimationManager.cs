@@ -11,7 +11,7 @@ public class AnimationManager : MonoBehaviour
     /// <summary>
     /// No, this is not the same as <see cref="Agent.CombatDirection"/>.
     /// The fact that there are 4 "getting hurt" directions doesn't mean they should be combined.
-    /// There are 4 animations because making all the specific animations I would want to have would be very time consuming.
+    /// There are 4 animations because making all the specific animations I'dwant to have, would be very time consuming.
     /// </summary>
     public enum GettingHurtDirection
     {
@@ -51,13 +51,21 @@ public class AnimationManager : MonoBehaviour
         }
     }
 
-
+    /// <summary>
+    /// Animation Override Controller for polearm animations, referenced in the Inspector menu.
+    /// </summary>
     public AnimatorOverrideController poleAOC;
     #endregion
 
     #region Spine related fields
     Agent ownerAgent;
+    /// <summary>
+    /// Spine bone of this agent, to be referenced in the Inspector menu.
+    /// </summary>
     public Transform spineBone;
+    /// <summary>
+    /// Pelvis bone of this agent, to be referenced in the Inspector menu.
+    /// </summary>
     public Transform pelvisBone;
     Vector3 initialPelvisToSpineOffset;
     Quaternion initialPelvisRotation;
@@ -147,7 +155,6 @@ public class AnimationManager : MonoBehaviour
     bool isTrans_IdleToAtkRightHold;
     bool isTrans_IdleToAtkDownHold;
     bool isTrans_IdleToAtkLeftHold;
-
 
     // atk_hold_to_release
     bool isTrans_AtkUpHoldToRelease;
@@ -352,7 +359,10 @@ public class AnimationManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Reports <see cref="Weapon.WeaponType"/> of the equipped weapon of this agent.
+    /// Reports <see cref="Weapon.WeaponType"/> of the equipped weapon of this agent,
+    /// so that the correct weapon animations are used (ie, two handed vs polearm animations).
+    /// The animations are "two handed" by default, and they're switched to "polearm"
+    /// using Unity's <see cref="RuntimeAnimatorController"/>, <see cref="Animator.runtimeAnimatorController"/>.
     /// It is mainly used by <see cref="EquipmentManager"/>.
     /// </summary>
     /// <param name="equippedWeaponType"></param>
@@ -370,7 +380,8 @@ public class AnimationManager : MonoBehaviour
 
     /// <summary>
     /// Updates the <see cref="Agent.CombatDirection"/> of the agent.
-    /// Meaning, when ever the agent changes the chosen combat direction, they should update the animations accordingly via this method.
+    /// Meaning, when ever the agent changes the chosen combat direction,
+    /// they should update the animations accordingly via this method.
     /// </summary>
     /// <param name="combatDir">The chosen combat direction.</param>
     public void UpdateCombatDirection(Agent.CombatDirection combatDir)
@@ -429,15 +440,15 @@ public class AnimationManager : MonoBehaviour
         Animat.SetLayerWeight(LayerIdAttackAndBlock, attackAndBlockLayerWeight);
         Animat.SetLayerWeight(LayerIdIdle, idleLayerWeight);
 
-        if (ownerAgent.EqMgr.equippedWeapon != null)
+        if (ownerAgent.EqMgr.EquippedWeapon != null)
         {
-            ownerAgent.EqMgr.equippedWeapon.SetCollisionAbility(false);
+            ownerAgent.EqMgr.EquippedWeapon.SetCollisionAbility(false);
         }
     }
 
     /// <summary>
-    /// Works out the out parameters moveX and moveY based on the local move direction and the current movement speed of the agent.
-    /// Then, it sets the movement animation speed and updates the animator.
+    /// Works out the out parameters moveX and moveY based on the local move direction and the
+    /// current movement speed of the agent. Then, it sets the movement animation speed and updates the animator.
     /// The movement animation of faster agents play out faster.
     /// The movement animation of slower agents play at default speed, but they "walk" rather than "run".
     /// </summary>
@@ -530,6 +541,8 @@ public class AnimationManager : MonoBehaviour
 
     /// <summary>
     /// Reads which transition the animator is currently in.
+    /// Nearly all transitions are read, and there are a lot of transitions,
+    /// which is why this method is so dense, despite being a relatively simple method.
     /// </summary>
     void ReadTransitionInfo()
     {
@@ -708,6 +721,9 @@ public class AnimationManager : MonoBehaviour
 
     /// <summary>
     /// Determines whether the agent is currently attacking or defending in a particular combat direction.
+    /// Since, for example, we do not want the agent to be "attacking" while Unity's Mecanim is in the process
+    /// of transitioning out of the "atk_release" state, we have to explicitly state that we do not consider
+    /// these "transition out" transitions to be "attacking". This is why this method is rather dense.
     /// </summary>
     void SetCombatParameters()
     {
@@ -899,15 +915,15 @@ public class AnimationManager : MonoBehaviour
     /// </summary>
     void DecideIfWeaponHitboxShouldBeActive()
     {
-        if (ownerAgent.EqMgr.equippedWeapon != null)
+        if (ownerAgent.EqMgr.EquippedWeapon != null)
         {
-            ownerAgent.EqMgr.equippedWeapon.SetCollisionAbility(IsAttacking);
+            ownerAgent.EqMgr.EquippedWeapon.SetCollisionAbility(IsAttacking);
         }
     }
 
     /// <summary>
     /// Decides if the spine bone should be rotated.
-    /// The spine bone is rotated mainly while attacking, and never while blocking.
+    /// The spine bone is rotated mainly while attacking, and never rotated while defending.
     /// It also sets the rotation limit for overhead swings, (since the rotation of overhead swings should be limited).
     /// The overhead swing rotation limit is determined via <see cref="TargetSpineAngleMaxForOverheadSwings"/>.
     /// </summary>
@@ -1134,8 +1150,8 @@ public class AnimationManager : MonoBehaviour
     /// However, this is not the case in our character model.
     /// This is because we want to be able to attack while moving.
     /// If the pelvis bone was the parent of the spine bone, then we wouldn't be able to look
-    /// at the direction we're attacking. Rather, the movement would have full control over the upper body, hence it would also affect
-    /// where the agent is looking at while attacking.
+    /// at the direction we're attacking. Rather, the movement would have full control over the upper body,
+    /// hence it would also affect where the agent is looking at while attacking.
     /// My solution was to manage the spine and pelvis bones separately, and connect them via code manually.
     /// </summary>
     void ConnectSpineToPelvis()

@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -13,6 +11,10 @@ using UnityEngine.UI;
 /// It is also shown when the player is dead or when the player has beaten the game.
 /// Note that the nicely written "flavor text" that is shown after beating a wave, beating the game, losing the game, etc.
 /// are written by Microsoft's Bing AI chat bot (based on my instructions about what should be written).
+/// Since this is a UI script, many of the fields are meant to be set using Unity's Inspector menu.
+/// For this reason, these fields were not given commented documentation, as there are many of them.
+/// Some of public methods may also not have been given commented documentation, as they're just
+/// callbacks for the UI widgets.
 /// </summary>
 public class InformationMenuUI : MonoBehaviour
 {
@@ -233,7 +235,8 @@ public class InformationMenuUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Updates all texts shown on the screen by invoking both <see cref="UpdateGameOverScreenTexts"/> and <see cref="UpdateRoundInfoScreenTexts"/>.
+    /// Updates all texts shown on the screen by invoking both <see cref="UpdateGameOverScreenTexts"/>
+    /// and <see cref="UpdateRoundInfoScreenTexts"/>.
     /// </summary>
     void UpdateTexts()
     {

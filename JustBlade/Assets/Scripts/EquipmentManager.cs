@@ -15,11 +15,21 @@ public class EquipmentManager : MonoBehaviour
     const float FinalMovementSpeedPenaltyMultiplier = 3.0f;
 
     const float DefaultMovementSpeedMultiplierFromArmor = 1.6f;
+
+    /// <summary>
+    /// A multiplier for the movement speed, determined by worn armor.
+    /// </summary>
     public float MovementSpeedMultiplierFromArmor { get; protected set; }
 
-    public Agent ownerAgent { get; private set; }
+    /// <summary>
+    /// The owner <see cref="Agent"/> to which this <see cref="EquipmentManager"/> belongs.
+    /// </summary>
+    public Agent OwnerAgent { get; private set; }
 
-    public Transform weaponBone; // item bone of the agent which is used to parent the weapon game object.
+    /// <summary>
+    /// Item bone of the agent which is used to parent the weapon game object, set in the Inspector menu.
+    /// </summary>
+    public Transform weaponBone;
 
     Transform[] agentBones; // bones of the skeleton rig of my character model
     SkinnedMeshRenderer agentHeadSMR;
@@ -28,8 +38,11 @@ public class EquipmentManager : MonoBehaviour
     SkinnedMeshRenderer agentLegsSMR;
 
     // Actual equipment game object references which have been instantiated on the scene are below.
-    public Weapon equippedWeapon;
+    public Weapon EquippedWeapon { get; private set; }
 
+    /// <summary>
+    /// <see cref="Armor.ArmorLevel"/> of the head.
+    /// </summary>
     public Armor.ArmorLevel HeadArmorLevel
     {
         get
@@ -45,6 +58,9 @@ public class EquipmentManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// <see cref="Armor.ArmorLevel"/> of the torso.
+    /// </summary>
     public Armor.ArmorLevel TorsoArmorLevel
     {
         get
@@ -60,6 +76,9 @@ public class EquipmentManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// <see cref="Armor.ArmorLevel"/> of the hands.
+    /// </summary>
     public Armor.ArmorLevel HandArmorLevel
     {
         get
@@ -75,6 +94,9 @@ public class EquipmentManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// <see cref="Armor.ArmorLevel"/> of the legs.
+    /// </summary>
     public Armor.ArmorLevel LegArmorLevel
     {
         get
@@ -95,6 +117,21 @@ public class EquipmentManager : MonoBehaviour
     Armor equippedHandArmor;
     Armor equippedLegArmor;
 
+    /// <summary>
+    /// Initializes the <see cref="EquipmentManager"/> for this <see cref="Agent"/>.
+    /// Prefabs are used for initialization.
+    /// A copy of these prefabs are used to instantiate the actual weapon/armor game objects
+    /// which are seen in the game.
+    /// </summary>
+    /// <param name="weaponPrefab">A weapon prefab game object.</param>
+    /// <param name="headArmorPrefab">An armor prefab game object with an <see cref="Armor.ArmorType"/>
+    /// of <see cref="Armor.ArmorType.Head"/></param>
+    /// <param name="torsoArmorPrefab">An armor prefab game object with an <see cref="Armor.ArmorType"/>
+    /// of <see cref="Armor.ArmorType.Torso"/></param>
+    /// <param name="handArmorPrefab">An armor prefab game object with an <see cref="Armor.ArmorType"/>
+    /// of <see cref="Armor.ArmorType.Hand"/></param>
+    /// <param name="legArmorPrefab">An armor prefab game object with an <see cref="Armor.ArmorType"/>
+    /// of <see cref="Armor.ArmorType.Leg"/></param>
     public void InitializeEquipmentManager(Weapon weaponPrefab
         , Armor headArmorPrefab
         , Armor torsoArmorPrefab
@@ -102,12 +139,12 @@ public class EquipmentManager : MonoBehaviour
         , Armor legArmorPrefab)
     {
         // Initialize fields
-        ownerAgent = GetComponent<Agent>();
+        OwnerAgent = GetComponent<Agent>();
 
-        agentHeadSMR = ownerAgent.transform.Find(StaticVariables.HumanHeadName).GetComponent<SkinnedMeshRenderer>();
-        agentTorsoSMR = ownerAgent.transform.Find(StaticVariables.HumanTorsoName).GetComponent<SkinnedMeshRenderer>();
-        agentHandsSMR = ownerAgent.transform.Find(StaticVariables.HumanHandsName).GetComponent<SkinnedMeshRenderer>();
-        agentLegsSMR = ownerAgent.transform.Find(StaticVariables.HumanLegsName).GetComponent<SkinnedMeshRenderer>();
+        agentHeadSMR = OwnerAgent.transform.Find(StaticVariables.HumanHeadName).GetComponent<SkinnedMeshRenderer>();
+        agentTorsoSMR = OwnerAgent.transform.Find(StaticVariables.HumanTorsoName).GetComponent<SkinnedMeshRenderer>();
+        agentHandsSMR = OwnerAgent.transform.Find(StaticVariables.HumanHandsName).GetComponent<SkinnedMeshRenderer>();
+        agentLegsSMR = OwnerAgent.transform.Find(StaticVariables.HumanLegsName).GetComponent<SkinnedMeshRenderer>();
 
         agentBones = agentHeadSMR.bones;
 
@@ -136,16 +173,16 @@ public class EquipmentManager : MonoBehaviour
     void SpawnWeapon(Weapon weaponPrefab)
     {
         // Let Unity complain if weaponPrefab is null. Meaning, disallow spawning without weapons.
-        equippedWeapon = Instantiate(weaponPrefab);
+        EquippedWeapon = Instantiate(weaponPrefab);
 
-        equippedWeapon.transform.parent = weaponBone.transform;
-        equippedWeapon.transform.localPosition = Vector3.zero;
-        equippedWeapon.transform.localRotation = Quaternion.identity;
-        equippedWeapon.transform.localScale = Vector3.one;
+        EquippedWeapon.transform.parent = weaponBone.transform;
+        EquippedWeapon.transform.localPosition = Vector3.zero;
+        EquippedWeapon.transform.localRotation = Quaternion.identity;
+        EquippedWeapon.transform.localScale = Vector3.one;
 
-        ownerAgent.AnimMgr.ReportEquippedWeaponType(equippedWeapon.weaponType);
+        OwnerAgent.AnimMgr.ReportEquippedWeaponType(EquippedWeapon.weaponType);
 
-        equippedWeapon.InitializeOwnerAgent(ownerAgent);
+        EquippedWeapon.InitializeOwnerAgent(OwnerAgent);
     }
 
     /// <summary>
@@ -159,7 +196,7 @@ public class EquipmentManager : MonoBehaviour
         {
             equippedHeadArmor = Instantiate(headArmorPrefab);
 
-            equippedHeadArmor.transform.parent = ownerAgent.transform;
+            equippedHeadArmor.transform.parent = OwnerAgent.transform;
             equippedHeadArmor.transform.localPosition = Vector3.zero;
             equippedHeadArmor.transform.localRotation = Quaternion.identity;
             equippedHeadArmor.transform.localScale = Vector3.one;
@@ -184,7 +221,7 @@ public class EquipmentManager : MonoBehaviour
         {
             equippedTorsoArmor = Instantiate(torsoArmorPrefab);
 
-            equippedTorsoArmor.transform.parent = ownerAgent.transform;
+            equippedTorsoArmor.transform.parent = OwnerAgent.transform;
             equippedTorsoArmor.transform.localPosition = Vector3.zero;
             equippedTorsoArmor.transform.localRotation = Quaternion.identity;
             equippedTorsoArmor.transform.localScale = Vector3.one;
@@ -209,7 +246,7 @@ public class EquipmentManager : MonoBehaviour
         {
             equippedHandArmor = Instantiate(handArmorPrefab);
 
-            equippedHandArmor.transform.parent = ownerAgent.transform;
+            equippedHandArmor.transform.parent = OwnerAgent.transform;
             equippedHandArmor.transform.localPosition = Vector3.zero;
             equippedHandArmor.transform.localRotation = Quaternion.identity;
             equippedHandArmor.transform.localScale = Vector3.one;
@@ -238,7 +275,7 @@ public class EquipmentManager : MonoBehaviour
         {
             equippedLegArmor = Instantiate(legArmorPrefab);
 
-            equippedLegArmor.transform.parent = ownerAgent.transform;
+            equippedLegArmor.transform.parent = OwnerAgent.transform;
             equippedLegArmor.transform.localPosition = Vector3.zero;
             equippedLegArmor.transform.localRotation = Quaternion.identity;
             equippedLegArmor.transform.localScale = Vector3.one;
@@ -255,6 +292,8 @@ public class EquipmentManager : MonoBehaviour
     /// <summary>
     /// Sets the visibility of the helmet (and the head) meshes.
     /// Mainly used for the <see cref="PlayerAgent"/>'s character when the camera is in first person view mode.
+    /// See also: <see cref="CameraManager"/>.
+    /// See also: <see cref="StaticVariables.IsCameraModeFirstPerson"/>.
     /// </summary>
     /// <param name="isVisible"></param>
     public void ToggleHelmetVisibility(bool isVisible)
@@ -283,12 +322,14 @@ public class EquipmentManager : MonoBehaviour
     }
 
     /// <summary>
-    /// Sets the <see cref="SkinnedMeshRenderer.updateWhenOffscreen"/> values of all armor, as well as the body parts of the agent.
-    /// This is so that the player is still able to see the animations of his <see cref="PlayerAgent"/> character in first person view mode.
+    /// Sets the <see cref="SkinnedMeshRenderer.updateWhenOffscreen"/> values of all armor,
+    /// as well as the body parts of the agent.
+    /// This is so that the player is still able to see the animations of his
+    /// <see cref="PlayerAgent"/> character in first person view mode.
     /// </summary>
     void SetSkinnedMeshVisibility()
     {
-        if (ownerAgent.IsPlayerAgent)
+        if (OwnerAgent.IsPlayerAgent)
         {
             agentHeadSMR.updateWhenOffscreen = true;
             agentTorsoSMR.updateWhenOffscreen = true;

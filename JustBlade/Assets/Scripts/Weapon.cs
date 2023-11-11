@@ -4,7 +4,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// A class which designates the attached game object as a Weapon.
+/// A class which designates the attached game object as a <see cref="Weapon"/>.
+/// This class inherits from <see cref="EquippableItem"/>.
 /// Weapons collide with scene geometry, as well as <see cref="Limb"/>s to damage other <see cref="Agent"/>s.
 /// This game's weapon damage system is very similar to Mordhau's, which is another video game.
 /// Hence, there are many fields such as <see cref="SwingDmgHeadHeavy"/> etc. which save the weapon damage values.

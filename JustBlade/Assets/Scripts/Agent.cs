@@ -51,7 +51,7 @@ public abstract class Agent : MonoBehaviour
             InitializeFriendlinessIndicator();
         }
     }
-    public bool isFriendOfPlayer;
+    bool isFriendOfPlayer;
 
     /// <summary>
     /// Access the <see cref="EquipmentManager"/> of this agent.
@@ -138,7 +138,9 @@ public abstract class Agent : MonoBehaviour
     }
     AgentAudioManager audioMgr;
 
-    // Every agent has this (including the player) so that they can avoid one another.
+    /// <summary>
+    /// Every agent has this (including the player) so that they can avoid one another.
+    /// </summary>
     protected NavMeshAgent nma;
 
 
@@ -184,6 +186,11 @@ public abstract class Agent : MonoBehaviour
     /// <param name="amount">The amount by which the health was damaged.</param>
     public virtual void OnThisAgentDamaged(Agent attacker, int amount) { }
 
+    /// <summary>
+    /// A method to initialize the friendliness indicator of <see cref="AiAgent"/>s.
+    /// These indicators are visual game objects that get different colors for friendly and enemy
+    /// <see cref="AiAgent"/>s, to help the player distinguish friend from foe.
+    /// </summary>
     protected virtual void InitializeFriendlinessIndicator() { }
 
     /// <summary>
@@ -231,7 +238,8 @@ public abstract class Agent : MonoBehaviour
     /// After the instantiation of any agent, this method should be used to initialize such things.
     /// All agents will spawn with their equipment and characteristics.
     /// Currently, these things cannot be changed after the spawning has occured.
-    /// If
+    /// This is one of the two methods required to fully initialize an Agent.
+    /// The other one is <see cref="Agent.InitializePosition(Vector3)"/>.
     /// </summary>
     /// <param name="weaponPrefab">A reference to the <see cref="Weapon"/> prefab.</param>
     /// <param name="headArmorPrefab">A reference to the <see cref="Armor"/> 

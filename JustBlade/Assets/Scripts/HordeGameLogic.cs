@@ -192,7 +192,7 @@ public class HordeGameLogic : MonoBehaviour
 
         // Assume that the caller is a friend of the player, thus needs an enemy from the enemy team.
         List<Agent> listOfEnemies = enemyTeamAgents;
-        if (caller.isFriendOfPlayer == false)
+        if (caller.IsFriendOfPlayer == false)
         {
             // Turns out, the caller is an enemy of the player, thus needs an enemy from the player team.
             listOfEnemies = playerTeamAgents;
@@ -570,7 +570,7 @@ public class HordeGameLogic : MonoBehaviour
     {
         // Assume that thisAgent is a friend of the player.
         List<Agent> listToChoose = enemyTeamAgents;
-        if (agent.isFriendOfPlayer == false)
+        if (agent.IsFriendOfPlayer == false)
         {
             // Turns out, thisAgent is an enemy of the player.
             listToChoose = playerTeamAgents;
@@ -593,7 +593,7 @@ public class HordeGameLogic : MonoBehaviour
     {
         // Assume that thisAgent is a friend of the player.
         List<Agent> listToChoose = playerTeamAgents;
-        if (agent.isFriendOfPlayer == false)
+        if (agent.IsFriendOfPlayer == false)
         {
             // Turns out, thisAgent is an enemy of the player.
             listToChoose = enemyTeamAgents;

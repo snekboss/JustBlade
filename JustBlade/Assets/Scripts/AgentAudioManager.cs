@@ -1,13 +1,27 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
+
+/// <summary>
+/// This script manages the audio that should be played for the attached <see cref="Agent"/>.
+/// It manages and plays sound effects such as footsteps, grunting sounds, etc.
+/// This script doesn't have an Update method of its own. Its <see cref="UpdateAudioManager"/> method
+/// should be invoked from the Update method of the agent class to which it belongs.
+/// </summary>
 public class AgentAudioManager : MonoBehaviour
 {
     Agent ownerAgent;
 
+    /// <summary>
+    /// Left foot bone, set in the Inspector.
+    /// </summary>
     public Transform leftFoot;
+    /// <summary>
+    /// Right foot bone, set in the Inspector.
+    /// </summary>
     public Transform rightFoot;
+    /// <summary>
+    /// Head bone, set in the Inspector.
+    /// </summary>
     public Transform head;
 
     #region Footstep related fields
@@ -27,11 +41,20 @@ public class AgentAudioManager : MonoBehaviour
     bool isAttackingPrevFrame;
     const float GruntChance = 0.5f;
 
+    /// <summary>
+    /// Initializes the audio manager for this <see cref="Agent"/>.
+    /// It mostly just gets a reference to its owner agent.
+    /// </summary>
     public void InitializeAgentAudioManager()
     {
         ownerAgent = GetComponent<Agent>();
     }
 
+    /// <summary>
+    /// This method should be invoked in the Update method of the <see cref="Agent"/> to which
+    /// this <see cref="AgentAudioManager"/> belongs.
+    /// It will manage and play footstep sounds, grunting, etc.
+    /// </summary>
     public void UpdateAudioManager()
     {
         ManageFootsteps();
@@ -55,6 +78,10 @@ public class AgentAudioManager : MonoBehaviour
         isAttackingPrevFrame = ownerAgent.AnimMgr.IsAttacking;
     }
 
+    /// <summary>
+    /// Plays a hurt sound effect. It should be used when an <see cref="Agent"/> is hurt.
+    /// The sound is not played if the agent is dead.
+    /// </summary>
     public void PlayHurtSound()
     {
         if (ownerAgent.IsDead)
@@ -65,6 +92,9 @@ public class AgentAudioManager : MonoBehaviour
         SoundEffectManager.PlayHurtSound(head.position);
     }
 
+    /// <summary>
+    /// Plays the death sound effect. It should be used when an <see cref="Agent"/> is dead.
+    /// </summary>
     public void PlayDeathSound()
     {
         SoundEffectManager.PlayDeathSound(head.position);
@@ -77,7 +107,7 @@ public class AgentAudioManager : MonoBehaviour
 
     void PlayWeaponWhiffSound()
     {
-        SoundEffectManager.PlayWhiffSound(ownerAgent.EqMgr.equippedWeapon.transform.position);
+        SoundEffectManager.PlayWhiffSound(ownerAgent.EqMgr.EquippedWeapon.transform.position);
     }
 
     void ManageFootsteps()
@@ -98,6 +128,14 @@ public class AgentAudioManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Play a footstep sound if the foot touches the ground.
+    /// This check is done via raycasting.
+    /// Also, the agent should be moving (fast enough), and the footstep timer should
+    /// be exceeded to prevent spammy footstep sounds.
+    /// </summary>
+    /// <param name="isLeftFoot">True to check for left foot; false for right foot.</param>
+    /// <returns></returns>
     bool IsShouldPlayFootstepSound(bool isLeftFoot)
     {
         LayerMask walkableLayerMask = 1 << StaticVariables.DefaultLayer.value;

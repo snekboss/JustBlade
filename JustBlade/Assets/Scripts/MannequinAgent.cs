@@ -1,15 +1,15 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// A class which designates the attached game object as an MannequinAgent.
+/// A class which designates the attached game object as a <see cref="MannequinAgent"/>.
 /// MannequinAgents are used only in Gear Selection Menu to show the chosen equipment of the player agent.
 /// MannequinAgents are not playable, and their code does not contain any combat related logic.
 /// A MannequinAgent also requires:
 /// - <see cref="AnimationManager"/>.
 /// - <see cref="EquipmentManager"/>.
 /// - <see cref="LimbManager"/>.
+/// - <see cref="AgentAudioManager"/>.
+/// - <see cref="CharacteristicManager"/>.
 /// See also: <seealso cref="GearSelectionUI"/>.
 /// </summary>
 public class MannequinAgent : Agent

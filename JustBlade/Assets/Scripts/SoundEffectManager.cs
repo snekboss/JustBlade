@@ -103,9 +103,9 @@ public static class SoundEffectManager
         bool attackerIsStabbing = attacker.AnimMgr.IsAttackingFromDown;
 
         Weapon.WeaponAttackSoundType weaponSoundType =
-            attackerIsStabbing ? attacker.EqMgr.equippedWeapon.stabSoundType : attacker.EqMgr.equippedWeapon.swingSoundType;
+            attackerIsStabbing ? attacker.EqMgr.EquippedWeapon.stabSoundType : attacker.EqMgr.EquippedWeapon.swingSoundType;
 
-        Vector3 soundPlayWorldPos = attacker.EqMgr.equippedWeapon.transform.position;
+        Vector3 soundPlayWorldPos = attacker.EqMgr.EquippedWeapon.transform.position;
 
         switch (weaponSoundType)
         {
@@ -141,8 +141,8 @@ public static class SoundEffectManager
 
     public static void PlayDefendBlockedSound(Agent defender)
     {
-        Vector3 soundPlayWorldPos = defender.EqMgr.equippedWeapon.transform.position;
-        switch (defender.EqMgr.equippedWeapon.blockSoundType)
+        Vector3 soundPlayWorldPos = defender.EqMgr.EquippedWeapon.transform.position;
+        switch (defender.EqMgr.EquippedWeapon.blockSoundType)
         {
             case Weapon.WeaponDefendSoundType.Wood:
                 PlaySound(WoodenBlock, soundPlayWorldPos);

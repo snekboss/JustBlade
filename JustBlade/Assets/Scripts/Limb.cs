@@ -9,6 +9,9 @@ using UnityEngine;
 /// </summary>
 public class Limb : MonoBehaviour
 {
+    /// <summary>
+    /// Limb types for the 3 types of hitboxes of agents.
+    /// </summary>
     public enum LimbType
     {
         Head = 0,
@@ -18,8 +21,14 @@ public class Limb : MonoBehaviour
 
     public LimbType limbType;
 
+    /// <summary>
+    /// The <see cref="Agent"/> to which this <see cref="Limb"/> belongs.
+    /// </summary>
     public Agent OwnerAgent { get; private set; }
 
+    /// <summary>
+    /// Collider of this limb. It can be initialized via <see cref="LimbManager"/>.
+    /// </summary>
     public BoxCollider col;
 
     Rigidbody rbody;

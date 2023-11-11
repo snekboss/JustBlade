@@ -1,6 +1,4 @@
 using System;
-using System.Collections;
-using System.Collections.Generic;
 using TMPro;
 using UnityEngine;
 using UnityEngine.SceneManagement;
@@ -9,6 +7,10 @@ using UnityEngine.UI;
 /// <summary>
 /// A script which designates the attached game object as Gear Selection UI.
 /// It contains the logic of the controls of the Gear Selection UI.
+/// Since this is a UI script, many of the fields are meant to be set using Unity's Inspector menu.
+/// For this reason, these fields were not given commented documentation, as there are many of them.
+/// Some of public methods may also not have been given commented documentation, as they're just
+/// callbacks for the UI widgets.
 /// </summary>
 public class GearSelectionUI : MonoBehaviour
 {
@@ -185,7 +187,7 @@ public class GearSelectionUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Loads the TournamentInfoMenuScene.
+    /// Loads the InformationMenuScene.
     /// </summary>
     public void OnButtonClick_Back()
     {
@@ -202,6 +204,17 @@ public class GearSelectionUI : MonoBehaviour
         SceneManager.LoadScene("ArenaScene");
     }
 
+    /// <summary>
+    /// A method used by buttons which are related to shopping.
+    /// For these buttons, the first click will not perform the purchase action.
+    /// Instead, it'll show a confirmation text.
+    /// If the mouse is moved, the button is reverted to its original state.
+    /// If the mouse is clicked again without being moved, the purchase action is completed.
+    /// This was done to avoid purchasing things by mistake.
+    /// </summary>
+    /// <param name="textToConfirm">The UI text widget where the confirmation text is shown.</param>
+    /// <param name="purchaseAction">Purchase action. For example,
+    /// <see cref="PlayerInventoryManager.BuyChosenWeapon"/>.</param>
     void ConfirmAndPurchase(TextMeshProUGUI textToConfirm, Action purchaseAction)
     {
         if (isInPurchaseConfirmationPhase == false)
@@ -221,72 +234,108 @@ public class GearSelectionUI : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Buys selected weapon.
+    /// </summary>
     public void OnButtonClick_BuyWeapon()
     {
         PlayButtonSound();
         ConfirmAndPurchase(txtBtnBuyWeapon, PlayerInventoryManager.BuyChosenWeapon);
     }
 
+    /// <summary>
+    /// Buys selected head armor.
+    /// </summary>
     public void OnButtonClick_BuyHeadArmor()
     {
         PlayButtonSound();
         ConfirmAndPurchase(txtBtnBuyWeapon, PlayerInventoryManager.BuyChosenHeadArmor);
     }
 
+    /// <summary>
+    /// Buys selected torso armor.
+    /// </summary>
     public void OnButtonClick_BuyTorsoArmor()
     {
         PlayButtonSound();
         ConfirmAndPurchase(txtBtnBuyTorsoArmor, PlayerInventoryManager.BuyChosenTorsoArmor);
     }
 
+    /// <summary>
+    /// Buys selected hand armor.
+    /// </summary>
     public void OnButtonClick_BuyHandArmor()
     {
         PlayButtonSound();
         ConfirmAndPurchase(txtBtnBuyHandArmor, PlayerInventoryManager.BuyChosenHandArmor);
     }
 
+    /// <summary>
+    /// Buys selected leg armor.
+    /// </summary>
     public void OnButtonClick_BuyLegArmor()
     {
         PlayButtonSound();
         ConfirmAndPurchase(txtBtnBuyLegArmor, PlayerInventoryManager.BuyChosenLegArmor);
     }
 
+    /// <summary>
+    /// Hires basic mercenary.
+    /// </summary>
     public void OnButtonClick_HireBasicMercenary()
     {
         PlayButtonSound();
         ConfirmAndPurchase(txtBtnHireBasicMerc, PlayerPartyManager.HireBasicMercenary);
     }
 
+    /// <summary>
+    /// Hires light mercenary.
+    /// </summary>
     public void OnButtonClick_HireLightMercenary()
     {
         PlayButtonSound();
         ConfirmAndPurchase(txtBtnHireLightMerc, PlayerPartyManager.HireLightMercenary);
     }
 
+    /// <summary>
+    /// Hires medium mercenary.
+    /// </summary>
     public void OnButtonClick_HireMediumMercenary()
     {
         PlayButtonSound();
         ConfirmAndPurchase(txtBtnHireMediumMerc, PlayerPartyManager.HireMediumMercenary);
     }
 
+    /// <summary>
+    /// Hires heavy mercenary.
+    /// </summary>
     public void OnButtonClick_HireHeavyMercenary()
     {
         PlayButtonSound();
         ConfirmAndPurchase(txtBtnHireHeavyMerc, PlayerPartyManager.HireHeavyMercenary);
     }
 
+    /// <summary>
+    /// Upgrades a basic mercenary.
+    /// </summary>
     public void OnButtonClick_UpgradeBasicMercenary()
     {
         PlayButtonSound();
         ConfirmAndPurchase(txtBtnUpgradeBasicMerc, PlayerPartyManager.UpgradeBasicMercenary);
     }
 
+    /// <summary>
+    /// Upgrades a light mercenary.
+    /// </summary>
     public void OnButtonClick_UpgradeLightMercenary()
     {
         PlayButtonSound();
         ConfirmAndPurchase(txtBtnUpgradeLightMerc, PlayerPartyManager.UpgradeLightMercenary);
     }
 
+    /// <summary>
+    /// Upgrades a medium mercenary.
+    /// </summary>
     public void OnButtonClick_UpgradeMediumMercenary()
     {
         PlayButtonSound();
@@ -304,6 +353,11 @@ public class GearSelectionUI : MonoBehaviour
         OnMannequinEquipmentChanged();
     }
 
+    /// <summary>
+    /// Unity's Update method.
+    /// It contains logic of the "confirm and purchase" feature.
+    /// When purchasing something, we double click (without moving the mouse) to confirm the purchase.
+    /// </summary>
     void Update()
     {
         Vector3 curFrameMousePos = Input.mousePosition;

@@ -10,8 +10,17 @@ using UnityEngine;
 /// </summary>
 public class LimbManager : MonoBehaviour
 {
+    /// <summary>
+    /// Root bone of the agent, set in the Inspector menu.
+    /// </summary>
     public Transform rootBone;
+    /// <summary>
+    /// Spine bone of the agent, set in the Inspector menu.
+    /// </summary>
     public Transform spineBone;
+    /// <summary>
+    /// Neck bone of the agent, set in the Inspector menu.
+    /// </summary>
     public Transform neckBone;
 
     // height means "up-down"; width means "left-right"; depth means "forward-backward".
@@ -23,10 +32,25 @@ public class LimbManager : MonoBehaviour
     const float LegsWidth = 0.45f;
     const float LegsDepth = 0.35f;
 
-    public Agent ownerAgent { get; private set; }
-    public Limb limbHead { get; private set; }
-    public Limb limbTorso { get; private set; }
-    public Limb limbLegs { get; private set; }
+    /// <summary>
+    /// The <see cref="Agent"/> to which this <see cref="LimbManager"/> belongs.
+    /// </summary>
+    public Agent OwnerAgent { get; private set; }
+
+    /// <summary>
+    /// The head <see cref="Limb"/> game object to which this <see cref="LimbManager"/> manages.
+    /// </summary>
+    public Limb LimbHead { get; private set; }
+
+    /// <summary>
+    /// The torso <see cref="Limb"/> game object to which this <see cref="LimbManager"/> manages.
+    /// </summary>
+    public Limb LimbTorso { get; private set; }
+
+    /// <summary>
+    /// The leg <see cref="Limb"/> game object to which this <see cref="LimbManager"/> manages.
+    /// </summary>
+    public Limb LimbLegs { get; private set; }
 
     /// <summary>
     /// Initializes all <see cref="Limb"/>s.
@@ -52,17 +76,17 @@ public class LimbManager : MonoBehaviour
         legsLimbGO.transform.localPosition = Vector3.zero;
         legsLimbGO.transform.localRotation  = Quaternion.identity;
 
-        limbLegs = legsLimbGO.AddComponent<Limb>();
-        limbLegs.limbType = Limb.LimbType.Legs;
+        LimbLegs = legsLimbGO.AddComponent<Limb>();
+        LimbLegs.limbType = Limb.LimbType.Legs;
 
-        limbLegs.col = limbLegs.gameObject.AddComponent<BoxCollider>();
+        LimbLegs.col = LimbLegs.gameObject.AddComponent<BoxCollider>();
 
         // rootBone.forward coincides with world's up.
         Vector3 legsDimensions = new Vector3(LegsWidth, LegsDepth, rootToSpineHeight);
-        limbLegs.col.size = legsDimensions;
-        limbLegs.col.center = Vector3.forward * rootToSpineHeight / 2;
+        LimbLegs.col.size = legsDimensions;
+        LimbLegs.col.center = Vector3.forward * rootToSpineHeight / 2;
 
-        limbLegs.InitializeOwnerAgent(ownerAgent);
+        LimbLegs.InitializeOwnerAgent(OwnerAgent);
     }
 
     /// <summary>
@@ -79,17 +103,17 @@ public class LimbManager : MonoBehaviour
         torsoLimbGo.transform.localPosition = Vector3.zero;
         torsoLimbGo.transform.localRotation = Quaternion.identity;
 
-        limbTorso = torsoLimbGo.AddComponent<Limb>();
-        limbTorso.limbType = Limb.LimbType.Torso;
+        LimbTorso = torsoLimbGo.AddComponent<Limb>();
+        LimbTorso.limbType = Limb.LimbType.Torso;
         
-        limbTorso.col = limbTorso.gameObject.AddComponent<BoxCollider>();
+        LimbTorso.col = LimbTorso.gameObject.AddComponent<BoxCollider>();
 
         // spineBone.left coincides with world's up.
         Vector3 torsoDimensions = new Vector3(spineToNeckHeight, TorsoWidth, TorsoDepth);
-        limbTorso.col.size = torsoDimensions;
-        limbTorso.col.center = Vector3.left * spineToNeckHeight / 2;
+        LimbTorso.col.size = torsoDimensions;
+        LimbTorso.col.center = Vector3.left * spineToNeckHeight / 2;
 
-        limbTorso.InitializeOwnerAgent(ownerAgent);
+        LimbTorso.InitializeOwnerAgent(OwnerAgent);
     }
 
     /// <summary>
@@ -106,26 +130,26 @@ public class LimbManager : MonoBehaviour
         headLimbGo.transform.localPosition = Vector3.zero;
         headLimbGo.transform.localRotation = Quaternion.identity;
 
-        limbHead = headLimbGo.AddComponent<Limb>();
-        limbHead.limbType = Limb.LimbType.Head;
+        LimbHead = headLimbGo.AddComponent<Limb>();
+        LimbHead.limbType = Limb.LimbType.Head;
 
-        limbHead.col = limbHead.gameObject.AddComponent<BoxCollider>();
+        LimbHead.col = LimbHead.gameObject.AddComponent<BoxCollider>();
 
         // neckBone.left coincides with world's up.
         Vector3 headDimensions = new Vector3(HeadHeight, HeadWidth, HeadDepth);
-        limbHead.col.size = headDimensions;
-        limbHead.col.center = Vector3.left * HeadHeight / 2;
+        LimbHead.col.size = headDimensions;
+        LimbHead.col.center = Vector3.left * HeadHeight / 2;
 
-        limbHead.InitializeOwnerAgent(ownerAgent);
+        LimbHead.InitializeOwnerAgent(OwnerAgent);
     }
 
     /// <summary>
     /// Unity's Awake method.
-    /// In this case, it gets the reference of its <see cref="ownerAgent"/>, and invokes <see cref="InitializeLimbs"/>.
+    /// In this case, it gets the reference of its <see cref="OwnerAgent"/>, and invokes <see cref="InitializeLimbs"/>.
     /// </summary>
     void Awake()
     {
-        ownerAgent = GetComponent<Agent>();
+        OwnerAgent = GetComponent<Agent>();
 
         InitializeLimbs();
     }

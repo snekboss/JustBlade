@@ -5,6 +5,9 @@ using UnityEngine;
 /// <summary>
 /// A class which must be attached to the game objects which are also <see cref="Agent"/>s.
 /// It governs the characteristics of the attached <see cref="Agent"/>.
+/// Characteristics are values such as Health, Movement Speed, Extra damage multiplier, etc.
+/// If you wanted to add traditional RPG statistics such as "strength", "dexterity", etc.,
+/// you would put those values in this class.
 /// </summary>
 public class CharacteristicManager : MonoBehaviour
 {
@@ -83,11 +86,13 @@ public class CharacteristicManager : MonoBehaviour
     }
     float agentScale = DefaultAgentSizeMultiplier;
 
+    /// <summary>
+    /// The maximum health of the agent.
+    /// </summary>
     public int MaximumHealth { get; private set; }
 
     /// <summary>
-    /// Sets the health value of the given agent.
-    /// Note that this property also sets the current health to the provided value.
+    /// The current health of the agent, which is different from <see cref="MaximumHealth"/>.
     /// </summary>
     public int Health
     {
@@ -99,10 +104,14 @@ public class CharacteristicManager : MonoBehaviour
     }
     int health = DefaultMaximumHealth;
 
+    /// <summary>
+    /// True if the agent is dead, false otherwise.
+    /// </summary>
     public bool IsDead { get; protected set; } = false;
 
     /// <summary>
     /// Movement speed limit multiplier of this agent after all calculations have been taken into account.
+    /// This is different from <see cref="CurrentMovementSpeed"/>. This is the movement speed *limit*.
     /// </summary>
     public float MovementSpeedLimit
     {
@@ -113,8 +122,23 @@ public class CharacteristicManager : MonoBehaviour
               * ExtraMovementSpeedLimitMultiplier;
         }
     }
+
+    /// <summary>
+    /// The current movement speed of this agent. This is different from <see cref="MovementSpeedLimit"/>.
+    /// This value is the *current* movement speed. The way it is set is done differently by different
+    /// types of <see cref="Agent"/>s. For example, <see cref="AiAgent"/>s rely on Unity's NavMeshAgent;
+    /// whereas the <see cref="PlayerAgent"/> uses inputs.
+    /// </summary>
     public float CurrentMovementSpeed { get; set; }
 
+    /// <summary>
+    /// If the <see cref="MovementSpeedLimit"/> of this agent is less than the <see cref="DefaultMovementSpeedLimit"/>,
+    /// then we consider this agent to be "over encumbered".
+    /// Over encumbered agents do not get movement speed penalty when they're moving backwards.
+    /// This feature is currently imposed on the <see cref="PlayerAgent"/>.
+    /// Because, for the <see cref="AiAgent"/>s, the movement speed is dictated by Unity's NavMeshAgent system.
+    /// Also, players are smart, and the Ai is not, so this is a nerf to the player power.
+    /// </summary>
     public bool IsOverEncumbered { get { return MovementSpeedLimit < DefaultMovementSpeedLimit; } }
 
     /// <summary>
@@ -132,7 +156,16 @@ public class CharacteristicManager : MonoBehaviour
     }
     float extraMovementSpeedLimitMultiplier = DefaultExtraMovementSpeedLimitMultiplier;
 
+    /// <summary>
+    /// Sets the extra damage infliction multiplier for this agent.
+    /// For values above 1, the agent deals extra damage.
+    /// </summary>
     public float ExtraDamageInflictionMultiplier { get; set; } = DefaultExtraDamageInflictionMultiplier;
+
+    /// <summary>
+    /// Sets the damage taken multiplier for this agent.
+    /// For example, if the damage taken multiplier is 0.9, the agent takes 10% less damage.
+    /// </summary>
     public float DamageTakenMultiplier { get; set; } = DefaultDamageTakenMultiplier;
 
     /// <summary>
@@ -150,6 +183,9 @@ public class CharacteristicManager : MonoBehaviour
     }
     int maximumPoise = DefaultMaximumPoise;
 
+    /// <summary>
+    /// The current poise value of this agent. This value is different from <see cref="MaximumPoise"/>.
+    /// </summary>
     public int CurrentPoise { get { return currentPoise; } }
     int currentPoise = DefaultMaximumPoise;
 
@@ -164,7 +200,7 @@ public class CharacteristicManager : MonoBehaviour
 
     /// <summary>
     /// Reduces poise by one point.
-    /// Also resets poise back to <see cref="MaximumPoise"/> if all poise is depleted.
+    /// Also, resets poise back to <see cref="MaximumPoise"/> if all poise is depleted.
     /// </summary>
     public void DecrementPoise()
     {
@@ -175,6 +211,17 @@ public class CharacteristicManager : MonoBehaviour
         }
     }
 
+    /// <summary>
+    /// Initializes the characteristics manager of this <see cref="Agent"/>.
+    /// You can initialize the the characteristics of the agent here.
+    /// If a value is not provided, the default value is used.
+    /// </summary>
+    /// <param name="maximumHealth">Maximum health of this agent.</param>
+    /// <param name="modelSizeMultiplier">A multiplier for the agent character's model size.</param>
+    /// <param name="extraMovementSpeedLimitMultiplier">Extra movement speed limit multiplier.</param>
+    /// <param name="extraDamageInflictionMultiplier">Extra damage infliction multiplier.</param>
+    /// <param name="damageTakenMultiplier">Damage taken multiplier.</param>
+    /// <param name="maximumPoise">Maximum poise.</param>
     public void InitializeCharacteristicsManager(int maximumHealth = DefaultMaximumHealth
         , float modelSizeMultiplier = DefaultAgentSizeMultiplier
         , float extraMovementSpeedLimitMultiplier = DefaultExtraMovementSpeedLimitMultiplier
@@ -205,7 +252,7 @@ public class CharacteristicManager : MonoBehaviour
     public void ApplyDamage(Agent attacker, int amount)
     {
         int difficultyAmount = amount;
-        if (StaticVariables.DifficultySetting <= 1f && OwnerAgent.isFriendOfPlayer)
+        if (StaticVariables.DifficultySetting <= 1f && OwnerAgent.IsFriendOfPlayer)
         {
             // To use the DifficultySetting as a "damage taken" multiplier,
             // make sure it is not greater than 1f to avoid taking increased damage.

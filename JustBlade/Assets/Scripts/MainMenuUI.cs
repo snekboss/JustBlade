@@ -9,6 +9,11 @@ using UnityEngine.UI;
 /// <summary>
 /// A script which designates the attached game object as Main Menu UI.
 /// It contains the logic of the controls of the Main Menu UI.
+/// 
+/// Since this is a UI script, many of the fields are meant to be set using Unity's Inspector menu.
+/// For this reason, these fields were not given commented documentation, as there are many of them.
+/// Some of public methods may also not have been given commented documentation, as they're just
+/// callbacks for the UI widgets.
 /// </summary>
 public class MainMenuUI : MonoBehaviour
 {
@@ -40,7 +45,6 @@ public class MainMenuUI : MonoBehaviour
     public Button btnIncreaseQuality;
     public Button btnDecreaseQuality;
     public Button btnSetDefaultQuality;
-
 
     static bool isLoadingForTheFirstTime = true;
 
@@ -110,8 +114,9 @@ public class MainMenuUI : MonoBehaviour
     }
 
     /// <summary>
-    /// Starts the game by navigating to the TournamentInfoMenuScene.
+    /// Starts the game by navigating to the InformationMenuScene.
     /// It also unpauses the game (in case it was paused the last time).
+    /// It also invokes <see cref="HordeGameLogic.StartNewHordeGame"/> to start a new Horde game.
     /// </summary>
     public void OnButtonClick_StartGame()
     {
@@ -233,6 +238,11 @@ public class MainMenuUI : MonoBehaviour
         StaticVariables.PlayerCameraRotationSpeed = val;
     }
 
+    /// <summary>
+    /// Callback method when the sound slider's value has been changed.
+    /// It changes the overall sound (ie, master volume) of the game, value by changing
+    /// <see cref="StaticVariables.SoundSetting"/>.
+    /// </summary>
     public void OnSliderValueChanged_Sound()
     {
         float val = sliderSound.value;
@@ -242,6 +252,11 @@ public class MainMenuUI : MonoBehaviour
         AudioListener.volume = StaticVariables.SoundSetting;
     }
 
+    /// <summary>
+    /// Callback method when the difficulty slider's value has been changed.
+    /// It changes the difficulty of the game, value by changing
+    /// <see cref="StaticVariables.DifficultySetting"/>.
+    /// </summary>
     public void OnSliderValueChanged_Difficulty()
     {
         float val = sliderDifficulty.value;
@@ -262,6 +277,13 @@ public class MainMenuUI : MonoBehaviour
         Camera.main.fieldOfView = StaticVariables.PlayerCameraFieldOfView;
     }
 
+    /// <summary>
+    /// Invoked by <see cref="InitMainMenuUI"/> and <see cref="OnButtonClick_SetDefaultQuality"/>.
+    /// The default quality is set when the game starts for the first time.
+    /// Then, it can be set again using the "set default quality" button.
+    /// Since the button uses the <see cref="OnButtonClick_SetDefaultQuality"/> which plays a button sound,
+    /// we separate the code so that the same button sound is not heard when invoked by <see cref="InitMainMenuUI"/>.
+    /// </summary>
     void SetDefaultQuality()
     {
         QualitySettings.SetQualityLevel(StaticVariables.DefaultQualitySetting, true);
