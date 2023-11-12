@@ -19,7 +19,7 @@ using UnityEngine.UI;
 public class InformationMenuUI : MonoBehaviour
 {
     public GameObject screenGameOver;
-    public GameObject screenRoundInfo;
+    public GameObject screenInformation;
 
     public TextMeshProUGUI txtGameOverHeader;
     public TextMeshProUGUI txtGameOverBody;
@@ -161,7 +161,7 @@ public class InformationMenuUI : MonoBehaviour
     /// </summary>
     void UpdateInformationScreenTexts()
     {
-        screenRoundInfo.SetActive(HordeGameLogic.IsGameEnded == false);
+        screenInformation.SetActive(HordeGameLogic.IsGameEnded == false);
 
         string infoStr = "";
 

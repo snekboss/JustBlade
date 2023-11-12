@@ -171,7 +171,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   screenGameOver: {fileID: 1875545833}
-  screenRoundInfo: {fileID: 878150428}
+  screenInformation: {fileID: 878150428}
   txtGameOverHeader: {fileID: 908474564}
   txtGameOverBody: {fileID: 127636817}
   txtInformationBody: {fileID: 1669513062}
