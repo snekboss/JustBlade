@@ -5,12 +5,14 @@ using UnityEngine;
 
 /// <summary>
 /// A static class which holds references to the prefabs under the "Resources" folder of this project.
-/// The prefabs are loaded once via lazy initialization, and remain in memory throughout the life cycle of the game application.
-/// The prefab references are accessible from anywhere throughout the life cycle of the game.
+/// The prefabs are loaded once via lazy initialization, and remain in memory throughout the life cycle
+/// of the game application. The prefab references are accessible from anywhere throughout the life cycle of the game.
 /// </summary>
 public static class PrefabManager
 {
-    static List<Armor> headArmors;
+    /// <summary>
+    /// List of <see cref="Armor"/> prefabs of type <see cref="Armor.ArmorType.Head"/>.
+    /// </summary>
     public static List<Armor> HeadArmors
     {
         get
@@ -23,8 +25,11 @@ public static class PrefabManager
             return headArmors;
         }
     }
+    static List<Armor> headArmors;
 
-    static List<Armor> torsoArmors;
+    /// <summary>
+    /// List of <see cref="Armor"/> prefabs of type <see cref="Armor.ArmorType.Torso"/>.
+    /// </summary>
     public static List<Armor> TorsoArmors
     {
         get
@@ -37,8 +42,11 @@ public static class PrefabManager
             return torsoArmors;
         }
     }
+    static List<Armor> torsoArmors;
 
-    static List<Armor> handArmors;
+    /// <summary>
+    /// List of <see cref="Armor"/> prefabs of type <see cref="Armor.ArmorType.Hand"/>.
+    /// </summary>
     public static List<Armor> HandArmors
     {
         get
@@ -51,8 +59,11 @@ public static class PrefabManager
             return handArmors;
         }
     }
+    static List<Armor> handArmors;
 
-    static List<Armor> legArmors;
+    /// <summary>
+    /// List of <see cref="Armor"/> prefabs of type <see cref="Armor.ArmorType.Leg"/>.
+    /// </summary>
     public static List<Armor> LegArmors
     {
         get
@@ -65,8 +76,11 @@ public static class PrefabManager
             return legArmors;
         }
     }
+    static List<Armor> legArmors;
 
-    static List<Weapon> weapons;
+    /// <summary>
+    /// List of <see cref="Weapon"/> prefabs.
+    /// </summary>
     public static List<Weapon> Weapons
     {
         get
@@ -79,7 +93,13 @@ public static class PrefabManager
             return weapons;
         }
     }
+    static List<Weapon> weapons;
 
+    /// <summary>
+    /// A dictionary of sound effects (ie, <see cref="PlayAndDestroy"/> prefabs)
+    /// by their names (ie, <see cref="PlayAndDestroy.soundName"/>).
+    /// Note that the names of the sound effects must be in sync with the <see cref="SoundEffectManager"/>.
+    /// </summary>
     public static Dictionary<string, PlayAndDestroy> SoundsByName
     {
         get
@@ -96,6 +116,12 @@ public static class PrefabManager
 
     static Dictionary<Armor.ArmorLevel, MercenaryAgentData> mercenaryDataByArmorLevel;
 
+    /// <summary>
+    /// A dictionary of <see cref="MercenaryAgentData"/> prefabs categorized
+    /// by their <see cref="Armor.ArmorLevel"/>.
+    /// Note that there are 4 HARDCODED types of <see cref="MercenaryAgentData"/>.
+    /// See <see cref="PlayerPartyManager"/> for more information.
+    /// </summary>
     public static Dictionary<Armor.ArmorLevel, MercenaryAgentData> MercenaryDataByArmorLevel
     {
         get
@@ -155,9 +181,10 @@ public static class PrefabManager
     /// Loads all <see cref="MercenaryAgentData"/> on a given path, under "Resources" folder of this project.
     /// Note that <see cref="MercenaryAgentData"/> related code are hardcoded, and therefore
     /// there must be exactly one <see cref="MercenaryAgentData"/> loaded per <see cref="Armor.ArmorLevel"/>.
+    /// See <see cref="PlayerPartyManager"/> for more information.
     /// </summary>
-    /// <param name="path"></param>
-    /// <returns></returns>
+    /// <param name="path">The name of a subfolder under "Resources".</param>
+    /// <returns>A dictionary of mercenary data by their armor levels.</returns>
     static Dictionary<Armor.ArmorLevel, MercenaryAgentData> LoadMercenaryAgentData(string path)
     {
         UnityEngine.Object[] objs = Resources.LoadAll(path);
@@ -190,6 +217,11 @@ public static class PrefabManager
         return ret;
     }
 
+    /// <summary>
+    /// Sorts weapons by their <see cref="EquippableItem.isStarterItem"/> property.
+    /// </summary>
+    /// <param name="weaponCollection">A collection of weapons to sort.</param>
+    /// <returns>A list of the collection of weapons which were sorted.</returns>
     static List<Weapon> SortByStarterItemness(
         IEnumerable<Weapon> weaponCollection)
     {
@@ -198,6 +230,11 @@ public static class PrefabManager
             .ToList();
     }
 
+    /// <summary>
+    /// Sorts armors by their <see cref="EquippableItem.isStarterItem"/> property.
+    /// </summary>
+    /// <param name="weaponCollection">A collection of armors to sort.</param>
+    /// <returns>A list of the collection of armors which were sorted.</returns>
     static List<Armor> SortByStarterItemness(
         IEnumerable<Armor> armorCollection)
     {
@@ -206,6 +243,11 @@ public static class PrefabManager
             .ToList();
     }
 
+    /// <summary>
+    /// Loads weapons based on a given path, under "Resources" folder of this project.
+    /// </summary>
+    /// <param name="path">The name of a subfolder under "Resources".</param>
+    /// <returns>A dictionary of sound effects by their names.</returns>
     static Dictionary<string, PlayAndDestroy> LoadSoundEffects(string path)
     {
         Dictionary<string, PlayAndDestroy> ret = new Dictionary<string, PlayAndDestroy>();

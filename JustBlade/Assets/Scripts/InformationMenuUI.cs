@@ -159,7 +159,7 @@ public class InformationMenuUI : MonoBehaviour
     /// This method updates the necessary UI elements while the game isn't over,
     /// in order to show information to the player.
     /// </summary>
-    void UpdateRoundInfoScreenTexts()
+    void UpdateInformationScreenTexts()
     {
         screenRoundInfo.SetActive(HordeGameLogic.IsGameEnded == false);
 
@@ -236,12 +236,12 @@ public class InformationMenuUI : MonoBehaviour
 
     /// <summary>
     /// Updates all texts shown on the screen by invoking both <see cref="UpdateGameOverScreenTexts"/>
-    /// and <see cref="UpdateRoundInfoScreenTexts"/>.
+    /// and <see cref="UpdateInformationScreenTexts"/>.
     /// </summary>
     void UpdateTexts()
     {
         UpdateGameOverScreenTexts();
-        UpdateRoundInfoScreenTexts();
+        UpdateInformationScreenTexts();
     }
 
     void PlayButtonSound()

@@ -15,6 +15,7 @@ using UnityEngine;
 /// </summary>
 public class Weapon : EquippableItem
 {
+#if UNITY_EDITOR
     /// <summary>
     /// This is a switch which is only used in the Inspector Menu of the Unity Editor.
     /// The switch is required to stop the Unity Editor spamming the console window with useless warnings.
@@ -22,6 +23,7 @@ public class Weapon : EquippableItem
     /// See also <see cref="OnValidate"/>.
     /// </summary>
     public bool EDIT_MODE;
+#endif
 
     /// <summary>
     /// Used to determine the direction in which the hitbox collider of the weapon extends.
@@ -42,29 +44,59 @@ public class Weapon : EquippableItem
         Polearm = 1,
     }
 
+    /// <summary>
+    /// One of the factors used for determining which sound should be played when an agent is struck.
+    /// </summary>
     public enum WeaponAttackSoundType
     {
         Cut = 0,
         Blunt,
     }
 
+    /// <summary>
+    /// Used to determine which sound should be played when the agent blocks and attack with this weapon.
+    /// </summary>
     public enum WeaponDefendSoundType
     {
         Wood = 0,
         Metal,
     }
 
+    /// <summary>
+    /// Weapon impact sound for swings, set in the Inspector menu.
+    /// </summary>
     public WeaponAttackSoundType swingSoundType;
+    /// <summary>
+    /// Weapon impact sound for stabs, set in the Inspector menu.
+    /// </summary>
     public WeaponAttackSoundType stabSoundType;
+    /// <summary>
+    /// Weapon impact sound for when an agent blocks an attack with this weapon, set in the Inspector menu.
+    /// </summary>
     public WeaponDefendSoundType blockSoundType;
 
+    /// <summary>
+    /// Mesh of the weapon, set in the Inspector menu.
+    /// </summary>
     public GameObject weaponVisual; // the mesh of the weapon
+    /// <summary>
+    /// Length of the weapon, set in the Inspector menu.
+    /// Enable <see cref="EDIT_MODE"/> to see the hitbox in real time in the Unity Editor.
+    /// </summary>
     [Range(0.01f, 20.0f)]
     public float weaponLength;
 
+    /// <summary>
+    /// Radius of the weapon, set in the Inspector menu.
+    /// Enable <see cref="EDIT_MODE"/> to see the hitbox in real time in the Unity Editor.
+    /// </summary>
     [Range(0.001f, 3.0f)]
     public float weaponRadius;
 
+    /// <summary>
+    /// Direction of the weapon's collider, set in the Inspector menu.
+    /// Enable <see cref="EDIT_MODE"/> to see the hitbox in real time in the Unity Editor.
+    /// </summary>
     public ColliderDirection colDirection;
     public bool isInverseDirection; // flips the direction of the collider
 
@@ -109,6 +141,9 @@ public class Weapon : EquippableItem
     public int StabDmgLegMed;
     public int StabDmgLegHeavy;
 
+    /// <summary>
+    /// An arithmetic average of all the possible swing damage values that can be done with this weapon.
+    /// </summary>
     public int AverageSwingDamage
     {
         get
@@ -121,6 +156,9 @@ public class Weapon : EquippableItem
         }
     }
 
+    /// <summary>
+    /// An arithmetic average of all the possible stab damage values that can be done with this weapon.
+    /// </summary>
     public int AverageStabDamage
     {
         get 
@@ -281,6 +319,7 @@ public class Weapon : EquippableItem
         }
     }
 
+#if UNITY_EDITOR
     /// <summary>
     /// A UnityEditor method.
     /// It is used to see the visual changes of the weapon hitbox collider in scene view of the editor.
@@ -293,10 +332,12 @@ public class Weapon : EquippableItem
             InitializeColliderParameters();
         }
     }
+#endif
 
     /// <summary>
     /// Unity's OnTriggerStay method.
-    /// In this case, it contains the logic behind any <see cref="Weapon"/> object making collision with other objects in the game.
+    /// In this case, it contains the logic behind any <see cref="Weapon"/> object making collision
+    /// with other objects in the game.
     /// </summary>
     /// <param name="other">The collider of the object which entered the trigger area of this weapon object.</param>
     void OnTriggerStay(Collider other)

@@ -4,9 +4,11 @@ using UnityEngine;
 using UnityEngine.AI;
 
 /// <summary>
-/// A class which designates the attached game object as a Player Agent.
-/// There is only meant to be one Player Agent at any given moment, since they also control the main camera.
-/// The Player Agent is controlled by the user (player).
+/// A class which designates the attached game object as a <see cref="PlayerAgent"/>.
+/// There is only meant to be one Player Agent at any given moment.
+/// Since there's only one Player Agent, they also control the <see cref="Camera.main"/>.
+/// The controls of the camera are done via <see cref="CameraManager"/>.
+/// The Player Agent is controlled by the user (player) using inputs (see: <see cref="Input"/>).
 /// A PlayerAgent also requires:
 /// - <see cref="AnimationManager"/>.
 /// - <see cref="EquipmentManager"/>.
@@ -35,6 +37,9 @@ public class PlayerAgent : Agent
     CameraManager camMgr;
 
     #region Player movement related fields
+    /// <summary>
+    /// A game object to check if the player is grounded or not, set in the Inspector menu.
+    /// </summary>
     public Transform groundednessCheckerTransform; // used for checking if the player is grounded
     bool isGrounded; // value based on CharacterController.isGrounded AND Physics.CheckSphere.
 
@@ -100,9 +105,23 @@ public class PlayerAgent : Agent
     CombatDirection combatDir;
     #endregion
 
+    /// <summary>
+    /// True if the player is ordering his mercenaries to "hold position"; false if the order is "attack".
+    /// </summary>
     public bool IsPlayerOrderingToHoldPosition { get; protected set; } = false;
 
+    /// <summary>
+    /// A delegate to describe the event when the player has toggled the order for his mercenaries.
+    /// Currently, the only orders are "hold position" and "attack".
+    /// </summary>
+    /// <param name="playerAgent">Reference to the player agent, to know its transform.position.</param>
+    /// <param name="isPlayerOrderingToHoldPosition">True if the order is "hold position"; false if it's "attack".</param>
     public delegate void PlayerOrderToggleEvent(PlayerAgent playerAgent, bool isPlayerOrderingToHoldPosition);
+    /// <summary>
+    /// An event for when the player toggles the order for his mercenaries.
+    /// This event is mainly listened by <see cref="HordeGameLogic.OnPlayerOrderToggleEvent(PlayerAgent, bool)"/>.
+    /// Currently, the only orders are "hold position" and "attack".
+    /// </summary>
     public event PlayerOrderToggleEvent PlayerOrderToggle;
 
     public override void InitializeAgent(Weapon weaponPrefab
@@ -125,10 +144,6 @@ public class PlayerAgent : Agent
         //InitializeNavMeshAgent();
     }
 
-    /// <summary>
-    /// TODO: Explain this nonsense. All this to supress some warnings in a single frame...
-    /// </summary>
-    /// <param name="worldPos"></param>
     public override void InitializePosition(Vector3 worldPos)
     {
         // To avoid Unity's complaining about the NavMeshAgent not being close
@@ -182,7 +197,7 @@ public class PlayerAgent : Agent
     /// <summary>
     /// Handles the death of the player agent.
     /// It sets values like:
-    /// - mouseX, mouseY to zero.
+    /// - Mouse inputs to zero.
     /// - Movement velocity related vectors to the zero vector.
     /// This is done so that the player doesn't glide around after death.
     /// </summary>
@@ -206,8 +221,14 @@ public class PlayerAgent : Agent
         moveInputYraw = Input.GetAxis("Vertical");
 
         // Calculate smoothed move inputs to avoid sharp changes in the movement (and also in the animations).
-        moveInputXsmoothed = Mathf.SmoothDamp(moveInputXsmoothed, moveInputXraw, ref moveInputSmoothDampVelocityX, MoveInputSmoothTime);
-        moveInputYsmoothed = Mathf.SmoothDamp(moveInputYsmoothed, moveInputYraw, ref moveInputSmoothDampVelocityY, MoveInputSmoothTime);
+        moveInputXsmoothed = Mathf.SmoothDamp(moveInputXsmoothed
+            , moveInputXraw
+            , ref moveInputSmoothDampVelocityX
+            , MoveInputSmoothTime);
+
+        moveInputYsmoothed = Mathf.SmoothDamp(moveInputYsmoothed
+            , moveInputYraw, ref moveInputSmoothDampVelocityY
+            , MoveInputSmoothTime);
 
         // Use raw mouse inputs to choose combat direction.
         mouseXraw = Input.GetAxis("Mouse X");
@@ -226,6 +247,11 @@ public class PlayerAgent : Agent
         btnQpressed = Input.GetKeyDown(KeyCode.Q);
     }
 
+    /// <summary>
+    /// Sets the <see cref="Agent.LookAngleX"/> for the <see cref="PlayerAgent"/>.
+    /// The <see cref="Agent.LookAngleX"/> for the player is simply the angle of the <see cref="Camera.main"/>
+    /// about the X axis (after adjustments to fit into the [-180, 180] range, of course).
+    /// </summary>
     void SetLookAngleX()
     {
         LookAngleX = Camera.main.transform.rotation.eulerAngles.x;
@@ -236,6 +262,12 @@ public class PlayerAgent : Agent
         }
     }
 
+    /// <summary>
+    /// Handles the player's orders.
+    /// When the "toggle order" button is pressed, the player changes/toggles the order.
+    /// When this is done, the <see cref="PlayerOrderToggle"/> event is invoked.
+    /// Currently, the only orders are "hold position" and "attack".
+    /// </summary>
     void HandleOrders()
     {
         if (btnQpressed)
@@ -253,7 +285,7 @@ public class PlayerAgent : Agent
     /// Performs a two step verification as to whether the player is grounded or not.
     /// The reason is because, when the game is unpaused by setting Time.timeScale to 0,
     /// the isGrounded property of the CharacterController becomes unreliable for a short time.
-    /// This method uses Physics.CheckSphere to perform a second check.
+    /// This method uses <see cref="Physics.CheckSphere"/> to perform a second check.
     /// </summary>
     void HandleGroundednessCheck()
     {
@@ -268,9 +300,12 @@ public class PlayerAgent : Agent
     }
 
     /// <summary>
-    /// TODO: Write summary.
-    /// It's better to invoke this after calling <see cref="HandleGroundednessCheck"/>,
-    /// so that we have groundedness information.
+    /// Handles the "falling" of the <see cref="PlayerAgent"/>.
+    /// The concepts of "isGrounded" and "isFalling" are different:
+    /// - isGrounded tells you whether or not you're touching the ground.
+    /// - isFalling tells you whether or not you're "falling".
+    /// For example, just because (isGrounded == false) doesn't mean you're falling.
+    /// Because "isFalling" is based on a timer (see: <see cref="isFallingTimer"/>.
     /// </summary>
     void HandleIsFalling()
     {
@@ -290,8 +325,8 @@ public class PlayerAgent : Agent
     }
 
     /// <summary>
-    /// Handles the rotation of the player agent based on camera's forward.
-    /// See <see cref="HandleCameraRotation"/> for handling of the camera's rotation.
+    /// Handles the rotation of the player agent based on the forward vector of <see cref="Camera.main"/>.
+    /// See <see cref="CameraManager.HandleCameraRotation"/> for handling of the camera's rotation.
     /// </summary>
     void HandleAgentRotation()
     {
@@ -309,8 +344,8 @@ public class PlayerAgent : Agent
     /// <summary>
     /// Handles the player agent's foot movement based on keyboard input.
     /// This method also manages the jumping of the player.
-    /// This method is called in Update, despite the fact that jumping is also done in this method.
-    /// This is because jumping is done instantly, so I don't think it matters whether it is done in FixedUpdate or not.
+    /// Note that the <see cref="Physics.gravity"/> is not applied to the player while <see cref="IsGrounded"/> is true.
+    /// Also, the <see cref="IsFalling"/> method is used for jump cooldown calculations (see: <see cref="jumpCooldownTimer"/>).
     /// </summary>
     void HandleFootMovement()
     {
@@ -434,7 +469,6 @@ public class PlayerAgent : Agent
             isDef = true;
             isDefTimer += Time.deltaTime;
         }
-        
     }
 
     /// <summary>
@@ -485,6 +519,10 @@ public class PlayerAgent : Agent
     /// <summary>
     /// Unity's Awake method.
     /// In this case, it is used to initialize a few fields about the player.
+    /// Normally, it is necesary to initialize any <see cref="Agent"/> via the
+    /// <see cref="Agent.InitializeAgent(Weapon, Armor, Armor, Armor, Armor, CharacteristicSet)"/> and
+    /// the <see cref="Agent.InitializePosition(Vector3)"/> methods.
+    /// However, the fields that are being in this Awake method are "harmless", and can be initialized here.
     /// </summary>
     public override void Awake()
     {
@@ -492,13 +530,17 @@ public class PlayerAgent : Agent
         IsFriendOfPlayer = true;
         IsPlayerAgent = true;
 
-        isDefTimer = 2 * isDefTimerThreshold; // set it far above the threshold, so that the condition is not satisfied at the start.
+        // set it far above the threshold, so that the condition is not satisfied at the start.
+        isDefTimer = 2 * isDefTimerThreshold; 
     }
 
     /// <summary>
     /// Unity's Update method.
-    /// This is where most of the other methods are invoked every frame.
-    /// It is also the place where <see cref="AnimationManager.UpdateAnimations(Vector2, float, bool, bool, bool)"/> is invoked.
+    /// Contains the logic of the controls of the <see cref="PlayerAgent"/>.
+    /// It is also the place where several other Update methods are invoked in other scripts, such as:
+    /// - <see cref="AnimationManager.UpdateAnimations(Vector2, float, bool, bool, bool)"/>.
+    /// - <see cref="CameraManager.UpdateCamera"/>.
+    /// - <see cref="AgentAudioManager.UpdateAudioManager"/>.
     /// </summary>
     void Update()
     {
@@ -532,11 +574,15 @@ public class PlayerAgent : Agent
     }
 
     /// <summary>
-    /// TODO: Explain that the rotation is also done in LateUpdate, to avoid jittery camera.
     /// Unity's LateUpdate method.
     /// It is also an override of <see cref="Agent.LateUpdate"/>.
-    /// On top of what <see cref="Agent.LateUpdate"/> does, it also sets the position of the camera.
-    /// See <see cref="HandleCameraPosition"/> for more information.
+    /// On top of what <see cref="Agent.LateUpdate"/> does, this override also handles the camera
+    /// by using the <see cref="CameraManager.LateUpdateCamera"/> method.
+    /// For all agents, the spine bone is connected and rotated in the LateUpdate method
+    /// (ie, after animations have played in Update). Therefore, we handle the position of the camera
+    /// after these post processing effects have been done.
+    /// Note that the rotation of the camera is also done in LateUpdate (before setting the position of the camera).
+    /// This is to avoid "jitter" in the camera movement when playing the game.
     /// </summary>
     protected override void LateUpdate()
     {

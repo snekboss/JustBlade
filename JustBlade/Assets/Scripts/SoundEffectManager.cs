@@ -4,11 +4,14 @@ using UnityEngine;
 
 
 /// <summary>
-/// TODO: Write summary.
+/// A static class which manages the playing of the sound effects in the game.
 /// Note that the readonly strings defined in this class must be in-sync with the sound effect prefabs
-/// located in Resources/SoundEffects.
+/// located in "Resources/SoundEffects".
 /// The sound effect prefabs in this folder are objects of type <see cref="PlayAndDestroy"/>,
 /// and their names are determined by <see cref="PlayAndDestroy.soundName"/>, which must be unique.
+/// The class and its fields are static, because the instance based alternative would have us involve
+/// managing game objects from scene to scene, since Unity destroys all contents of an open scene before
+/// transitioning to another one. For a game of this size, I think the static class approach is sufficient.
 /// </summary>
 public static class SoundEffectManager
 {
@@ -79,6 +82,15 @@ public static class SoundEffectManager
     };
     static readonly string[] Button = { "button_1" };
 
+    /// <summary>
+    /// Plays a sound for when an agent is struck by a weapon.
+    /// The sound is played at the world position of the attacker's <see cref="Weapon"/>.
+    /// The sound is based on the <see cref="Weapon.WeaponAttackSoundType"/>, and the <see cref="Armor.ArmorLevel"/>
+    /// of the <see cref="Limb.LimbType"/> which was struck.
+    /// </summary>
+    /// <param name="attacker">Attacker agent.</param>
+    /// <param name="defender">Defender agent.</param>
+    /// <param name="limbType">Limb that was struck.</param>
     public static void PlayWeaponSoundOnStruckAgent(Agent attacker, Agent defender, Limb.LimbType limbType)
     {
         Armor.ArmorLevel limbArmorLevel = Armor.ArmorLevel.None;
@@ -134,11 +146,22 @@ public static class SoundEffectManager
         }
     }
 
+    /// <summary>
+    /// Plays a sound for when an agent has struck an object on the scene.
+    /// This is just a "generic object hit sound effect" for general use.
+    /// </summary>
+    /// <param name="soundPlayWorldPos">World position to play the sound.</param>
     public static void PlayObjectHitSound(Vector3 soundPlayWorldPos)
     {
         PlaySound(ObjectHit, soundPlayWorldPos);
     }
 
+    /// <summary>
+    /// Plays a sound for when an agent has successfully defended against an attack.
+    /// The sound depends on the defender's <see cref="Weapon.WeaponDefendSoundType"/>.
+    /// The sound is played at the world coordinates of the defender's weapon.
+    /// </summary>
+    /// <param name="defender"></param>
     public static void PlayDefendBlockedSound(Agent defender)
     {
         Vector3 soundPlayWorldPos = defender.EqMgr.EquippedWeapon.transform.position;
@@ -155,39 +178,78 @@ public static class SoundEffectManager
         }
     }
 
+    /// <summary>
+    /// Plays a sound for when an agent is hurt.
+    /// </summary>
+    /// <param name="soundPlayWorldPos">World position to play the sound.</param>
     public static void PlayHurtSound(Vector3 soundPlayWorldPos) 
     {
         PlaySound(Hurt, soundPlayWorldPos);
     }
+
+    /// <summary>
+    /// Plays a sound for when an agent is meant to grunt.
+    /// For example, agents grunt when they are attacking.
+    /// </summary>
+    /// <param name="soundPlayWorldPos">World position to play the sound.</param>
     public static void PlayGruntSound(Vector3 soundPlayWorldPos) 
     {
         PlaySound(Grunt, soundPlayWorldPos);
     }
+
+    /// <summary>
+    /// Plays a sound for when an agent is dead.
+    /// </summary>
+    /// <param name="soundPlayWorldPos">World position to play the sound.</param>
     public static void PlayDeathSound(Vector3 soundPlayWorldPos) 
     {
         PlaySound(Death, soundPlayWorldPos);
     }
 
+    /// <summary>
+    /// Plays a sound for when a weapon has been swung.
+    /// </summary>
+    /// <param name="soundPlayWorldPos">World position to play the sound.</param>
     public static void PlayWhiffSound(Vector3 soundPlayWorldPos)
     {
         PlaySound(Whiff, soundPlayWorldPos);
     }
 
+    /// <summary>
+    /// Plays a sound for when an agent's footstep sound is meant to be played.
+    /// </summary>
+    /// <param name="soundPlayWorldPos">World position to play the sound.</param>
     public static void PlayFootstepSound(Vector3 soundPlayWorldPos)
     {
         PlaySound(FootstepGrass, soundPlayWorldPos);
     }
 
+    /// <summary>
+    /// Plays a coin sound.
+    /// It is used when the player earns/loses gold.
+    /// </summary>
+    /// <param name="soundPlayWorldPos">World position to play the sound.</param>
     public static void PlayCoinSound(Vector3 soundPlayWorldPos)
     {
         PlaySound(Coin, soundPlayWorldPos);
     }
 
+    /// <summary>
+    /// Plays a button sound.
+    /// </summary>
+    /// <param name="soundPlayWorldPos">World position to play the sound.</param>
     public static void PlayButtonSound(Vector3 soundPlayWorldPos)
     {
         PlaySound(Button, soundPlayWorldPos);
     }
 
+    /// <summary>
+    /// Plays a random sound from a given array of sound names.
+    /// If the game's sound level is 0, the sound is not played (ie, the sound effect game object
+    /// is not instantiated, to save performance).
+    /// </summary>
+    /// <param name="soundArray">An array of sound names, found in <see cref="SoundEffectManager"/>.</param>
+    /// <param name="soundPlayWorldPos">World position to play the sound.</param>
     static void PlaySound(string[] soundArray, Vector3 soundPlayWorldPos)
     {
         if (StaticVariables.SoundSetting == 0)
@@ -199,6 +261,12 @@ public static class SoundEffectManager
         sound.PlayAndSelfDestruct(soundPlayWorldPos);
     }
 
+    /// <summary>
+    /// Gets a random sound name from a given array of sound names.
+    /// If there's only one sound name, then that one is returned without invoking any randomizer methods.
+    /// </summary>
+    /// <param name="soundNames">An array of sound names to choose from.</param>
+    /// <returns>A random sound name.</returns>
     static string GetRandomSound(string[] soundNames)
     {
         if (soundNames.Length == 1)
