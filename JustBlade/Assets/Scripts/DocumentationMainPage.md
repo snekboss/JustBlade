@@ -71,17 +71,35 @@ Download the game's .zip file, and then follow the instructions below:
 
 \section goals Goal of the Game
 
-The goal of the game is to repel the hordes of enemy invaders.
+3D melee combat game in a medieval setting
 
-\section goals Credits
+
+The goal of this thesis is to design and implement a 3D combat game in a medieval setting. In the game, the player needs to defend themselves against a horde of enemies coming in waves. As the game progresses the waves of enemies will be harder to tackle. Should a player survive a round, they will be rewarded with gold that can be used to purchase equipment, such as a better weapon or various armor to wear; or to hire mercenaries to fight alongside them. It's up to the player to decide if they want to wear a heavy armor that provides better protection against incoming damage at the cost of movement speed; or to wear lighter armor to remain quick on their feet. The implementation of the game will include a 4-directional combat system (i.e. being able to attack and defend from four directions).
+
+
+
+\section credits Credits
 
 => The programming, as well as the modelling, rigging and animating are done by Ogulhan Bozkir (me).
-For modelling and animations, I was inspired by inspired by the video game Mount & Blade: Warband (https://www.taleworlds.com/en/Games/Warband).
+For modelling and animations, I was inspired by the video game Mount & Blade: Warband (https://www.taleworlds.com/en/Games/Warband).
+
+
+=> The damage values of the weapons, and the simple armor system (ie, no armor/light/medium/heavy) were heavily inspired by (pretty much copied from) the video game Mordhau: https://mordhau.com/
+
+
 => The modelling, rigging and animating were done using Blender (version 2.76b): https://www.blender.org/
+
+
 => The engine that is being used is the Unity Engine (version 2021.3.6f1): https://unity.com/
+
+
 => The flavor text which are written in InformationMenuUI are done by Microsoft's Bing AI chat bot, based on my instructions.
+
+
 => The sound effects were imported from free assets found in Unity's Asset store.
 For these sound effects, the credits go to the following:
+
+
 - Wood Splitting Pack 1: https://assetstore.unity.com/packages/audio/sound-fx/wood-splitting-pack-1-139997
 - Blades & Bludgeoning Free Sample Pack: https://assetstore.unity.com/packages/audio/sound-fx/blades-bludgeoning-free-sample-pack-179306
 - Blade Sounds: https://assetstore.unity.com/packages/audio/sound-fx/weapons/blade-sounds-30189
@@ -92,5 +110,9 @@ For these sound effects, the credits go to the following:
 - Coins Sfx: https://assetstore.unity.com/packages/audio/sound-fx/coins-sfx-39052
 - Free UI Click Sound Pack: https://assetstore.unity.com/packages/audio/sound-fx/free-ui-click-sound-pack-244644
 
-Note that some of these sounds may have been edited by me a little bit, for my own purposes.
+
+
+=> Note that some of these sounds may have been edited by me a little bit, for my own purposes.
 The editing of sounds was done using Audacity: https://www.audacityteam.org/
+
+
