@@ -1,4 +1,4 @@
-!\mainpage \verbatim Melee Tournament Documentation \endverbatim
+!\mainpage \verbatim Just Blade Documentation \endverbatim
 
 \section welcome Welcome
 
@@ -23,8 +23,6 @@ The installation instructions written here will assume that the user has 7zip in
 After making sure you have means of working with an archived file, follow the rest of the instructions below.
 
 \section install_steps Installation Steps
-
-Visit the download page of the game: https://bigsnack.itch.io/melee-tournament
 
 Download the game's .zip file, and then follow the instructions below:
 
@@ -73,13 +71,14 @@ Download the game's .zip file, and then follow the instructions below:
 
 \section goals Goal of the Game
 
-The goal of the game is to become the champion of the Melee Tournament.
+The goal of the game is to repel the hordes of enemy invaders.
 
 \section goals Credits
 
 => The programming, as well as the modelling, rigging and animating are done by Ogulhan Bozkir (me).
 For modelling and animations, I was inspired by inspired by the video game Mount & Blade: Warband (https://www.taleworlds.com/en/Games/Warband).
-=> The modelling, rigging and animating were done using Blender: https://www.blender.org/
+=> The modelling, rigging and animating were done using Blender (version 2.76b): https://www.blender.org/
+=> The engine that is being used is the Unity Engine (version 2021.3.6f1): https://unity.com/
 => The flavor text which are written in InformationMenuUI are done by Microsoft's Bing AI chat bot, based on my instructions.
 => The sound effects were imported from free assets found in Unity's Asset store.
 For these sound effects, the credits go to the following:
