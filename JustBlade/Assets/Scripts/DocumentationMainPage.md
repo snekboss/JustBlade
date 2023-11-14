@@ -32,7 +32,7 @@ Download the game's .zip file, and then follow the instructions below:
 - At this point, allow 7zip to work on extracting the archived file.
 - When it is done, you'll see a new folder with the same name as the .zip file. However, this folder does not have a .zip extension.
 - Double click on this new folder.
-- You will see an executable file named "Melee Tournament.exe". Double click on this, and the game will run.
+- You will see an executable file named "Just Blade.exe". Double click on this, and the game will run.
 - Once the game running, you can take a look at the key bindings of the game from the main menu.
 - Enjoy!
 
