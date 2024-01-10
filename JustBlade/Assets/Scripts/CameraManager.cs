@@ -23,7 +23,6 @@ public class CameraManager : MonoBehaviour
     readonly float ThirdPersonCameraOffsetZchangeSpeed = 0.1f;
     readonly float ThirdPersonCameraOffsetZmin = 0.7f;
     readonly float ThirdPersonCameraOffsetZmax = 3.5f; // used to be 2.5f
-    readonly float CameraSmoothRotateLerpRate = 0.8f;
 
     /// <summary>
     /// Main camera prefab, to be set in the Inspector menu.
