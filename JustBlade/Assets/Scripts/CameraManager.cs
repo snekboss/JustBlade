@@ -179,18 +179,12 @@ public class CameraManager : MonoBehaviour
 
         cameraPitch = Mathf.Clamp(cameraPitch, -CameraPitchThreshold, CameraPitchThreshold);
 
-        // I used to have a camera jitter problem when "moving + rotating camera".
+        // First, reset the rotation.
+        Camera.main.transform.rotation = Quaternion.identity;
 
-        // Below code was suggested by Microsoft's Bing Ai chat bot, based on my instructions regarding my camera jitter problem.
-        // Create a target forward vector
-        Vector3 targetForward = Quaternion.Euler(cameraPitch, cameraYaw, 0) * Vector3.forward;
-
-        // Smoothly interpolate the camera's forward vector towards the target
-        Camera.main.transform.forward = Vector3.Lerp(Camera.main.transform.forward, targetForward, CameraSmoothRotateLerpRate);
-
-        // Update the camera's rotation
-        Camera.main.transform.rotation = Quaternion.LookRotation(Camera.main.transform.forward, Vector3.up);
-        // Above code was suggested by Microsoft's Bing Ai chat bot, based on my instructions regarding my camera jitter problem.
+        // Then, rotate the camera.
+        Camera.main.transform.Rotate(Vector3.up, cameraYaw);
+        Camera.main.transform.Rotate(Vector3.right, cameraPitch);
     }
 
     /// <summary>
