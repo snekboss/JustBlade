@@ -84,7 +84,7 @@ The goal of this thesis is to design and implement a 3D combat game in a medieva
 For modelling and animations, I was inspired by the video game Mount & Blade: Warband (https://www.taleworlds.com/en/Games/Warband).
 
 
-=> The damage values of the weapons, and the simple armor system (ie, no armor/light/medium/heavy) were heavily inspired by (pretty much copied from) the video game Mordhau: https://mordhau.com/
+=> The damage values of the weapons, and the simple armor system (ie, no armor/light/medium/heavy) were heavily inspired by the video game Mordhau: https://mordhau.com/
 
 
 => The modelling, rigging and animating were done using Blender (version 2.76b): https://www.blender.org/
