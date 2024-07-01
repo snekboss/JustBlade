@@ -249,7 +249,7 @@ public class GearSelectionUI : MonoBehaviour
     public void OnButtonClick_BuyHeadArmor()
     {
         PlayButtonSound();
-        ConfirmAndPurchase(txtBtnBuyWeapon, PlayerInventoryManager.BuyChosenHeadArmor);
+        ConfirmAndPurchase(txtBtnBuyHeadArmor, PlayerInventoryManager.BuyChosenHeadArmor);
     }
 
     /// <summary>
