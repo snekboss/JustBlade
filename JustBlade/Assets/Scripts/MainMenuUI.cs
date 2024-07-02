@@ -56,7 +56,8 @@ public class MainMenuUI : MonoBehaviour
     /// </summary>
     void InitMainMenuUI()
     {
-        Cursor.visible = true;
+        //Cursor.visible = true;
+        StaticVariables.ShowCursor(true);
 
         screenMainMenu.SetActive(true);
         screenKeyBindings.SetActive(false);
@@ -65,7 +66,7 @@ public class MainMenuUI : MonoBehaviour
         btnGoBack.gameObject.SetActive(false);
 
         InitializeSliders();
-        
+
 
         if (isLoadingForTheFirstTime)
         {
@@ -163,7 +164,7 @@ public class MainMenuUI : MonoBehaviour
     public void OnButtonClick_ExitGame()
     {
         PlayButtonSound();
-        Application.Quit();
+        ExitGame();
     }
 
     /// <summary>
@@ -303,5 +304,18 @@ public class MainMenuUI : MonoBehaviour
     void PlayButtonSound()
     {
         SoundEffectManager.PlayButtonSound(Camera.main.transform.position);
+    }
+
+    /// <summary>
+    /// Quits the program if it's a standalone player.
+    /// In the case of WebGL, a blank page is opened.
+    /// </summary>
+    void ExitGame()
+    {
+#if (UNITY_STANDALONE)
+        Application.Quit();
+#elif (UNITY_WEBGL)
+        Application.OpenURL("about:blank");
+#endif
     }
 }

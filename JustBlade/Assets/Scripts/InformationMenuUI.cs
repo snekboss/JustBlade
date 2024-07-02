@@ -34,7 +34,8 @@ public class InformationMenuUI : MonoBehaviour
     /// </summary>
     void Start()
     {
-        Cursor.visible = true;
+        //Cursor.visible = true;
+        StaticVariables.ShowCursor(true);
 
         UpdateTexts();
     }
@@ -206,9 +207,9 @@ public class InformationMenuUI : MonoBehaviour
             int health = PlayerCharacteristicProgressionTracker.PlayerCharSet.MaximumHealth;
             // Multiplier values will be written in percentage increases.
             // This will hopefully help the player understand what's happening.
-            float dmgMulti = 
+            float dmgMulti =
                 100f * (PlayerCharacteristicProgressionTracker.PlayerCharSet.ExtraDamageInflictionMultiplier - 1f);
-            float dmgTakenMulti = 
+            float dmgTakenMulti =
                 100f * (1f - PlayerCharacteristicProgressionTracker.PlayerCharSet.DamageTakenMultiplier);
             float speedMulti = 100f * (PlayerCharacteristicProgressionTracker.PlayerCharSet.ExtraMovementSpeedLimitMultiplier - 1f);
             string maxSizeStr = isMaxSize ? " (max)" : "";
@@ -216,7 +217,7 @@ public class InformationMenuUI : MonoBehaviour
             string precisionStr = "0.0";
 
             string statStr = string.Format(
-                 "Maximum health: {0}" + NL 
+                 "Maximum health: {0}" + NL
                + "Damage bonus: +{1}%" + NL
                + "Damage resistance bonus: +{2}%" + NL
                + "Movement speed bonus: +{3}%" + NL

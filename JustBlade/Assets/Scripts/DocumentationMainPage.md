@@ -96,6 +96,9 @@ For modelling and animations, I was inspired by the video game Mount & Blade: Wa
 => The flavor text which are written in InformationMenuUI are done by Microsoft's Bing AI chat bot, based on my instructions.
 
 
+=> Thanks to "(Unity) Better Minimal WebGL Template" by Sean, which allows the game window to be nicely resized based on the browser's window dimensions: https://seansleblanc.itch.io/better-minimal-webgl-template
+
+
 => The sound effects were imported from free assets found in Unity's Asset store.
 For these sound effects, the credits go to the following:
 

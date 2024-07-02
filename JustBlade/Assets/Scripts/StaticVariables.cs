@@ -153,5 +153,18 @@ public class StaticVariables
     /// See also: <see cref="QualitySetting"/>.
     /// </summary>
     public static int DefaultQualitySetting = (int)(QualitySetting.High);
+
+    /// <summary>
+    /// Handles showing and confining the cursor.
+    /// </summary>
+    /// <param name="">True if cursor should be seen and confined; false otherwise.</param>
+    public static void ShowCursor(bool showCursor)
+    {
+        Cursor.visible = showCursor;
+#if (UNITY_WEBGL)
+        // If cursor is visible, then don't lock the cursor. If it's not visible, then lock it.
+        Cursor.lockState = showCursor ? CursorLockMode.None : CursorLockMode.Locked;
+#endif
+    }
 }
 

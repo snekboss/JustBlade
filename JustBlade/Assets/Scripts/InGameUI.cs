@@ -49,7 +49,8 @@ public class InGameUI : MonoBehaviour
     {
         StaticVariables.IsGamePaused = false;
 
-        Cursor.visible = false;
+        //Cursor.visible = false;
+        StaticVariables.ShowCursor(false);
 
         screenPauseMenu.SetActive(false);
         screenPlayerInfo.SetActive(false);
@@ -160,12 +161,15 @@ public class InGameUI : MonoBehaviour
             if (StaticVariables.IsGamePaused)
             {
                 Time.timeScale = 0;
-                Cursor.visible = true;
+                //Cursor.visible = true;
+                StaticVariables.ShowCursor(true);
             }
             else
             {
                 Time.timeScale = 1;
-                Cursor.visible = false;
+                //Cursor.visible = false;
+                StaticVariables.ShowCursor(false);
+
             }
         }
     }
@@ -202,7 +206,7 @@ public class InGameUI : MonoBehaviour
             return;
         }
 
-        float healthRatio = 
+        float healthRatio =
             Mathf.Clamp01((float)(playerAgent.CharMgr.Health) / (float)(playerAgent.CharMgr.MaximumHealth));
         float y = healthBar.transform.localScale.y;
         float z = healthBar.transform.localScale.z;

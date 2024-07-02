@@ -348,7 +348,8 @@ public class GearSelectionUI : MonoBehaviour
     /// </summary>
     void Start()
     {
-        Cursor.visible = true;
+        //Cursor.visible = true;
+        StaticVariables.ShowCursor(true);
 
         OnMannequinEquipmentChanged();
     }
