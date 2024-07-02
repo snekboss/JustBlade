@@ -1,6 +1,6 @@
 # Just Blade
 
-This is my bachelor thesis work at UK MFF. It was my project for the Individual Software Project course at UK MFF, which I later elevated into a bachelor thesis.
+This is my bachelor thesis work at UK MFF, which I successfully defended in 2024. It was my project for the Individual Software Project course at UK MFF, which I later elevated into a bachelor thesis.
 
 I developed the game using Unity 2021.3.6f1, and the C# programming language for the scripts.
 All the visual assets (3D models, rigging, animations) were made using Blender 2.76b in 2016, and belong to me (Ogulhan Bozkir).
